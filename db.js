@@ -14,7 +14,9 @@ const pool = mysql.createPool({
 
 // Export pool for direct use in app.js
 export { pool };
-
+if (!pool) {
+  throw new Error("Database not connected");
+}
 // ---------- ΜΑΘΗΤΕΣ ----------
 export async function getStudents() {
   const [rows] = await pool.query('SELECT * FROM Students');
