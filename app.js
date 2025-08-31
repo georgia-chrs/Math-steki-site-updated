@@ -1584,9 +1584,16 @@ app.post('/api/login', async (req, res) => {
     }
     const user = await getUserByUsername(username);
     if (!user) {
+      console.log(`[LOGIN] User not found: ${username}`);
+      return res.status(401).json({ error: "Λάθος στοιχεία!" });
+    }
+    console.log(`[LOGIN] Found user:`, user);
+    if (!user.password_hash) {
+      console.log(`[LOGIN] No password_hash for user: ${username}`);
       return res.status(401).json({ error: "Λάθος στοιχεία!" });
     }
     const isMatch = await bcrypt.compare(password, user.password_hash);
+    console.log(`[LOGIN] bcrypt.compare result:`, isMatch);
     if (!isMatch) {
       return res.status(401).json({ error: "Λάθος στοιχεία!" });
     }
