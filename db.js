@@ -126,7 +126,7 @@ export async function getGradesByStudent(student_id) {
     console.log("⚠️ No DB connection, returning dummy data");
     return [{ id: 1, student_id, subject_id: 1, exam_type: "midterm", grade: 85, exam_date: new Date(), notes: "Good job", created_at: new Date() }];
   }
-  const [rows] = await pool.query(
+  const res = await pool.query(
     `SELECT g.id, g.student_id, g.subject_id, g.exam_type, g.grade, g.exam_date, g.notes, g.created_at,
             s.name as subject_name, s.code as subject_code
      FROM grades g
@@ -135,7 +135,7 @@ export async function getGradesByStudent(student_id) {
      ORDER BY g.exam_date DESC`,
     [student_id]
   );
-  return rows;
+  return res.rows;
 }
 
 
@@ -147,8 +147,7 @@ export async function getAnnouncements() {
     console.log("⚠️ No DB connection, returning dummy data");
     return [{ id: 1, title: "Test Announcement", content: "This is a test announcement." }];
   }
-
-  const [rows] = await pool.query(
+  const res = await pool.query(
     `SELECT 
       notification_id, title, content, notification_type, target_class, target_subject_id,
       start_date, end_date, priority, is_active, pdf_attachment, external_link,
@@ -157,7 +156,7 @@ export async function getAnnouncements() {
     WHERE is_active = TRUE
     ORDER BY priority DESC, created_at DESC`
   );
-  return rows;
+  return res.rows;
 }
 
 // Επιστροφή ανακοινώσεων για συγκεκριμένο μαθητή (φιλτράρισμα)
@@ -169,17 +168,15 @@ export async function getAnnouncementsForStudent(studentId) {
      console.log("⚠️ No DB connection, returning dummy data");
      return [{ id: 1, title: "Test Announcement", content: "This is a test announcement." }];
    }
-
-    const [rows] = await pool.query(
+    const res = await pool.query(
       `SELECT 
         notification_id, title, content, created_at, updated_at,
         pdf_attachment, external_link, priority
       FROM notifications 
       WHERE is_active = TRUE
-      ORDER BY created_at DESC`,
-      []
+      ORDER BY created_at DESC`
     );
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error in getAnnouncementsForStudent:', error);
     throw error;
@@ -188,18 +185,16 @@ export async function getAnnouncementsForStudent(studentId) {
 
 // Δημιουργία νέας ανακοίνωσης με φιλτράρισμα
 export async function createAnnouncement(title, content, admin_id = 1) {
-
   if (!pool) {
     console.log("⚠️ No DB connection, returning dummy data");
     return { id: 1, title, content, created_by: admin_id, is_active: true };
   }
-
-  const [result] = await pool.query(
+  const res = await pool.query(
     `INSERT INTO notifications (title, content, created_by, is_active) 
-     VALUES ($1, $2, $3, TRUE) RETURNING id`,
+     VALUES ($1, $2, $3, TRUE) RETURNING notification_id`,
     [title, content, admin_id]
   );
-  return result.insertId;
+  return res.rows[0].notification_id;
 }
 
 // Ενημέρωση ανακοίνωσης
@@ -255,11 +250,10 @@ export async function getAllClasses() {
     console.log("⚠️ No DB connection, returning dummy data");
     return [{ class_name: "Test Class" }];
   }
-
-  const [rows] = await pool.query(
-    `SELECT DISTINCT studentClass as class_name FROM students WHERE status = 'active' ORDER BY studentClass`
+  const res = await pool.query(
+    `SELECT DISTINCT studentclass as class_name FROM students WHERE status = 'active' ORDER BY studentclass`
   );
-  return rows;
+  return res.rows;
 }
 
 // ---------- ΠΑΛΙΑ ΘΕΜΑΤΑ PDF ----------
@@ -269,29 +263,24 @@ export async function getAllPDFs() {
     console.log("⚠️ No DB connection, returning dummy data");
     return [{ id: 1, title: "Test PDF", description: "This is a test PDF." }];
   }
-
-  const [rows] = await pool.query('SELECT * FROM palliathemata ORDER BY upload_date DESC, created_at DESC');
-  return rows;
+  const res = await pool.query('SELECT * FROM palliathemata ORDER BY upload_date DESC, created_at DESC');
+  return res.rows;
 }
-
 export async function getPDFById(id) {
   if (!pool) {
     console.log("⚠️ No DB connection, returning dummy data");
     return { id, title: "Test PDF", description: "This is a test PDF." };
   }
-
-  const [rows] = await pool.query('SELECT * FROM palliathemata WHERE id = $1', [id]);
-  return rows[0];
+  const res = await pool.query('SELECT * FROM palliathemata WHERE id = $1', [id]);
+  return res.rows[0];
 }
-
 export async function getPDFByFilename(filename) {
   if (!pool) {
     console.log("⚠️ No DB connection, returning dummy data");
     return { id: 1, title: "Test PDF", description: "This is a test PDF." };
   }
-
-  const [rows] = await pool.query('SELECT * FROM palliathemata WHERE filename = $1', [filename]);
-  return rows[0];
+  const res = await pool.query('SELECT * FROM palliathemata WHERE filename = $1', [filename]);
+  return res.rows[0];
 }
 
 export async function createPDF(pdfData) {
@@ -302,13 +291,13 @@ export async function createPDF(pdfData) {
     return { id: 1, title, lykeio, subject, year, type, filename, description, file_data, file_size, upload_date };
   }
 
-  const [result] = await pool.query(
+  const res = await pool.query(
     `INSERT INTO palliathemata (title, lykeio, subject, year, type, filename, description, file_data, file_size, upload_date) 
      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id`,
     [title, lykeio, subject, year, type, filename, description, file_data, file_size, upload_date]
   );
   
-  return getPDFById(result.insertId);
+  return getPDFById(res.rows[0].id);
 }
 
 export async function updatePDF(id, pdfData) {
@@ -319,14 +308,14 @@ export async function updatePDF(id, pdfData) {
     return { id, title, lykeio, subject, year, description, filename };
   }
 
-  const [result] = await pool.query(
+  const res = await pool.query(
     `UPDATE palliathemata 
      SET title = $1, lykeio = $2, subject = $3, year = $4, description = $5, filename = $6, updated_at = CURRENT_TIMESTAMP
      WHERE id = $7`,
     [title, lykeio, subject, year, description, filename, id]
   );
   
-  return result.affectedRows > 0;
+  return res.rowCount > 0;
 }
 
 export async function deletePDF(id) {
@@ -335,8 +324,8 @@ export async function deletePDF(id) {
     return false;
   }
 
-  const [result] = await pool.query('DELETE FROM palliathemata WHERE id = $1', [id]);
-  return result.affectedRows > 0;
+  const res = await pool.query('DELETE FROM palliathemata WHERE id = $1', [id]);
+  return res.rowCount > 0;
 }
 
 export async function filterPDFs(filters = {}) {
@@ -365,8 +354,8 @@ export async function filterPDFs(filters = {}) {
     return [];
   }
 
-  const [rows] = await pool.query(query, params);
-  return rows;
+  const res = await pool.query(query, params);
+  return res.rows;
 }
 
 // ==================== VASEIS SCHOLON FUNCTIONS ====================
@@ -377,13 +366,13 @@ export async function getAllVaseisScholon() {
     return [];
   }
 
-  const [rows] = await pool.query(`
+  const res = await pool.query(`
     SELECT id, title, year, lykeio, field, description, filename, file_size, upload_date, updated_at, created_by
     FROM vaseisscholon 
     ORDER BY upload_date DESC, updated_at DESC
   `);
-  
-  return rows.map(row => ({
+
+  return res.rows.map(row => ({
     ...row,
     upload_date: row.upload_date ? new Date(row.upload_date).toLocaleDateString('el-GR') : 'Άγνωστη',
     updated_at: row.updated_at ? new Date(row.updated_at).toLocaleDateString('el-GR') : 'Άγνωστη'
@@ -397,10 +386,10 @@ export async function getVaseisScholonById(id) {
     return { id, title: "Test Announcement", content: "This is a test announcement." };
   }
 
-  const [rows] = await pool.query('SELECT * FROM vaseisscholon WHERE id = $1', [id]);
-  if (rows.length === 0) return null;
-  
-  const row = rows[0];
+  const res = await pool.query('SELECT * FROM vaseisscholon WHERE id = $1', [id]);
+  if (res.rows.length === 0) return null;
+
+  const row = res.rows[0];
   return {
     ...row,
     upload_date: row.upload_date ? new Date(row.upload_date).toLocaleDateString('el-GR') : 'Άγνωστη',
@@ -416,12 +405,12 @@ export async function createVaseisScholon(vaseisData) {
     return { id: 1, title, year, lykeio, field, description, filename, file_data, file_size };
   }
 
-  const [result] = await pool.query(`
+  const res = await pool.query(`
     INSERT INTO vaseisscholon (title, year, lykeio, field, description, filename, file_data, file_size)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id
   `, [title, year, lykeio, field, description, filename, file_data, file_size]);
   
-  return result;
+  return res.rows[0].id;
 }
 
 export async function updateVaseisScholon(id, updateData) {
@@ -445,13 +434,13 @@ export async function updateVaseisScholon(id, updateData) {
     return false;
   }
 
-  const [result] = await pool.query(`
+  const res = await pool.query(`
     UPDATE vaseisscholon 
     SET ${fields.join(', ')}, updated_at = CURRENT_TIMESTAMP
     WHERE id = ?
   `, values);
   
-  return result.affectedRows > 0;
+  return res.rowCount > 0;
 }
 
 export async function deleteVaseisScholon(id) {
@@ -460,8 +449,8 @@ export async function deleteVaseisScholon(id) {
     return false;
   }
 
-  const [result] = await pool.query('DELETE FROM vaseisscholon WHERE id = $1', [id]);
-  return result.affectedRows > 0;
+  const res = await pool.query('DELETE FROM vaseisscholon WHERE id = $1', [id]);
+  return res.rowCount > 0;
 }
 
 // ==================== MIXANOGRAFIKO FUNCTIONS ====================
@@ -472,13 +461,13 @@ export async function getAllMixanografiko() {
     return [];
   }
 
-  const [rows] = await pool.query(`
+  const res = await pool.query(`
     SELECT id, title, lykeio, field, specialty, description, filename, file_size, upload_date, updated_at, created_by
     FROM mixanografiko 
     ORDER BY upload_date DESC, updated_at DESC
   `);
   
-  return rows.map(row => ({
+  return res.rows.map(row => ({
     ...row,
     upload_date: row.upload_date ? new Date(row.upload_date).toLocaleDateString('el-GR') : 'Άγνωστη',
     updated_at: row.updated_at ? new Date(row.updated_at).toLocaleDateString('el-GR') : 'Άγνωστη'
@@ -491,10 +480,10 @@ export async function getMixanografikoById(id) {
     return { id, title: "Test Mixanografiko", description: "This is a test Mixanografiko." };
   }
 
-  const [rows] = await pool.query('SELECT * FROM mixanografiko WHERE id = $1', [id]);
-  if (rows.length === 0) return null;
-  
-  const row = rows[0];
+  const res = await pool.query('SELECT * FROM mixanografiko WHERE id = $1', [id]);
+  if (res.rows.length === 0) return null;
+
+  const row = res.rows[0];
   return {
     ...row,
     upload_date: row.upload_date ? new Date(row.upload_date).toLocaleDateString('el-GR') : 'Άγνωστη',
@@ -510,12 +499,12 @@ export async function createMixanografiko(mixanografikoData) {
     return { id: 1, title, lykeio, field, specialty, description, filename, file_data, file_size };
   }
 
-  const [result] = await pool.query(`
+  const res = await pool.query(`
     INSERT INTO mixanografiko (title, lykeio, field, specialty, description, filename, file_data, file_size)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id
   `, [title, lykeio, field, specialty || '', description, filename, file_data, file_size]);
   
-  return result;
+  return res.rows[0].id;
 }
 
 export async function updateMixanografiko(id, updateData) {
@@ -539,13 +528,13 @@ export async function updateMixanografiko(id, updateData) {
     return false;
   }
 
-  const [result] = await pool.query(`
+  const res = await pool.query(`
     UPDATE mixanografiko 
     SET ${fields.join(', ')}, updated_at = CURRENT_TIMESTAMP
     WHERE id = ?
   `, values);
   
-  return result.affectedRows > 0;
+  return res.rowCount > 0;
 }
 
 export async function deleteMixanografiko(id) {
@@ -554,8 +543,8 @@ export async function deleteMixanografiko(id) {
     return false;
   }
 
-  const [result] = await pool.query('DELETE FROM mixanografiko WHERE id = $1', [id]);
-  return result.affectedRows > 0;
+  const res = await pool.query('DELETE FROM mixanografiko WHERE id = $1', [id]);
+  return res.rowCount > 0;
 }
 
 export async function filterMixanografiko(filters = {}) {
@@ -587,9 +576,9 @@ export async function filterMixanografiko(filters = {}) {
     return [];
   }
 
-  const [rows] = await pool.query(query, params);
+  const res = await pool.query(query, params);
   
-  return rows.map(row => ({
+  return res.rows.map(row => ({
     ...row,
     upload_date: row.upload_date ? new Date(row.upload_date).toLocaleDateString('el-GR') : 'Άγνωστη',
     updated_at: row.updated_at ? new Date(row.updated_at).toLocaleDateString('el-GR') : 'Άγνωστη'
@@ -603,7 +592,7 @@ export async function getAllStudents() {
     console.log("⚠️ No DB connection, returning dummy data");
     return [];
   }
-  const [rows] = await pool.query(`
+  const res = await pool.query(`
     SELECT s.*, 
            GROUP_CONCAT(CONCAT(sub.name, ' ', sub.code) SEPARATOR '<br>') as subjects
     FROM students s
@@ -612,7 +601,7 @@ export async function getAllStudents() {
     GROUP BY s.id
     ORDER BY s.last_name, s.first_name
   `);
-  return rows;
+  return res.rows;
 }
 
 export async function getStudentById(id) {
@@ -620,8 +609,8 @@ export async function getStudentById(id) {
     console.log("⚠️ No DB connection, returning dummy data");
     return { id, firstName: "Test", lastName: "Student" };
   }
-  const [rows] = await pool.query('SELECT * FROM students WHERE id = $1', [id]);
-  return rows[0];
+  const res = await pool.query('SELECT * FROM students WHERE id = $1', [id]);
+  return res.rows[0];
 }
 
 export async function createNewStudent(studentData) {
@@ -733,11 +722,11 @@ export async function updateStudent(id, studentData) {
       return false;
     }
 
-    const [result] = await pool.query(query, values);
-    console.log('📊 Update result:', result);
-    console.log('✅ Affected rows:', result.affectedRows);
+    const res = await pool.query(query, values);
+    console.log('📊 Update result:', res);
+    console.log('✅ Affected rows:', res.rowCount);
     
-    return result.affectedRows > 0;
+    return res.rowCount > 0;
   } catch (error) {
     console.error('Error updating student:', error);
     throw error;
@@ -749,8 +738,8 @@ export async function deleteStudentById(id) {
     console.log("⚠️ No DB connection, skipping delete");
     return false;
   }
-  const [result] = await pool.query('DELETE FROM students WHERE id = $1', [id]);
-  return result.affectedRows > 0;
+  const res = await pool.query('DELETE FROM students WHERE id = $1', [id]);
+  return res.rowCount > 0;
 }
 
 export async function searchStudents(searchTerm, classFilter) {
@@ -782,8 +771,8 @@ export async function searchStudents(searchTerm, classFilter) {
     return [];
   }
 
-  const [rows] = await pool.query(query, params);
-  return rows;
+  const res = await pool.query(query, params);
+  return res.rows;
 }
 
 export async function getStudentsByClass(className) {
@@ -792,11 +781,11 @@ export async function getStudentsByClass(className) {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const [rows] = await pool.execute(
+    const res = await pool.execute(
       'SELECT * FROM students WHERE class = $1',
       [className]
     );
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error fetching students by class:', error);
     throw error;
@@ -810,7 +799,7 @@ export async function getAllTeachers() {
     console.log("⚠️ No DB connection, returning dummy data");
     return [];
   }
-  const [rows] = await pool.query(`
+  const res = await pool.query(`
     SELECT t.*, 
            GROUP_CONCAT(CONCAT(s.name, ' ', s.code) SEPARATOR '<br>') as subjects
     FROM teachers t
@@ -818,7 +807,7 @@ export async function getAllTeachers() {
     GROUP BY t.id
     ORDER BY t.name
   `);
-  return rows;
+  return res.rows;
 }
 
 export async function getTeacherById(id) {
@@ -826,8 +815,8 @@ export async function getTeacherById(id) {
     console.log("⚠️ No DB connection, returning dummy data");
     return { id, name: "Test Teacher", subject: "Math", phone: "1234567890", email: "test@example.com" };
   }
-  const [rows] = await pool.query('SELECT * FROM teachers WHERE id = $1', [id]);
-  return rows[0];
+  const res = await pool.query('SELECT * FROM teachers WHERE id = $1', [id]);
+  return res.rows[0];
 }
 
 export async function createTeacher(teacherData) {
@@ -860,13 +849,13 @@ export async function updateTeacher(id, teacherData) {
     return false;
   }
 
-  const [result] = await pool.query(`
+  const res = await pool.query(`
     UPDATE teachers 
     SET ${fields.join(', ')}, updated_at = CURRENT_TIMESTAMP
     WHERE id = ?
   `, values);
   
-  return result.affectedRows > 0;
+  return res.rowCount > 0;
 }
 
 export async function deleteTeacher(id) {
@@ -874,8 +863,8 @@ export async function deleteTeacher(id) {
     console.log("⚠️ No DB connection, skipping delete");
     return false;
   }
-  const [result] = await pool.query('DELETE FROM teachers WHERE id = $1', [id]);
-  return result.affectedRows > 0;
+  const res = await pool.query('DELETE FROM teachers WHERE id = $1', [id]);
+  return res.rowCount > 0;
 }
 
 export async function searchTeachers(searchTerm) {
@@ -886,8 +875,8 @@ export async function searchTeachers(searchTerm) {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    
-    const [rows] = await pool.execute(
+
+    const res = await pool.execute(
       `SELECT t.*, 
               GROUP_CONCAT(s.name SEPARATOR ', ') as subjects
        FROM teachers t
@@ -897,7 +886,7 @@ export async function searchTeachers(searchTerm) {
        ORDER BY t.first_name, t.last_name`,
       [searchPattern, searchPattern, searchPattern, searchPattern]
     );
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error searching teachers:', error);
     throw error;
@@ -911,11 +900,11 @@ export async function getAllSubjects() {
     console.log("⚠️ No DB connection, returning dummy data");
     return [];
   }
-  const [rows] = await pool.query(`
+  const res = await pool.query(`
     SELECT * FROM subjects
     ORDER BY class, name
   `);
-  return rows;
+  return res.rows;
 }
 
 export async function getSubjectById(id) {
@@ -923,8 +912,8 @@ export async function getSubjectById(id) {
     console.log("⚠️ No DB connection, returning dummy data");
     return { id, name: "Test Subject", code: "MATH101", class: "Math", teacherId: 1 };
   }
-  const [rows] = await pool.query('SELECT * FROM subjects WHERE id = $1', [id]);
-  return rows[0];
+  const res = await pool.query('SELECT * FROM subjects WHERE id = $1', [id]);
+  return res.rows[0];
 }
 
 export async function createSubject(subjectData) {
@@ -956,13 +945,13 @@ export async function updateSubject(id, subjectData) {
     console.log("⚠️ No DB connection, skipping update");
     return false;
   }
-  const [result] = await pool.query(`
+  const res = await pool.query(`
     UPDATE subjects 
     SET ${fields.join(', ')}, updated_at = CURRENT_TIMESTAMP
     WHERE id = ?
   `, values);
   
-  return result.affectedRows > 0;
+  return res.rowCount > 0;
 }
 
 export async function deleteSubject(id) {
@@ -970,8 +959,8 @@ export async function deleteSubject(id) {
     console.log("⚠️ No DB connection, skipping delete");
     return false;
   }
-  const [result] = await pool.query('DELETE FROM subjects WHERE id = $1', [id]);
-  return result.affectedRows > 0;
+  const res = await pool.query('DELETE FROM subjects WHERE id = $1', [id]);
+  return res.rowCount > 0;
 }
 
 export async function searchSubjects(searchTerm) {
@@ -983,7 +972,7 @@ export async function searchSubjects(searchTerm) {
       return [];
     }
 
-    const [rows] = await pool.execute(
+    const res = await pool.execute(
       `SELECT s.*, 
               t.first_name as teacher_first_name,
               t.last_name as teacher_last_name,
@@ -994,7 +983,7 @@ export async function searchSubjects(searchTerm) {
        ORDER BY s.name`,
       [searchPattern, searchPattern, searchPattern]
     );
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error searching subjects:', error);
     throw error;
@@ -1008,15 +997,15 @@ export async function getStudentEnrollments(studentId) {
     console.log("⚠️ No DB connection, returning dummy data");
     return [];
   }
-  
-  const [rows] = await pool.query(`
+
+  const res = await pool.query(`
     SELECT e.*, s.name as subjectName, s.code as subjectCode, s.class as subjectClass
     FROM Enrollments e
     JOIN Subjects s ON e.class_id = s.id
     WHERE e.student_id = $1
     ORDER BY s.name
   `, [studentId]);
-  return rows;
+  return res.rows;
 }
 
 export async function createEnrollment(studentId, classId) {
@@ -1044,8 +1033,8 @@ export async function deleteEnrollment(id) {
       console.log("⚠️ No DB connection, skipping delete");
       return false;
     }
-    const [result] = await pool.query('DELETE FROM Enrollments WHERE enrollment_id = $1', [id]);
-    return result.affectedRows > 0;
+    const res = await pool.query('DELETE FROM Enrollments WHERE enrollment_id = $1', [id]);
+    return res.rowCount > 0;
   } catch (error) {
     console.error('Error deleting enrollment:', error);
     throw error;
@@ -1060,7 +1049,7 @@ export async function getSubjectsNotEnrolledByStudent(studentId) {
       return [];
     }
 
-    const [rows] = await pool.query(`
+    const res = await pool.query(`
       SELECT s.*, t.name as teacherName
       FROM Subjects s
       LEFT JOIN NewTeachers t ON s.teacherId = t.id
@@ -1069,7 +1058,7 @@ export async function getSubjectsNotEnrolledByStudent(studentId) {
       )
       ORDER BY s.name
     `, [studentId]);
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error fetching subjects not enrolled by student:', error);
     throw error;
@@ -1082,7 +1071,7 @@ export async function getAllEnrollments() {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const [rows] = await pool.execute(
+    const res = await pool.execute(
       `SELECT e.enrollment_id,
               e.student_id,
               e.class_id,
@@ -1097,7 +1086,7 @@ export async function getAllEnrollments() {
        LEFT JOIN Teachers t ON s.teacherId = t.id
        ORDER BY st.last_name, st.first_name, s.name`
     );
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error fetching all enrollments:', error);
     throw error;
@@ -1110,7 +1099,7 @@ export async function getEnrollmentsByStudent(studentId) {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const [rows] = await pool.execute(
+    const res = await pool.execute(
       `SELECT e.enrollment_id,
               e.student_id,
               e.class_id,
@@ -1153,7 +1142,7 @@ export async function getEnrollmentsBySubject(subjectId) {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const [rows] = await pool.execute(
+    const res = await pool.execute(
       `SELECT e.enrollment_id,
               e.student_id,
               e.class_id as subject_id,
@@ -1166,7 +1155,7 @@ export async function getEnrollmentsBySubject(subjectId) {
        ORDER BY st.last_name, st.first_name`,
       [subjectId]
     );
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error fetching enrollments by subject:', error);
     throw error;
@@ -1245,8 +1234,8 @@ export async function searchEnrollments(searchTerm, statusFilter) {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const [rows] = await pool.execute(query, params);
-    return rows;
+    const res = await pool.execute(query, params);
+    return res.rows;
   } catch (error) {
     console.error('Error searching enrollments:', error);
     throw error;
@@ -1261,7 +1250,7 @@ export async function getAllStudentCodes() {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const [rows] = await pool.execute(
+    const res= await pool.execute(
       `SELECT sc.*,
               CONCAT(s.first_name, ' ', s.last_name) as student_name,
               s.class as student_class
@@ -1269,7 +1258,7 @@ export async function getAllStudentCodes() {
        LEFT JOIN Students s ON sc.student_id = s.id
        ORDER BY sc.created_at DESC`
     );
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error fetching all student codes:', error);
     throw error;
@@ -1282,7 +1271,7 @@ export async function getStudentCodeById(id) {
       console.log("⚠️ No DB connection, returning null");
       return { id, code: "TESTCODE", student_id: 1, status: "active" };
     }
-    const [rows] = await pool.execute(
+    const res = await pool.execute(
       `SELECT sc.*,
               CONCAT(s.first_name, ' ', s.last_name) as student_name,
               s.class as student_class
@@ -1291,7 +1280,7 @@ export async function getStudentCodeById(id) {
        WHERE sc.id = $1`,
       [id]
     );
-    return rows[0] || null;
+    return res.rows[0] || null;
   } catch (error) {
     console.error('Error fetching student code by ID:', error);
     throw error;
@@ -1304,7 +1293,7 @@ export async function getStudentCodeByStudentId(studentId) {
       console.log("⚠️ No DB connection, returning null");
       return { id: 1, code: "TESTCODE", student_id: studentId, status: "active" };
     }
-    const [rows] = await pool.execute(
+    const res = await pool.execute(
       `SELECT sc.*,
               CONCAT(s.first_name, ' ', s.last_name) as student_name,
               s.class as student_class
@@ -1313,7 +1302,7 @@ export async function getStudentCodeByStudentId(studentId) {
        WHERE sc.student_id = $1`,
       [studentId]
     );
-    return rows[0] || null;
+    return res.rows[0] || null;
   } catch (error) {
     console.error('Error fetching student code by student ID:', error);
     throw error;
@@ -1426,8 +1415,8 @@ export async function searchStudentCodes(searchTerm, statusFilter) {
       return [];
     }
 
-    const [rows] = await pool.execute(query, params);
-    return rows;
+    const res = await pool.execute(query, params);
+    return res.rows;
   } catch (error) {
     console.error('Error searching student codes:', error);
     throw error;
@@ -1643,11 +1632,11 @@ export async function getStudentByUsername(username) {
       console.log("⚠️ No DB connection, returning null");
       return null;
     }
-    const [rows] = await pool.execute(
+    const res = await pool.execute(
       'SELECT * FROM students WHERE username = $1',
       [username]
     );
-    return rows[0] || null;
+    return res.rows[0] || null;
   } catch (error) {
     console.error('Error getting student by username:', error);
     throw error;
@@ -1731,7 +1720,7 @@ export async function getAllAnnouncements() {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const [rows] = await pool.query(
+    const res = await pool.query(
       `SELECT 
         notification_id, title, content, created_at, updated_at,
         pdf_attachment, external_link, priority
@@ -1740,7 +1729,7 @@ export async function getAllAnnouncements() {
       ORDER BY created_at DESC`,
       []
     );
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error in getAllAnnouncements:', error);
     throw error;
@@ -1775,7 +1764,7 @@ export async function getAllSchoolsData() {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const [rows] = await pool.query(`
+    const res = await pool.query(`
       SELECT 
         id, school_id, school_name, university, position_type, scientific_field,
         min_moria, max_moria, field_code, school_type, avg_score,
@@ -1783,7 +1772,7 @@ export async function getAllSchoolsData() {
       FROM SchoolsData 
       ORDER BY upload_date DESC, school_name ASC
     `);
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error getting all schools data:', error);
     throw error;
@@ -1797,7 +1786,7 @@ export async function getSchoolsDataByType(schoolType) {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const [rows] = await pool.query(`
+    const res = await pool.query(`
       SELECT 
         id, school_id, school_name, university, position_type, scientific_field,
         min_moria, max_moria, field_code, school_type, avg_score,
@@ -1806,7 +1795,7 @@ export async function getSchoolsDataByType(schoolType) {
       WHERE school_type = $1
       ORDER BY school_name ASC
     `, [schoolType]);
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error getting schools data by type:', error);
     throw error;
@@ -1879,7 +1868,7 @@ export async function getSchoolsDataForCalculator() {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const [rows] = await pool.query(`
+    const res = await pool.query(`
       SELECT 
         school_id as id,
         school_name as name,
@@ -1894,7 +1883,7 @@ export async function getSchoolsDataForCalculator() {
       FROM SchoolsData 
       ORDER BY school_name ASC
     `);
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error getting schools data for calculator:', error);
     throw error;
@@ -1985,13 +1974,13 @@ export async function getAllCalculatorTemplates() {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const [rows] = await pool.query(
+    const res = await pool.query(
       `SELECT id, filename, original_name, template_type, file_size, mimetype, 
               upload_date, created_by 
        FROM CalculatorTemplates 
        ORDER BY upload_date DESC`
     );
-    return rows;
+    return res.rows;
   } catch (error) {
     console.error('Error getting calculator templates:', error);
     throw error;
@@ -2005,11 +1994,11 @@ export async function getCalculatorTemplate(filename) {
       console.log("⚠️ No DB connection, returning null");
       return null;
     }
-    const [rows] = await pool.query(
+    const res = await pool.query(
       `SELECT * FROM CalculatorTemplates WHERE filename = $1`,
       [filename]
     );
-    return rows[0] || null;
+    return res.rows[0] || null;
   } catch (error) {
     console.error('Error getting calculator template:', error);
     throw error;
@@ -2023,14 +2012,14 @@ export async function getCalculatorTemplateMetadata(filename) {
       console.log("⚠️ No DB connection, returning null");
       return null;
     }
-    const [rows] = await pool.query(
+    const res = await pool.query(
       `SELECT id, filename, original_name, template_type, file_size, mimetype, 
               upload_date, created_by 
        FROM CalculatorTemplates 
        WHERE filename = $1`,
       [filename]
     );
-    return rows[0] || null;
+    return res.rows[0] || null;
   } catch (error) {
     console.error('Error getting calculator template metadata:', error);
     throw error;
