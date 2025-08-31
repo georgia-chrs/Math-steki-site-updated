@@ -11,6 +11,7 @@ export const pool = new Pool({
   database: process.env.DB_NAME,
   port: process.env.DB_PORT || 5432,
 });
+export default pool;
 
 if (process.env.DB_HOST) {
   console.log("✅ PostgreSQL pool created");
