@@ -4,9 +4,9 @@ import bcrypt from 'bcryptjs';
 console.log('=== HASHING PASSWORDS ===');
 
 // Για admin
-const adminPassword = "admin123";
+const adminPassword = "123";
 const adminHash = bcrypt.hashSync(adminPassword, 10);
-console.log(`Admin: username='admin', password='${adminPassword}', hash='${adminHash}'`);
+console.log(adminHash);
 
 // Για mariaio
 const mariaPassword = "maria123";
