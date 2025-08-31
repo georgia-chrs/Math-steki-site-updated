@@ -64,9 +64,9 @@ export async function deleteStudent(id) {
 // ---------- ΚΑΘΗΓΗΤΕΣ (αν χρειαστεί) ----------
 export async function getTeachers() {
    if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
-    return [{ id: 1, name: "Test Students" }];
-  }
+     console.log("⚠️ No DB connection, returning dummy data");
+     return [{ id: 1, name: "Test Teacher" }];
+   }
     const [rows] = await pool.query("SELECT * FROM Teachers");
     return rows;
 }
