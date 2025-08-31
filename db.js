@@ -72,50 +72,42 @@ export async function getTeachers() {
      console.log("⚠️ No DB connection, returning dummy data");
      return [{ id: 1, name: "Test Teacher" }];
    }
-    const [rows] = await pool.query("SELECT * FROM teachers");
-    return rows;
+  const res = await pool.query("SELECT * FROM teachers");
+  return res.rows;
 }
 
 export async function getUserByUsername(username) {
   console.log(`🔍 Ψάχνω για χρήστη: "${username}"`);
-  
-   if (!pool) {
+  if (!pool) {
     console.log("⚠️ No DB connection, returning dummy data");
     return [{ id: 1, name: "Test Students" }];
   }
   // Ψάχνει πρώτα στους Admins
-  let [rows] = await pool.query("SELECT *, 'admin' as role FROM Admins WHERE username = $1", [username]);
-  console.log(`📋 Admins rows found: ${rows.length}`);
-  if (rows.length > 0) {
-    console.log(`✅ Βρέθηκε admin: ${rows[0].username}`);
-    return rows[0];
+  const resAdmin = await pool.query("SELECT *, 'admin' as role FROM admins WHERE username = $1", [username]);
+  const adminRows = resAdmin.rows;
+  console.log(`📋 Admins rows found: ${adminRows.length}`);
+  if (adminRows.length > 0) {
+    console.log(`✅ Βρέθηκε admin: ${adminRows[0].username}`);
+    return adminRows[0];
   }
-  
-  
   // Μετά στους Students
- if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
-    return [{ id: 1, name: "Test Students" }];
+  const resStudent = await pool.query("SELECT *, 'student' as role FROM students WHERE username = $1", [username]);
+  const studentRows = resStudent.rows;
+  console.log(`📋 Students rows found: ${studentRows.length}`);
+  if (studentRows.length > 0) {
+    console.log(`✅ Βρέθηκε student: ${studentRows[0].username}`);
+    return studentRows[0];
   }
-
-  [rows] = await pool.query("SELECT *, 'student' as role FROM students WHERE username = $1", [username]);
-  console.log(`📋 Students rows found: ${rows.length}`);
-  if (rows.length > 0) {
-    console.log(`✅ Βρέθηκε student: ${rows[0].username}`);
-    return rows[0];
-  }
-  
   console.log(`❌ Δεν βρέθηκε χρήστης: "${username}"`);
   return null;
 }
 
 export async function getProgressNotes(student_id) {
-
   if (!pool) {
     console.log("⚠️ No DB connection, returning dummy data");
     return [{ id: 1, student_id, subject_id: 1, note_date: new Date(), content: "Test Note", performance_level: "good", created_at: new Date() }];
   }
-  const [rows] = await pool.query(
+  const res = await pool.query(
     `SELECT p.id, p.student_id, p.subject_id, p.note_date, p.content, p.performance_level, p.created_at,
             s.name AS subject_name
      FROM progress_notes p
@@ -123,7 +115,7 @@ export async function getProgressNotes(student_id) {
      WHERE p.student_id = $1 ORDER BY p.created_at DESC`,
     [student_id]
   );
-  return rows;
+  return res.rows;
 }
 // Κάλεσε τη συνάρτηση με το id του μαθητή (π.χ. 1)
 
