@@ -3,10 +3,11 @@ import bcrypt from 'bcryptjs';
 // Δημιουργία διαφορετικών κωδικών για διαφορετικούς χρήστες
 console.log('=== HASHING PASSWORDS ===');
 
-// Για admin
+// Για admin με password '123'
 const adminPassword = "123";
 const adminHash = bcrypt.hashSync(adminPassword, 10);
-console.log(adminHash);
+console.log(`Admin: username='admin', password='${adminPassword}', hash='${adminHash}'`);
+console.log('UPDATE admins SET password_hash = "' + adminHash + '" WHERE username = "admin";');
 
 // Για mariaio
 const mariaPassword = "maria123";
