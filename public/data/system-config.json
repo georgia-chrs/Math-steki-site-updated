@@ -1,0 +1,261 @@
+{
+  "lykeiaTypes": [
+    {
+      "id": "gel",
+      "name": "ΓΕΛ",
+      "pedia": ["pedio1", "pedio2", "pedio3", "pedio4"]
+    },
+    {
+      "id": "epal",
+      "name": "ΕΠΑΛ", 
+      "pedia": ["geoponias", "dioikisis", "domikon", "efarmosmenon_technon", "ilektrologias", "mixanologias", "naftiliakon", "pliroforikis", "ygeias"]
+    }
+  ],
+  "eidikaMathimata": {
+    "ispanike": {"name": "Ισπανικά", "code": "ispanike"},
+    "anglika": {"name": "Αγγλικά", "code": "anglika"},
+    "germanika": {"name": "Γερμανικά", "code": "germanika"},
+    "elefthero_sxedio": {"name": "Ελεύθερο Σχέδιο", "code": "elefthero_sxedio"},
+    "grammiko_sxedio": {"name": "Γραμμικό Σχέδιο", "code": "grammiko_sxedio"},
+    "mousiki_antilipsi": {"name": "Μουσική Αντίληψη, Θεωρία και Αρμονία", "code": "mousiki_antilipsi"},
+    "mousiki_ektelesi": {"name": "Μουσική Εκτέλεση και Ερμηνεία", "code": "mousiki_ektelesi"},
+    "gallika": {"name": "Γαλλικά", "code": "gallika"},
+    "italika": {"name": "Ιταλικά", "code": "italika"}
+  },
+  "pedia": {
+    "pedio1": {
+      "name": "1ο Πεδίο: Ανθρωπιστικών, Νομικών και Κοινωνικών Σπουδών",
+      "description": "Νομικής, Φιλολογίας, Ιστορίας-Αρχαιολογίας, Ψυχολογίας, Θεολογίας, Ξένων Γλωσσών, Κοινωνιολογίας, Πολιτικών Επιστημών, Δημόσιας Διοίκησης, Επικοινωνίας & Μέσων Μαζικής Ενημέρωσης, Θεάτρου κ.λπ.",
+      "omadaProsan": "Ανθρωπιστικών Σπουδών",
+      "oldFieldCode": "theoretiko",
+      "scientificFieldCode": "1",
+      "mathimata": [
+        {"key": "glossa", "name": "Νεοελληνική Γλώσσα - Έκθεση & Λογοτεχνία", "required": true},
+        {"key": "archaia", "name": "Αρχαία Προσανατολισμού", "required": true},
+        {"key": "istoria", "name": "Ιστορία Προσανατολισμού", "required": true},
+        {"key": "latina", "name": "Λατινικά", "required": true}
+      ],
+      "eidikaMathimata": ["latina", "anglika", "gallika", "germanika", "ispanike", "italika"],
+      "dataFile": "anthropistikes-scholes.json"
+    },
+    "pedio2": {
+      "name": "2ο Πεδίο: Τεχνολογικών και Θετικών Σπουδών",
+      "description": "Ηλεκτρολόγων Μηχανικών & Μηχανικών Ηλεκτρονικών Υπολογιστών, Μηχανολόγων και Ναυπηγών Μηχανικών, Πολιτικών, Τοπογράφων και Αρχιτεκτόνων Μηχανικών Χημικών Μηχανικών, Επιστήμης Υλικών κ.λπ. καθώς και Μαθηματικών, Φυσικής, Πληροφορικής, Χημείας, Γεωπονίας κ.λπ.",
+      "omadaProsan": "Θετικών Επιστημών",
+      "oldFieldCode": "thetiko",
+      "scientificFieldCode": "2",
+      "mathimata": [
+        {"key": "glossa", "name": "Νεοελληνική Γλώσσα - Έκθεση & Λογοτεχνία", "required": true},
+        {"key": "mathimatika", "name": "Μαθηματικά", "required": true},
+        {"key": "fysiki", "name": "Φυσική", "required": true},
+        {"key": "chimeia", "name": "Χημεία", "required": true}
+      ],
+      "eidikaMathimata": ["anglika", "gallika", "germanika", "ispanike", "italika", "elefthero_sxedio", "grammiko_sxedio", "mousiki_antilipsi", "mousiki_ektelesi"],
+      "dataFile": "thetikes-scholes.json"
+    },
+    "pedio3": {
+      "name": "3ο Πεδίο: Σπουδών Υγείας και Ζωής",
+      "description": "Ιατρικής, Φαρμακευτικής, Βιολογίας, Νοσηλευτικής, Γεωπονίας, Επιστήμης Τροφίμων, Διατροφολογίας, Παραϊατρικών Επαγγελμάτων κ.λπ.",
+      "omadaProsan": "Θετικών Επιστημών",
+      "oldFieldCode": "thetiko",
+      "scientificFieldCode": "3",
+      "mathimata": [
+        {"key": "glossa", "name": "Νεοελληνική Γλώσσα - Έκθεση & Λογοτεχνία", "required": true},
+        {"key": "viologia", "name": "Βιολογία", "required": true},
+        {"key": "chimeia", "name": "Χημεία", "required": true},
+        {"key": "fysiki", "name": "Φυσική", "required": true}
+      ],
+      "eidikaMathimata": ["anglika", "gallika", "germanika", "ispanike", "italika", "elefthero_sxedio", "grammiko_sxedio", "mousiki_antilipsi", "mousiki_ektelesi"],
+      "dataFile": "ygeias-scholes.json"
+    },
+    "pedio4": {
+      "name": "4ο Πεδίο: Σπουδών Οικονομίας και Πληροφορικής",
+      "description": "Οικονομικές, Χρηματοοικονομικές, Οργάνωσης & Διοίκησης Επιχειρήσεων, Λογιστικής κ.λπ. καθώς και Πληροφορικής, Μηχανικών Πληροφορικής και Τηλεπικοινωνιών κ.α.",
+      "omadaProsan": "Σπουδών Οικονομίας και Πληροφορικής",
+      "oldFieldCode": "oikonomiko",
+      "scientificFieldCode": "4",
+      "mathimata": [
+        {"key": "glossa", "name": "Νεοελληνική Γλώσσα - Έκθεση & Λογοτεχνία", "required": true},
+        {"key": "mathimatika", "name": "Μαθηματικά", "required": true},
+        {"key": "oikonomia", "name": "Οικονομία", "required": true},
+        {"key": "plirofiriki", "name": "Πληροφορική", "required": true}
+      ],
+      "eidikaMathimata": ["anglika", "gallika", "germanika", "ispanike", "italika", "elefthero_sxedio", "grammiko_sxedio", "mousiki_antilipsi", "mousiki_ektelesi"],
+      "dataFile": "oikonomikes-scholes.json"
+    },
+    "geoponias": {
+      "name": "Τομέας Γεωπονίας, Τροφίμων και Περιβάλλοντος",
+      "description": "Αγροτικής Ανάπτυξης, Επιστήμης Φυτικής Παραγωγής, Ζωικής Παραγωγής, Γεωπονίας κ.λπ.",
+      "omadaProsan": "Γεωπονίας",
+      "oldFieldCode": "geoponias",
+      "scientificFieldCode": "EPAL_1",
+      "mathimata": [
+        {"key": "nea_ellinika", "name": "Νέα Ελληνικά", "required": true},
+        {"key": "mathimatika_epal", "name": "Μαθηματικά (Άλγεβρα)", "required": true},
+        {"key": "arxes_viologikis_georgias", "name": "Αρχές Βιολογικής Γεωργίας", "required": true},
+        {"key": "sychrones_georgikes_epixeiriseis", "name": "Σύγχρονες Γεωργικές Επιχειρήσεις", "required": true}
+      ],
+      "eidikaMathimata": ["anglika", "gallika", "germanika", "ispanike", "italika"],
+      "dataFile": "epal-geoponias-scholes.json"
+    },
+    "dioikisis": {
+      "name": "Τομέας Διοίκησης και Οικονομίας",
+      "description": "Οικονομικών, Χρηματοοικονομικών, Διοίκησης Επιχειρήσεων, Λογιστικής κ.λπ.",
+      "omadaProsan": "Διοίκησης και Οικονομίας",
+      "oldFieldCode": "dioikisis",
+      "scientificFieldCode": "EPAL_2",
+      "mathimata": [
+        {"key": "nea_ellinika", "name": "Νέα Ελληνικά", "required": true},
+        {"key": "mathimatika_epal", "name": "Μαθηματικά (Άλγεβρα)", "required": true},
+        {"key": "aot", "name": "Αρχές Οικονομικής Θεωρίας (ΑΟΘ)", "required": true},
+        {"key": "aod", "name": "Αρχές Οργάνωσης και Διοίκησης (ΑΟΔ)", "required": true}
+      ],
+      "eidikaMathimata": ["anglika", "gallika", "germanika", "ispanike", "italika"],
+      "dataFile": "epal-dioikisis-scholes.json"
+    },
+    "domikon": {
+      "name": "Τομέας Δομικών Έργων, Δομημένου Περιβάλλοντος και Αρχιτεκτονικού Σχεδιασμού",
+      "description": "Αρχιτεκτονικής, Πολιτικών Μηχανικών, Τοπογράφων Μηχανικών κ.λπ.",
+      "omadaProsan": "Δομικών Έργων",
+      "oldFieldCode": "domikon",
+      "scientificFieldCode": "EPAL_3",
+      "mathimata": [
+        {"key": "nea_ellinika", "name": "Νέα Ελληνικά", "required": true},
+        {"key": "mathimatika_epal", "name": "Μαθηματικά (Άλγεβρα)", "required": true},
+        {"key": "arxitektoniko_sxedio", "name": "Αρχιτεκτονικό Σχέδιο", "required": true},
+        {"key": "oikodomiki", "name": "Οικοδομική", "required": true}
+      ],
+      "eidikaMathimata": ["anglika", "gallika", "germanika", "ispanike", "italika"],
+      "dataFile": "epal-domikon-scholes.json"
+    },
+    "efarmosmenon_technon": {
+      "name": "Τομέας Εφαρμοσμένων Τεχνών",
+      "description": "Εφαρμοσμένων Τεχνών, Γραφιστικής, Φωτογραφίας κ.λπ.",
+      "omadaProsan": "Εφαρμοσμένων Τεχνών",
+      "oldFieldCode": "efarmosmenon_technon",
+      "scientificFieldCode": "EPAL_4",
+      "mathimata": [
+        {"key": "nea_ellinika", "name": "Νέα Ελληνικά", "required": true},
+        {"key": "mathimatika_epal", "name": "Μαθηματικά (Άλγεβρα)", "required": true},
+        {"key": "istoria_sychronis_texnis", "name": "Ιστορία Σύγχρονης Τέχνης", "required": true},
+        {"key": "texnologia_ylikon", "name": "Τεχνολογία Υλικών", "required": true}
+      ],
+      "eidikaMathimata": ["anglika", "gallika", "germanika", "ispanike", "italika", "elefthero_sxedio", "grammiko_sxedio", "mousiki_antilipsi", "mousiki_ektelesi"],
+      "dataFile": "epal-efarmosmenon-technon-scholes.json"
+    },
+    "ilektrologias": {
+      "name": "Τομέας Ηλεκτρολογίας, Ηλεκτρονικής και Αυτοματισμού",
+      "description": "Ηλεκτρολόγων Μηχανικών, Μηχανικών Ηλεκτρονικών Υπολογιστών, Αυτοματισμού κ.λπ.",
+      "omadaProsan": "Ηλεκτρολογίας",
+      "oldFieldCode": "ilektrologias",
+      "scientificFieldCode": "EPAL_5",
+      "mathimata": [
+        {"key": "nea_ellinika", "name": "Νέα Ελληνικά", "required": true},
+        {"key": "mathimatika_epal", "name": "Μαθηματικά (Άλγεβρα)", "required": true},
+        {"key": "diktya_ypologiston", "name": "Δίκτυα Υπολογιστών", "required": false},
+        {"key": "ilektroteхnia_2", "name": "Ηλεκτροτεχνία 2", "required": false},
+        {"key": "ilektrikes_mixanes", "name": "Ηλεκτρικές Μηχανές", "required": false},
+        {"key": "psiфiaka_systimata", "name": "Ψηφιακά Συστήματα", "required": false}
+      ],
+      "eidikaMathimata": ["anglika", "gallika", "germanika", "ispanike", "italika"],
+      "dataFile": "epal-ilektrologias-scholes.json"
+    },
+    "mixanologias": {
+      "name": "Τομέας Μηχανολογίας",
+      "description": "Μηχανολόγων Μηχανικών, Ναυπηγών Μηχανικών, Αεροναυπηγικής κ.λπ.",
+      "omadaProsan": "Μηχανολογίας",
+      "oldFieldCode": "mixanologias",
+      "scientificFieldCode": "EPAL_6",
+      "mathimata": [
+        {"key": "nea_ellinika", "name": "Νέα Ελληνικά", "required": true},
+        {"key": "mathimatika_epal", "name": "Μαθηματικά (Άλγεβρα)", "required": true},
+        {"key": "stoixeia_mixanon", "name": "Στοιχεία Μηχανών", "required": false},
+        {"key": "mek_2", "name": "Μηχανές Εσωτερικής Καύσης 2 (ΜΕΚ 2)", "required": false},
+        {"key": "kinitires_aeroskafon", "name": "Κινητήρες Αεροσκαφών", "required": false},
+        {"key": "stoixeia_sxediasmou_kentrikon_themanseon", "name": "Στοιχεία Σχεδιασμού Κεντρικών Θερμάνσεων", "required": false},
+        {"key": "stoixeia_psyxis_klimatismou", "name": "Στοιχεία Ψύξης - Κλιματισμού", "required": false}
+      ],
+      "eidikaMathimata": ["anglika", "gallika", "germanika", "ispanike", "italika"],
+      "dataFile": "epal-mixanologias-scholes.json"
+    },
+    "naftiliakon": {
+      "name": "Τομέας Ναυτιλιακών Επαγγελμάτων",
+      "description": "Ναυτιλίας και Επιχειρηματικών Υπηρεσιών, Μηχανικών Ναυτιλίας κ.λπ.",
+      "omadaProsan": "Ναυτιλιακών",
+      "oldFieldCode": "naftiliakon",
+      "scientificFieldCode": "EPAL_7",
+      "mathimata": [
+        {"key": "nea_ellinika", "name": "Νέα Ελληνικά", "required": true},
+        {"key": "mathimatika_epal", "name": "Μαθηματικά (Άλγεβρα)", "required": true},
+        {"key": "naftiko_dikaio", "name": "Ναυτικό Δίκαιο - Διεθνείς Κανονισμοί στη Ναυτιλία - Εφαρμογές", "required": true},
+        {"key": "nafsiploia_2", "name": "Ναυσιπλοΐα 2", "required": false},
+        {"key": "naftikes_mixanes", "name": "Ναυτικές Μηχανές", "required": false}
+      ],
+      "eidikaMathimata": ["anglika", "gallika", "germanika", "ispanike", "italika"],
+      "dataFile": "epal-naftiliakon-scholes.json"
+    },
+    "pliroforikis": {
+      "name": "Τομέας Πληροφορικής",
+      "description": "Πληροφορικής, Μηχανικών Η/Υ και Τηλεπικοινωνιών, Εφαρμοσμένης Πληροφορικής κ.λπ.",
+      "omadaProsan": "Πληροφορικής",
+      "oldFieldCode": "pliroforikis",
+      "scientificFieldCode": "EPAL_8",
+      "mathimata": [
+        {"key": "nea_ellinika", "name": "Νέα Ελληνικά", "required": true},
+        {"key": "mathimatika_epal", "name": "Μαθηματικά (Άλγεβρα)", "required": true},
+        {"key": "diktya_ypologiston", "name": "Δίκτυα Υπολογιστών", "required": true},
+        {"key": "programmatismos_ypologiston", "name": "Προγραμματισμός Υπολογιστών", "required": true}
+      ],
+      "eidikaMathimata": ["anglika", "gallika", "germanika", "ispanike", "italika"],
+      "dataFile": "epal-pliroforikis-scholes.json"
+    },
+    "ygeias": {
+      "name": "Τομέας Υγείας και Πρόνοιας - Ευεξίας",
+      "description": "Νοσηλευτικής, Φυσιοθεραπείας, Εργοθεραπείας, Επιστημών Υγείας κ.λπ.",
+      "omadaProsan": "Υγείας",
+      "oldFieldCode": "ygeias_epal",
+      "scientificFieldCode": "EPAL_9",
+      "mathimata": [
+        {"key": "nea_ellinika", "name": "Νέα Ελληνικά", "required": true},
+        {"key": "mathimatika_epal", "name": "Μαθηματικά (Άλγεβρα)", "required": true},
+        {"key": "anatomia_fysiologia_2", "name": "Ανατομία - Φυσιολογία 2", "required": true},
+        {"key": "ygiini", "name": "Υγιεινή", "required": true}
+      ],
+      "eidikaMathimata": ["anglika", "gallika", "germanika", "ispanike", "italika"],
+      "dataFile": "epal-ygeias-scholes.json"
+    },
+    "technologika": {
+      "name": "Τεχνολογικά Τμήματα",
+      "mathimata": [
+        {"key": "mathimatika", "name": "Μαθηματικά", "required": true},
+        {"key": "fysiki", "name": "Φυσική", "required": true},
+        {"key": "technologia", "name": "Τεχνολογία", "required": true},
+        {"key": "eidikotita", "name": "Ειδικότητα", "required": true}
+      ],
+      "eidikaMathimata": ["Αγγλικά", "Γαλλικά"],
+      "dataFile": "technologika-scholes.json"
+    },
+    "oikonomika": {
+      "name": "Οικονομικά και Διοίκηση",
+      "mathimata": [
+        {"key": "mathimatika", "name": "Μαθηματικά", "required": true},
+        {"key": "oikonomika", "name": "Οικονομικά", "required": true},
+        {"key": "dioikisi", "name": "Διοίκηση", "required": true},
+        {"key": "logistika", "name": "Λογιστικά", "required": false}
+      ],
+      "eidikaMathimata": ["Αγγλικά", "Γαλλικά", "Γερμανικά"],
+      "dataFile": "oikonomika-scholes.json"
+    },
+    "tourismou": {
+      "name": "Τουρισμός",
+      "mathimata": [
+        {"key": "geografia", "name": "Γεωγραφία", "required": true},
+        {"key": "istoria", "name": "Ιστορία", "required": true},
+        {"key": "oikonomika", "name": "Οικονομικά", "required": true},
+        {"key": "xenes_glosses", "name": "Ξένες Γλώσσες", "required": true}
+      ],
+      "eidikaMathimata": ["Αγγλικά", "Γαλλικά", "Γερμανικά", "Ιταλικά"],
+      "dataFile": "tourismou-scholes.json"
+    }
+  }
+}

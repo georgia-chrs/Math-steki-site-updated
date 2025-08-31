@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Διαχείριση Αρχείων - Math Steki</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .file-upload {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .upload-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .upload-btn:hover {
+            background: #0056b3;
+        }
+        .preview-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .file-preview {
+            margin: 20px 0;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .preview-table th, .preview-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .preview-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Διαχείριση Αρχείων Σχολών</h1>
+        
+        <div class="file-upload">
+            <h3>Ανέβασμα αρχείου σχολών</h3>
+            <div id="status-indicator" style="display: none; margin-bottom: 10px; padding: 8px; background-color: #e8f5e8; color: #2d5a2d; border-radius: 4px; font-size: 14px;">
+                📁 Υπάρχουν αποθηκευμένα δεδομένα από προηγούμενη συνεδρία
+            </div>
+            <p><strong>Υποστηριζόμενη μορφή:</strong> Tab-separated αρχεία (TSV) ή Excel (.xlsx, .xls)</p>
+            <p><strong>Απαιτούμενες στήλες:</strong> ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ, ΙΔΡΥΜΑ, ΟΝΟΜΑ ΣΧΟΛΗΣ, ΕΙΔΟΣ ΘΕΣΗΣ, ΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ, ΜΕΓΙΣΤΑ ΜΟΡΙΑ, ΕΛΑΧΙΣΤΑ ΜΟΡΙΑ</p>
+            <select id="schools-file-format" style="margin-bottom: 10px;">
+                <option value="tsv">TSV αρχείο (Tab-separated)</option>
+                <option value="excel">Excel αρχείο (.xlsx, .xls)</option>
+            </select>
+            <input type="file" id="schools-csv-file" accept=".tsv,.txt,.csv,.xlsx,.xls">
+            <br><br>
+            <button class="upload-btn" onclick="uploadSchoolsFile()">Ανέβασμα Αρχείου</button>
+            <button class="preview-btn" onclick="downloadSampleTSV()">Λήψη Δείγματος TSV</button>
+            <button class="preview-btn" onclick="downloadSampleExcel()">Λήψη Δείγματος Excel</button>
+            <button class="preview-btn" onclick="refreshData()">Ανανέωση Προβολής</button>
+            <button class="preview-btn" onclick="clearStoredData()">Διαγραφή Υπαρχόντων Δεδομένων</button>
+        </div>
+        
+        <div id="schools-csv-preview" class="file-preview" style="display:none;"></div>
+        <div id="status-messages"></div>
+    </div>
+
+    <script>
+        // Global variables
+        let parsedSchoolsData = null;
+
+        // Load saved data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedData();
+        });
+
+        // Load previously uploaded data from localStorage
+        function loadSavedData() {
+            console.log('=== Loading saved admin data ===');
+            try {
+                const savedData = localStorage.getItem('adminUploadedData');
+                console.log('Raw localStorage data:', savedData ? 'exists' : 'null');
+                
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    console.log('Parsed data:', data ? data.length : 'null', 'schools');
+                    
+                    if (data && Array.isArray(data) && data.length > 0) {
+                        parsedSchoolsData = data;
+                        console.log('Setting parsedSchoolsData to:', data.length, 'schools');
+                        
+                        showSchoolsPreview(parsedSchoolsData, 'Αποθηκευμένα δεδομένα');
+                        showMessage(`Φορτώθηκαν ${data.length} σχολές από προηγούμενη συνεδρία.`, 'success');
+                        
+                        // Show indicator that saved data exists
+                        const indicator = document.getElementById('status-indicator');
+                        if (indicator) {
+                            indicator.style.display = 'block';
+                            indicator.innerHTML = `📁 Φορτώθηκαν ${data.length} σχολές από προηγούμενη συνεδρία`;
+                            console.log('Status indicator updated');
+                        } else {
+                            console.error('Status indicator element not found');
+                        }
+                        
+                        console.log('Loaded saved admin data:', data.length, 'schools');
+                    } else {
+                        console.log('Data exists but is invalid or empty');
+                        hideStatusIndicator();
+                    }
+                } else {
+                    console.log('No saved data found in localStorage');
+                    hideStatusIndicator();
+                }
+            } catch (error) {
+                console.error('Error loading saved data:', error);
+                hideStatusIndicator();
+            }
+        }
+
+        // Hide status indicator
+        function hideStatusIndicator() {
+            const indicator = document.getElementById('status-indicator');
+            if (indicator) {
+                indicator.style.display = 'none';
+            }
+        }
+
+        // Save data to localStorage for persistence
+        function saveDataToLocal(data) {
+            console.log('=== Saving data to localStorage ===');
+            console.log('Input data:', data ? data.length : 'null', 'schools');
+            
+            try {
+                // Save raw data for admin panel persistence
+                localStorage.setItem('adminUploadedData', JSON.stringify(data));
+                console.log('Saved raw admin data to localStorage');
+                
+                // Also save transformed data for moria calculator immediately
+                const transformedData = data.map(school => {
+                    // Map scientificField to field codes used by moria calculator
+                    let fieldCode = 'theoretiko'; // default
+                    const sciField = school.scientificField.toLowerCase();
+                    
+                    if (sciField.includes('θετικ') || sciField.includes('μαθηματικ') || sciField.includes('φυσικ')) {
+                        fieldCode = 'thetiko';
+                    } else if (sciField.includes('τεχνολογικ') || sciField.includes('μηχανικ') || sciField.includes('πληροφορικ')) {
+                        fieldCode = 'technologiko';
+                    } else if (sciField.includes('οικονομικ')) {
+                        fieldCode = 'oikonomiko';
+                    } else if (sciField.includes('θεωρητικ') || sciField.includes('φιλολογ') || sciField.includes('ιστορ')) {
+                        fieldCode = 'theoretiko';
+                    }
+                    
+                    // Calculate average score from min/max moria
+                    const avgScore = school.maxMoria && school.minMoria ? 
+                        Math.round((school.maxMoria + school.minMoria) / 2) : 
+                        school.maxMoria || school.minMoria || 0;
+                    
+                    return {
+                        id: school.id,
+                        name: school.name,
+                        university: school.university,
+                        field: fieldCode,
+                        schoolType: school.positionType.toLowerCase().includes('γελ') ? 'gel' : 'epal',
+                        avgScore: avgScore,
+                        minMoria: school.minMoria || 0,
+                        maxMoria: school.maxMoria || 0,
+                        positionType: school.positionType,
+                        scientificField: school.scientificField
+                    };
+                });
+                
+                // Save transformed data for moria calculator
+                localStorage.setItem('schoolsCSVData', JSON.stringify(transformedData));
+                console.log('Saved transformed data for moria calculator');
+                
+                console.log('Saved admin data to localStorage (both formats)');
+                console.log('Raw data:', data.length, 'schools');
+                console.log('Transformed data:', transformedData.length, 'schools');
+                console.log('Sample transformed school:', transformedData[0]);
+                
+                // Verify the data was saved
+                const verification = localStorage.getItem('adminUploadedData');
+                console.log('Verification: Data saved?', verification ? 'YES' : 'NO');
+                
+            } catch (error) {
+                console.error('Error saving admin data:', error);
+            }
+        }
+
+        // Main upload function
+        function uploadSchoolsFile() {
+            const fileInput = document.getElementById('schools-csv-file');
+            const formatSelect = document.getElementById('schools-file-format');
+            const selectedFormat = formatSelect.value;
+            
+            if (!fileInput.files[0]) {
+                showMessage('Παρακαλώ επιλέξτε ένα αρχείο.', 'error');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const fileName = file.name.toLowerCase();
+            
+            // Auto-detect format based on file extension
+            let actualFormat = selectedFormat;
+            if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+                actualFormat = 'excel';
+            } else if (fileName.endsWith('.tsv') || fileName.endsWith('.txt') || fileName.endsWith('.csv')) {
+                actualFormat = 'tsv';
+            }
+            
+            if (actualFormat === 'excel') {
+                uploadExcelFile(file);
+            } else {
+                uploadTSVFile(file);
+            }
+        }
+
+        // Upload TSV/CSV file (tab-separated)
+        function uploadTSVFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const tsvText = e.target.result;
+                    const schoolsData = parseSchoolsTSV(tsvText);
+                    
+                    if (schoolsData.length > 0) {
+                        parsedSchoolsData = schoolsData;
+                        saveDataToLocal(schoolsData); // Save to localStorage
+                        showSchoolsPreview(schoolsData, 'TSV');
+                        showMessage(`TSV επεξεργάστηκε επιτυχώς! Βρέθηκαν ${schoolsData.length} σχολές.`, 'success');
+                    } else {
+                        showMessage('Το TSV αρχείο δεν περιέχει έγκυρα δεδομένα.', 'error');
+                    }
+                } catch (error) {
+                    showMessage('Σφάλμα επεξεργασίας TSV: ' + error.message, 'error');
+                    console.error('TSV parsing error:', error);
+                }
+            };
+            reader.onerror = () => showMessage('Σφάλμα ανάγνωσης αρχείου.', 'error');
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        // Upload Excel file
+        function uploadExcelFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, {type: 'array'});
+                    
+                    // Use the first sheet
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    
+                    // Convert to JSON
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+                    
+                    if (jsonData.length > 0) {
+                        const schoolsData = parseSchoolsExcel(jsonData);
+                        parsedSchoolsData = schoolsData;
+                        saveDataToLocal(schoolsData); // Save to localStorage
+                        showSchoolsPreview(schoolsData, 'Excel');
+                        showMessage(`Excel επεξεργάστηκε επιτυχώς! Βρέθηκαν ${schoolsData.length} σχολές.`, 'success');
+                    } else {
+                        showMessage('Το Excel αρχείο δεν περιέχει έγκυρα δεδομένα.', 'error');
+                    }
+                    
+                } catch (error) {
+                    showMessage('Σφάλμα επεξεργασίας Excel: ' + error.message, 'error');
+                    console.error('Excel parsing error:', error);
+                }
+            };
+            reader.onerror = () => showMessage('Σφάλμα ανάγνωσης αρχείου.', 'error');
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Parse TSV file with exactly 7 required columns
+        function parseSchoolsTSV(tsvText) {
+            const lines = tsvText.split('\n').filter(line => line.trim());
+            
+            if (lines.length < 2) {
+                throw new Error('Το αρχείο πρέπει να έχει τουλάχιστον μία γραμμή headers και μία γραμμή δεδομένων.');
+            }
+            
+            const headers = lines[0].split('\t').map(h => h.trim());
+            console.log('TSV headers detected:', headers);
+            
+            // Validate headers - expect exactly these 7 columns
+            const expectedHeaders = ['ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ', 'ΙΔΡΥΜΑ', 'ΟΝΟΜΑ ΣΧΟΛΗΣ', 'ΕΙΔΟΣ ΘΕΣΗΣ', 'ΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ', 'ΜΕΓΙΣΤΑ ΜΟΡΙΑ', 'ΕΛΑΧΙΣΤΑ ΜΟΡΙΑ'];
+            if (headers.length < 7) {
+                console.warn(`Warning: Expected 7 columns, found ${headers.length}. Columns: ${headers.join(', ')}`);
+            }
+            
+            const schools = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split('\t').map(v => v.trim());
+                
+                if (values.length >= 7 && values[0] && values[2]) { // Must have school code and name
+                    const school = {
+                        id: values[0] || '',                    // ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ
+                        university: values[1] || '',            // ΙΔΡΥΜΑ
+                        name: values[2] || '',                  // ΟΝΟΜΑ ΣΧΟΛΗΣ
+                        positionType: values[3] || '',          // ΕΙΔΟΣ ΘΕΣΗΣ
+                        scientificField: values[4] || '',       // ΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ
+                        maxMoria: parseInt(values[5]) || 0,     // ΜΕΓΙΣΤΑ ΜΟΡΙΑ
+                        minMoria: parseInt(values[6]) || 0      // ΕΛΑΧΙΣΤΑ ΜΟΡΙΑ
+                    };
+                    
+                    schools.push(school);
+                    console.log(`Parsed school: ${school.id} - ${school.name} - ${school.university} - Μόρια: ${school.minMoria}-${school.maxMoria}`);
+                }
+            }
+            
+            console.log(`Successfully parsed ${schools.length} schools from TSV`);
+            return schools;
+        }
+
+        // Parse Excel data with exactly 7 required columns
+        function parseSchoolsExcel(jsonData) {
+            const schools = [];
+            
+            if (jsonData.length < 2) {
+                throw new Error('Το Excel αρχείο πρέπει να έχει τουλάχιστον μία γραμμή headers και μία γραμμή δεδομένων.');
+            }
+            
+            const headers = jsonData[0];
+            console.log('Excel headers detected:', headers);
+            
+            // Validate headers - expect exactly these 7 columns
+            const expectedHeaders = ['ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ', 'ΙΔΡΥΜΑ', 'ΟΝΟΜΑ ΣΧΟΛΗΣ', 'ΕΙΔΟΣ ΘΕΣΗΣ', 'ΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ', 'ΜΕΓΙΣΤΑ ΜΟΡΙΑ', 'ΕΛΑΧΙΣΤΑ ΜΟΡΙΑ'];
+            if (headers.length < 7) {
+                console.warn(`Warning: Expected 7 columns, found ${headers.length}. Columns: ${headers.join(', ')}`);
+            }
+            
+            for (let i = 1; i < jsonData.length; i++) {
+                const values = jsonData[i];
+                
+                if (values && values.length >= 7 && values[0] && values[2]) { // Must have school code and name
+                    const school = {
+                        id: values[0] ? values[0].toString() : '',              // ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ
+                        university: values[1] ? values[1].toString() : '',      // ΙΔΡΥΜΑ
+                        name: values[2] ? values[2].toString() : '',            // ΟΝΟΜΑ ΣΧΟΛΗΣ
+                        positionType: values[3] ? values[3].toString() : '',    // ΕΙΔΟΣ ΘΕΣΗΣ
+                        scientificField: values[4] ? values[4].toString() : '', // ΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ
+                        maxMoria: parseInt(values[5]) || 0,                     // ΜΕΓΙΣΤΑ ΜΟΡΙΑ
+                        minMoria: parseInt(values[6]) || 0                      // ΕΛΑΧΙΣΤΑ ΜΟΡΙΑ
+                    };
+                    
+                    schools.push(school);
+                    console.log(`Parsed school: ${school.id} - ${school.name} - ${school.university} - Μόρια: ${school.minMoria}-${school.maxMoria}`);
+                }
+            }
+            
+            console.log(`Successfully parsed ${schools.length} schools from Excel`);
+            return schools;
+        }
+
+
+        // Show preview for parsed data
+        function showSchoolsPreview(schoolsData, fileType) {
+            const container = document.getElementById('schools-csv-preview');
+            container.style.display = 'block';
+            
+            const limitedData = schoolsData.slice(0, 10); // Show first 10 rows
+            
+            let html = `
+                <h3>Προεπισκόπηση αρχείου ${fileType} (${schoolsData.length} συνολικά σχολές, εμφάνιση πρώτων 10)</h3>
+                <div style="overflow-x: auto;">
+                    <table class="preview-table">
+                        <thead>
+                            <tr>
+                                <th>Κωδικός Σχολής</th>
+                                <th>Ίδρυμα</th>
+                                <th>Όνομα Σχολής</th>
+                                <th>Είδος Θέσης</th>
+                                <th>Επιστημονικά Πεδία</th>
+                                <th>Μέγιστα Μόρια</th>
+                                <th>Ελάχιστα Μόρια</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            limitedData.forEach(school => {
+                html += `
+                    <tr>
+                        <td>${school.id || 'N/A'}</td>
+                        <td>${school.university || 'N/A'}</td>
+                        <td>${school.name || 'N/A'}</td>
+                        <td>${school.positionType || 'N/A'}</td>
+                        <td>${school.scientificField || 'N/A'}</td>
+                        <td>${school.maxMoria || 'N/A'}</td>
+                        <td>${school.minMoria || 'N/A'}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 15px;">
+                    <button class="upload-btn" onclick="confirmSchoolsUpload()">Επιβεβαίωση & Αποθήκευση</button>
+                    <button class="upload-btn" onclick="downloadProcessedDataAsExcel()">Κατέβασμα ως Excel</button>
+                    <button class="preview-btn" onclick="cancelUpload()">Ακύρωση</button>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // Clear existing data before new upload
+        function clearStoredData() {
+            try {
+                localStorage.removeItem('schoolsCSVData'); // Clear moria calculator data
+                localStorage.removeItem('adminUploadedData'); // Clear admin panel data
+                
+                // Clear current session data
+                parsedSchoolsData = null;
+                document.getElementById('schools-csv-preview').style.display = 'none';
+                document.getElementById('schools-csv-file').value = '';
+                hideStatusIndicator();
+                
+                showMessage('Όλα τα αποθηκευμένα δεδομένα διαγράφηκαν επιτυχώς.', 'success');
+                console.log('Cleared all stored data from localStorage');
+            } catch (error) {
+                showMessage('Σφάλμα κατά τη διαγραφή των δεδομένων.', 'error');
+                console.error('Error clearing localStorage:', error);
+            }
+        }
+
+        // Refresh data display without clearing
+        function refreshData() {
+            loadSavedData();
+            showMessage('Η προβολή ανανεώθηκε με τα αποθηκευμένα δεδομένα.', 'success');
+        }
+
+        // Confirm upload and save data
+        function confirmSchoolsUpload() {
+            if (!parsedSchoolsData) {
+                showMessage('Δεν υπάρχουν δεδομένα για αποθήκευση.', 'error');
+                return;
+            }
+            
+            // The data transformation is already done in saveDataToLocal (called during parsing)
+            // Just show success message
+            showMessage(`Τα δεδομένα αποθηκεύτηκαν επιτυχώς! ${parsedSchoolsData.length} σχολές. Τα δεδομένα είναι διαθέσιμα στον υπολογιστή μορίων.`, 'success');
+            console.log('Confirmed data save:', parsedSchoolsData.length, 'schools');
+            
+            // Hide preview
+            document.getElementById('schools-csv-preview').style.display = 'none';
+        }
+
+        // Cancel upload
+        function cancelUpload() {
+            parsedSchoolsData = null;
+            document.getElementById('schools-csv-preview').style.display = 'none';
+            document.getElementById('schools-csv-file').value = '';
+            showMessage('Το ανέβασμα ακυρώθηκε.', 'error');
+        }
+
+        // Download processed data as Excel
+        function downloadProcessedDataAsExcel() {
+            if (!parsedSchoolsData) {
+                showMessage('Δεν υπάρχουν δεδομένα για κατέβασμα.', 'error');
+                return;
+            }
+            
+            const ws = XLSX.utils.json_to_sheet(parsedSchoolsData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Σχολές");
+            XLSX.writeFile(wb, "processed_schools.xlsx");
+            showMessage('Το αρχείο κατέβηκε επιτυχώς!', 'success');
+        }
+
+        // Download sample TSV file with exactly 7 columns
+        function downloadSampleTSV() {
+            const sampleData = `ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ\tΙΔΡΥΜΑ\tΟΝΟΜΑ ΣΧΟΛΗΣ\tΕΙΔΟΣ ΘΕΣΗΣ\tΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ\tΜΕΓΙΣΤΑ ΜΟΡΙΑ\tΕΛΑΧΙΣΤΑ ΜΟΡΙΑ
+101\tΠανεπιστήμιο Αθηνών\tΦιλολογίας\tΓΕΛ\tΘεωρητική Κατεύθυνση\t19500\t16800
+102\tΑριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης\tΜαθηματικών\tΓΕΛ\tΘετική Κατεύθυνση\t18750\t15200
+103\tΠανεπιστήμιο Πάτρας\tΜηχανικών Η/Υ\tΓΕΛ\tΤεχνολογική Κατεύθυνση\t17900\t14500
+201\tΤΕΙ Αθήνας\tΕπιχειρηματικότητας\tΕΠΑΛ\tΟικονομική Κατεύθυνση\t16200\t12800
+202\tΤΕΙ Θεσσαλονίκης\tΠληροφορικής\tΕΠΑΛ\tΤεχνολογική Κατεύθυνση\t15800\t11900
+G001\tΕθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών\tΙατρική\tΓΕΛ\tΘετική Κατεύθυνση\t21500\t19800
+G002\tΑριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης\tΟδοντιατρική\tΓΕΛ\tΘετική Κατεύθυνση\t21000\t19000
+E001\tΤΕΙ Αθήνας\tΜηχανολογία\tΕΠΑΛ\tΤεχνολογική Κατεύθυνση\t16500\t13000`;
+            
+            const blob = new Blob([sampleData], { type: 'text/tab-separated-values' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'sample_schools_7_columns.tsv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            showMessage('Το δείγμα TSV κατέβηκε επιτυχώς!', 'success');
+        }
+
+        // Download sample Excel file with exactly 7 columns
+        function downloadSampleExcel() {
+            const sampleData = [
+                ['ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ', 'ΙΔΡΥΜΑ', 'ΟΝΟΜΑ ΣΧΟΛΗΣ', 'ΕΙΔΟΣ ΘΕΣΗΣ', 'ΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ', 'ΜΕΓΙΣΤΑ ΜΟΡΙΑ', 'ΕΛΑΧΙΣΤΑ ΜΟΡΙΑ'],
+                ['101', 'Πανεπιστήμιο Αθηνών', 'Φιλολογίας', 'ΓΕΛ', 'Θεωρητική Κατεύθυνση', 19500, 16800],
+                ['102', 'Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης', 'Μαθηματικών', 'ΓΕΛ', 'Θετική Κατεύθυνση', 18750, 15200],
+                ['103', 'Πανεπιστήμιο Πάτρας', 'Μηχανικών Η/Υ', 'ΓΕΛ', 'Τεχνολογική Κατεύθυνση', 17900, 14500],
+                ['201', 'ΤΕΙ Αθήνας', 'Επιχειρηματικότητας', 'ΕΠΑΛ', 'Οικονομική Κατεύθυνση', 16200, 12800],
+                ['202', 'ΤΕΙ Θεσσαλονίκης', 'Πληροφορικής', 'ΕΠΑΛ', 'Τεχνολογική Κατεύθυνση', 15800, 11900],
+                ['G001', 'Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών', 'Ιατρική', 'ΓΕΛ', 'Θετική Κατεύθυνση', 21500, 19800],
+                ['G002', 'Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης', 'Οδοντιατρική', 'ΓΕΛ', 'Θετική Κατεύθυνση', 21000, 19000],
+                ['E001', 'ΤΕΙ Αθήνας', 'Μηχανολογία', 'ΕΠΑΛ', 'Τεχνολογική Κατεύθυνση', 16500, 13000]
+            ];
+            
+            const ws = XLSX.utils.aoa_to_sheet(sampleData);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Δείγμα Σχολών");
+            XLSX.writeFile(wb, "sample_schools_7_columns.xlsx");
+            showMessage('Το δείγμα Excel κατέβηκε επιτυχώς!', 'success');
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            const container = document.getElementById('status-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = message;
+            
+            container.innerHTML = '';
+            container.appendChild(messageDiv);
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.parentNode.removeChild(messageDiv);
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

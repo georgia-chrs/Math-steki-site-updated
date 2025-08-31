@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Διαχείριση Κωδικών Μαθητών - Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+  <style>
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .admin-header {
+      color: #6b6b6b;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .search-section {
+      background: #faf9f8;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .search-bar {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    
+    .btn {
+      background: #4d2c1e;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+    .btn:hover {
+      background: #F7C19C;
+        color: #BC5E29;
+        box-shadow: 0 0 0 2px rgba(183, 54, 22, 0.495);
+    }
+    
+    .btn-primary {
+      background: #ac4e26;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #F7C19C;
+        color: #BC5E29;
+    }
+    
+    .btn-success {
+      background: #e4835a;
+      color: white;
+    }
+    
+    .btn-success:hover {
+      background: #d67230;
+        color: #6d2b05;
+        box-shadow: 0 0 0 2px rgba(137, 28, 1, 0.495)
+    }
+    
+    .btn-danger {
+      background: #ec4141;
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      background: #ff6b5e;
+            color: #6d0505;
+            box-shadow: 0 0 0 2px rgba(137, 28, 1, 0.495);
+    }
+    
+    .btn-small {
+      padding: 8px 12px;
+      width: unset;
+      min-width: 130px;
+      font-size: 12px;
+      margin: 2px;
+    }
+    
+    .students-table {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    
+    .students-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .students-table th,
+    .students-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .students-table th {
+      background: #ff623f;
+      color: white;
+      font-weight: bold;
+    }
+    
+    .students-table tr:hover {
+      background: #f8f9fa;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+    
+    .modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80%;
+      overflow-y: auto;
+    }
+    
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .close:hover {
+      color: black;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .form-row .form-group {
+      flex: 1;
+    }
+    
+    .alert {
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      display: none;
+    }
+    
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .alert-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .password-field {
+      position: relative;
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      user-select: none;
+    }
+    
+    .code-display {
+      font-family: 'Courier New', monospace;
+      background: #f8f9fa;
+      padding: 5px 10px;
+      border-radius: 3px;
+      border: 1px solid #ddd;
+      display: inline-block;
+      min-width: 100px;
+      text-align: center;
+    }
+    
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .status-active {
+      background: #d4edda;
+      color: #155724;
+    }
+    
+    .status-inactive {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    
+    .status-expired {
+      background: #fff3cd;
+      color: #856404;
+    }
+    
+    @media (max-width: 768px) {
+      .search-bar {
+        flex-direction: column;
+      }
+      
+      .form-row {
+        flex-direction: column;
+      }
+      
+      .students-table {
+        overflow-x: auto;
+      }
+      
+      .action-buttons {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="logo"><img src="logo/b.png" alt="logo"></div>
+      <nav>
+        <a href="admin.html">Αρχική Σελίδα</a>
+        <a href="admin-kartela.html">Καρτέλα Μαθητή</a>
+        <a href="admin-programms.html">Πρόγραμμα Σπουδών</a>
+        <a href="admin-diaxirisi.html">Διαχείριση</a>
+        <div class="dropdown">
+          <a href="admin-panelladikes.html">Πανελλαδικές Εξετάσεις</a>
+          <div class="dropdown-content">
+            <a href="admin-calculator.html">Υπολογισμός Μορίων</a>
+            <a href="admin-pallia-themata.html">Παλιά Θέματα</a>
+            <a href="admin-vaseis-scholon.html">Βάσεις Σχολών</a>
+            <a href="admin-mixanografiko.html">Μηχανογραφικό</a>
+          </div>
+        </div>
+        <a href="admin-kodikoi.html"  style="color: #960e0e;">Κωδικοί</a>
+        <a href="admin-photos.html">Φωτογραφίες</a>
+        <a href="#">Σχετικά με εμάς</a>
+      </nav>
+      <div class="icons">
+        <a href="#"><img src="\elements\Group 17.svg" alt="fb" class="facebook-icon"></a>
+        <a href="#"><img src="\elements\mdi_instagram.svg" alt="insta" class="instagram-icon"></a>
+        <a href="#"><img src="\elements\phone.svg" alt="phone"></a>
+        <a href="#"><img src="\elements\mail.svg" alt="mail"></a>
+      </div>
+      <a href="index.html" class="login-btn" style="text-decoration: none;">Έξοδος</a>
+    </div>
+  </header>
+  
+  <main>
+    <div class="admin-container">
+      <div class="admin-header">
+        <h1>Διαχείριση Κωδικών Μαθητών</h1>
+        <p>Δημιουργία, επεξεργασία και διαχείριση κωδικών πρόσβασης μαθητών</p>
+      </div>
+
+      <!-- Alerts -->
+      <div id="alertSuccess" class="alert alert-success"></div>
+      <div id="alertError" class="alert alert-error"></div>
+
+      <!-- Security Warning -->
+      <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 15px; margin-bottom: 20px; border-left: 4px solid #f39c12;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 20px;"></span>
+          <div>
+            <strong style="color: #856404;">Προσοχή - Ευαίσθητα Δεδομένα</strong>
+            <p style="margin: 5px 0 0 0; color: #856404; font-size: 14px;">
+              Αυτή η σελίδα εμφανίζει κωδικούς πρόσβασης χρηστών σε μη κρυπτογραφημένη μορφή. 
+              Μην μοιραστείτε αυτές τις πληροφορίες και κλείστε τη σελίδα όταν τελειώσετε.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Section -->
+      <div class="search-section">
+        <h3>Αναζήτηση Κωδικών Μαθητών</h3>
+        <div class="search-bar">
+          <input type="text" id="searchInput" class="search-input" placeholder="Αναζήτηση με όνομα, επώνυμο ή username...">
+          
+        </div>
+        <select id="statusFilter" class="search-input" style="flex: 0 0 200px;">
+            <option value="">Όλες οι καταστάσεις</option>
+            <option value="active">Ενεργοί</option>
+            <option value="inactive">Ανενεργοί</option>
+            <option value="expired">Ληγμένοι</option>
+          </select>
+          <button class="btn btn-primary" style="margin: 10px;" onclick="searchStudentCodes()"> Αναζήτηση</button>
+          <button class="btn btn-success" style="margin: 10px;" onclick="generateBulkCodes()"> Μαζική Δημιουργία</button>
+      </div>
+
+      <!-- Students Codes Table -->
+      <div class="students-table">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Όνομα / Τύπος</th>
+              <th>Username</th>
+              <th> Κωδικός Πρόσβασης</th>
+              <th>Κατάσταση</th>
+              <th>Τελ. Σύνδεση</th>
+              <th>Ημ. Δημιουργίας</th>
+              <th>Ημ. Λήξης</th>
+              <th>Ενέργειες</th>
+            </tr>
+          </thead>
+          <tbody id="studentCodesTableBody">
+            <!-- Student codes will be loaded here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Edit Student Code Modal -->
+    <div id="editCodeModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeEditModal()">&times;</span>
+        <h2 id="modalTitle">Επεξεργασία Κωδικού Μαθητή</h2>
+        
+        <form id="studentCodeForm">
+          <input type="hidden" id="studentCodeId">
+          
+          <div class="form-group">
+            <label for="studentName">Όνομα Μαθητή</label>
+            <input type="text" id="studentName" readonly style="background: #f8f9fa;">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="username">Username *</label>
+              <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+              <label for="codeStatus">Κατάσταση</label>
+              <select id="codeStatus" required>
+                <option value="active">Ενεργός</option>
+                <option value="inactive">Ανενεργός</option>
+                <option value="expired">Ληγμένος</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Νέος Κωδικός (αφήστε κενό για να διατηρηθεί ο τρέχων)</label>
+            <div class="password-field">
+              <input type="password" id="password" placeholder="Εισάγετε νέο κωδικό...">
+              <span class="password-toggle" onclick="togglePassword('password')">👁️</span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="expiryDate">Ημερομηνία Λήξης</label>
+              <input type="date" id="expiryDate">
+            </div>
+            <div class="form-group">
+              <label for="maxSessions">Μέγιστες Συνεδρίες</label>
+              <input type="number" id="maxSessions" min="1" value="5">
+            </div>
+          </div>
+
+          <div style="text-align: center; margin-top: 30px;">
+            <button type="button" class="btn btn-primary" onclick="closeEditModal()">Ακύρωση</button>
+            <button type="submit" class="btn btn-success">Αποθήκευση</button>
+            <button type="button" class="btn btn-primary" onclick="generateNewPassword()">🔄 Δημιουργία Κωδικού</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bulk Code Generation Modal -->
+    <div id="bulkCodeModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeBulkModal()">&times;</span>
+        <h2>Μαζική Δημιουργία Κωδικών</h2>
+        
+        <div class="form-group">
+          <label for="bulkClass">Επιλέξτε Τάξη</label>
+          <select id="bulkClass" required>
+            <option value="">Επιλέξτε τάξη</option>
+            <option value="Α' Γυμνασίου">Α' Γυμνασίου</option>
+            <option value="Β' Γυμνασίου">Β' Γυμνασίου</option>
+            <option value="Γ' Γυμνασίου">Γ' Γυμνασίου</option>
+            <option value="Α' Λυκείου">Α' Λυκείου</option>
+            <option value="Β' Λυκείου">Β' Λυκείου</option>
+            <option value="Γ' Λυκείου">Γ' Λυκείου</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="bulkExpiryDate">Ημερομηνία Λήξης</label>
+            <input type="date" id="bulkExpiryDate">
+          </div>
+          <div class="form-group">
+            <label for="bulkMaxSessions">Μέγιστες Συνεδρίες</label>
+            <input type="number" id="bulkMaxSessions" min="1" value="10">
+          </div>
+        </div>
+
+        <div id="bulkPreview" style="margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 5px; display: none;">
+          <h4>Προεπισκόπηση:</h4>
+          <div id="bulkPreviewContent"></div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+          <button type="button" class="btn btn-primary" onclick="closeBulkModal()">Ακύρωση</button>
+          <button type="button" class="btn btn-primary" onclick="previewBulkGeneration()">Προεπισκόπηση</button>
+          <button type="button" class="btn btn-success" onclick="executeBulkGeneration()">Δημιουργία Κωδικών</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">Μαθητικό Στέκι</div>
+      <div class="footer-links">
+        <span>Καθηγητές:</span>
+        <span>...</span>
+      </div>
+      <div class="footer-map">
+        <img src="map.png" alt="Χάρτης">
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Μαθητικό Στέκι
+    </div>
+  </footer>
+
+  <script>
+    // Data variables
+    let studentCodes = [];
+    let filteredStudentCodes = [];
+
+    // Load all user passwords from API
+    async function loadAllUserPasswords() {
+      try {
+        const response = await fetch('/api/users/passwords');
+        const users = await response.json();
+        
+        // Μετατροπή των δεδομένων για να ταιριάζουν με το interface
+        studentCodes = users.map((user, index) => ({
+          id: user.id,
+          studentId: user.id,
+          studentName: user.name,
+          username: user.username,
+          password: user.password,
+          status: 'active',
+          type: user.type, // Admin ή Μαθητής
+          role: user.role,
+          lastLogin: 'Ποτέ',
+          createdDate: new Date().toISOString().split('T')[0],
+          expiryDate: '2025-06-30',
+          maxSessions: 5,
+          currentSessions: 0
+        }));
+        
+        filteredStudentCodes = [...studentCodes];
+        loadStudentCodes();
+        
+        console.log('Φορτώθηκαν κωδικοί χρηστών:', studentCodes);
+      } catch (error) {
+        console.error('Σφάλμα φόρτωσης κωδικών:', error);
+        // Fallback στα sample δεδομένα αν αποτύχει
+        studentCodes = [
+          {
+            id: 1,
+            studentName: "Test User",
+            username: "test",
+            password: "123",
+            status: "active",
+            type: "Μαθητής"
+          }
+        ];
+        filteredStudentCodes = [...studentCodes];
+        loadStudentCodes();
+      }
+    }
+
+    // Load student codes on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      loadAllUserPasswords();
+      
+      // Set default expiry date (6 months from now)
+      const defaultExpiry = new Date();
+      defaultExpiry.setMonth(defaultExpiry.getMonth() + 6);
+      document.getElementById('expiryDate').value = defaultExpiry.toISOString().split('T')[0];
+      document.getElementById('bulkExpiryDate').value = defaultExpiry.toISOString().split('T')[0];
+    });
+
+    // Search functionality
+    function searchStudentCodes() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const statusFilter = document.getElementById('statusFilter').value;
+
+      filteredStudentCodes = studentCodes.filter(code => {
+        const matchesSearch = !searchTerm || 
+          code.studentName.toLowerCase().includes(searchTerm) ||
+          code.username.toLowerCase().includes(searchTerm);
+
+        const matchesStatus = !statusFilter || code.status === statusFilter;
+
+        return matchesSearch && matchesStatus;
+      });
+
+      loadStudentCodes();
+    }
+
+    // Load student codes into table
+    function loadStudentCodes() {
+      const tbody = document.getElementById('studentCodesTableBody');
+      tbody.innerHTML = '';
+
+      if (filteredStudentCodes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 30px;">Δεν βρέθηκαν κωδικοί</td></tr>';
+        return;
+      }
+
+      filteredStudentCodes.forEach(code => {
+        const row = document.createElement('tr');
+        const statusClass = `status-${code.status}`;
+        
+        row.innerHTML = `
+          <td>${code.id}</td>
+          <td>
+            ${code.studentName}
+            <br><small style="color: #666;">${code.type || 'Μαθητής'}</small>
+          </td>
+          <td><span class="code-display">${code.username}</span></td>
+          <td>
+            <span class="code-display" style="font-weight: bold; color: #2C5F4F; font-family: monospace;">${code.password}</span>
+            <br><small style="color: #888;">Προσοχή: Ευαίσθητη πληροφορία</small>
+          </td>
+          <td><span class="status-badge ${statusClass}">${getStatusText(code.status)}</span></td>
+          <td>${formatDate(code.lastLogin)}</td>
+          <td>${formatDate(code.createdDate)}</td>
+          <td>${formatDate(code.expiryDate)}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-primary btn-small" onclick="editUserPassword('${code.username}', '${code.role}')">Αλλαγή Κωδικού</button>
+              <button class="btn btn-success btn-small" onclick="resetPassword(${code.id})">Reset Password</button>
+              <button class="btn btn-danger btn-small" onclick="deactivateCode(${code.id})">Απενεργοποίηση</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function getStatusText(status) {
+      switch(status) {
+        case 'active': return 'Ενεργός';
+        case 'inactive': return 'Ανενεργός';
+        case 'expired': return 'Ληγμένος';
+        default: return status;
+      }
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return '-';
+      const date = new Date(dateString);
+      return date.toLocaleDateString('el-GR');
+    }
+
+    function editStudentCode(id) {
+      const code = studentCodes.find(c => c.id === id);
+      if (!code) return;
+
+      document.getElementById('modalTitle').textContent = `Επεξεργασία Κωδικού - ${code.studentName}`;
+      document.getElementById('studentCodeId').value = code.id;
+      document.getElementById('studentName').value = code.studentName;
+      document.getElementById('username').value = code.username;
+      document.getElementById('codeStatus').value = code.status;
+      document.getElementById('password').value = '';
+      document.getElementById('expiryDate').value = code.expiryDate || '';
+      document.getElementById('maxSessions').value = code.maxSessions || 5;
+      
+      document.getElementById('editCodeModal').style.display = 'block';
+    }
+
+    function closeEditModal() {
+      document.getElementById('editCodeModal').style.display = 'none';
+    }
+
+    function resetPassword(id) {
+      const code = studentCodes.find(c => c.id === id);
+      if (!code) return;
+
+      if (confirm(`Είστε βέβαιοι ότι θέλετε να επαναφέρετε τον κωδικό για τον μαθητή ${code.studentName};`)) {
+        const newPassword = generateRandomPassword();
+        code.password = newPassword;
+        code.status = 'active';
+        
+        loadStudentCodes();
+        showAlert(`Νέος κωδικός για ${code.studentName}: ${newPassword}`, 'success');
+      }
+    }
+
+    function deactivateCode(id) {
+      const code = studentCodes.find(c => c.id === id);
+      if (!code) return;
+
+      if (confirm(`Είστε βέβαιοι ότι θέλετε να απενεργοποιήσετε τον κωδικό για τον μαθητή ${code.studentName};`)) {
+        code.status = 'inactive';
+        loadStudentCodes();
+        showAlert(`Ο κωδικός για τον ${code.studentName} απενεργοποιήθηκε!`, 'success');
+      }
+    }
+
+    function generateRandomPassword() {
+      const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789!@#$%';
+      let password = 'St2025!';
+      for (let i = 0; i < 4; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return password;
+    }
+
+    function generateNewPassword() {
+      const newPassword = generateRandomPassword();
+      document.getElementById('password').value = newPassword;
+    }
+
+    function togglePassword(fieldId) {
+      const field = document.getElementById(fieldId);
+      const toggle = field.nextElementSibling;
+      
+      if (field.type === 'password') {
+        field.type = 'text';
+        toggle.textContent = '🙈';
+      } else {
+        field.type = 'password';
+        toggle.textContent = '👁️';
+      }
+    }
+
+    // Bulk code generation
+    function generateBulkCodes() {
+      document.getElementById('bulkCodeModal').style.display = 'block';
+    }
+
+    function closeBulkModal() {
+      document.getElementById('bulkCodeModal').style.display = 'none';
+      document.getElementById('bulkPreview').style.display = 'none';
+    }
+
+    function previewBulkGeneration() {
+      const selectedClass = document.getElementById('bulkClass').value;
+      if (!selectedClass) {
+        showAlert('Παρακαλώ επιλέξτε τάξη!', 'error');
+        return;
+      }
+
+      // Simulate students from selected class
+      const studentsInClass = [
+        { id: 4, name: "Αννα Κώστου" },
+        { id: 5, name: "Πέτρος Σάββας" },
+        { id: 6, name: "Ελένη Μιχαήλ" }
+      ]; // This should come from actual database
+
+      const preview = document.getElementById('bulkPreviewContent');
+      preview.innerHTML = `
+        <p><strong>Τάξη:</strong> ${selectedClass}</p>
+        <p><strong>Μαθητές που θα λάβουν κωδικούς:</strong> ${studentsInClass.length}</p>
+        <ul>
+          ${studentsInClass.map(s => `<li>${s.name}</li>`).join('')}
+        </ul>
+      `;
+      
+      document.getElementById('bulkPreview').style.display = 'block';
+    }
+
+    function executeBulkGeneration() {
+      const selectedClass = document.getElementById('bulkClass').value;
+      const expiryDate = document.getElementById('bulkExpiryDate').value;
+      const maxSessions = document.getElementById('bulkMaxSessions').value;
+
+      if (!selectedClass) {
+        showAlert('Παρακαλώ επιλέξτε τάξη!', 'error');
+        return;
+      }
+
+      // Simulate bulk generation
+      const newCodes = [
+        { studentName: "Αννα Κώστου", username: "anna.k", password: generateRandomPassword() },
+        { studentName: "Πέτρος Σάββας", username: "petros.s", password: generateRandomPassword() },
+        { studentName: "Ελένη Μιχαήλ", username: "eleni.m", password: generateRandomPassword() }
+      ];
+
+      newCodes.forEach((newCode, index) => {
+        const id = Math.max(...studentCodes.map(c => c.id)) + index + 1;
+        studentCodes.push({
+          id: id,
+          studentId: id + 10,
+          studentName: newCode.studentName,
+          username: newCode.username,
+          password: newCode.password,
+          status: 'active',
+          lastLogin: null,
+          createdDate: new Date().toISOString().split('T')[0],
+          expiryDate: expiryDate,
+          maxSessions: parseInt(maxSessions),
+          currentSessions: 0
+        });
+      });
+
+      filteredStudentCodes = [...studentCodes];
+      loadStudentCodes();
+      closeBulkModal();
+
+      const codesList = newCodes.map(c => `${c.studentName}: ${c.username} / ${c.password}`).join('<br>');
+      showAlert(`Δημιουργήθηκαν ${newCodes.length} κωδικοί:<br>${codesList}`, 'success');
+    }
+
+    // Form submission
+    document.getElementById('studentCodeForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const codeId = parseInt(document.getElementById('studentCodeId').value);
+      const code = studentCodes.find(c => c.id === codeId);
+      
+      if (!code) return;
+
+      // Update code data
+      code.username = document.getElementById('username').value;
+      code.status = document.getElementById('codeStatus').value;
+      code.expiryDate = document.getElementById('expiryDate').value;
+      code.maxSessions = parseInt(document.getElementById('maxSessions').value);
+
+      const newPassword = document.getElementById('password').value;
+      if (newPassword) {
+        code.password = newPassword;
+      }
+
+      closeEditModal();
+      loadStudentCodes();
+      showAlert('Οι αλλαγές αποθηκεύτηκαν επιτυχώς!', 'success');
+    });
+
+    // Show alert messages
+    function showAlert(message, type) {
+      const alertElement = type === 'success' ? 
+        document.getElementById('alertSuccess') : 
+        document.getElementById('alertError');
+      
+      alertElement.innerHTML = message;
+      alertElement.style.display = 'block';
+      
+      setTimeout(() => {
+        alertElement.style.display = 'none';
+      }, 8000);
+    }
+
+    // Auto search on input change
+    document.getElementById('searchInput').addEventListener('input', searchStudentCodes);
+    document.getElementById('statusFilter').addEventListener('change', searchStudentCodes);
+
+    // Function to edit user password
+    async function editUserPassword(username, userType) {
+      const newPassword = prompt(`Εισάγετε νέο κωδικό για τον χρήστη "${username}":`, '');
+      
+      if (newPassword === null || newPassword.trim() === '') {
+        return; // User cancelled or empty password
+      }
+      
+      if (newPassword.length < 3) {
+        showAlert('error', 'Ο κωδικός πρέπει να έχει τουλάχιστον 3 χαρακτήρες');
+        return;
+      }
+      
+      try {
+        const response = await fetch(`/api/users/${username}/password`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            newPassword: newPassword,
+            userType: userType
+          })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          showAlert('success', `Κωδικός ενημερώθηκε επιτυχώς για τον χρήστη "${username}"`);
+          // Ανανεώνουμε τα δεδομένα
+          loadAllUserPasswords();
+        } else {
+          showAlert('error', result.error || 'Σφάλμα κατά την ενημέρωση του κωδικού');
+        }
+      } catch (error) {
+        showAlert('error', 'Σφάλμα σύνδεσης με τον server');
+        console.error('Error updating password:', error);
+      }
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const editModal = document.getElementById('editCodeModal');
+      const bulkModal = document.getElementById('bulkCodeModal');
+      
+      if (event.target === editModal) {
+        closeEditModal();
+      }
+      if (event.target === bulkModal) {
+        closeBulkModal();
+      }
+    }
+  </script>
+</body>
+</html>

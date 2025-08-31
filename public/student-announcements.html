@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ανακοινώσεις και Ημερολόγιο - Math Steki</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .announcements-calendar-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .page-title {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .student-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #007bff;
+        }
+
+        .view-toggles {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .view-toggle {
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            background: white;
+            color: #007bff;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .view-toggle.active {
+            background: #007bff;
+            color: white;
+        }
+
+        .view-toggle:hover {
+            background: #0056b3;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .filters-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .filter-group select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .content-sections {
+            margin-top: 30px;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Announcements Styles */
+        .announcements-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title.urgent {
+            color: #dc3545;
+            border-bottom-color: #dc3545;
+        }
+
+        .announcement-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .announcement-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .announcement-card.urgent {
+            border-left: 4px solid #dc3545;
+            background: #fff5f5;
+        }
+
+        .announcement-card.high {
+            border-left: 4px solid #fd7e14;
+            background: #fffaf5;
+        }
+
+        .announcement-card.normal {
+            border-left: 4px solid #007bff;
+        }
+
+        .announcement-card.low {
+            border-left: 4px solid #6c757d;
+        }
+
+        .new-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+
+        .announcement-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #333;
+            margin: 0 0 8px 0;
+        }
+
+        .announcement-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .priority-badge,
+        .type-badge,
+        .target-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .type-badge {
+            background: #6c757d;
+        }
+
+        .target-badge {
+            background: #28a745;
+        }
+
+        .announcement-date {
+            color: #666;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .announcement-content {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .announcement-attachments {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .attachment-link {
+            display: inline-block;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .attachment-link:hover {
+            text-decoration: underline;
+        }
+
+        .attachment-pdf {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .announcement-footer {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            text-align: right;
+        }
+
+        .mark-read-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .mark-read-btn:hover {
+            background: #1e7e34;
+        }
+
+        .announcement-card.read {
+            opacity: 0.7;
+            background: #f8f9fa;
+        }
+
+        .no-announcements {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .no-announcements-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        /* Calendar Integration Styles */
+        .event-card {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .event-card.announcement {
+            border-left: 4px solid #17a2b8;
+            background: #f0f9ff;
+        }
+
+        .loading-message {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2em;
+            }
+            
+            .view-toggles {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filters-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .announcement-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .announcement-meta {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="announcements-calendar-container">
+        <div class="page-header">
+            <h1 class="page-title">Ανακοινώσεις & Ημερολόγιο</h1>
+            <div id="studentInfo" class="student-info" style="display: none;">
+                <div id="studentDetails"></div>
+            </div>
+        </div>
+
+        <div class="view-toggles">
+            <button class="view-toggle active" data-view="announcements">
+                Ανακοινώσεις
+            </button>
+            <button class="view-toggle" data-view="calendar">
+                Ημερολόγιο
+            </button>
+            <button class="view-toggle" data-view="combined">
+                Συνδυασμένη Προβολή
+            </button>
+        </div>
+
+        <div class="filters-section">
+            <div class="filter-group">
+                <label for="priorityFilter">Προτεραιότητα:</label>
+                <select id="priorityFilter">
+                    <option value="">Όλες</option>
+                    <option value="urgent">Επείγουσες</option>
+                    <option value="high">Υψηλή</option>
+                    <option value="normal">Κανονική</option>
+                    <option value="low">Χαμηλή</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="typeFilter">Τύπος:</label>
+                <select id="typeFilter">
+                    <option value="">Όλοι</option>
+                    <option value="general">Γενική</option>
+                    <option value="class">Τάξη</option>
+                    <option value="subject">Τμήμα</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <button onclick="refreshContent()" class="view-toggle" style="padding: 8px 16px; font-size: 14px;">
+                    Ανανέωση
+                </button>
+            </div>
+        </div>
+
+        <div id="loadingMessage" class="loading-message">
+            Φόρτωση δεδομένων...
+        </div>
+
+        <div class="content-sections">
+            <!-- Announcements View -->
+            <div id="announcementsView" class="content-section active">
+                <div id="announcementsList">
+                    <!-- Announcements will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Calendar View -->
+            <div id="calendarView" class="content-section">
+                <div id="calendarContent">
+                    <div id="upcomingEventsList">
+                        <!-- Upcoming events will be loaded here -->
+                    </div>
+                    <div id="pastEventsList">
+                        <!-- Past events will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Combined View -->
+            <div id="combinedView" class="content-section">
+                <div id="combinedContent">
+                    <!-- Combined announcements and calendar will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="main-announcements.js"></script>
+    <script src="calendar.js"></script>
+    <script>
+        let currentView = 'announcements';
+        let studentData = null;
+        let announcements = [];
+        let calendarEvents = [];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async function() {
+            await initializePage();
+            setupEventListeners();
+        });
+
+        async function initializePage() {
+            try {
+                // Load student info
+                const username = getStudentUsername();
+                if (!username) {
+                    document.getElementById('loadingMessage').textContent = 'Δεν βρέθηκε σύνδεση μαθητή. Παρακαλώ συνδεθείτε ξανά.';
+                    return;
+                }
+
+                // Load student profile
+                const response = await fetch(`/api/student/profile/${username}`);
+                if (response.ok) {
+                    studentData = await response.json();
+                    displayStudentInfo(studentData);
+                } else {
+                    throw new Error('Δεν ήταν δυνατή η φόρτωση των στοιχείων μαθητή');
+                }
+
+                // Load announcements and calendar events
+                await loadAllContent();
+                
+            } catch (error) {
+                console.error('Error initializing page:', error);
+                document.getElementById('loadingMessage').textContent = 'Σφάλμα κατά τη φόρτωση της σελίδας.';
+            }
+        }
+
+        async function loadAllContent() {
+            try {
+                // Load announcements
+                const announcementsResponse = await fetch(`/announcements/student/username/${getStudentUsername()}`);
+                if (announcementsResponse.ok) {
+                    announcements = await announcementsResponse.json();
+                }
+
+                // Load calendar events
+                if (studentData) {
+                    const calendarResponse = await fetch(`/api/calendar/${studentData.id}`);
+                    if (calendarResponse.ok) {
+                        calendarEvents = await calendarResponse.json();
+                    }
+                }
+
+                // Update current view
+                updateCurrentView();
+                document.getElementById('loadingMessage').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading content:', error);
+                document.getElementById('loadingMessage').textContent = 'Σφάλμα κατά τη φόρτωση των δεδομένων.';
+            }
+        }
+
+        function setupEventListeners() {
+            // View toggle buttons
+            document.querySelectorAll('.view-toggle').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.dataset.view) {
+                        switchView(this.dataset.view);
+                    }
+                });
+            });
+
+            // Filter listeners
+            document.getElementById('priorityFilter').addEventListener('change', updateCurrentView);
+            document.getElementById('typeFilter').addEventListener('change', updateCurrentView);
+        }
+
+        function switchView(view) {
+            currentView = view;
+            
+            // Update toggle buttons
+            document.querySelectorAll('.view-toggle').forEach(button => {
+                button.classList.remove('active');
+                if (button.dataset.view === view) {
+                    button.classList.add('active');
+                }
+            });
+
+            // Update content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            document.getElementById(view + 'View').classList.add('active');
+            updateCurrentView();
+        }
+
+        function updateCurrentView() {
+            switch(currentView) {
+                case 'announcements':
+                    displayAnnouncements(announcements);
+                    break;
+                case 'calendar':
+                    displayCalendarEvents(calendarEvents);
+                    break;
+                case 'combined':
+                    displayCombinedView(announcements, calendarEvents);
+                    break;
+            }
+        }
+
+        function displayCalendarEvents(events) {
+            const container = document.getElementById('calendarContent');
+            
+            if (events.length === 0) {
+                container.innerHTML = '<div class="no-announcements"><div class="no-announcements-icon">📅</div><h3>Δεν υπάρχουν γεγονότα</h3><p>Δεν υπάρχουν προγραμματισμένα γεγονότα.</p></div>';
+                return;
+            }
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const upcomingEvents = events.filter(event => new Date(event.entry_date) >= today);
+            const pastEvents = events.filter(event => new Date(event.entry_date) < today);
+
+            let html = '';
+            
+            if (upcomingEvents.length > 0) {
+                html += '<h2 class="section-title">📅 Προσεχή Γεγονότα</h2>';
+                html += upcomingEvents.map(event => createEventCard(event, true)).join('');
+            }
+
+            if (pastEvents.length > 0) {
+                html += '<h2 class="section-title">📚 Παλαιότερα Γεγονότα</h2>';
+                html += pastEvents.map(event => createEventCard(event, false)).join('');
+            }
+
+            container.innerHTML = html;
+        }
+
+        function displayCombinedView(announcements, events) {
+            const container = document.getElementById('combinedContent');
+            
+            // Convert announcements to events format and merge
+            const announcementEvents = announcements.map(announcement => ({
+                type: 'announcement',
+                title: `📢 ${announcement.title}`,
+                description: announcement.content,
+                date: announcement.start_date || announcement.created_at,
+                priority: announcement.priority,
+                data: announcement
+            }));
+
+            const calendarEventData = events.map(event => ({
+                type: 'calendar',
+                title: event.title,
+                description: event.description,
+                date: event.entry_date,
+                priority: 'normal',
+                data: event
+            }));
+
+            const allEvents = [...announcementEvents, ...calendarEventData];
+            allEvents.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (allEvents.length === 0) {
+                container.innerHTML = '<div class="no-announcements"><div class="no-announcements-icon">📋</div><h3>Δεν υπάρχουν δεδομένα</h3><p>Δεν υπάρχουν ανακοινώσεις ή γεγονότα.</p></div>';
+                return;
+            }
+
+            const html = allEvents.map(item => {
+                if (item.type === 'announcement') {
+                    return createAnnouncementCard(item.data);
+                } else {
+                    return createEventCard(item.data, true);
+                }
+            }).join('');
+
+            container.innerHTML = html;
+        }
+
+        function displayStudentInfo(student) {
+            const studentInfo = document.getElementById('studentInfo');
+            const studentDetails = document.getElementById('studentDetails');
+            
+            studentDetails.innerHTML = `
+                <div><strong>👤 Όνομα:</strong> ${student.first_name} ${student.last_name}</div>
+                <div><strong>🎓 Τάξη:</strong> ${student.class}</div>
+                <div><strong>📱 Τηλέφωνο:</strong> ${student.phone}</div>
+            `;
+            
+            studentInfo.style.display = 'block';
+        }
+
+        async function refreshContent() {
+            document.getElementById('loadingMessage').style.display = 'block';
+            await loadAllContent();
+        }
+
+        // Use existing functions from main-announcements.js and calendar.js
+        function getStudentUsername() {
+            return sessionStorage.getItem('username');
+        }
+    </script>
+</body>
+</html>

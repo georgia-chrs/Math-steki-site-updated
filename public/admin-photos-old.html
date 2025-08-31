@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Διαχείριση Φωτογραφιών</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .admin-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .admin-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .admin-header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .admin-header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .admin-content {
+      padding: 2rem;
+    }
+
+    /* Upload Section */
+    .upload-section {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 3px dashed #dee2e6;
+      transition: all 0.3s ease;
+    }
+
+    .upload-section:hover {
+      border-color: #667eea;
+      background: #f0f2ff;
+    }
+
+    .upload-area {
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      color: #667eea;
+      margin-bottom: 1rem;
+    }
+
+    .upload-text {
+      font-size: 1.2rem;
+      color: #495057;
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-subtext {
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+
+    #photoInput {
+      display: none;
+    }
+
+    .upload-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .upload-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Photos Grid */
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .photo-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-info {
+      padding: 1rem;
+    }
+
+    .photo-name {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .photo-size {
+      color: #6c757d;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .photo-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+    }
+
+    .btn-view {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .btn-view:hover {
+      background: #bbdefb;
+    }
+
+    .btn-delete {
+      background: #ffebee;
+      color: #d32f2f;
+    }
+
+    .btn-delete:hover {
+      background: #ffcdd2;
+    }
+
+    .delete-overlay {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(211, 47, 47, 0.9);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .photo-card:hover .delete-overlay {
+      opacity: 1;
+    }
+
+    .delete-overlay:hover {
+      background: #d32f2f;
+      transform: scale(1.1);
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #e9ecef;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+
+    /* Success/Error Messages */
+    .alert {
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    /* Loading Spinner */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Stats Section */
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 0.5rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .admin-header h1 {
+        font-size: 2rem;
+      }
+      
+      .photos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+      
+      .stats-section {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="logo"><img src="logo.png" alt="logo"></div>
+      <nav>
+        <a href="#">Αρχική Σελίδα</a>
+        <a href="#">Προγράμματα</a>
+        <a href="#">Πανελλαδικές Εξετάσεις</a>
+        <a href="#">Φωτογραφίες</a>
+        <a href="#">Σχετικά με εμάς</a>
+      </nav>
+      <div class="icons">
+        <a href="#"><img src="\elements\Group 17.svg" alt="fb" class="facebook-icon"></a>
+        <a href="#"><img src="\elements\mdi_instagram.svg" alt="insta" class="instagram-icon"></a>
+        <a href="#"><img src="\elements\phone.svg" alt="phone"></a>
+        <a href="#"><img src="\elements\mail.svg" alt="mail"></a>
+      </div>
+      <a href="../index2.html" class="login-btn" style="text-decoration: none;">Είσοδος</a>
+    </div>
+  </header>
+  
+  <main>
+    <div class="photos-container">
+      <h1>Φωτογραφίες του Μαθητικού Στεκιού</h1>
+      
+      <div class="photo-gallery">
+        <div class="gallery-container">
+          <button class="nav-btn prev-btn" id="prevBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          
+          <div class="photos-wrapper">
+            <div class="photo-slide active">
+              <img src="../photos/i1.jpeg" alt="Μαθητικό Στέκι - Εικόνα 1">
+              <div class="photo-caption">Εξωτερική άποψη του Μαθητικού Στεκιού</div>
+            </div>
+            <div class="photo-slide">
+              <img src="/photos/i2.jpeg" alt="Μαθητικό Στέκι - Εικόνα 2">
+              <div class="photo-caption">Εσωτερικός χώρος - Διάδρομος</div>
+            </div>
+            <div class="photo-slide">
+              <img src="/photos/i3.jpeg" alt="Μαθητικό Στέκι - Εικόνα 3">
+              <div class="photo-caption">Αίθουσα διδασκαλίας</div>
+            </div>
+            <div class="photo-slide">
+              <img src="/photos/i4.png" alt="Μαθητικό Στέκι - Εικόνα 4">
+              <div class="photo-caption">Χώρος μελέτης</div>
+            </div>
+            <div class="photo-slide">
+              <img src="../photos/i5.png" alt="Μαθητικό Στέκι - Εικόνα 5">
+              <div class="photo-caption">Δημιουργικές δραστηριότητες μαθητών</div>
+            </div>
+            <div class="photo-slide">
+              <img src="../photos/i6.jpeg" alt="Μαθητικό Στέκι - Εικόνα 6">
+              <div class="photo-caption">Εορταστικές στιγμές</div>
+            </div>
+            <div class="photo-slide">
+              <img src="../photos/i7.jpeg" alt="Μαθητικό Στέκι - Εικόνα 7">
+              <div class="photo-caption">Χριστουγεννιάτικη ατμόσφαιρα</div>
+            </div>
+            <div class="photo-slide">
+              <img src="../photos/i8.jpeg" alt="Μαθητικό Στέκι - Εικόνα 8">
+              <div class="photo-caption">Εορταστικός στολισμός</div>
+            </div>
+          </div>
+          
+          <button class="nav-btn next-btn" id="nextBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="photo-thumbnails">
+          <div class="thumbnail active" data-slide="0">
+            <img src="../photos/i1.jpeg" alt="Thumbnail 1">
+          </div>
+          <div class="thumbnail" data-slide="1">
+            <img src="../photos/i2.jpeg" alt="Thumbnail 2">
+          </div>
+          <div class="thumbnail" data-slide="2">
+            <img src="../photos/i3.jpeg" alt="Thumbnail 3">
+          </div>
+          <div class="thumbnail" data-slide="3">
+            <img src="../photos/i4.png" alt="Thumbnail 4">
+          </div>
+          <div class="thumbnail" data-slide="4">
+            <img src="../photos/i5.png" alt="Thumbnail 5">
+          </div>
+          <div class="thumbnail" data-slide="5">
+            <img src="../photos/i6.jpeg" alt="Thumbnail 6">
+          </div>
+          <div class="thumbnail" data-slide="6">
+            <img src="../photos/i7.jpeg" alt="Thumbnail 7">
+          </div>
+          <div class="thumbnail" data-slide="7">
+            <img src="../photos/i8.jpeg" alt="Thumbnail 8">
+          </div>
+        </div>
+        
+        <div class="photo-counter">
+          <span id="currentPhoto">1</span> / <span id="totalPhotos">8</span>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">Μαθητικό Στέκι</div>
+      <div class="footer-links"  data-id="footer-links">
+        <span>Καθηγητές:</span>
+        <span>...</span>
+      </div>
+      <div class="footer-map" >
+        <img src="map.png" alt="Χάρτης">
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Μαθητικό Στέκι
+    </div>
+  </footer>
+  
+  <script src="../main.js"></script>
+  <script src="../client-text.js"></script>
+  
+  <script>
+    class PhotoGallery {
+      constructor() {
+        this.currentSlide = 0;
+        this.slides = document.querySelectorAll('.photo-slide');
+        this.thumbnails = document.querySelectorAll('.thumbnail');
+        this.totalSlides = this.slides.length;
+        this.autoSlideInterval = null;
+        
+        this.init();
+      }
+      
+      init() {
+        // Ensure first slide is visible
+        this.slides[0].classList.add('active');
+        this.thumbnails[0].classList.add('active');
+        
+        // Event listeners for navigation buttons
+        document.getElementById('prevBtn').addEventListener('click', () => this.prevSlide());
+        document.getElementById('nextBtn').addEventListener('click', () => this.nextSlide());
+        
+        // Event listeners for thumbnails
+        this.thumbnails.forEach((thumb, index) => {
+          thumb.addEventListener('click', () => this.goToSlide(index));
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') this.prevSlide();
+          if (e.key === 'ArrowRight') this.nextSlide();
+        });
+        
+        // Touch/swipe support
+        this.addTouchSupport();
+        
+        // Auto-slide functionality
+        this.startAutoSlide();
+        
+        // Pause auto-slide on hover
+        const gallery = document.querySelector('.gallery-container');
+        gallery.addEventListener('mouseenter', () => this.stopAutoSlide());
+        gallery.addEventListener('mouseleave', () => this.startAutoSlide());
+        
+        // Update counter
+        this.updateCounter();
+      }
+      
+      goToSlide(slideIndex) {
+        // Remove active classes
+        this.slides[this.currentSlide].classList.remove('active');
+        this.thumbnails[this.currentSlide].classList.remove('active');
+        
+        // Add prev class for smooth transition
+        if (slideIndex < this.currentSlide) {
+          this.slides[this.currentSlide].classList.add('prev');
+        }
+        
+        // Update current slide
+        this.currentSlide = slideIndex;
+        
+        // Add active classes
+        this.slides[this.currentSlide].classList.add('active');
+        this.thumbnails[this.currentSlide].classList.add('active');
+        
+        // Remove prev class after transition
+        setTimeout(() => {
+          this.slides.forEach(slide => slide.classList.remove('prev'));
+        }, 600);
+        
+        this.updateCounter();
+      }
+      
+      nextSlide() {
+        const nextIndex = (this.currentSlide + 1) % this.totalSlides;
+        this.goToSlide(nextIndex);
+      }
+      
+      prevSlide() {
+        const prevIndex = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+        this.goToSlide(prevIndex);
+      }
+      
+      updateCounter() {
+        document.getElementById('currentPhoto').textContent = this.currentSlide + 1;
+        document.getElementById('totalPhotos').textContent = this.totalSlides;
+      }
+      
+      startAutoSlide() {
+        this.stopAutoSlide();
+        this.autoSlideInterval = setInterval(() => {
+          this.nextSlide();
+        }, 5000); // Change slide every 5 seconds
+      }
+      
+      stopAutoSlide() {
+        if (this.autoSlideInterval) {
+          clearInterval(this.autoSlideInterval);
+          this.autoSlideInterval = null;
+        }
+      }
+      
+      addTouchSupport() {
+        const gallery = document.querySelector('.photos-wrapper');
+        let startX = 0;
+        let endX = 0;
+        
+        gallery.addEventListener('touchstart', (e) => {
+          startX = e.touches[0].clientX;
+        });
+        
+        gallery.addEventListener('touchmove', (e) => {
+          e.preventDefault(); // Prevent scrolling
+        });
+        
+        gallery.addEventListener('touchend', (e) => {
+          endX = e.changedTouches[0].clientX;
+          const difference = startX - endX;
+          
+          if (Math.abs(difference) > 50) { // Minimum swipe distance
+            if (difference > 0) {
+              this.nextSlide(); // Swipe left - next slide
+            } else {
+              this.prevSlide(); // Swipe right - previous slide
+            }
+          }
+        });
+      }
+    }
+    
+    // Initialize gallery when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      // Simple image loading handler
+      const images = document.querySelectorAll('.photo-slide img, .thumbnail img');
+      let loadedCount = 0;
+      let errorCount = 0;
+      
+      images.forEach((img, index) => {
+        img.addEventListener('error', function() {
+          errorCount++;
+          
+          // Create a placeholder
+          const placeholder = document.createElement('div');
+          placeholder.style.cssText = `
+            width: 100%;
+            height: 100%;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+          `;
+          placeholder.textContent = `Εικόνα ${index + 1} - Δεν βρέθηκε`;
+          this.parentNode.replaceChild(placeholder, this);
+        });
+        
+        img.addEventListener('load', function() {
+          loadedCount++;
+          this.classList.add('loaded');
+        });
+      });
+      
+      new PhotoGallery();
+    });
+    
+    // Image loading with error handling
+    document.addEventListener('DOMContentLoaded', () => {
+      const images = document.querySelectorAll('.photo-slide img, .thumbnail img');
+      images.forEach((img, index) => {
+        console.log(`Image ${index + 1}: ${img.src}`);
+      });
+    });
+  </script>
+
+
+</body>
+</html>

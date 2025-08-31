@@ -1,0 +1,46 @@
+[
+  {
+    "id": "tech_001",
+    "name": "Ανώτατη Σχολή Καλών Τεχνών - Εικαστικών Τεχνών",
+    "schoolType": "epal",
+    "scientificField": "efarmosmenon_technon",
+    "baseMoria": 13500,
+    "minMoria": 12000,
+    "maxMoria": 15000,
+    "avgMoria": 13500,
+    "category": "Καλών Τεχνών"
+  },
+  {
+    "id": "tech_002",
+    "name": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης - Εικαστικών και Εφαρμοσμένων Τεχνών",
+    "schoolType": "epal",
+    "scientificField": "efarmosmenon_technon",
+    "baseMoria": 13000,
+    "minMoria": 11500,
+    "maxMoria": 14500,
+    "avgMoria": 13000,
+    "category": "Καλών Τεχνών"
+  },
+  {
+    "id": "tech_003",
+    "name": "Πανεπιστήμιο Δυτικής Αττικής - Γραφιστικής και Οπτικής Επικοινωνίας",
+    "schoolType": "epal",
+    "scientificField": "efarmosmenon_technon",
+    "baseMoria": 12500,
+    "minMoria": 11000,
+    "maxMoria": 14000,
+    "avgMoria": 12500,
+    "category": "Καλών Τεχνών"
+  },
+  {
+    "id": "tech_004",
+    "name": "Πανεπιστήμιο Ιωαννίνων - Εικαστικών Τεχνών",
+    "schoolType": "epal",
+    "scientificField": "efarmosmenon_technon",
+    "baseMoria": 12000,
+    "minMoria": 10500,
+    "maxMoria": 13500,
+    "avgMoria": 12000,
+    "category": "Καλών Τεχνών"
+  }
+]

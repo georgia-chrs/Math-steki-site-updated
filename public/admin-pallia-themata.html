@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Διαχείριση Παλιών Θεμάτων - Admin</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: #fff; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.1); 
+        }
+      
+        /* Upload Section */
+        .upload-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #5b3c2a;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+        
+        
+        
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+      
+        
+        .file-input-button {
+            display: block;
+            padding: 10px;
+            background: #ff7e5f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            width: 50%;
+        }
+        
+        .file-input-button:hover {
+            background: #ffb09c;
+        }
+        
+        .btn {
+            background: #4d2c1e;
+            color: #fff;
+            width: auto;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #F7C19C;
+            color: #BC5E29;
+            box-shadow: 0 0 0 2px rgba(183, 54, 22, 0.495);
+        }
+        
+        .btn-primary {
+             background: #ac4e26;
+        }
+        
+        .btn-primary:hover {
+            background: #F7C19C;
+            color: #BC5E29;
+        }
+        
+        .btn-danger {
+            background: #ec4141;
+        }
+        
+        .btn-danger:hover {
+            background: #ff6b5e;
+            color: #6d0505;
+            box-shadow: 0 0 0 2px rgba(137, 28, 1, 0.495);
+        }
+        
+        .btn-warning {
+            background: #672f16;
+        }
+        
+        .btn-warning:hover {
+            background: #fd9f5f;
+        color: #ab4104;
+        }
+        
+        /* PDF List */
+        .pdf-list {
+            margin-top: 30px;
+        }
+        
+        .pdf-table {
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        
+        .pdf-table th,
+        .pdf-table td {
+            padding: 12px;
+            text-align: left;
+            
+        }
+        
+        .pdf-table th {
+            background: #ff7e5f;
+            box-shadow: 0 10px 30px rgba(77, 44, 30, 0.15);
+            color: white;
+            font-weight: bold;
+            
+        }
+        
+        .pdf-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .pdf-table .actions {
+            white-space: nowrap;
+        }
+        
+        .pdf-table .actions button {
+            margin: 0 2px;
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        /* Status Messages */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 5px;
+        }
+        
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        
+        .alert-info {
+            color: #e2117d;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            max-width: 600px;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: black;
+        }
+        
+        .instructions {
+            background: #ff7e5f;
+            color: white;
+            padding: 15px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions h3 {
+            margin-top: 0;
+            color: #5b3c2a;
+        }
+        
+        .file-selected {
+            color: #28a745;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+    <div class="topbar">
+      <div class="logo"><img src="logo/b.png" alt="logo"></div>
+      <nav>
+        <a href="admin.html" >Αρχική Σελίδα</a>
+        <a href="admin-kartela.html">Καρτέλα Μαθητή</a>
+        <a href="admin-programms.html">Πρόγραμμα Σπουδών</a>
+        <a href="admin-diaxirisi.html">Διαχείριση</a>
+        <div class="dropdown">
+          <a href="admin-panelladikes.html" style="color: #960e0e;">Πανελλαδικές Εξετάσεις</a>
+          <div class="dropdown-content">
+            <a href="admin-calculator.html">Υπολογισμός Μορίων</a>
+            <a href="admin-pallia-themata.html">Παλιά Θέματα</a>
+            <a href="admin-vaseis-scholon.html">Βάσεις Σχολών</a>
+            <a href="admin-mixanografiko.html">Μηχανογραφικό</a>
+          </div>
+        </div>
+        <a href="admin-kodikoi.html">Κωδικοί</a>
+        <a href="admin-photos.html">Φωτογραφίες</a>
+        <a href="#">Σχετικά με εμάς</a>
+      </nav>
+      <div class="icons">
+        <a href="#"><img src="\elements\Group 17.svg" alt="fb" class="facebook-icon"></a>
+        <a href="#"><img src="\elements\mdi_instagram.svg" alt="insta" class="instagram-icon"></a>
+        <a href="#"><img src="\elements\phone.svg" alt="phone"></a>
+        <a href="#"><img src="\elements\mail.svg" alt="mail"></a>
+      </div>
+      <a href="index.html" class="login-btn" style="text-decoration: none;">Έξοδος</a>
+    </div>
+  </header>
+    <main>
+    <div class="container">
+        <h1 style="justify-self: center;">Διαχείριση Παλιών Θεμάτων</h1>
+
+        <!-- Instructions -->
+        <div class="instructions">
+            <h3>Οδηγίες Χρήσης</h3>
+            <ul>
+                <li>Ανεβάστε PDF αρχεία με <strong>παλιά θέματα</strong> πανελλαδικών εξετάσεων</li>
+                <li>Επιλέξτε τον <strong>τύπο λυκείου</strong> (ΓΕΛ ή ΕΠΑΛ) πρώτα</li>
+                <li>Τα διαθέσιμα <strong>μαθήματα</strong> ενημερώνονται αυτόματα βάσει του λυκείου</li>
+                <li>Συμπληρώστε όλα τα απαιτούμενα πεδία</li>
+                <li>Το όνομα αρχείου δημιουργείται αυτόματα: <code>mathima_lykeio_etos_themata.pdf</code></li>
+                <li>Τα αρχεία αποθηκεύονται στον φάκελο <code>data/pdf-files/</code></li>
+                <li>Οι μαθητές μπορούν να βλέπουν και να κατεβάζουν τα αρχεία από τη σελίδα "Παλιά Θέματα"</li>
+            </ul>
+        </div>
+        
+        <!-- Status Messages -->
+        <div id="status-messages"></div>
+        
+       
+        <!-- Upload Form -->
+        <div class="upload-section">
+            <h2>Προσθήκη Νέου Αρχείου PDF</h2>
+            
+            <form id="upload-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pdf-lykeio">Τύπος Λυκείου:</label>
+                        <select id="pdf-lykeio" required>
+                            <option value="">Επιλέξτε λύκειο</option>
+                            <option value="ΓΕΛ">ΓΕΛ (Γενικό Λύκειο)</option>
+                            <option value="ΕΠΑΛ">ΕΠΑΛ (Επαγγελματικό Λύκειο)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pdf-subject">Μάθημα:</label>
+                        <select id="pdf-subject" required>
+                            <option value="">Επιλέξτε μάθημα</option>
+                            <!-- Τα μαθήματα θα ενημερώνονται δυναμικά -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pdf-year">Έτος:</label>
+                        <select id="pdf-year" required>
+                            <option value="">Επιλέξτε έτος</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                            <option value="2019">2019</option>
+                            <option value="2018">2018</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pdf-title" >Τίτλος:</label>
+                    <input type="text" id="pdf-title" required placeholder="π.χ. Μαθηματικά Προσανατολισμού 2024">
+                </div>
+                
+                <div class="form-group">
+                    <label for="pdf-description">Περιγραφή:</label>
+                    <textarea id="pdf-description" rows="3" placeholder="Σύντομη περιγραφή του αρχείου"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pdf-file">Αρχείο PDF:</label>
+                    <div class="file-input-wrapper" style="width: 220px; display: inline-block;">
+                        <label class="file-input-button" style="width: 100%; display: block; position: relative;">
+                            Επιλογή PDF αρχείου
+                            <input type="file" id="pdf-file" class="file-input" accept=".pdf" required style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;">
+                        </label>
+                    </div>
+                    <div id="file-selected" class="file-selected" style="display: none;"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary"> Ανέβασμα PDF</button>
+                <button type="button" class="btn btn-warning" onclick="clearForm()">Καθαρισμός Φόρμας</button>
+            </form>
+        </div>
+        
+        <!-- PDF List -->
+        <div class="pdf-list" style="justify-items: center;">
+            <h2>Διαθέσιμα PDF Αρχεία</h2>
+            
+            <div class="form-group" style="max-width: 300px;">
+                <label for="filter-lykeio">Φίλτρο ανά λύκειο:</label>
+                <select id="filter-lykeio" style="border-radius: 20px; overflow: hidden;">
+                    <option value="">Όλα τα λύκεια</option>
+                    <option value="ΓΕΛ">ΓΕΛ</option>
+                    <option value="ΕΠΑΛ">ΕΠΑΛ</option>
+                </select>
+            </div>
+            
+            <table class="pdf-table" id="pdf-table">
+                <thead>
+                    <tr>
+                        <th title="Αύξων αριθμός για εμφάνιση (όχι database ID)"  style="border-top-left-radius: 20px;">#</th>
+                        <th>Τίτλος</th>
+                        <th>Λύκειο</th>
+                        <th>Μάθημα</th>
+                        <th>Έτος</th>
+                        <th>Μέγεθος</th>
+                        <th>Ημερομηνία</th>
+                        <th style="border-top-right-radius: 20px;">Ενέργειες</th>
+                    </tr>
+                </thead>
+                <tbody id="pdf-table-body">
+                    <!-- Τα PDF θα φορτωθούν δυναμικά -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Επεξεργασία PDF</h2>
+            
+            <form id="edit-form">
+                <input type="hidden" id="edit-id">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-lykeio">Τύπος Λυκείου:</label>
+                        <select id="edit-lykeio" required>
+                            <option value="ΓΕΛ">ΓΕΛ (Γενικό Λύκειο)</option>
+                            <option value="ΕΠΑΛ">ΕΠΑΛ (Επαγγελματικό Λύκειο)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-subject">Μάθημα:</label>
+                        <select id="edit-subject" required>
+                            <!-- Τα μαθήματα θα ενημερώνονται δυναμικά -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-year">Έτος:</label>
+                        <select id="edit-year" required>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-title">Τίτλος:</label>
+                    <input type="text" id="edit-title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-description">Περιγραφή:</label>
+                    <textarea id="edit-description" rows="3"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Αποθήκευση Αλλαγών</button>
+                <button type="button" class="btn btn-warning" onclick="closeEditModal()">Ακύρωση</button>
+            </form>
+        </div>
+    </div>
+
+    </main>
+     <footer>
+    <div class="footer-content">
+      <div class="footer-logo">Μαθητικό Στέκι</div>
+      <div class="footer-links" contenteditable="true" data-id="footer-links">
+        <span>Καθηγητές:</span>
+        <span>...</span>
+      </div>
+      <div class="footer-map">
+        <img src="map.png" alt="Χάρτης">
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Μαθητικό Στέκι
+    </div>
+    </footer> 
+    <script src="admin-pallia-themata.js"></script>
+</body>
+</html>

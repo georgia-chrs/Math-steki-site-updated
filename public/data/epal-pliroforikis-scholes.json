@@ -1,0 +1,46 @@
+[
+  {
+    "id": "plir_001",
+    "name": "Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών - Πληροφορικής και Τηλεπικοινωνιών",
+    "schoolType": "epal",
+    "scientificField": "pliroforikis",
+    "baseMoria": 16500,
+    "minMoria": 15000,
+    "maxMoria": 18000,
+    "avgMoria": 16500,
+    "category": "Πληροφορικής"
+  },
+  {
+    "id": "plir_002",
+    "name": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης - Πληροφορικής",
+    "schoolType": "epal",
+    "scientificField": "pliroforikis",
+    "baseMoria": 16000,
+    "minMoria": 14500,
+    "maxMoria": 17500,
+    "avgMoria": 16000,
+    "category": "Πληροφορικής"
+  },
+  {
+    "id": "plir_003",
+    "name": "Πανεπιστήμιο Κρήτης - Επιστήμης Υπολογιστών",
+    "schoolType": "epal",
+    "scientificField": "pliroforikis",
+    "baseMoria": 15500,
+    "minMoria": 14000,
+    "maxMoria": 17000,
+    "avgMoria": 15500,
+    "category": "Πληροφορικής"
+  },
+  {
+    "id": "plir_004",
+    "name": "Πανεπιστήμιο Ιωαννίνων - Μηχανικών Η/Υ και Πληροφορικής",
+    "schoolType": "epal",
+    "scientificField": "pliroforikis",
+    "baseMoria": 15000,
+    "minMoria": 13500,
+    "maxMoria": 16500,
+    "avgMoria": 15000,
+    "category": "Πληροφορικής"
+  }
+]

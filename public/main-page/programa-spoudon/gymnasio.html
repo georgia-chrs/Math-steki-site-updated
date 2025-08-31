@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Μαθητικό Στέκι</title>
+  <link rel="stylesheet" href="../../style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+
+ <style>
+    h2 {
+      justify-self: center;
+    }
+
+    .table-section {
+      margin-bottom: 40px;
+      border-radius: 8px;
+      overflow: hidden;
+      /*box-shadow: 0 2px 10px rgba(0,0,0,0.1);*/
+      background: #fff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1), 0 0 0 2px #0000003f;
+
+    }
+    .table-section h2 {
+        justify-self: center;
+      padding: 10px;
+      margin: 0;
+      font-size: 18px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    td:nth-child(1), th:nth-child(1) {
+      width: calc(100% - 100px);
+      border-right: 3px solid white;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+    }
+    th:last-child, td:last-child {
+      border-right: none;
+    }
+    th {
+      background: #E39C50;
+      color: #000;
+      font-weight: bold;
+    }
+    td:nth-child(2), th:nth-child(2) {
+      text-align: left;
+      width: 700px;
+      font-weight: bold;
+      min-width: 100px;
+      max-width: 700px;
+      padding-left: 20px;
+    }
+    tr:nth-child(even) td {
+      background: #FFE3A0;
+    }
+    tr:nth-child(odd) td {
+      background: #ffffff;
+    }
+    td {
+      border-bottom: 1px solid #ddd;
+    }
+    .total-row td {
+      background: #fcf6f0 !important;
+      color: #f5ab72 !important;
+      font-weight: bold;
+    }
+    .section-header th {
+      background: #54381a !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 15px;
+    }
+
+  #filterBtn {
+    padding: 8px 24px; 
+    border-radius: 20px;
+    background-color: #ac4e26;
+      color: #fff;
+    
+  }
+    #filterBtn:hover {
+      background-color: #e39c50;
+      color: #ac4e26;
+
+    }
+
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="logo"><img src="../../logo/b.png" alt="logo"></div>
+      <nav>
+        <a href="#" style="color: #960e0e;">Αρχική Σελίδα</a>
+        <div class="dropdown">
+          <a href="../programs.html">Πρόγραμμα Σπουδών</a>
+          <div class="dropdown-content">
+            <a href="../programs.html">Πλήρες Πρόγραμμα</a>
+            <a href="../programa-spoudon/dimotiko.html">Δημοτικό</a>
+            <a href="../programa-spoudon/gymnasio.html">Γυμνάσιο</a>
+            <a href="../programa-spoudon/lykeio.html">Λύκειο</a>
+
+          </div>
+        </div>
+
+        <div class="dropdown">
+          <a href="../panelladikes.html">Πανελλαδικές Εξετάσεις</a>
+          <div class="dropdown-content">
+            <a href="../panelladikes.html">Όλα τα παρακάτω</a>
+            <a href="../moria-calculator.html">Υπολογισμός Μορίων</a>
+            <a href="../pallia-themata.html">Παλιά Θέματα</a>
+            <a href="https://www.trapeza-thematon.gr/">Τράπεζα Θεμάτων</a>
+            <a href="../vaseis-scholon.html">Βάσεις Σχολών</a>
+            <a href="../mixanografiko.html">Μηχανογραφικό</a>
+          </div>
+        </div>
+        <a href="../photos.html">Φωτογραφίες</a>
+        <a href="../aboutus.html">Σχετικά με εμάς</a>
+      </nav>
+      <div class="icons">
+        <a href="#"><img src="\elements\Group 17.svg" alt="fb" class="facebook-icon"></a>
+        <a href="#"><img src="\elements\mdi_instagram.svg" alt="insta" class="instagram-icon"></a>
+        <a href="#"><img src="\elements\phone.svg" alt="phone"></a>
+        <a href="#"><img src="\elements\mail.svg" alt="mail"></a>
+      </div>
+      <a href="index2.html" class="login-btn" style="text-decoration: none;">Είσοδος</a>
+    </div>
+  </header>
+  
+  <main>
+    <div >
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 18px; justify-content: flex-start;">
+          <a href="panelladikes.html" title="Πίσω στις Πανελλαδικές Εξετάσεις" style="display: flex; align-items: center; text-decoration: none; color: #333; font-weight: 500; font-size: 1.1em;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px;">
+              <path d="M15 6L9 12L15 18" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Πανελλαδικές Εξετάσεις
+          </a>
+        </div>
+  <h1 style="justify-self: center;">Προγράμματα</h1>
+
+<!-- Φίλτρα τάξης στην αρχή της σελίδας -->
+<div style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: center;">
+  <label for="filterClass" style="font-weight: bold; color: #ac4e26;">Τάξη:</label>
+  <select id="filterClass" style="padding: 8px 16px; border-radius: 8px; border: 2px solid #e39c50; font-size: 15px;">
+    <option value="">Όλες</option>
+    <option value="Α">Α'</option>
+    <option value="Β">Β'</option>
+    <option value="Γ">Γ'</option>
+  </select>
+  <button id="filterBtn" class="btn btn-success" >Εφαρμογή Φίλτρων</button>
+</div>
+
+
+
+
+<!-- Γυμνάσιο -->
+<div id="programms-gymnasiou">
+  <h2 style="margin-top: 50px;">Γυμνάσιο</h2>
+  <div class="table-section" style="display: none;">
+    <h2>Γυμνάσιο</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Μ
+          <th>Ώρες</th>
+        </tr>
+      </thead>
+      <tbody id="programms-tbody-gymnasio">
+        <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+      </tbody>
+    </table>
+  </div>
+  <div id="programms-gymnasiou-a">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Α' Γυμνασίου</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-gymnasio-a">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-gymnasiou-b">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Β' Γυμνασίου</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-gymnasio-b">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-gymnasiou-g">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Γ' Γυμνασίου</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-gymnasio-g">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+  
+ 
+  </main>
+   <footer>
+    <div class="footer-content" style="display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start;  width: 100%; max-width: 100vw; box-sizing: border-box;">
+      <div class="hero-logo" style="margin-bottom: 1rem; margin-top: -20px;">
+        <img src="../logo/b-l.png" alt="Μαθητικό Στέκι" style="max-width: 320px; width: 100%; height: auto; filter: brightness(0) invert(1); ">
+      </div>
+      <div class="footer-links"  data-id="footer-links" style="display: flex; flex-direction: column; align-items: center; gap: 0.3em; text-align: center; justify-content: center; margin-top: 40px;">
+        <span>Επικοινωνία</span>
+        <span>τηλέφωνο επικοινωνίας: 2101553200236</span>
+         <span>e-mail: info@mathsteki.gr</span>
+         <span>Facebook: info@mathsteki.gr</span>
+         <span>Instagram: info@mathsteki.gr</span>
+      </div>
+      <div class="footer-map" >
+        <!-- Ενσωματωμένος χάρτης Google Maps με marker στη διεύθυνση Κρόνου 14, Κορυδαλλός 181 22 -->
+        <iframe
+          src="https://www.google.com/maps?q=Κρόνου+14,+Κορυδαλλός+181+22&output=embed"
+          width="290"
+          height="140"
+          style="border:10px solid #ffffff; border-radius: 10px;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Χάρτης διεύθυνσης φροντιστηρίου"
+        ></iframe>
+      </div>
+    </div>
+    <div class="footer-bottom" style="margin-top: 30px;  text-align: center; font-size: 0.9em; color: #ccc;">
+      &copy; 2025 Μαθητικό Στέκι
+    </div>
+  </footer>
+    <script src="../../main.js"></script>
+    <script src="../../client-text.js"></script>
+
+<script>
+let filterType = 'gymnasio';
+const params = new URLSearchParams(window.location.search);
+const filterClassFromQuery = params.get('class') || '';
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Αρχικό φόρτωμα: αν υπάρχει query, θέσε το dropdown και κάλεσε loadProgrammsPublic
+  const filterClassFromQuery = params.get('class') || '';
+  if (filterClassFromQuery) {
+    const select = document.getElementById('filterClass');
+    if (select) select.value = filterClassFromQuery;
+  }
+  // Εμφάνισε μόνο την Α' τάξη αν υπάρχει query
+  if (filterClassFromQuery === 'Α' || filterClassFromQuery === 'A') {
+    HideAllSections();
+    showOnly(['programms-gymnasiou-a']);
+  } else {
+    showOnly(['programms-gymnasiou-a', 'programms-gymnasiou-b', 'programms-gymnasiou-g']);
+  }
+  loadProgrammsPublic();
+});
+
+document.getElementById('filterBtn').addEventListener('click', () => {
+  const filterClassValue = document.getElementById('filterClass').value;
+  if (!filterClassValue) {
+    showOnly(['programms-gymnasiou-a', 'programms-gymnasiou-b', 'programms-gymnasiou-g']);
+  } else if (filterClassValue === 'Α' || filterClassValue === 'A') {
+    HideAllSections();
+    showOnly(['programms-gymnasiou-a']);
+  } else if (filterClassValue === 'Β') {
+    HideAllSections();
+    showOnly(['programms-gymnasiou-b']);
+  } else if (filterClassValue === 'Γ') {
+    HideAllSections();
+    showOnly(['programms-gymnasiou-g']);
+  }
+  loadProgrammsPublic();
+});
+
+// Στο τέλος της loadProgrammsPublic: χρησιμοποίησε μόνο το dropdown
+async function loadProgrammsPublic() {
+  const filterClassValue = document.getElementById('filterClass').value;
+  const filterAppliedValue = !!filterClassValue;
+  try {
+    const res = await fetch('/api/programms');
+    if (!res.ok) {
+      console.error('API error:', res.status, await res.text());
+      document.getElementById('programms-tbody-gymnasio').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+
+      document.getElementById('programms-tbody-gymnasio-a').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+      document.getElementById('programms-tbody-gymnasio-b').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+      document.getElementById('programms-tbody-gymnasio-g').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+      
+      return;
+    }
+    const data = await res.json();
+    console.log('Fetched programms:', data); // Debug
+    const tbodyGymnasio = document.getElementById('programms-tbody-gymnasio');
+    const tbodyA = document.getElementById('programms-tbody-gymnasio-a');
+    const tbodyB = document.getElementById('programms-tbody-gymnasio-b');
+    const tbodyG = document.getElementById('programms-tbody-gymnasio-g');
+    tbodyGymnasio.innerHTML = '';
+    tbodyA.innerHTML = '';
+    tbodyB.innerHTML = '';
+    tbodyG.innerHTML = '';
+   
+    // Φιλτράρισμα δεδομένων πριν την εμφάνιση
+    let filteredData = data.filter(row => {
+      let typeMatch = row.type === filterType;
+      let classMatch = true;
+      if (filterAppliedValue && filterClassValue) {
+        classMatch = row.section === filterClassValue;
+      }
+      return typeMatch && classMatch;
+    });
+    // Χρησιμοποίησε filteredData για να γεμίσεις τους πίνακες
+    let foundGymnasio = false, sumGymnasio = 0;
+    let foundA = false, foundB = false, foundG = false;
+    let sumA = 0, sumB = 0, sumG = 0;
+    tbodyGymnasio.innerHTML = '';
+   
+    tbodyA.innerHTML = '';
+    tbodyB.innerHTML = '';
+    tbodyG.innerHTML = '';
+    
+    filteredData.forEach(row => {
+       if (row.type === 'gymnasio') {
+        foundGymnasio = true;
+        tbodyGymnasio.innerHTML += `
+          <tr>
+            <td>${row.subject}</td>
+            <td>${row.hour}</td>
+          </tr>
+        `;
+        sumGymnasio += Number(row.hour) || 0;
+      }
+      // --- ΕΠΑΛ ανά τάξη ---
+
+      if (row.type === 'gymnasio' && row.section === 'Α' ) {
+        console.log('filterClassValue:', filterClassValue);
+        foundA = true;
+        tbodyA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+        sumA += Number(row.hour) || 0;
+      } else if (row.type === 'gymnasio' && row.section === 'Β' ) {
+        foundB = true;
+        tbodyB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+        sumB += Number(row.hour) || 0;
+      } else if (row.type === 'gymnasio' && row.section === 'Γ'  ) {
+        foundG = true;
+        tbodyG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+        sumG += Number(row.hour) || 0;
+      }
+    
+     
+    });
+    if (!foundGymnasio) tbodyGymnasio.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Γυμνασίου!</td></tr>';
+   
+    if (!foundA) tbodyA.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Α Γυμνασίου!</td></tr>';
+    if (!foundB) tbodyB.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Β Γυμνασίου!</td></tr>';
+    if (!foundG) tbodyG.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Γ Γυμνασίου!</td></tr>';
+    
+    if (foundGymnasio) tbodyGymnasio.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasio}</td></tr>`;
+    if (foundA) tbodyA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumA}</td></tr>`;
+    if (foundB) tbodyB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumB}</td></tr>`;
+    if (foundG) tbodyG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumG}</td></tr>`;
+    
+    // --- Ενημέρωση εμφάνισης sections μετά το φιλτράρισμα ---
+    showHideSections();
+  } catch (err) {
+    console.error('JS error:', err);
+    document.getElementById('programms-tbody-gymnasio').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+    
+    document.getElementById('programms-tbody-gymnasio-a').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+    document.getElementById('programms-tbody-gymnasio-b').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+    document.getElementById('programms-tbody-gymnasio-g').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+   
+  }
+
+  // Εμφάνιση sections μόνο με βάση το dropdown
+  if (filterClassValue === 'Α' || filterClassValue === 'A') {
+    HideAllSections();
+    showOnly(['programms-gymnasiou-a']);
+  } else if (filterClassValue === 'Β') {
+    HideAllSections();
+    showOnly(['programms-gymnasiou-b']);
+  } else if (filterClassValue === 'Γ') {
+    HideAllSections();
+    showOnly(['programms-gymnasiou-g']);
+  } else if (!filterClassValue) {
+    showOnly(['programms-gymnasiou-a', 'programms-gymnasiou-b', 'programms-gymnasiou-g']);
+  }
+}
+// --- Απόκρυψη/Εμφάνιση sections ανάλογα με τα φίλτρα ---
+function showHideSections() {
+  const sections = [
+   
+    'programms-gymnasiou-a',
+    'programms-gymnasiou-b',
+    'programms-gymnasiou-g'  
+  ];
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.setProperty('display', 'none', 'important');
+    if (el) el.style.opacity = 0;
+  });
+
+  if (!filterType) {
+    showOnly(sections);
+    return;
+  }
+  // ΔΙΑΒΑΣΕ ΠΑΝΤΑ ΤΗΝ ΤΡΕΧΟΥΣΑ ΤΙΜΗ ΤΟΥ DROPDOWN
+  const filterClassValue = document.getElementById('filterClass').value;
+  if (filterType === 'gymnasio') {
+    let ids = ['programms-gymnasiou'];
+    if (!filterClassValue) {
+      ids.push('programms-gymnasiou-a','programms-gymnasiou-b','programms-gymnasiou-g');
+    } else {
+      if (filterClassValue === 'Α') ids.push('programms-gymnasiou', 'programms-gymnasiou-a');
+      if (filterClassValue === 'Β') ids.push('programms-gymnasiou', 'programms-gymnasiou-b');
+      if (filterClassValue === 'Γ') ids.push('programms-gymnasiou', 'programms-gymnasiou-g');
+    }
+    showOnly(ids);
+  }
+}
+  function showOnly(ids) {
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.setProperty('display', '', 'important');
+        el.style.transition = 'opacity 0.5s';
+        setTimeout(() => { el.style.opacity = 1; }, 50);
+      }
+    });
+  }
+
+  function HideAllSections() {
+    const sections = [
+      'programms-gymnasiou-a',
+      'programms-gymnasiou-b',
+      'programms-gymnasiou-g'  
+    ];
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.setProperty('display', 'none', 'important');
+      if (el) el.style.opacity = 0;
+    });
+  }
+
+showHideSections();
+
+  loadProgrammsPublic();
+
+    
+</script>
+</body>
+</html>

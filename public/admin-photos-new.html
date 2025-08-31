@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Διαχείριση Φωτογραφιών</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+   
+
+    
+
+    .admin-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .admin-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .admin-header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .admin-header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .admin-content {
+      padding: 2rem;
+    }
+
+    /* Upload Section */
+    .upload-section {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 3px dashed #dee2e6;
+      transition: all 0.3s ease;
+    }
+
+    .upload-section:hover {
+      border-color: #667eea;
+      background: #f0f2ff;
+    }
+
+    .upload-area {
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      color: #667eea;
+      margin-bottom: 1rem;
+    }
+
+    .upload-text {
+      font-size: 1.2rem;
+      color: #495057;
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-subtext {
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+
+    #photoInput {
+      display: none;
+    }
+
+    .upload-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .upload-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Photos Grid */
+    .photos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .photo-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .photo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-info {
+      padding: 1rem;
+    }
+
+    .photo-name {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .photo-size {
+      color: #6c757d;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .photo-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex: 1;
+    }
+
+    .btn-view {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .btn-view:hover {
+      background: #bbdefb;
+    }
+
+    .btn-delete {
+      background: #ffebee;
+      color: #d32f2f;
+    }
+
+    .btn-delete:hover {
+      background: #ffcdd2;
+    }
+
+    .delete-overlay {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(211, 47, 47, 0.9);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .photo-card:hover .delete-overlay {
+      opacity: 1;
+    }
+
+    .delete-overlay:hover {
+      background: #d32f2f;
+      transform: scale(1.1);
+    }
+
+    /* Button Styles */
+    .btn {
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 2px;
+    }
+
+    .btn-view {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .btn-view:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-delete {
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+      color: white;
+    }
+
+    .btn-delete:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+    }
+
+    .photo-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #e9ecef;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      text-align: center;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+
+    /* Success/Error Messages */
+    .alert {
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .alert-warning {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffeaa7;
+    }
+
+    /* Loading Spinner */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Stats Section */
+    .stats-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-top: 0.5rem;
+    }
+
+    /* Back Button */
+    .back-btn {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .back-btn:hover {
+      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .admin-header h1 {
+        font-size: 2rem;
+      }
+      
+      .photos-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+      }
+      
+      .stats-section {
+        grid-template-columns: 1fr;
+      }
+
+      .back-btn {
+        top: 1rem;
+        left: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="logo"><img src="logo.png" alt="logo"></div>
+      <nav>
+        <a href="admin.html">Admin Dashboard</a>
+        <a href="admin-kartela.html">Διαχείριση Μαθητών</a>
+        <a href="admin-kodikoi.html" style="font-weight: bold; color: #4A7C59;">Κωδικοί Πρόσβασης</a>
+        <a href="admin-pallia-themata.html">Παλιά Θέματα</a>
+        <a href="admin-vaseis-scholon.html">Βάσεις Σχολών</a>
+        <a href="admin-mixanografiko.html">Μηχανογραφικό</a>
+      </nav>
+      <div class="icons">
+        <a href="#"><img src="\elements\Group 17.svg" alt="fb" class="facebook-icon"></a>
+        <a href="#"><img src="\elements\mdi_instagram.svg" alt="insta" class="instagram-icon"></a>
+        <a href="#"><img src="\elements\phone.svg" alt="phone"></a>
+        <a href="#"><img src="\elements\mail.svg" alt="mail"></a>
+      </div>
+      <a href="index.html" class="login-btn" style="text-decoration: none;">Έξοδος</a>
+    </div>
+  </header>
+
+  <main>
+    <button class="back-btn" onclick="window.history.back()">← Πίσω</button>
+
+    <div class="admin-container">
+      <div class="admin-header">
+        <h1>Διαχείριση Φωτογραφιών</h1>
+        <p>Ανεβάστε και διαχειριστείτε τις φωτογραφίες του Μαθητικού Στεκιού</p>
+      </div>
+
+      <div class="admin-content">
+        <!-- Statistics Section -->
+        <div class="stats-section">
+          <div class="stat-card">
+            <span class="stat-number" id="totalPhotos">0</span>
+            <div class="stat-label">Συνολικές Φωτογραφίες</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="totalSize">0 MB</span>
+            <div class="stat-label">Συνολικό Μέγεθος</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="lastUpload">-</span>
+            <div class="stat-label">Τελευταία Ενημέρωση</div>
+          </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-section" onclick="document.getElementById('photoInput').click()">
+          <div class="upload-area">
+            <div class="upload-icon">📤</div>
+            <div class="upload-text">Κάντε κλικ για να ανεβάσετε φωτογραφίες</div>
+            <div class="upload-subtext">Υποστηρίζονται αρχεία: JPG, PNG, GIF (μέγιστο 10MB)</div>
+            <button type="button" class="upload-btn">Επιλογή Αρχείων</button>
+          </div>
+          <input type="file" id="photoInput" multiple accept="image/*">
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container" id="progressContainer">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-text" id="progressText">Ανέβασμα...</div>
+        </div>
+
+        <!-- Alert Messages -->
+        <div id="alertContainer"></div>
+
+        <!-- Photos Grid -->
+        <div class="photos-grid" id="photosGrid">
+          <!-- Photos will be loaded here dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for Image Preview -->
+    <div id="imageModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); align-items: center; justify-content: center;">
+      <div style="position: relative; max-width: 90%; max-height: 90%;">
+        <img id="modalImage" style="max-width: 100%; max-height: 100%; border-radius: 10px;">
+        <button onclick="closeModal()" style="position: absolute; top: -40px; right: 0; background: white; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 20px;">&times;</button>
+      </div>
+    </div>
+
+  </main>
+<footer>
+    <div class="footer-content">
+      <div class="footer-logo">Μαθητικό Στέκι</div>
+      <div class="footer-links">
+        <span>Καθηγητές:</span>
+        <span>...</span>
+      </div>
+      <div class="footer-map">
+        <img src="map.png" alt="Χάρτης">
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Μαθητικό Στέκι
+    </div>
+  </footer>
+
+
+  <script>
+    class PhotoManager {
+      constructor() {
+        this.photos = [];
+        this.init();
+      }
+
+      init() {
+        this.setupEventListeners();
+        this.loadPhotos();
+      }
+
+      setupEventListeners() {
+        const photoInput = document.getElementById('photoInput');
+        photoInput.addEventListener('change', (e) => this.handleFileUpload(e));
+
+        // Prevent default drag behaviors
+        document.addEventListener('dragover', (e) => e.preventDefault());
+        document.addEventListener('drop', (e) => {
+          e.preventDefault();
+          if (e.dataTransfer.files.length > 0) {
+            this.handleFileUpload({ target: { files: e.dataTransfer.files } });
+          }
+        });
+      }
+
+      async loadPhotos() {
+        try {
+          const response = await fetch('/api/photos');
+          if (response.ok) {
+            this.photos = await response.json();
+            this.renderPhotos();
+            this.updateStats();
+          } else {
+            // Fallback to mock data if API is not available
+            console.log('API not available, loading mock data...');
+            this.photos = [
+              {
+                filename: 'sample1.jpg',
+                originalName: 'Δείγμα Φωτογραφία 1.jpg',
+                size: 1024576,
+                uploadDate: new Date().toISOString(),
+                mimetype: 'image/jpeg'
+              },
+              {
+                filename: 'sample2.png',
+                originalName: 'Δείγμα Φωτογραφία 2.png',
+                size: 2048576,
+                uploadDate: new Date().toISOString(),
+                mimetype: 'image/png'
+              }
+            ];
+            this.renderPhotos();
+            this.updateStats();
+            this.showAlert('Χρησιμοποιούνται δεδομένα επίδειξης - API δεν είναι διαθέσιμο', 'warning');
+          }
+        } catch (error) {
+          console.error('Error loading photos:', error);
+          // Fallback to mock data
+          this.photos = [];
+          this.renderPhotos();
+          this.updateStats();
+          this.showAlert('Σφάλμα δικτύου - Δεν υπάρχουν φωτογραφίες', 'error');
+        }
+      }
+
+      async handleFileUpload(event) {
+        const files = Array.from(event.target.files);
+        if (files.length === 0) return;
+
+        // Validate files
+        const validFiles = files.filter(file => {
+          if (!file.type.startsWith('image/')) {
+            this.showAlert(`Το αρχείο ${file.name} δεν είναι εικόνα`, 'error');
+            return false;
+          }
+          if (file.size > 10 * 1024 * 1024) { // 10MB
+            this.showAlert(`Το αρχείο ${file.name} είναι πολύ μεγάλο (μέγιστο 10MB)`, 'error');
+            return false;
+          }
+          return true;
+        });
+
+        if (validFiles.length === 0) return;
+
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+
+        progressContainer.style.display = 'block';
+
+        for (let i = 0; i < validFiles.length; i++) {
+          const file = validFiles[i];
+
+          try {
+            progressText.textContent = `Ανέβασμα ${i + 1}/${validFiles.length}: ${file.name}`;
+            
+            const formData = new FormData();
+            formData.append('photos', file);
+            
+            const response = await fetch('/api/photos/upload', {
+              method: 'POST',
+              body: formData
+            });
+
+            if (response.ok) {
+              const result = await response.json();
+              this.showAlert(`Επιτυχής ανέβασμα: ${file.name}`, 'success');
+            } else {
+              const error = await response.json();
+              this.showAlert(`Σφάλμα ανεβάσματος ${file.name}: ${error.error}`, 'error');
+            }
+            
+            const progress = ((i + 1) / validFiles.length) * 100;
+            progressFill.style.width = progress + '%';
+
+          } catch (error) {
+            console.error('Upload error:', error);
+            this.showAlert(`Σφάλμα δικτύου για ${file.name}`, 'error');
+          }
+        }
+
+        progressContainer.style.display = 'none';
+        progressFill.style.width = '0%';
+        
+        // Reload photos
+        await this.loadPhotos();
+        
+        // Clear file input
+        event.target.value = '';
+      }
+
+      async deletePhoto(filename) {
+        if (!confirm(`Είστε σίγουροι ότι θέλετε να διαγράψετε τη φωτογραφία "${filename}";`)) {
+          return;
+        }
+
+        try {
+          const response = await fetch(`/api/photos/${encodeURIComponent(filename)}`, {
+            method: 'DELETE'
+          });
+
+          if (response.ok) {
+            this.showAlert('Η φωτογραφία διαγράφηκε επιτυχώς', 'success');
+            await this.loadPhotos();
+          } else {
+            const error = await response.json();
+            this.showAlert(`Σφάλμα διαγραφής: ${error.error}`, 'error');
+          }
+        } catch (error) {
+          console.error('Delete error:', error);
+          this.showAlert('Σφάλμα δικτύου', 'error');
+        }
+      }
+
+      renderPhotos() {
+        const grid = document.getElementById('photosGrid');
+        
+        if (this.photos.length === 0) {
+          grid.innerHTML = `
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #6c757d;">
+              <div style="font-size: 3rem; margin-bottom: 1rem;">📷</div>
+              <h3>Δεν υπάρχουν φωτογραφίες</h3>
+              <p>Ανεβάστε την πρώτη σας φωτογραφία για να ξεκινήσετε!</p>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = this.photos.map(photo => `
+          <div class="photo-card">
+            <img src="/photos/${photo.filename}" alt="${photo.filename}" 
+                 onclick="openModal('/photos/${photo.filename}')">
+            <div class="delete-overlay" onclick="photoManager.deletePhoto('${photo.filename}')" title="Διαγραφή">
+              ×
+            </div>
+            <div class="photo-info">
+              <div class="photo-name">${photo.filename}</div>
+              <div class="photo-size">${this.formatFileSize(photo.size || 0)}</div>
+              <div class="photo-actions">
+                <button class="btn btn-view" onclick="openModal('/photos/${photo.filename}')">
+                  👁️ Προβολή
+                </button>
+                <button class="btn btn-delete" onclick="photoManager.deletePhoto('${photo.filename}')">
+                  🗑️ Διαγραφή
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      updateStats() {
+        const totalPhotos = this.photos.length;
+        const totalSize = this.photos.reduce((sum, photo) => sum + (photo.size || 0), 0);
+        const lastUpload = this.photos.length > 0 ? 
+          new Date().toLocaleDateString('el-GR') : '-';
+
+        document.getElementById('totalPhotos').textContent = totalPhotos;
+        document.getElementById('totalSize').textContent = this.formatFileSize(totalSize);
+        document.getElementById('lastUpload').textContent = lastUpload;
+      }
+
+      formatFileSize(bytes) {
+        if (bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+      }
+
+      showAlert(message, type) {
+        const alertContainer = document.getElementById('alertContainer');
+        const alert = document.createElement('div');
+        alert.className = `alert alert-${type}`;
+        alert.textContent = message;
+        
+        alertContainer.appendChild(alert);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+          alert.remove();
+        }, 5000);
+      }
+    }
+
+    // Global functions
+    function openModal(imageSrc) {
+      const modal = document.getElementById('imageModal');
+      const modalImage = document.getElementById('modalImage');
+      modalImage.src = imageSrc;
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside the image
+    document.getElementById('imageModal').addEventListener('click', (e) => {
+      if (e.target.id === 'imageModal') {
+        closeModal();
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Initialize the photo manager
+    let photoManager;
+    document.addEventListener('DOMContentLoaded', () => {
+      photoManager = new PhotoManager();
+    });
+  </script>
+</body>
+</html>

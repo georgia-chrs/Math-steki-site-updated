@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Μαθητικό Στέκι</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+</head>
+<body>
+   <header>
+    <div class="topbar">
+      <div class="logo"><img src="logo/b.png" alt="logo"></div>
+      <nav>
+        <a href="students.html">Αρχική Σελίδα</a>
+        <a href="student-tablet.html" style="color: #960e0e;">Καρτέλα Μαθητή</a>
+
+        <div class="dropdown">
+          <a href="main-page/programs.html">Πρόγραμμα Σπουδών</a>
+          <div class="dropdown-content">
+            <a href="main-page/programs.html">Πλήρες Πρόγραμμα</a>
+            <a href="#">Μαθήματα ΓΕΛ</a>
+            <a href="#">Μαθήματα ΕΠΑΛ</a>
+            <a href="#">Ιδιαίτερα Μαθήματα</a>
+          </div>
+        </div>
+
+        <div class="dropdown">
+          <a href="main-page/panelladikes.html">Πανελλαδικές Εξετάσεις</a>
+          <div class="dropdown-content">
+            <a href="#">Όλα τα παρακάτω</a>
+            <a href="moria-calculator.html">Υπολογισμός Μορίων</a>
+            <a href="main-page/pallia-themata.html">Παλιά Θέματα</a>
+            <a href="#">Τράπεζα Θεμάτων</a>
+            <a href="admin-vaseis-scholon.html">Βάσεις Σχολών</a>
+            <a href="#">Μηχανογραφικό</a>
+          </div>
+        </div>
+        <a href="main-page/photos.html">Φωτογραφίες</a>
+        <a href="#">Σχετικά με εμάς</a>
+      </nav>
+      <div class="icons">
+        <a href="#"><img src="\elements\Group 17.svg" alt="fb" class="facebook-icon"></a>
+        <a href="#"><img src="\elements\mdi_instagram.svg" alt="insta" class="instagram-icon"></a>
+        <a href="#"><img src="\elements\phone.svg" alt="phone"></a>
+        <a href="#"><img src="\elements\mail.svg" alt="mail"></a>
+      </div>
+      <a href="index.html" class="login-btn" style="text-decoration: none;">Έξοδος</a>
+    </div>
+  </header>
+  
+  <main>
+    <div class="student-container">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 18px; justify-content: flex-start; margin-top: 20px;">
+          <a href="student-tablet.html" title="Πίσω στην Καρτέλα Μαθητή" style="display: flex; align-items: center; text-decoration: none; color: #333; font-weight: 500; font-size: 1.1em;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px;">
+              <path d="M15 6L9 12L15 18" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Καρτέλα Μαθητή
+          </a>
+        </div>
+      <h1 style="justify-self: center ;">Πρόοδος Μαθητή</h1>
+      
+      <div id="studentInfo" style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 20px; display: none; visibility: hidden;">
+        <h3>Στοιχεία Μαθητή</h3>
+        <div id="studentDetails"></div>
+      </div>
+      
+      <div id="progressContainer">
+        <div id="loadingMessage" style="text-align: center; padding: 40px; color: #666;">
+          Φόρτωση δεδομένων προόδου...
+        </div>
+        
+        <div id="progressContent" style="display: none;">
+          <div class="progress-filters" style="margin-top: -150px; margin-bottom: 20px; padding: 30px; background: #fffdd5; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+              <label for="subjectFilter" style="font-weight: 600; color: #333; font-size: 14px;">Φίλτρο ανά μάθημα:</label>
+              <select id="subjectFilter" style="padding: 12px 16px; border-radius: 20px; border: 2px solid #e1e5e9; background: white; font-size: 14px; min-width: 200px; cursor: pointer; transition: all 0.3s ease; outline: none; appearance: none; background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23A0522D%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27%3e%3cpolyline points=%276,9 12,15 18,9%27%3e%3c/polyline%3e%3c/svg%3e'); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 40px;" onmouseover="this.style.borderColor='#A0522D'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(160,82,45,0.15)'" onmouseout="this.style.borderColor='#e1e5e9'; this.style.transform='translateY(0)'; this.style.boxShadow='none'" onfocus="this.style.borderColor='#A0522D'; this.style.boxShadow='0 0 0 3px rgba(160,82,45,0.1)'" onblur="this.style.borderColor='#e1e5e9'; this.style.boxShadow='none'">
+                <option value="">Όλα τα μαθήματα</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="progressList" style=" background:rgb(255, 135, 75); padding: 20px; border-radius: 20px; box-shadow: 0 2px 10px  rgba(0, 0, 0, 0.667); border: 2px solid rgb(232, 93, 6); width: 80%; justify-content: center; margin-left: auto; margin-right: auto;">
+            <!-- Progress notes will be loaded here -->
+          </div>
+        </div>
+        
+        <div id="noProgressMessage" style="text-align: center; padding: 40px; color: #666; display: none;">
+          Δεν υπάρχουν σημειώσεις προόδου για αυτόν τον μαθητή.
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="footer-content" style="display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start;  width: 100%; max-width: 100vw; box-sizing: border-box;">
+      <div class="hero-logo" style="margin-bottom: 1rem; margin-top: -20px;">
+        <img src="logo/b-l.png" alt="Μαθητικό Στέκι" style="max-width: 320px; width: 100%; height: auto; filter: brightness(0) invert(1); ">
+      </div>
+      <div class="footer-links"  data-id="footer-links" style="display: flex; flex-direction: column; align-items: center; gap: 0.3em; text-align: center; justify-content: center; margin-top: 40px;">
+        <span>Επικοινωνία</span>
+        <span>τηλέφωνο επικοινωνίας: 2101553200236</span>
+         <span>e-mail: info@mathsteki.gr</span>
+         <span>Facebook: info@mathsteki.gr</span>
+         <span>Instagram: info@mathsteki.gr</span>
+      </div>
+      <div class="footer-map" >
+        <!-- Ενσωματωμένος χάρτης Google Maps με marker στη διεύθυνση Κρόνου 14, Κορυδαλλός 181 22 -->
+        <iframe
+          src="https://www.google.com/maps?q=Κρόνου+14,+Κορυδαλλός+181+22&output=embed"
+          width="290"
+          height="140"
+          style="border:10px solid #ffffff; border-radius: 10px;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Χάρτης διεύθυνσης φροντιστηρίου"
+        ></iframe>
+      </div>
+    </div>
+    <div class="footer-bottom" style="margin-top: 30px;  text-align: center; font-size: 0.9em; color: #ccc;">
+      &copy; 2025 Μαθητικό Στέκι
+    </div>
+  </footer>
+<script src="progress.js"></script>
+</body>
+</html>

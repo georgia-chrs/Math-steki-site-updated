@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Διαχείριση Σχολών - Admin Panel</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f5f5f5; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        .admin-container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
+            background: #fff; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.1); 
+        }
+        h1 { 
+            color: #5b3c2a; 
+            text-align: center; 
+            margin-bottom: 30px; 
+        }
+        .school-type-section { 
+            margin-bottom: 40px; 
+            padding: 25px; 
+            border: 2px solid #ddd; 
+            border-radius: 12px;
+            background: #fafafa;
+        }
+        .school-type-section h2 { 
+            color: #5b3c2a; 
+            margin-top: 0;
+            border-bottom: 2px solid #5b3c2a;
+            padding-bottom: 10px;
+        }
+        .file-upload { 
+            margin: 20px 0; 
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .file-upload label { 
+            display: block; 
+            margin-bottom: 10px; 
+            font-weight: bold;
+            color: #333;
+        }
+        .file-upload input[type="file"] { 
+            margin: 10px 0;
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+        }
+        .upload-btn { 
+            background: #5b3c2a; 
+            color: #fff; 
+            border: none; 
+            padding: 10px 20px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin-top: 10px; 
+        }
+        .upload-btn:hover { 
+            opacity: 0.9; 
+        }
+        .current-files { 
+            background: #f9f9f9; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin: 15px 0; 
+        }
+        .current-files h3 { 
+            margin-top: 0; 
+            color: #666; 
+        }
+        .file-list { 
+            list-style: none; 
+            padding: 0; 
+        }
+        .file-list li { 
+            padding: 5px 0; 
+            border-bottom: 1px solid #eee; 
+        }
+        .preview-btn { 
+            background: #17a2b8; 
+            color: #fff; 
+            border: none; 
+            padding: 5px 10px; 
+            border-radius: 3px; 
+            cursor: pointer; 
+            margin-left: 10px; 
+        }
+        .file-preview {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .preview-table th, .preview-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .preview-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+        .template-section {
+            margin-bottom: 40px;
+            padding: 25px;
+            border: 2px solid #007bff;
+            border-radius: 12px;
+            background: #f8f9ff;
+        }
+        .template-section h2 {
+            color: #007bff;
+            margin-top: 0;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .template-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .template-info {
+            flex-grow: 1;
+        }
+        .template-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Διαχείριση Σχολών - Admin Panel</h1>
+        
+        <!-- Excel Templates Section -->
+        <div class="template-section">
+            <h2> Excel Templates Διαχείριση</h2>
+            
+            <div class="file-upload">
+                <label for="template-file">Ανέβασμα νέου Excel Template:</label>
+                <p><strong>Υποστηριζόμενες μορφές:</strong> Excel (.xlsx, .xls)</p>
+                
+                <select id="template-type" style="margin-bottom: 10px; padding: 8px; border-radius: 4px;">
+                    <option value="">Επιλέξτε τύπο template...</option>
+                    <option value="anthropistikes">Ανθρωπιστικές Επιστήμες</option>
+                    <option value="thetikes">Θετικές Επιστήμες</option>
+                    <option value="oikonomikes">Οικονομικές Επιστήμες</option>
+                    <option value="epal">ΕΠΑΛ</option>
+                    <option value="kales-texnes">Καλές Τέχνες</option>
+                    <option value="other">Άλλο</option>
+                </select>
+                
+                <input type="file" id="template-file" accept=".xlsx,.xls" style="margin: 10px 0;">
+                <button onclick="uploadTemplate()" class="btn btn-primary">Ανέβασμα Template</button>
+            </div>
+            
+            <div id="templates-list">
+                <h3>Υπάρχοντα Templates:</h3>
+                <div id="templates-container">
+                    <p>Φόρτωση templates...</p>
+                </div>
+            </div>
+            
+            <div id="template-stats">
+                <h3>Στατιστικά Templates:</h3>
+                <div id="stats-container">
+                    <p>Φόρτωση στατιστικών...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ΓΕΛ Σχολές -->
+        <div class="school-type-section">
+            <h2>🎓 ΓΕΛ - Γενικό Λύκειο</h2>
+            <div class="file-upload">
+                <label for="gel-file">Ανέβασμα αρχείου σχολών ΓΕΛ:</label>
+                <p><strong>Υποστηριζόμενες μορφές:</strong> TSV (Tab-separated), Excel (.xlsx, .xls)</p>
+                <p><strong>Απαιτούμενες στήλες:</strong> ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ, ΙΔΡΥΜΑ, ΟΝΟΜΑ ΣΧΟΛΗΣ, ΜΕΓΙΣΤΑ ΜΟΡΙΑ, ΕΛΑΧΙΣΤΑ ΜΟΡΙΑ</p>
+                <select id="gel-file-format" style="margin-bottom: 10px;">
+                    <option value="tsv">TSV αρχείο (Tab-separated)</option>
+                    <option value="excel">Excel αρχείο (.xlsx, .xls)</option>
+                </select>
+                <input type="file" id="gel-file" accept=".tsv,.txt,.csv,.xlsx,.xls">
+                <button class="upload-btn" onclick="uploadGELFile()">Ανέβασμα Αρχείου ΓΕΛ</button>
+                <button class="preview-btn" onclick="downloadSampleGEL()">Λήψη Δείγματος</button>
+            </div>
+            
+            <div id="gel-preview" class="file-preview" style="display:none;"></div>
+            
+            <div class="current-files">
+                <h3>Τρέχον αρχείο ΓΕΛ:</h3>
+                <ul class="file-list">
+                    <li id="current-gel-file">Δεν έχει ανέβει αρχείο ΓΕΛ</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ΕΠΑΛ Σχολές -->
+        <div class="school-type-section">
+            <h2>🔧 ΕΠΑΛ - Επαγγελματικό Λύκειο</h2>
+            <div class="file-upload">
+                <label for="epal-file">Ανέβασμα αρχείου σχολών ΕΠΑΛ:</label>
+                <p><strong>Υποστηριζόμενες μορφές:</strong> TSV (Tab-separated), Excel (.xlsx, .xls)</p>
+                <p><strong>Απαιτούμενες στήλες:</strong> ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ, ΙΔΡΥΜΑ, ΟΝΟΜΑ ΣΧΟΛΗΣ, ΜΕΓΙΣΤΑ ΜΟΡΙΑ, ΕΛΑΧΙΣΤΑ ΜΟΡΙΑ</p>
+                <select id="epal-file-format" style="margin-bottom: 10px;">
+                    <option value="tsv">TSV αρχείο (Tab-separated)</option>
+                    <option value="excel">Excel αρχείο (.xlsx, .xls)</option>
+                </select>
+                <input type="file" id="epal-file" accept=".tsv,.txt,.csv,.xlsx,.xls">
+                <button class="upload-btn" onclick="uploadEPALFile()">Ανέβασμα Αρχείου ΕΠΑΛ</button>
+                <button class="preview-btn" onclick="downloadSampleEPAL()">Λήψη Δείγματος</button>
+            </div>
+            
+            <div id="epal-preview" class="file-preview" style="display:none;"></div>
+            
+            <div class="current-files">
+                <h3>Τρέχον αρχείο ΕΠΑΛ:</h3>
+                <ul class="file-list">
+                    <li id="current-epal-file">Δεν έχει ανέβει αρχείο ΕΠΑΛ</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="status-messages"></div>
+    </div>
+
+    <script>
+        // Global variables
+        let gelData = null;
+        let epalData = null;
+
+        // Upload GEL file
+        function uploadGELFile() {
+            const fileInput = document.getElementById('gel-file');
+            const formatSelect = document.getElementById('gel-file-format');
+            
+            if (!fileInput.files[0]) {
+                showMessage('Παρακαλώ επιλέξτε ένα αρχείο ΓΕΛ.', 'error');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const fileName = file.name.toLowerCase();
+            let actualFormat = formatSelect.value;
+            
+            // Auto-detect format
+            if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+                actualFormat = 'excel';
+            } else if (fileName.endsWith('.tsv') || fileName.endsWith('.txt') || fileName.endsWith('.csv')) {
+                actualFormat = 'tsv';
+            }
+            
+            if (actualFormat === 'excel') {
+                uploadExcelFile(file, 'gel');
+            } else {
+                uploadTSVFile(file, 'gel');
+            }
+        }
+
+        // Upload EPAL file
+        function uploadEPALFile() {
+            const fileInput = document.getElementById('epal-file');
+            const formatSelect = document.getElementById('epal-file-format');
+            
+            if (!fileInput.files[0]) {
+                showMessage('Παρακαλώ επιλέξτε ένα αρχείο ΕΠΑΛ.', 'error');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const fileName = file.name.toLowerCase();
+            let actualFormat = formatSelect.value;
+            
+            // Auto-detect format
+            if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls')) {
+                actualFormat = 'excel';
+            } else if (fileName.endsWith('.tsv') || fileName.endsWith('.txt') || fileName.endsWith('.csv')) {
+                actualFormat = 'tsv';
+            }
+            
+            if (actualFormat === 'excel') {
+                uploadExcelFile(file, 'epal');
+            } else {
+                uploadTSVFile(file, 'epal');
+            }
+        }
+
+        // Upload TSV file for specific school type
+        async function uploadTSVFile(file, schoolType) {
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const tsvText = e.target.result;
+                    const schoolsData = parseSchoolsTSV(tsvText);
+                    
+                    if (schoolsData.length > 0) {
+                        // Προσθήκη του schoolType και άλλων απαραίτητων πεδίων στα δεδομένα
+                        const enhancedData = schoolsData.map(school => {
+                            // Αυτόματος προσδιορισμός του field βάσει του scientificField
+                            let field = 'theoretiko'; // default
+                            const scientificField = (school.scientificField || '').toLowerCase();
+                            
+                            if (schoolType === 'gel') {
+                                if (scientificField.includes('θετικ') || scientificField.includes('μαθηματικ') || scientificField.includes('φυσικ')) {
+                                    field = 'thetiko';
+                                } else if (scientificField.includes('οικονομ') || scientificField.includes('διοικητ')) {
+                                    field = 'oikonomiko';
+                                } else if (scientificField.includes('τεχνολογ')) {
+                                    field = 'technologiko';
+                                } else {
+                                    field = 'theoretiko';
+                                }
+                            } else { // epal
+                                if (scientificField.includes('πληροφορ') || scientificField.includes('υπολογιστ')) {
+                                    field = 'pliroforiki';
+                                } else if (scientificField.includes('μηχανολογ') || scientificField.includes('μηχανικ')) {
+                                    field = 'mixanologia';
+                                } else {
+                                    field = 'pliroforiki'; // default για ΕΠΑΛ
+                                }
+                            }
+                            
+                            return {
+                                ...school,
+                                schoolType: schoolType,
+                                field: field,
+                                avgScore: Math.round((school.minMoria + school.maxMoria) / 2) || 15000
+                            };
+                        });
+                        
+                        // Αποστολή στο backend
+                        const success = await saveSchoolsDataToServer(enhancedData);
+                        
+                        if (success) {
+                            if (schoolType === 'gel') {
+                                gelData = enhancedData;
+                                showSchoolsPreview(enhancedData, 'ΓΕΛ', 'gel-preview');
+                                document.getElementById('current-gel-file').textContent = 
+                                    `${file.name} - ${enhancedData.length} σχολές (Αποθηκευμένο)`;
+                            } else {
+                                epalData = enhancedData;
+                                showSchoolsPreview(enhancedData, 'ΕΠΑΛ', 'epal-preview');
+                                document.getElementById('current-epal-file').textContent = 
+                                    `${file.name} - ${enhancedData.length} σχολές (Αποθηκευμένο)`;
+                            }
+                            showMessage(`${schoolType.toUpperCase()} TSV επεξεργάστηκε και αποθηκεύτηκε επιτυχώς! Βρέθηκαν ${enhancedData.length} σχολές.`, 'success');
+                        } else {
+                            showMessage('Σφάλμα αποθήκευσης στη βάση δεδομένων.', 'error');
+                        }
+                    } else {
+                        showMessage('Το TSV αρχείο δεν περιέχει έγκυρα δεδομένα.', 'error');
+                    }
+                } catch (error) {
+                    showMessage('Σφάλμα επεξεργασίας TSV: ' + error.message, 'error');
+                    console.error('TSV parsing error:', error);
+                }
+            };
+            reader.onerror = () => showMessage('Σφάλμα ανάγνωσης αρχείου.', 'error');
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        // Upload Excel file for specific school type
+        async function uploadExcelFile(file, schoolType) {
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, {type: 'array'});
+                    
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const jsonData = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+                    
+                    if (jsonData.length > 0) {
+                        const schoolsData = parseSchoolsExcel(jsonData);
+                        
+                        // Προσθήκη του schoolType και άλλων απαραίτητων πεδίων στα δεδομένα
+                        const enhancedData = schoolsData.map(school => {
+                            // Αυτόματος προσδιορισμός του field βάσει του scientificField
+                            let field = 'theoretiko'; // default
+                            const scientificField = (school.scientificField || '').toLowerCase();
+                            
+                            if (schoolType === 'gel') {
+                                if (scientificField.includes('θετικ') || scientificField.includes('μαθηματικ') || scientificField.includes('φυσικ')) {
+                                    field = 'thetiko';
+                                } else if (scientificField.includes('οικονομ') || scientificField.includes('διοικητ')) {
+                                    field = 'oikonomiko';
+                                } else if (scientificField.includes('τεχνολογ')) {
+                                    field = 'technologiko';
+                                } else {
+                                    field = 'theoretiko';
+                                }
+                            } else { // epal
+                                if (scientificField.includes('πληροφορ') || scientificField.includes('υπολογιστ')) {
+                                    field = 'pliroforiki';
+                                } else if (scientificField.includes('μηχανολογ') || scientificField.includes('μηχανικ')) {
+                                    field = 'mixanologia';
+                                } else {
+                                    field = 'pliroforiki'; // default για ΕΠΑΛ
+                                }
+                            }
+                            
+                            return {
+                                ...school,
+                                schoolType: schoolType,
+                                field: field,
+                                avgScore: Math.round((school.minMoria + school.maxMoria) / 2) || 15000
+                            };
+                        });
+                        
+                        // Αποστολή στο backend
+                        const success = await saveSchoolsDataToServer(enhancedData);
+                        
+                        if (success) {
+                            if (schoolType === 'gel') {
+                                gelData = enhancedData;
+                                showSchoolsPreview(enhancedData, 'ΓΕΛ', 'gel-preview');
+                                document.getElementById('current-gel-file').textContent = 
+                                    `${file.name} - ${enhancedData.length} σχολές (Αποθηκευμένο)`;
+                            } else {
+                                epalData = enhancedData;
+                                showSchoolsPreview(enhancedData, 'ΕΠΑΛ', 'epal-preview');
+                                document.getElementById('current-epal-file').textContent = 
+                                    `${file.name} - ${enhancedData.length} σχολές (Αποθηκευμένο)`;
+                            }
+                            showMessage(`${schoolType.toUpperCase()} Excel επεξεργάστηκε και αποθηκεύτηκε επιτυχώς! Βρέθηκαν ${enhancedData.length} σχολές.`, 'success');
+                        } else {
+                            showMessage('Σφάλμα αποθήκευσης στη βάση δεδομένων.', 'error');
+                        }
+                    } else {
+                        showMessage('Το Excel αρχείο δεν περιέχει έγκυρα δεδομένα.', 'error');
+                    }
+                    
+                } catch (error) {
+                    showMessage('Σφάλμα επεξεργασίας Excel: ' + error.message, 'error');
+                    console.error('Excel parsing error:', error);
+                }
+            };
+            reader.onerror = () => showMessage('Σφάλμα ανάγνωσης αρχείου.', 'error');
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Parse TSV file with Greek university data format
+        function parseSchoolsTSV(tsvText) {
+            const lines = tsvText.split('\n').filter(line => line.trim());
+            
+            if (lines.length < 2) {
+                throw new Error('Το αρχείο πρέπει να έχει τουλάχιστον μία γραμμή headers και μία γραμμή δεδομένων.');
+            }
+            
+            const headers = lines[0].split('\t').map(h => h.trim());
+            console.log('TSV headers detected:', headers);
+            
+            const schools = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split('\t').map(v => v.trim());
+                
+                // Βάσει της δομής: ΚΩΔΙΚΟΣ | ΙΔΡΥΜΑ | ΟΝΟΜΑ | ΕΙΔΟΣ ΘΕΣΗΣ | ΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ | ΜΕΓΙΣΤΑ ΜΟΡΙΑ | ΕΛΑΧΙΣΤΑ ΜΟΡΙΑ
+                if (values.length >= 7 && values[2] && values[2].length > 3) {
+                    const school = {
+                        id: values[0] || '',                 // ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ (στήλη 0)
+                        university: values[1] || '',         // ΙΔΡΥΜΑ (στήλη 1)
+                        name: values[2] || '',               // ΟΝΟΜΑ ΣΧΟΛΗΣ (στήλη 2)
+                        positionType: values[3] || '',       // ΕΙΔΟΣ ΘΕΣΗΣ (στήλη 3)
+                        scientificField: values[4] || '',    // ΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ (στήλη 4)
+                        maxMoria: parseInt(values[5]) || 0,  // ΜΕΓΙΣΤΑ ΜΟΡΙΑ (στήλη 5)
+                        minMoria: parseInt(values[6]) || 0   // ΕΛΑΧΙΣΤΑ ΜΟΡΙΑ (στήλη 6)
+                    };
+                    
+                    schools.push(school);
+                }
+            }
+            
+            console.log(`Successfully parsed ${schools.length} schools from TSV`);
+            return schools;
+        }
+
+        // Parse Excel data (array format)
+        function parseSchoolsExcel(jsonData) {
+            const schools = [];
+            
+            if (jsonData.length < 2) {
+                throw new Error('Το Excel αρχείο πρέπει να έχει τουλάχιστον μία γραμμή headers και μία γραμμή δεδομένων.');
+            }
+            
+            for (let i = 1; i < jsonData.length; i++) {
+                const values = jsonData[i];
+                
+                // Βάσει της δομής: ΚΩΔΙΚΟΣ | ΙΔΡΥΜΑ | ΟΝΟΜΑ | ΕΙΔΟΣ ΘΕΣΗΣ | ΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ | ΜΕΓΙΣΤΑ ΜΟΡΙΑ | ΕΛΑΧΙΣΤΑ ΜΟΡΙΑ
+                if (values && values.length >= 7 && values[2] && values[2].toString().length > 3) {
+                    const school = {
+                        id: values[0] ? values[0].toString() : '',                 // ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ (στήλη 0)
+                        university: values[1] ? values[1].toString() : '',         // ΙΔΡΥΜΑ (στήλη 1)
+                        name: values[2] ? values[2].toString() : '',               // ΟΝΟΜΑ ΣΧΟΛΗΣ (στήλη 2)
+                        positionType: values[3] ? values[3].toString() : '',       // ΕΙΔΟΣ ΘΕΣΗΣ (στήλη 3)
+                        scientificField: values[4] ? values[4].toString() : '',    // ΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ (στήλη 4)
+                        maxMoria: parseInt(values[5]) || 0,                        // ΜΕΓΙΣΤΑ ΜΟΡΙΑ (στήλη 5)
+                        minMoria: parseInt(values[6]) || 0                         // ΕΛΑΧΙΣΤΑ ΜΟΡΙΑ (στήλη 6)
+                    };
+                    
+                    schools.push(school);
+                }
+            }
+            
+            return schools;
+        }
+
+        // Show preview for parsed data
+        function showSchoolsPreview(schoolsData, schoolType, containerId) {
+            const container = document.getElementById(containerId);
+            container.style.display = 'block';
+            
+            const limitedData = schoolsData.slice(0, 10);
+            
+            let html = `
+                <h3>Προεπισκόπηση ${schoolType} (${schoolsData.length} συνολικά σχολές, εμφάνιση πρώτων 10)</h3>
+                <div style="overflow-x: auto;">
+                    <table class="preview-table">
+                        <thead>
+                            <tr>
+                                <th>Κωδικός</th>
+                                <th>Ίδρυμα</th>
+                                <th>Όνομα Σχολής</th>
+                                <th>Είδος Θέσης</th>
+                                <th>Επιστημονικά Πεδία</th>
+                                <th>Μέγιστα Μόρια</th>
+                                <th>Ελάχιστα Μόρια</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            limitedData.forEach(school => {
+                html += `
+                    <tr>
+                        <td>${school.id || 'N/A'}</td>
+                        <td>${school.university || 'N/A'}</td>
+                        <td>${school.name || 'N/A'}</td>
+                        <td>${school.positionType || 'N/A'}</td>
+                        <td>${school.scientificField || 'N/A'}</td>
+                        <td>${school.maxMoria || 'N/A'}</td>
+                        <td>${school.minMoria || 'N/A'}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 15px;">
+                    <button class="upload-btn" onclick="saveData('${schoolType.toLowerCase()}')">Αποθήκευση ${schoolType}</button>
+                    <button class="upload-btn" onclick="downloadAsExcel('${schoolType.toLowerCase()}')">Κατέβασμα ως Excel</button>
+                    <button class="preview-btn" onclick="clearData('${schoolType.toLowerCase()}')">Ακύρωση</button>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // Save data function
+        function saveData(schoolType) {
+            const data = schoolType === 'γελ' ? gelData : epalData;
+            if (!data) {
+                showMessage('Δεν υπάρχουν δεδομένα για αποθήκευση.', 'error');
+                return;
+            }
+            
+            showMessage(`Τα δεδομένα ${schoolType.toUpperCase()} αποθηκεύτηκαν επιτυχώς! ${data.length} σχολές.`, 'success');
+            console.log(`Saved ${schoolType} data:`, data);
+        }
+
+        // Download as Excel
+        function downloadAsExcel(schoolType) {
+            const data = schoolType === 'γελ' ? gelData : epalData;
+            if (!data) {
+                showMessage('Δεν υπάρχουν δεδομένα για κατέβασμα.', 'error');
+                return;
+            }
+            
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, schoolType.toUpperCase());
+            XLSX.writeFile(wb, `${schoolType}_schools.xlsx`);
+            showMessage(`Το αρχείο ${schoolType.toUpperCase()} κατέβηκε επιτυχώς!`, 'success');
+        }
+
+        // Clear data
+        function clearData(schoolType) {
+            if (schoolType === 'γελ') {
+                gelData = null;
+                document.getElementById('gel-preview').style.display = 'none';
+                document.getElementById('gel-file').value = '';
+                document.getElementById('current-gel-file').textContent = 'Δεν έχει ανέβει αρχείο ΓΕΛ';
+            } else {
+                epalData = null;
+                document.getElementById('epal-preview').style.display = 'none';
+                document.getElementById('epal-file').value = '';
+                document.getElementById('current-epal-file').textContent = 'Δεν έχει ανέβει αρχείο ΕΠΑΛ';
+            }
+            showMessage(`Τα δεδομένα ${schoolType.toUpperCase()} διαγράφηκαν.`, 'error');
+        }
+
+        // Download sample files
+        function downloadSampleGEL() {
+            const sampleData = `ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ\tΙΔΡΥΜΑ\tΟΝΟΜΑ ΣΧΟΛΗΣ\tΕΙΔΟΣ ΘΕΣΗΣ\tΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ\tΜΕΓΙΣΤΑ ΜΟΡΙΑ\tΕΛΑΧΙΣΤΑ ΜΟΡΙΑ
+0413\tΑ.Ε.Α. ΑΘΗΝΑΣ\tΠΡΟΓΡΑΜΜΑ ΙΕΡΑΤΙΚΩΝ ΣΠΟΥΔΩΝ ΑΘΗΝΑΣ\tΓΕΛ ΓΕΝΙΚΗ ΣΕΙΡΑ ΗΜ.\t1\t10010\t10010
+0818\tΑ.Ε.Ν.\tΣΧΟΛΗ ΜΗΧΑΝΙΚΩΝ\tΓΕΛ ΓΕΝΙΚΗ ΣΕΙΡΑ ΗΜ.\t2\t16800\t8350
+0129\tΑ.Π.Θ.\tΑΓΓΛΙΚΗΣ ΓΛΩΣΣΑΣ ΚΑΙ ΦΙΛΟΛΟΓΙΑΣ (ΘΕΣΣΑΛΟΝΙΚΗ)\tΓΕΛ ΓΕΝΙΚΗ ΣΕΙΡΑ ΗΜ.\t1\t22760\t18550`;
+            
+            downloadFile(sampleData, 'sample_gel_schools.tsv', 'text/tab-separated-values');
+            showMessage('Το δείγμα ΓΕΛ κατέβηκε επιτυχώς!', 'success');
+        }
+
+        function downloadSampleEPAL() {
+            const sampleData = `ΚΩΔΙΚΟΣ ΣΧΟΛΗΣ\tΙΔΡΥΜΑ\tΟΝΟΜΑ ΣΧΟΛΗΣ\tΕΙΔΟΣ ΘΕΣΗΣ\tΕΠΙΣΤΗΜΟΝΙΚΑ ΠΕΔΙΑ\tΜΕΓΙΣΤΑ ΜΟΡΙΑ\tΕΛΑΧΙΣΤΑ ΜΟΡΙΑ
+0501\tΕΠΑΛ\tΤΕΧΝΟΛΟΓΙΑ ΤΡΟΦΙΜΩΝ\tΕΠΑΛ ΠΛΗΡΟΦΟΡΙΚΗΣ\t4\t12500\t8200
+0502\tΕΠΑΛ\tΜΗΧΑΝΟΛΟΓΙΑ ΑΥΤΟΚΙΝΗΤΩΝ\tΕΠΑΛ ΠΛΗΡΟΦΟΡΙΚΗΣ\t4\t14800\t9500
+0503\tΕΠΑΛ\tΗΛΕΚΤΡΟΝΙΚΑ ΣΥΣΤΗΜΑΤΑ\tΕΠΑΛ ΠΛΗΡΟΦΟΡΙΚΗΣ\t4\t13200\t8800`;
+            
+            downloadFile(sampleData, 'sample_epal_schools.tsv', 'text/tab-separated-values');
+            showMessage('Το δείγμα ΕΠΑΛ κατέβηκε επιτυχώς!', 'success');
+        }
+
+        function downloadFile(content, filename, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Show message
+        function showMessage(message, type) {
+            const container = document.getElementById('status-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = message;
+            
+            container.innerHTML = '';
+            container.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.parentNode.removeChild(messageDiv);
+                }
+            }, 5000);
+        }
+
+        // ========== EXCEL TEMPLATES FUNCTIONALITY ==========
+        
+        // Load and display templates when page loads
+        window.addEventListener('load', function() {
+            loadTemplates();
+            loadTemplateStats();
+        });
+        
+        // Upload new template
+        async function uploadTemplate() {
+            const fileInput = document.getElementById('template-file');
+            const templateType = document.getElementById('template-type').value;
+            
+            if (!fileInput.files[0]) {
+                showMessage('Παρακαλώ επιλέξτε ένα αρχείο.', 'error');
+                return;
+            }
+            
+            if (!templateType) {
+                showMessage('Παρακαλώ επιλέξτε τύπο template.', 'error');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('template', fileInput.files[0]);
+            formData.append('templateType', templateType);
+            
+            try {
+                const response = await fetch('/api/upload-calculator-template', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showMessage(result.message, 'success');
+                    fileInput.value = '';
+                    document.getElementById('template-type').value = '';
+                    loadTemplates();
+                    loadTemplateStats();
+                } else {
+                    showMessage(result.error || 'Σφάλμα ανεβάσματος', 'error');
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                showMessage('Σφάλμα σύνδεσης με τον server.', 'error');
+            }
+        }
+        
+        // Load and display all templates
+        async function loadTemplates() {
+            try {
+                const response = await fetch('/api/calculator-templates');
+                const templates = await response.json();
+                
+                const container = document.getElementById('templates-container');
+                
+                if (templates.length === 0) {
+                    container.innerHTML = '<p>Δεν υπάρχουν templates.</p>';
+                    return;
+                }
+                
+                let html = '';
+                templates.forEach(template => {
+                    const uploadDate = new Date(template.uploadDate).toLocaleDateString('el-GR');
+                    const fileSize = formatFileSize(template.size);
+                    
+                    html += `
+                        <div class="template-item">
+                            <div class="template-info">
+                                <strong>${template.originalName}</strong><br>
+                                <small>Τύπος: ${template.templateType} | Μέγεθος: ${fileSize} | Ημερομηνία: ${uploadDate}</small>
+                            </div>
+                            <div class="template-actions">
+                                <button onclick="downloadTemplate('${template.fileName}')" class="btn btn-success">📥 Κατέβασμα</button>
+                                <button onclick="deleteTemplate('${template.fileName}')" class="btn btn-danger">🗑️ Διαγραφή</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading templates:', error);
+                document.getElementById('templates-container').innerHTML = '<p>Σφάλμα φόρτωσης templates.</p>';
+            }
+        }
+        
+        // Load template statistics
+        async function loadTemplateStats() {
+            try {
+                const response = await fetch('/api/calculator-templates-stats');
+                const stats = await response.json();
+                
+                const container = document.getElementById('stats-container');
+                
+                let html = `
+                    <p><strong>Σύνολο Templates:</strong> ${stats.totalTemplates}</p>
+                    <p><strong>Συνολικό Μέγεθος:</strong> ${formatFileSize(stats.totalSize)}</p>
+                `;
+                
+                if (stats.lastUpdated) {
+                    const lastUpdate = new Date(stats.lastUpdated).toLocaleDateString('el-GR');
+                    html += `<p><strong>Τελευταία Ενημέρωση:</strong> ${lastUpdate}</p>`;
+                }
+                
+                if (Object.keys(stats.templateTypes).length > 0) {
+                    html += '<p><strong>Ανά Τύπο:</strong></p><ul>';
+                    for (const [type, count] of Object.entries(stats.templateTypes)) {
+                        html += `<li>${type}: ${count}</li>`;
+                    }
+                    html += '</ul>';
+                }
+                
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading template stats:', error);
+                document.getElementById('stats-container').innerHTML = '<p>Σφάλμα φόρτωσης στατιστικών.</p>';
+            }
+        }
+        
+        // Download template
+        async function downloadTemplate(fileName) {
+            try {
+                const response = await fetch(`/api/calculator-templates/${fileName}`);
+                
+                if (!response.ok) {
+                    throw new Error('Template δεν βρέθηκε');
+                }
+                
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                a.click();
+                window.URL.revokeObjectURL(url);
+                
+                showMessage('Το template κατέβηκε επιτυχώς!', 'success');
+            } catch (error) {
+                console.error('Download error:', error);
+                showMessage('Σφάλμα κατεβάσματος template.', 'error');
+            }
+        }
+        
+        // Delete template
+        async function deleteTemplate(fileName) {
+            if (!confirm('Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το template;')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/calculator-templates/${fileName}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showMessage(result.message, 'success');
+                    loadTemplates();
+                    loadTemplateStats();
+                } else {
+                    showMessage(result.error || 'Σφάλμα διαγραφής', 'error');
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                showMessage('Σφάλμα σύνδεσης με τον server.', 'error');
+            }
+        }
+        
+        // Format file size
+        function formatFileSize(bytes) {
+            if (!bytes || bytes === 0) return '0 B';
+            
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Αποστολή δεδομένων σχολών στο backend
+        async function saveSchoolsDataToServer(schoolsData) {
+            try {
+                const response = await fetch('/api/upload-schools-csv', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(schoolsData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    console.log('Schools data saved to server:', result);
+                    return true;
+                } else {
+                    console.error('Failed to save schools data:', result.error);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error saving schools data to server:', error);
+                return false;
+            }
+        }
+        
+        // Φόρτωση αποθηκευμένων δεδομένων από το backend κατά την εκκίνηση
+        async function loadSavedSchoolsData() {
+            try {
+                const response = await fetch('/api/schools-data');
+                const schoolsData = await response.json();
+                
+                if (schoolsData && schoolsData.length > 0) {
+                    // Διαχωρισμός δεδομένων GEL και EPAL
+                    const gelSchools = schoolsData.filter(school => school.schoolType === 'gel');
+                    const epalSchools = schoolsData.filter(school => school.schoolType === 'epal');
+                    
+                    if (gelSchools.length > 0) {
+                        gelData = gelSchools;
+                        showSchoolsPreview(gelSchools, 'ΓΕΛ', 'gel-preview');
+                        document.getElementById('current-gel-file').textContent = 
+                            `Αποθηκευμένο αρχείο - ${gelSchools.length} σχολές ΓΕΛ`;
+                    }
+                    
+                    if (epalSchools.length > 0) {
+                        epalData = epalSchools;
+                        showSchoolsPreview(epalSchools, 'ΕΠΑΛ', 'epal-preview');
+                        document.getElementById('current-epal-file').textContent = 
+                            `Αποθηκευμένο αρχείο - ${epalSchools.length} σχολές ΕΠΑΛ`;
+                    }
+                    
+                    console.log(`Loaded ${schoolsData.length} schools from server (${gelSchools.length} GEL, ${epalSchools.length} EPAL)`);
+                }
+            } catch (error) {
+                console.error('Error loading saved schools data:', error);
+            }
+        }
+        
+        // Κλήση φόρτωσης αποθηκευμένων δεδομένων κατά την εκκίνηση
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedSchoolsData();
+            // loadTemplates(); // Αν χρειάζεται
+        });
+    </script>
+</body>
+</html>

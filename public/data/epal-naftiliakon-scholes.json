@@ -1,0 +1,46 @@
+[
+  {
+    "id": "naft_001",
+    "name": "Πανεπιστήμιο Αιγαίου - Ναυτιλίας και Επιχειρηματικών Υπηρεσιών",
+    "schoolType": "epal",
+    "scientificField": "naftiliakon",
+    "baseMoria": 13000,
+    "minMoria": 11500,
+    "maxMoria": 14500,
+    "avgMoria": 13000,
+    "category": "Ναυτιλιακές Σχολές"
+  },
+  {
+    "id": "naft_002",
+    "name": "Πανεπιστήμιο Πειραιώς - Ναυτιλίας και Επιχειρηματικών Υπηρεσιών",
+    "schoolType": "epal",
+    "scientificField": "naftiliakon",
+    "baseMoria": 14000,
+    "minMoria": 12500,
+    "maxMoria": 15500,
+    "avgMoria": 14000,
+    "category": "Ναυτιλιακές Σχολές"
+  },
+  {
+    "id": "naft_003",
+    "name": "Πανεπιστήμιο Θεσσαλίας - Μηχανικών Ναυτιλίας",
+    "schoolType": "epal",
+    "scientificField": "naftiliakon",
+    "baseMoria": 12500,
+    "minMoria": 11000,
+    "maxMoria": 14000,
+    "avgMoria": 12500,
+    "category": "Ναυτιλιακές Σχολές"
+  },
+  {
+    "id": "naft_004",
+    "name": "Ακαδημία Εμπορικού Ναυτικού - Πλοιάρχων",
+    "schoolType": "epal",
+    "scientificField": "naftiliakon",
+    "baseMoria": 11500,
+    "minMoria": 10000,
+    "maxMoria": 13000,
+    "avgMoria": 11500,
+    "category": "Ναυτιλιακές Σχολές"
+  }
+]

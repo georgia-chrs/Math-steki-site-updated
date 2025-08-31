@@ -1,0 +1,46 @@
+[
+  {
+    "id": "yg_001",
+    "name": "Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών - Νοσηλευτικής",
+    "schoolType": "epal",
+    "scientificField": "ygeias",
+    "baseMoria": 14500,
+    "minMoria": 13000,
+    "maxMoria": 16000,
+    "avgMoria": 14500,
+    "category": "Επιστημών Υγείας"
+  },
+  {
+    "id": "yg_002",
+    "name": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης - Νοσηλευτικής",
+    "schoolType": "epal",
+    "scientificField": "ygeias",
+    "baseMoria": 14000,
+    "minMoria": 12500,
+    "maxMoria": 15500,
+    "avgMoria": 14000,
+    "category": "Επιστημών Υγείας"
+  },
+  {
+    "id": "yg_003",
+    "name": "Πανεπιστήμιο Πελοποννήσου - Φυσιοθεραπείας",
+    "schoolType": "epal",
+    "scientificField": "ygeias",
+    "baseMoria": 13500,
+    "minMoria": 12000,
+    "maxMoria": 15000,
+    "avgMoria": 13500,
+    "category": "Επιστημών Υγείας"
+  },
+  {
+    "id": "yg_004",
+    "name": "Πανεπιστήμιο Θεσσαλίας - Επιστημών Υγείας",
+    "schoolType": "epal",
+    "scientificField": "ygeias",
+    "baseMoria": 13000,
+    "minMoria": 11500,
+    "maxMoria": 14500,
+    "avgMoria": 13000,
+    "category": "Επιστημών Υγείας"
+  }
+]

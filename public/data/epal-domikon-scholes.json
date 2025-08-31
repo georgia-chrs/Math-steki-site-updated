@@ -1,0 +1,46 @@
+[
+  {
+    "id": "domi_001",
+    "name": "Εθνικό Μετσόβιο Πολυτεχνείο - Αρχιτεκτόνων Μηχανικών",
+    "schoolType": "epal",
+    "scientificField": "domikon",
+    "baseMoria": 16500,
+    "minMoria": 15000,
+    "maxMoria": 18000,
+    "avgMoria": 16500,
+    "category": "Πολυτεχνικές Σχολές"
+  },
+  {
+    "id": "domi_002",
+    "name": "Εθνικό Μετσόβιο Πολυτεχνείο - Πολιτικών Μηχανικών",
+    "schoolType": "epal",
+    "scientificField": "domikon",
+    "baseMoria": 16000,
+    "minMoria": 14500,
+    "maxMoria": 17500,
+    "avgMoria": 16000,
+    "category": "Πολυτεχνικές Σχολές"
+  },
+  {
+    "id": "domi_003",
+    "name": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης - Αρχιτεκτονικής",
+    "schoolType": "epal",
+    "scientificField": "domikon",
+    "baseMoria": 15500,
+    "minMoria": 14000,
+    "maxMoria": 17000,
+    "avgMoria": 15500,
+    "category": "Πολυτεχνικές Σχολές"
+  },
+  {
+    "id": "domi_004",
+    "name": "Πολυτεχνείο Κρήτης - Αρχιτεκτόνων Μηχανικών",
+    "schoolType": "epal",
+    "scientificField": "domikon",
+    "baseMoria": 15000,
+    "minMoria": 13500,
+    "maxMoria": 16500,
+    "avgMoria": 15000,
+    "category": "Πολυτεχνικές Σχολές"
+  }
+]

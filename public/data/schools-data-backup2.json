@@ -1,0 +1,106 @@
+[
+  {
+    "id": "101",
+    "name": "Ιατρική",
+    "university": "Αθήνα",
+    "avgScore": 19.2,
+    "minMoria": 19800,
+    "maxMoria": 20000
+  },
+  {
+    "id": "101",
+    "name": "Ιατρική",
+    "university": "Αθήνα",
+    "avgScore": 19.2,
+    "minMoria": 19800,
+    "maxMoria": 20000
+  },
+  {
+    "id": "101",
+    "name": "Ιατρική",
+    "university": "Αθήνα",
+    "avgScore": 19.2,
+    "minMoria": 19800,
+    "maxMoria": 20000
+  },
+  {
+    "id": "101",
+    "name": "Ιατρική",
+    "university": "Αθήνα",
+    "avgScore": 19.2,
+    "minMoria": 19800,
+    "maxMoria": 20000
+  },
+  {
+    "id": "101",
+    "name": "Ιατρική",
+    "university": "Αθήνα",
+    "avgScore": 19.2,
+    "minMoria": 19800,
+    "maxMoria": 20000
+  },
+  {
+    "id": "101",
+    "name": "Ιατρική",
+    "university": "Αθήνα",
+    "avgScore": 19.2,
+    "minMoria": 19800,
+    "maxMoria": 20000
+  },
+  {
+    "id": "101",
+    "name": "Ιατρική",
+    "university": "Αθήνα",
+    "avgScore": 19.2,
+    "minMoria": 19800,
+    "maxMoria": 20000
+  },
+  {
+    "id": "101",
+    "name": "Ιατρική",
+    "university": "Αθήνα",
+    "avgScore": 19.2,
+    "minMoria": 19800,
+    "maxMoria": 20000
+  },
+  {
+    "id": "101",
+    "name": "Ιατρική",
+    "university": "Αθήνα",
+    "avgScore": 19.2,
+    "minMoria": 19800,
+    "maxMoria": 20000
+  },
+  {
+    "id": "181",
+    "name": "Ιατρική",
+    "university": "Λάρισα",
+    "avgScore": 18.3,
+    "minMoria": 18900,
+    "maxMoria": 19400
+  },
+  {
+    "id": "281",
+    "name": "Πολυτεχνείο",
+    "university": "Λάρισα",
+    "avgScore": 17.4,
+    "minMoria": 17500,
+    "maxMoria": 18200
+  },
+  {
+    "id": "191",
+    "name": "Ιατρική",
+    "university": "Κομοτηνή",
+    "avgScore": 18.1,
+    "minMoria": 18700,
+    "maxMoria": 19200
+  },
+  {
+    "id": "192",
+    "name": "Οδοντιατρική",
+    "university": "Κομοτηνή",
+    "avgScore": 17.8,
+    "minMoria": 18200,
+    "maxMoria": 18900
+  }
+]

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Templates - Παραδείγματα</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f5f5f5; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: #fff; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.1); 
+        }
+        h1 { 
+            color: #5b3c2a; 
+            text-align: center; 
+            margin-bottom: 30px; 
+        }
+        .template-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .template-section h2 {
+            color: #5b3c2a;
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #5b3c2a;
+            color: white;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .download-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        .download-btn:hover {
+            background: #218838;
+        }
+        .note {
+            background: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .example-data {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CSV Templates για Administrator</h1>
+        
+        <!-- Template για Σχολές -->
+        <div class="template-section">
+            <h2>1. Template για Σχολές Ανθρωπιστικών Επιστημών</h2>
+            <p>Αυτό είναι ένα παράδειγμα CSV αρχείου για σχολές ανθρωπιστικών επιστημών:</p>
+            
+            <table id="anthropistikes-table">
+                <thead>
+                    <tr>
+                        <th>Όνομα Σχολής</th>
+                        <th>Βάση Εισαγωγής</th>
+                        <th>Μάθημα 1</th>
+                        <th>Συντελεστής 1</th>
+                        <th>Μάθημα 2</th>
+                        <th>Συντελεστής 2</th>
+                        <th>Μάθημα 3</th>
+                        <th>Συντελεστής 3</th>
+                        <th>Μάθημα 4</th>
+                        <th>Συντελεστής 4</th>
+                        <th>Ειδικά Μαθήματα</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Φιλολογία - Αθήνα</td>
+                        <td>18500</td>
+                        <td>Νεοελληνική Γλώσσα</td>
+                        <td>0.3</td>
+                        <td>Αρχαία Ελληνικά</td>
+                        <td>0.3</td>
+                        <td>Ιστορία</td>
+                        <td>0.2</td>
+                        <td>Λατινικά</td>
+                        <td>0.2</td>
+                        <td>Λατινικά,Αγγλικά,Γαλλικά</td>
+                    </tr>
+                    <tr>
+                        <td>Ιστορία και Αρχαιολογία - Αθήνα</td>
+                        <td>17800</td>
+                        <td>Νεοελληνική Γλώσσα</td>
+                        <td>0.2</td>
+                        <td>Αρχαία Ελληνικά</td>
+                        <td>0.3</td>
+                        <td>Ιστορία</td>
+                        <td>0.4</td>
+                        <td>Λατινικά</td>
+                        <td>0.1</td>
+                        <td>Λατινικά,Αγγλικά</td>
+                    </tr>
+                    <tr>
+                        <td>Ψυχολογία - Αθήνα</td>
+                        <td>19200</td>
+                        <td>Νεοελληνική Γλώσσα</td>
+                        <td>0.3</td>
+                        <td>Αρχαία Ελληνικά</td>
+                        <td>0.2</td>
+                        <td>Ιστορία</td>
+                        <td>0.3</td>
+                        <td>Λατινικά</td>
+                        <td>0.2</td>
+                        <td>Αγγλικά,Γαλλικά</td>
+                    </tr>
+                    <tr>
+                        <td>Νομική - Αθήνα</td>
+                        <td>18900</td>
+                        <td>Νεοελληνική Γλώσσα</td>
+                        <td>0.3</td>
+                        <td>Αρχαία Ελληνικά</td>
+                        <td>0.2</td>
+                        <td>Ιστορία</td>
+                        <td>0.3</td>
+                        <td>Λατινικά</td>
+                        <td>0.2</td>
+                        <td>Αγγλικά,Γαλλικά</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="download-btn" onclick="downloadCSV('anthropistikes')">
+                📥 Κατέβασμα Anthropistikes-Scholes.csv
+            </button>
+            
+            <div class="note">
+                <strong>Σημείωση:</strong> Οι συντελεστές πρέπει να έχουν άθροισμα 1.0 για κάθε σχολή. Το CSV χρησιμοποιεί κόμμα (,) ως διαχωριστικό πεδίων.
+            </div>
+        </div>
+
+        <!-- Template για Θετικές Επιστήμες -->
+        <div class="template-section">
+            <h2>2. Template για Σχολές Θετικών Επιστημών</h2>
+            
+            <table id="thetikes-table">
+                <thead>
+                    <tr>
+                        <th>Όνομα Σχολής</th>
+                        <th>Βάση Εισαγωγής</th>
+                        <th>Μάθημα 1</th>
+                        <th>Συντελεστής 1</th>
+                        <th>Μάθημα 2</th>
+                        <th>Συντελεστής 2</th>
+                        <th>Μάθημα 3</th>
+                        <th>Συντελεστής 3</th>
+                        <th>Μάθημα 4</th>
+                        <th>Συντελεστής 4</th>
+                        <th>Ειδικά Μαθήματα</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Μαθηματικό - Αθήνα</td>
+                        <td>18200</td>
+                        <td>Μαθηματικά</td>
+                        <td>0.4</td>
+                        <td>Φυσική</td>
+                        <td>0.3</td>
+                        <td>Χημεία</td>
+                        <td>0.2</td>
+                        <td>Βιολογία</td>
+                        <td>0.1</td>
+                        <td>Αγγλικά,Γαλλικά</td>
+                    </tr>
+                    <tr>
+                        <td>Φυσικό - Αθήνα</td>
+                        <td>17800</td>
+                        <td>Μαθηματικά</td>
+                        <td>0.3</td>
+                        <td>Φυσική</td>
+                        <td>0.4</td>
+                        <td>Χημεία</td>
+                        <td>0.2</td>
+                        <td>Βιολογία</td>
+                        <td>0.1</td>
+                        <td>Αγγλικά,Γαλλικά</td>
+                    </tr>
+                    <tr>
+                        <td>Πολυτεχνείο - Αρχιτεκτόνων</td>
+                        <td>19500</td>
+                        <td>Μαθηματικά</td>
+                        <td>0.4</td>
+                        <td>Φυσική</td>
+                        <td>0.3</td>
+                        <td>Χημεία</td>
+                        <td>0.2</td>
+                        <td>Βιολογία</td>
+                        <td>0.1</td>
+                        <td>Αγγλικά,Γαλλικά</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="download-btn" onclick="downloadCSV('thetikes')">
+                📥 Κατέβασμα Thetikes-Scholes.csv
+            </button>
+        </div>
+
+        <!-- Template για Ρυθμίσεις Συστήματος -->
+        <div class="template-section">
+            <h2>3. Template για Ρυθμίσεις Συστήματος</h2>
+            <p>Για τις ρυθμίσεις χρειάζονται 2 ξεχωριστά CSV αρχεία:</p>
+            
+            <h3>Αρχείο 1: "lykeia.csv"</h3>
+            <table id="lykeia-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Όνομα</th>
+                        <th>Πεδία</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>gel</td>
+                        <td>ΓΕΛ</td>
+                        <td>anthropistikes,thetikes,ygeia,oikonomikes</td>
+                    </tr>
+                    <tr>
+                        <td>epal</td>
+                        <td>ΕΠΑΛ</td>
+                        <td>technologika,oikonomika,tourismou</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Αρχείο 2: "pedia.csv"</h3>
+            <table id="pedia-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Όνομα</th>
+                        <th>Μαθήματα</th>
+                        <th>Ειδικά</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>anthropistikes</td>
+                        <td>Ανθρωπιστικές, Νομικές και Κοινωνικές Επιστήμες</td>
+                        <td>Νεοελληνική Γλώσσα,Αρχαία Ελληνικά,Ιστορία,Λατινικά</td>
+                        <td>Λατινικά,Αγγλικά,Γαλλικά,Γερμανικά</td>
+                    </tr>
+                    <tr>
+                        <td>thetikes</td>
+                        <td>Θετικές και Τεχνολογικές Επιστήμες</td>
+                        <td>Μαθηματικά,Φυσική,Χημεία,Βιολογία</td>
+                        <td>Αγγλικά,Γαλλικά,Γερμανικά</td>
+                    </tr>
+                    <tr>
+                        <td>ygeia</td>
+                        <td>Επιστήμες Υγείας</td>
+                        <td>Βιολογία,Χημεία,Φυσική,Μαθηματικά</td>
+                        <td>Αγγλικά,Γαλλικά,Γερμανικά</td>
+                    </tr>
+                    <tr>
+                        <td>oikonomikes</td>
+                        <td>Επιστήμες Οικονομικών και Πληροφορικής</td>
+                        <td>Μαθηματικά,Στατιστική,Οικονομικά,Πληροφορική</td>
+                        <td>Αγγλικά,Γαλλικά,Γερμανικά</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <button class="download-btn" onclick="downloadCSV('lykeia')">
+                📥 Κατέβασμα lykeia.csv
+            </button>
+            <button class="download-btn" onclick="downloadCSV('pedia')">
+                📥 Κατέβασμα pedia.csv
+            </button>
+            
+            <div class="note">
+                <strong>Σημείωση:</strong> Για τις ρυθμίσεις χρειάζονται 2 ξεχωριστά CSV αρχεία που ανεβάζονται μαζί.
+            </div>
+        </div>
+
+        <!-- Οδηγίες Χρήσης -->
+        <div class="template-section">
+            <h2>4. Οδηγίες Χρήσης</h2>
+            
+            <div class="example-data">
+                <h3>Βήματα για τον Administrator:</h3>
+                <ol>
+                    <li><strong>Κατεβάστε</strong> το κατάλληλο CSV template από τα παραπάνω κουμπιά</li>
+                    <li><strong>Επεξεργαστείτε</strong> το CSV αρχείο με Excel, LibreOffice ή text editor</li>
+                    <li><strong>Αποθηκεύστε</strong> ως CSV format (διαχωριστικό: κόμμα)</li>
+                    <li><strong>Ανεβάστε</strong> το στη σελίδα διαχείρισης</li>
+                    <li><strong>Ελέγξτε</strong> την προεπισκόπηση πριν την αποθήκευση</li>
+                    <li><strong>Επιβεβαιώστε</strong> την αποθήκευση</li>
+                </ol>
+            </div>
+
+            <div class="note">
+                <strong>Προσοχή στα CSV αρχεία:</strong>
+                <ul>
+                    <li>Χρησιμοποιήστε κόμμα (,) ως διαχωριστικό πεδίων</li>
+                    <li>Εάν ένα πεδίο περιέχει κόμμα, βάλτε το σε εισαγωγικά ("πεδίο με, κόμμα")</li>
+                    <li>Μην αλλάξετε τα ονόματα των στηλών (headers)</li>
+                    <li>Οι συντελεστές πρέπει να έχουν άθροισμα 1.0</li>
+                    <li>Τα ειδικά μαθήματα διαχωρίζονται με ερωτηματικό (;) αντί για κόμμα</li>
+                    <li>Κωδικοποίηση: UTF-8 για ελληνικούς χαρακτήρες</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Δεδομένα για τα CSV αρχεία
+        const csvData = {
+            anthropistikes: {
+                filename: 'Anthropistikes-Scholes.csv',
+                data: [
+                    ['Όνομα Σχολής', 'Βάση Εισαγωγής', 'Μάθημα 1', 'Συντελεστής 1', 'Μάθημα 2', 'Συντελεστής 2', 'Μάθημα 3', 'Συντελεστής 3', 'Μάθημα 4', 'Συντελεστής 4', 'Ειδικά Μαθήματα'],
+                    ['Φιλολογία - Αθήνα', '18500', 'Νεοελληνική Γλώσσα', '0.3', 'Αρχαία Ελληνικά', '0.3', 'Ιστορία', '0.2', 'Λατινικά', '0.2', 'Λατινικά;Αγγλικά;Γαλλικά'],
+                    ['Ιστορία και Αρχαιολογία - Αθήνα', '17800', 'Νεοελληνική Γλώσσα', '0.2', 'Αρχαία Ελληνικά', '0.3', 'Ιστορία', '0.4', 'Λατινικά', '0.1', 'Λατινικά;Αγγλικά'],
+                    ['Ψυχολογία - Αθήνα', '19200', 'Νεοελληνική Γλώσσα', '0.3', 'Αρχαία Ελληνικά', '0.2', 'Ιστορία', '0.3', 'Λατινικά', '0.2', 'Αγγλικά;Γαλλικά'],
+                    ['Νομική - Αθήνα', '18900', 'Νεοελληνική Γλώσσα', '0.3', 'Αρχαία Ελληνικά', '0.2', 'Ιστορία', '0.3', 'Λατινικά', '0.2', 'Αγγλικά;Γαλλικά']
+                ]
+            },
+            thetikes: {
+                filename: 'Thetikes-Scholes.csv',
+                data: [
+                    ['Όνομα Σχολής', 'Βάση Εισαγωγής', 'Μάθημα 1', 'Συντελεστής 1', 'Μάθημα 2', 'Συντελεστής 2', 'Μάθημα 3', 'Συντελεστής 3', 'Μάθημα 4', 'Συντελεστής 4', 'Ειδικά Μαθήματα'],
+                    ['Μαθηματικό - Αθήνα', '18200', 'Μαθηματικά', '0.4', 'Φυσική', '0.3', 'Χημεία', '0.2', 'Βιολογία', '0.1', 'Αγγλικά;Γαλλικά'],
+                    ['Φυσικό - Αθήνα', '17800', 'Μαθηματικά', '0.3', 'Φυσική', '0.4', 'Χημεία', '0.2', 'Βιολογία', '0.1', 'Αγγλικά;Γαλλικά'],
+                    ['Πολυτεχνείο - Αρχιτεκτόνων', '19500', 'Μαθηματικά', '0.4', 'Φυσική', '0.3', 'Χημεία', '0.2', 'Βιολογία', '0.1', 'Αγγλικά;Γαλλικά']
+                ]
+            },
+            lykeia: {
+                filename: 'lykeia.csv',
+                data: [
+                    ['ID', 'Όνομα', 'Πεδία'],
+                    ['gel', 'ΓΕΛ', 'anthropistikes;thetikes;ygeia;oikonomikes'],
+                    ['epal', 'ΕΠΑΛ', 'technologika;oikonomika;tourismou']
+                ]
+            },
+            pedia: {
+                filename: 'pedia.csv',
+                data: [
+                    ['ID', 'Όνομα', 'Μαθήματα', 'Ειδικά'],
+                    ['anthropistikes', 'Ανθρωπιστικές; Νομικές και Κοινωνικές Επιστήμες', 'Νεοελληνική Γλώσσα;Αρχαία Ελληνικά;Ιστορία;Λατινικά', 'Λατινικά;Αγγλικά;Γαλλικά;Γερμανικά'],
+                    ['thetikes', 'Θετικές και Τεχνολογικές Επιστήμες', 'Μαθηματικά;Φυσική;Χημεία;Βιολογία', 'Αγγλικά;Γαλλικά;Γερμανικά'],
+                    ['ygeia', 'Επιστήμες Υγείας', 'Βιολογία;Χημεία;Φυσική;Μαθηματικά', 'Αγγλικά;Γαλλικά;Γερμανικά'],
+                    ['oikonomikes', 'Επιστήμες Οικονομικών και Πληροφορικής', 'Μαθηματικά;Στατιστική;Οικονομικά;Πληροφορική', 'Αγγλικά;Γαλλικά;Γερμανικά']
+                ]
+            }
+        };
+
+        // Μετατροπή πίνακα σε CSV string
+        function arrayToCSV(data) {
+            return data.map(row => 
+                row.map(field => {
+                    // Αν το πεδίο περιέχει κόμμα, εισαγωγικά ή νέα γραμμή, βάλτο σε εισαγωγικά
+                    if (typeof field === 'string' && (field.includes(',') || field.includes('"') || field.includes('\n'))) {
+                        return '"' + field.replace(/"/g, '""') + '"';
+                    }
+                    return field;
+                }).join(',')
+            ).join('\n');
+        }
+
+        // Λειτουργία κατεβάσματος CSV
+        function downloadCSV(type) {
+            if (!csvData[type]) {
+                alert('Μη έγκυρος τύπος αρχείου');
+                return;
+            }
+
+            const csvContent = arrayToCSV(csvData[type].data);
+            const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' }); // \ufeff για UTF-8 BOM
+            const link = document.createElement('a');
+            
+            if (link.download !== undefined) {
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', csvData[type].filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+    </script>
+</body>
+</html>

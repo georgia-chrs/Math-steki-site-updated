@@ -1,0 +1,94 @@
+{
+  "templateTypes": {
+    "calculation-template": {
+      "name": "Template Υπολογισμών",
+      "description": "Template για τον υπολογισμό μορίων μαθητή",
+      "requiredSheets": ["Υπολογισμοί", "Calculations"],
+      "placeholders": [
+        "STUDENT_NAME", "STUDENT_SURNAME", "LYCEUM_TYPE", "FIELD",
+        "SUBJECT_1", "SUBJECT_2", "SUBJECT_3",
+        "GRADE_1", "GRADE_2", "GRADE_3",
+        "COEFF_1", "COEFF_2", "COEFF_3",
+        "SPECIAL_1", "SPECIAL_2", "SPECIAL_GRADE_1", "SPECIAL_GRADE_2"
+      ],
+      "maxSize": 5242880
+    },
+    "results-template": {
+      "name": "Template Αποτελεσμάτων",
+      "description": "Template για την εμφάνιση αποτελεσμάτων",
+      "requiredSheets": ["Αποτελέσματα", "Results"],
+      "placeholders": [
+        "STUDENT_NAME", "STUDENT_SURNAME", "DATE", "STUDENT_MORIA",
+        "SCHOOL_1", "SCHOOL_2", "SCHOOL_3",
+        "BASE_1", "BASE_2", "BASE_3",
+        "STATUS_1", "STATUS_2", "STATUS_3",
+        "PERCENTAGE_1", "PERCENTAGE_2", "PERCENTAGE_3",
+        "TOTAL_SCHOOLS", "SUCCESS_COUNT", "SUCCESS_PERCENTAGE"
+      ],
+      "maxSize": 5242880
+    },
+    "statistics-template": {
+      "name": "Template Στατιστικών",
+      "description": "Template για στατιστικές αναφορές",
+      "requiredSheets": ["Στατιστικά", "Statistics"],
+      "placeholders": [
+        "DATE", "TOTAL_CALCULATIONS",
+        "ANTHROP_COUNT", "THETIKES_COUNT", "YGEIAS_COUNT",
+        "TOP_SCHOOL_1", "TOP_SCHOOL_2", "TOP_SCHOOL_3",
+        "TOP_COUNT_1", "TOP_COUNT_2", "TOP_COUNT_3",
+        "TOP_PERCENTAGE_1", "TOP_PERCENTAGE_2", "TOP_PERCENTAGE_3"
+      ],
+      "maxSize": 10485760
+    },
+    "schools-comparison-template": {
+      "name": "Template Σύγκρισης Σχολών",
+      "description": "Template για σύγκριση σχολών",
+      "requiredSheets": ["Σύγκριση", "Comparison"],
+      "placeholders": [
+        "STUDENT_MORIA", "DATE",
+        "SCHOOL_1", "SCHOOL_2", "SCHOOL_3",
+        "UNI_1", "UNI_2", "UNI_3",
+        "BASE_1", "BASE_2", "BASE_3",
+        "STATUS_1", "STATUS_2", "STATUS_3",
+        "DIFFICULTY_1", "DIFFICULTY_2", "DIFFICULTY_3",
+        "COMMENTS_1", "COMMENTS_2", "COMMENTS_3",
+        "TOTAL_SCHOOLS", "ACCESSIBLE_SCHOOLS", "NON_ACCESSIBLE_SCHOOLS"
+      ],
+      "maxSize": 5242880
+    },
+    "student-report-template": {
+      "name": "Template Αναφοράς Μαθητή",
+      "description": "Template για αναλυτική αναφορά μαθητή",
+      "requiredSheets": ["Αναφορά", "Report"],
+      "placeholders": [
+        "STUDENT_NAME", "STUDENT_SURNAME", "CLASS", "LYCEUM", "FIELD", "DATE",
+        "SUBJECT_1", "SUBJECT_2", "SUBJECT_3",
+        "GRADE_1", "GRADE_2", "GRADE_3",
+        "COEFF_1", "COEFF_2", "COEFF_3",
+        "COMMENT_1", "COMMENT_2", "COMMENT_3",
+        "SPECIAL_1", "SPECIAL_2",
+        "SPECIAL_GRADE_1", "SPECIAL_GRADE_2",
+        "SPECIAL_COMMENT_1", "SPECIAL_COMMENT_2",
+        "RESULT_SCHOOL_1", "RESULT_SCHOOL_2", "RESULT_SCHOOL_3",
+        "RESULT_STATUS_1", "RESULT_STATUS_2", "RESULT_STATUS_3",
+        "RESULT_PROB_1", "RESULT_PROB_2", "RESULT_PROB_3",
+        "RESULT_ADVICE_1", "RESULT_ADVICE_2", "RESULT_ADVICE_3"
+      ],
+      "maxSize": 10485760
+    }
+  },
+  "settings": {
+    "maxTemplatesPerType": 5,
+    "maxTotalSize": 52428800,
+    "allowedExtensions": [".xlsx", ".xls"],
+    "backupRetentionDays": 30,
+    "autoValidation": true,
+    "enableVersioning": true
+  },
+  "validation": {
+    "strictSheetNames": false,
+    "requireAllPlaceholders": false,
+    "checkFormulas": true,
+    "validateFileStructure": true
+  }
+}

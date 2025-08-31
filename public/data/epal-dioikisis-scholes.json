@@ -1,0 +1,46 @@
+[
+  {
+    "id": "dioi_001",
+    "name": "Οικονομικό Πανεπιστήμιο Αθηνών - Οργάνωσης και Διοίκησης Επιχειρήσεων",
+    "schoolType": "epal",
+    "scientificField": "dioikisis",
+    "baseMoria": 14500,
+    "minMoria": 13000,
+    "maxMoria": 16000,
+    "avgMoria": 14500,
+    "category": "Οικονομικές Σχολές"
+  },
+  {
+    "id": "dioi_002",
+    "name": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης - Οικονομικών Επιστημών",
+    "schoolType": "epal",
+    "scientificField": "dioikisis",
+    "baseMoria": 14000,
+    "minMoria": 12500,
+    "maxMoria": 15500,
+    "avgMoria": 14000,
+    "category": "Οικονομικές Σχολές"
+  },
+  {
+    "id": "dioi_003",
+    "name": "Πανεπιστήμιο Πατρών - Διοίκησης Επιχειρήσεων",
+    "schoolType": "epal",
+    "scientificField": "dioikisis",
+    "baseMoria": 13500,
+    "minMoria": 12000,
+    "maxMoria": 15000,
+    "avgMoria": 13500,
+    "category": "Οικονομικές Σχολές"
+  },
+  {
+    "id": "dioi_004",
+    "name": "Πανεπιστήμιο Μακεδονίας - Λογιστικής και Χρηματοοικονομικής",
+    "schoolType": "epal",
+    "scientificField": "dioikisis",
+    "baseMoria": 14200,
+    "minMoria": 12700,
+    "maxMoria": 15700,
+    "avgMoria": 14200,
+    "category": "Οικονομικές Σχολές"
+  }
+]

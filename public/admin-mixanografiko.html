@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Διαχείριση Μηχανογραφικού - Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Admin Panel Styles */
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .admin-header {
+      color: rgb(127, 127, 127);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .admin-header h1 {
+      margin: 0 0 10px 0;
+      font-size: 28px;
+    }
+
+    .admin-header p {
+      margin: 0;
+      opacity: 0.9;
+    }
+
+    .admin-section {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: #5b3c2a;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .form-group textarea {
+      height: 80px;
+      resize: vertical;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    .file-upload {
+      border: 2px dashed #f8ebeb;
+      border-radius: 5px;
+      padding: 20px;
+      text-align: center;
+      background: #f8f9fa;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+
+    .file-upload:hover {
+      border-color: #5b3c2a;
+    }
+
+    .file-upload.dragover {
+      border-color: #d7825179;
+      background: #e8f4f8;
+    }
+
+    .file-info {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .btn {
+      background: #4d2c1e;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-right: 10px;
+    }
+    .btn:hover {
+      background: #F7C19C;
+        color: #BC5E29;
+        box-shadow: 0 0 0 2px rgba(183, 54, 22, 0.495)
+    }
+
+    .btn-primary {
+      background: #ac4e26;
+    }
+
+    .btn-primary:hover {
+      
+      background: #F7C19C;
+        color: #BC5E29;
+    }
+
+    .btn-secondary {
+      background: #e4835a;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #fd9f5f;
+        color: #ab4104;
+    }
+
+    .btn-danger {
+      background: #ec4141;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #ff6b5e;
+            color: #6d0505;
+            box-shadow: 0 0 0 2px rgba(137, 28, 1, 0.495);
+    }
+
+    .btn-success {
+      background: #672f16;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #fd9f5f;
+        color: #ab4104;
+
+    }
+
+    .table-container {
+      overflow-x: auto;
+      
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      
+    }
+
+    .admin-table th,
+    .admin-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #134272;
+    }
+
+    .admin-table th {
+      font-weight: 600;
+      background-color: #ff7e5f;
+      color: white;
+      width: 80%;
+    }
+    .admin-table tr:hover {
+      background: #f8f9fa;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 2px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-small {
+      padding: 4px 8px;
+      font-size: 12px;
+      min-width: 100px;
+      width: unset;
+      white-space: nowrap;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .alert {
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+
+    .alert-error {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+
+    .modal-content {
+      background: white;
+      margin: 50px auto;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #5b3c2a;
+    }
+
+    .close {
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #aaa;
+    }
+
+    .close:hover {
+      color: #000;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .admin-container {
+        padding: 10px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+   <header>
+    <div class="topbar">
+      <div class="logo"><img src="logo/b.png" alt="logo"></div>
+      <nav>
+        <a href="admin.html" >Αρχική Σελίδα</a>
+        <a href="admin-kartela.html">Καρτέλα Μαθητή</a>
+        <a href="admin-programms.html">Πρόγραμμα Σπουδών</a>
+        <a href="admin-diaxirisi.html">Διαχείριση</a>
+        <div class="dropdown">
+          <a href="admin-panelladikes.html" style="color: #960e0e;">Πανελλαδικές Εξετάσεις</a>
+          <div class="dropdown-content">
+            <a href="admin-calculator.html">Υπολογισμός Μορίων</a>
+            <a href="admin-pallia-themata.html">Παλιά Θέματα</a>
+            <a href="admin-vaseis-scholon.html">Βάσεις Σχολών</a>
+            <a href="admin-mixanografiko.html">Μηχανογραφικό</a>
+          </div>
+        </div>
+        <a href="admin-kodikoi.html">Κωδικοί</a>
+        <a href="admin-photos.html">Φωτογραφίες</a>
+        <a href="#">Σχετικά με εμάς</a>
+      </nav>
+      <div class="icons">
+        <a href="#"><img src="\elements\Group 17.svg" alt="fb" class="facebook-icon"></a>
+        <a href="#"><img src="\elements\mdi_instagram.svg" alt="insta" class="instagram-icon"></a>
+        <a href="#"><img src="\elements\phone.svg" alt="phone"></a>
+        <a href="#"><img src="\elements\mail.svg" alt="mail"></a>
+      </div>
+      <a href="index.html" class="login-btn" style="text-decoration: none;">Έξοδος</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="admin-container">
+
+      <div class="admin-header">
+        <h1>Διαχείριση Μηχανογραφικού</h1>
+        <p>Προσθήκη, επεξεργασία και διαχείριση αρχείων μηχανογραφικού</p>
+      </div>
+
+      <!-- Alert Messages -->
+      <div id="alert-container"></div>
+
+      <!-- Φόρμα Προσθήκης/Επεξεργασίας -->
+      <div class="admin-section">
+        <h2 class="section-title" id="form-title"> Προσθήκη Νέου Αρχείου Μηχανογραφικού</h2>
+        
+        <form id="mixanografiko-form">
+          <input type="hidden" id="edit-id" value="">
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="title">Τίτλος *</label>
+              <input type="text" id="title" name="title" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="lykeio">Τύπος Λυκείου *</label>
+              <select id="lykeio" name="lykeio" required>
+                <option value="">Επιλέξτε...</option>
+                <option value="ΓΕΛ">ΓΕΛ</option>
+                <option value="ΕΠΑΛ">ΕΠΑΛ</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="field">Πεδίο Σπουδών *</label>
+              <select id="field" name="field" required>
+                <option value="">Επιλέξτε...</option>
+                <option value="Θετικές Επιστήμες">Θετικές Επιστήμες</option>
+                <option value="Ανθρωπιστικές Επιστήμες">Ανθρωπιστικές Επιστήμες</option>
+                <option value="Οικονομικές Επιστήμες">Οικονομικές Επιστήμες</option>
+                <option value="Καλές Τέχνες">Καλές Τέχνες</option>
+                <option value="Τεχνολογικές Επιστήμες">Τεχνολογικές Επιστήμες</option>
+                <option value="Αθλητισμός">Αθλητισμός</option>
+                <option value="Υγείας">Υγείας</option>
+                <option value="Τουρισμός">Τουρισμός</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="specialty">Ειδικά Μαθήματα/Ειδίκευση</label>
+              <select id="specialty" name="specialty">
+                <option value="">Επιλέξτε...</option>
+                <option value="Εικαστικά">Εικαστικά</option>
+                <option value="Μουσική">Μουσική</option>
+                <option value="Φυσική Αγωγή">Φυσική Αγωγή</option>
+                <option value="Τεχνολογικά">Τεχνολογικά</option>
+                <option value="Πληροφορική">Πληροφορική</option>
+                <option value="Αισθητική">Αισθητική</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="filename">Όνομα Αρχείου *</label>
+              <input type="text" id="filename" name="filename" required 
+                    placeholder="π.χ. odigos_mixanografiko_2024.pdf">
+            </div>
+            
+            <div class="form-group">
+              <label for="description">Περιγραφή</label>
+              <textarea id="description" name="description" 
+                        placeholder="Σύντομη περιγραφή του αρχείου..."></textarea>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Αρχείο PDF *</label>
+            <div class="file-upload" id="file-upload">
+              <div id="upload-text">
+                Κάντε κλικ ή σύρετε το PDF αρχείο εδώ
+              </div>
+              <input type="file" id="pdf-file" accept=".pdf" style="display: none;">
+              <div class="file-info" id="file-info"></div>
+            </div>
+          </div>
+          
+          <div style="margin-top: 30px;">
+            <button type="submit" class="btn btn-primary" id="submit-btn">
+              Αποθήκευση Αρχείου
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">
+              Καθαρισμός Φόρμας
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Λίστα Αρχείων -->
+      <div class="admin-section">
+        <h2 class="section-title"> Υπάρχοντα Αρχεία Μηχανογραφικού</h2>
+        
+        <div class="loading" id="loading">
+          Φόρτωση αρχείων...
+        </div>
+        
+        <div class="table-container" id="table-container" style="display: none;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="border-top-left-radius: 20px;">ID</th>
+                <th>Τίτλος</th>
+                <th>Λύκειο</th>
+                <th>Πεδίο</th>
+                <th>Ειδικότητα</th>
+                <th>Αρχείο</th>
+                <th>Μέγεθος</th>
+                <th>Ημερομηνία</th>
+                <th style="border-top-right-radius: 20px;">Ενέργειες</th>
+              </tr>
+            </thead>
+            <tbody id="files-table-body">
+              <!-- Δυναμικό περιεχόμενο -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="edit-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="modal-title"> Επεξεργασία Αρχείου</span>
+          <span class="close" onclick="closeEditModal()">&times;</span>
+        </div>
+        <div id="edit-form-container">
+          <!-- Το περιεχόμενο θα φορτωθεί δυναμικά -->
+        </div>
+      </div>
+    </div>
+
+</main>
+<footer>
+    <div class="footer-content">
+      <div class="footer-logo">Μαθητικό Στέκι</div>
+      <div class="footer-links" contenteditable="true" data-id="footer-links">
+        <span>Καθηγητές:</span>
+        <span>...</span>
+      </div>
+      <div class="footer-map">
+        <img src="map.png" alt="Χάρτης">
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Μαθητικό Στέκι
+    </div>
+  </footer> 
+  <script>
+    let currentFile = null;
+    let allFiles = [];
+
+    // Initialization
+    document.addEventListener('DOMContentLoaded', function() {
+      loadFiles();
+      setupFileUpload();
+      setupForm();
+    });
+
+    // Setup file upload
+    function setupFileUpload() {
+      const fileUpload = document.getElementById('file-upload');
+      const fileInput = document.getElementById('pdf-file');
+      const fileInfo = document.getElementById('file-info');
+
+      fileUpload.addEventListener('click', () => fileInput.click());
+      
+      fileUpload.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        fileUpload.classList.add('dragover');
+      });
+      
+      fileUpload.addEventListener('dragleave', () => {
+        fileUpload.classList.remove('dragover');
+      });
+      
+      fileUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        fileUpload.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          handleFileSelect(files[0]);
+        }
+      });
+      
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+          handleFileSelect(e.target.files[0]);
+        }
+      });
+    }
+
+    // Handle file selection
+    function handleFileSelect(file) {
+      if (file.type !== 'application/pdf') {
+        showAlert('Παρακαλώ επιλέξτε μόνο PDF αρχεία.', 'error');
+        return;
+      }
+
+      currentFile = file;
+      const fileInfo = document.getElementById('file-info');
+      const fileSize = (file.size / 1024 / 1024).toFixed(2);
+      
+      fileInfo.innerHTML = `
+        <strong>📁 ${file.name}</strong><br>
+        <span>Μέγεθος: ${fileSize} MB</span>
+      `;
+      
+      // Auto-fill filename if empty
+      const filenameInput = document.getElementById('filename');
+      if (!filenameInput.value) {
+        filenameInput.value = file.name;
+      }
+    }
+
+    // Setup form submission
+    function setupForm() {
+      const form = document.getElementById('mixanografiko-form');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await submitForm();
+      });
+    }
+
+    // Submit form
+    async function submitForm() {
+      const editId = document.getElementById('edit-id').value;
+      const isEdit = !!editId;
+      
+      const formData = {
+        title: document.getElementById('title').value,
+        lykeio: document.getElementById('lykeio').value,
+        field: document.getElementById('field').value,
+        specialty: document.getElementById('specialty').value || '',
+        description: document.getElementById('description').value || '',
+        filename: document.getElementById('filename').value
+      };
+
+      // Validation
+      if (!formData.title || !formData.lykeio || !formData.field || !formData.filename) {
+        showAlert('Παρακαλώ συμπληρώστε όλα τα υποχρεωτικά πεδία.', 'error');
+        return;
+      }
+
+      if (!isEdit && !currentFile) {
+        showAlert('Παρακαλώ επιλέξτε αρχείο PDF.', 'error');
+        return;
+      }
+
+      // Add file data if new file selected
+      if (currentFile) {
+        try {
+          const fileData = await fileToBase64(currentFile);
+          formData.fileData = fileData;
+        } catch (error) {
+          showAlert('Σφάλμα επεξεργασίας αρχείου.', 'error');
+          return;
+        }
+      }
+
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = isEdit ? 'Ενημέρωση...' : 'Αποθήκευση...';
+
+      try {
+        const url = isEdit ? `/api/mixanografiko/${editId}` : '/api/mixanografiko';
+        const method = isEdit ? 'PUT' : 'POST';
+        
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          showAlert(
+            isEdit ? 'Το αρχείο ενημερώθηκε επιτυχώς!' : 'Το αρχείο προστέθηκε επιτυχώς!', 
+            'success'
+          );
+          resetForm();
+          loadFiles();
+          if (isEdit) {
+            closeEditModal();
+          }
+        } else {
+          showAlert(result.error || 'Προέκυψε σφάλμα.', 'error');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('Σφάλμα επικοινωνίας με τον server.', 'error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = isEdit ? ' Ενημέρωση' : ' Αποθήκευση Αρχείου';
+      }
+    }
+
+    // Convert file to base64
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    // Load files from server
+    async function loadFiles() {
+      const loading = document.getElementById('loading');
+      const tableContainer = document.getElementById('table-container');
+      
+      loading.style.display = 'block';
+      tableContainer.style.display = 'none';
+
+      try {
+        const response = await fetch('/api/mixanografiko');
+        if (!response.ok) {
+          throw new Error('Failed to fetch files');
+        }
+        
+        allFiles = await response.json();
+        displayFiles(allFiles);
+        
+        loading.style.display = 'none';
+        tableContainer.style.display = 'block';
+      } catch (error) {
+        console.error('Error loading files:', error);
+        loading.innerHTML = '<div style="color: red;">Σφάλμα φόρτωσης αρχείων. Βεβαιωθείτε ότι ο server είναι ενεργός.</div>';
+      }
+    }
+
+    // Display files in table
+    function displayFiles(files) {
+      const tbody = document.getElementById('files-table-body');
+      
+      if (files.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; color: #666;">Δεν υπάρχουν αρχεία</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = files.map(file => `
+        <tr>
+          <td>${file.id}</td>
+          <td>${file.title}</td>
+          <td>${file.lykeio}</td>
+          <td>${file.field}</td>
+          <td>${file.specialty || '-'}</td>
+          <td>${file.filename}</td>
+          <td>${file.file_size || '-'}</td>
+          <td>${file.upload_date || '-'}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-primary btn-small" onclick="downloadFile(${file.id})">
+                 Λήψη
+              </button>
+              <button class="btn btn-secondary btn-small" onclick="editFile(${file.id})">
+                 Επεξεργασία
+              </button>
+              <button class="btn btn-danger btn-small" onclick="deleteFile(${file.id}, '${file.title}')">
+                 Διαγραφή
+              </button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Download file
+    function downloadFile(id) {
+      window.open(`/api/mixanografiko/download/${id}`, '_blank');
+    }
+
+    // Edit file
+    function editFile(id) {
+      const file = allFiles.find(f => f.id === id);
+      if (!file) return;
+
+      // Fill form with file data
+      document.getElementById('edit-id').value = file.id;
+      document.getElementById('title').value = file.title;
+      document.getElementById('lykeio').value = file.lykeio;
+      document.getElementById('field').value = file.field;
+      document.getElementById('specialty').value = file.specialty || '';
+      document.getElementById('filename').value = file.filename;
+      document.getElementById('description').value = file.description || '';
+
+      // Update form title
+      document.getElementById('form-title').textContent = ' Επεξεργασία Αρχείου Μηχανογραφικού';
+      document.getElementById('submit-btn').textContent = ' Ενημέρωση';
+
+      // Clear file selection
+      currentFile = null;
+      document.getElementById('file-info').innerHTML = '<em>Δεν επιλέχθηκε νέο αρχείο (θα διατηρηθεί το υπάρχον)</em>';
+
+      // Scroll to form
+      document.querySelector('.admin-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Delete file
+    async function deleteFile(id, title) {
+      if (!confirm(`Είστε σίγουροι ότι θέλετε να διαγράψετε το αρχείο "${title}";`)) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/mixanografiko/${id}`, {
+          method: 'DELETE'
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          showAlert('Το αρχείο διαγράφηκε επιτυχώς!', 'success');
+          loadFiles();
+        } else {
+          showAlert(result.error || 'Σφάλμα διαγραφής αρχείου.', 'error');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        showAlert('Σφάλμα επικοινωνίας με τον server.', 'error');
+      }
+    }
+
+    // Reset form
+    function resetForm() {
+      document.getElementById('mixanografiko-form').reset();
+      document.getElementById('edit-id').value = '';
+      document.getElementById('form-title').textContent = ' Προσθήκη Νέου Αρχείου Μηχανογραφικού';
+      document.getElementById('submit-btn').textContent = ' Αποθήκευση Αρχείου';
+      document.getElementById('file-info').innerHTML = '';
+      currentFile = null;
+    }
+
+    // Show alert
+    function showAlert(message, type) {
+      const alertContainer = document.getElementById('alert-container');
+      const alertClass = type === 'success' ? 'alert-success' : 'alert-error';
+      
+      alertContainer.innerHTML = `
+        <div class="alert ${alertClass}">
+          ${message}
+        </div>
+      `;
+      
+      // Auto remove after 5 seconds
+      setTimeout(() => {
+        alertContainer.innerHTML = '';
+      }, 5000);
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Modal functions
+    function closeEditModal() {
+      document.getElementById('edit-modal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('edit-modal');
+      if (event.target === modal) {
+        closeEditModal();
+      }
+    }
+  </script>
+</body>
+</html>

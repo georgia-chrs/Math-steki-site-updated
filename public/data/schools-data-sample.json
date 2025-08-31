@@ -1,0 +1,155 @@
+[
+  {
+    "id": "1",
+    "name": "Φιλοσοφία",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "theoretiko",
+    "avgScore": 15000,
+    "minMoria": 12000,
+    "maxMoria": 18000
+  },
+  {
+    "id": "2",
+    "name": "Ιστορία - Αρχαιολογία",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "theoretiko",
+    "avgScore": 16000,
+    "minMoria": 13000,
+    "maxMoria": 19000
+  },
+  {
+    "id": "3",
+    "name": "Φιλολογία",
+    "university": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης",
+    "field": "theoretiko",
+    "avgScore": 15500,
+    "minMoria": 12500,
+    "maxMoria": 18500
+  },
+  {
+    "id": "4",
+    "name": "Μαθηματικά",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "thetiko",
+    "avgScore": 18000,
+    "minMoria": 15000,
+    "maxMoria": 21000
+  },
+  {
+    "id": "5",
+    "name": "Φυσική",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "thetiko",
+    "avgScore": 17500,
+    "minMoria": 14500,
+    "maxMoria": 20500
+  },
+  {
+    "id": "6",
+    "name": "Χημεία",
+    "university": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης",
+    "field": "thetiko",
+    "avgScore": 17000,
+    "minMoria": 14000,
+    "maxMoria": 20000
+  },
+  {
+    "id": "7",
+    "name": "Ιατρική",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "thetiko",
+    "avgScore": 19500,
+    "minMoria": 19000,
+    "maxMoria": 20000
+  },
+  {
+    "id": "8",
+    "name": "Πληροφορική",
+    "university": "Οικονομικό Πανεπιστήμιο Αθηνών",
+    "field": "technologiko",
+    "avgScore": 16000,
+    "minMoria": 13000,
+    "maxMoria": 19000
+  },
+  {
+    "id": "9",
+    "name": "Μηχανολόγων Μηχανικών",
+    "university": "Εθνικό Μετσόβιο Πολυτεχνείο",
+    "field": "technologiko",
+    "avgScore": 18500,
+    "minMoria": 16000,
+    "maxMoria": 20500
+  },
+  {
+    "id": "10",
+    "name": "Ηλεκτρολόγων Μηχανικών",
+    "university": "Εθνικό Μετσόβιο Πολυτεχνείο",
+    "field": "technologiko",
+    "avgScore": 18800,
+    "minMoria": 16500,
+    "maxMoria": 20800
+  },
+  {
+    "id": "11",
+    "name": "Οικονομικά",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "oikonomiko",
+    "avgScore": 18500,
+    "minMoria": 15500,
+    "maxMoria": 21500
+  },
+  {
+    "id": "12",
+    "name": "Διοίκηση Επιχειρήσεων",
+    "university": "Οικονομικό Πανεπιστήμιο Αθηνών",
+    "field": "oikonomiko",
+    "avgScore": 19000,
+    "minMoria": 16000,
+    "maxMoria": 22000
+  },
+  {
+    "id": "13",
+    "name": "Λογιστική και Χρηματοοικονομική",
+    "university": "Οικονομικό Πανεπιστήμιο Αθηνών",
+    "field": "oikonomiko",
+    "avgScore": 18200,
+    "minMoria": 15200,
+    "maxMoria": 21200
+  },
+  {
+    "id": "14",
+    "name": "Τεχνολογίας Πληροφορικής",
+    "university": "ΤΕΙ Αθήνας",
+    "field": "pliroforiki",
+    "avgScore": 14000,
+    "minMoria": 11000,
+    "maxMoria": 17000
+  },
+  {
+    "id": "15",
+    "name": "Ανάπτυξη Λογισμικού",
+    "university": "ΤΕΙ Θεσσαλονίκης",
+    "field": "pliroforiki",
+    "avgScore": 13500,
+    "minMoria": 10500,
+    "maxMoria": 16500
+  },
+  {
+    "id": "16",
+    "name": "Μηχανολογίας",
+    "university": "ΤΕΙ Πειραιά",
+    "field": "mixanologia",
+    "avgScore": 13500,
+    "minMoria": 10500,
+    "maxMoria": 16500
+  },
+  {
+    "id": "17",
+    "name": "Αυτοκινήτων",
+    "university": "ΤΕΙ Λάρισας",
+    "field": "mixanologia",
+    "avgScore": 12800,
+    "minMoria": 9800,
+    "maxMoria": 15800
+  }
+]

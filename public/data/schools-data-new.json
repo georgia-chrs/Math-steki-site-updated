@@ -1,0 +1,145 @@
+[
+  {
+    "id": "101",
+    "name": "Ιατρική",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "thetiko",
+    "schoolType": "gel",
+    "avgScore": 19.2,
+    "minMoria": 19800,
+    "maxMoria": 21500,
+    "city": "Αθήνα"
+  },
+  {
+    "id": "102",
+    "name": "Οδοντιατρική",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "thetiko",
+    "schoolType": "gel",
+    "avgScore": 18.8,
+    "minMoria": 19000,
+    "maxMoria": 21000,
+    "city": "Αθήνα"
+  },
+  {
+    "id": "103",
+    "name": "Φαρμακευτική",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "thetiko",
+    "schoolType": "gel",
+    "avgScore": 18.5,
+    "minMoria": 18500,
+    "maxMoria": 20800,
+    "city": "Αθήνα"
+  },
+  {
+    "id": "104",
+    "name": "Μηχανολογία",
+    "university": "Εθνικό Μετσόβιο Πολυτεχνείο",
+    "field": "technologiko",
+    "schoolType": "gel",
+    "avgScore": 18.0,
+    "minMoria": 17500,
+    "maxMoria": 21200,
+    "city": "Αθήνα"
+  },
+  {
+    "id": "105",
+    "name": "Πληροφορική",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "technologiko",
+    "schoolType": "gel",
+    "avgScore": 17.8,
+    "minMoria": 17000,
+    "maxMoria": 20900,
+    "city": "Αθήνα"
+  },
+  {
+    "id": "106",
+    "name": "Οικονομικά",
+    "university": "Οικονομικό Πανεπιστήμιο Αθηνών",
+    "field": "oikonomiko",
+    "schoolType": "gel",
+    "avgScore": 17.5,
+    "minMoria": 16800,
+    "maxMoria": 20700,
+    "city": "Αθήνα"
+  },
+  {
+    "id": "107",
+    "name": "Διοίκηση Επιχειρήσεων",
+    "university": "Οικονομικό Πανεπιστήμιο Αθηνών",
+    "field": "oikonomiko",
+    "schoolType": "gel",
+    "avgScore": 17.2,
+    "minMoria": 16500,
+    "maxMoria": 20600,
+    "city": "Αθήνα"
+  },
+  {
+    "id": "108",
+    "name": "Νομική",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "theoretiko",
+    "schoolType": "gel",
+    "avgScore": 17.0,
+    "minMoria": 16200,
+    "maxMoria": 20500,
+    "city": "Αθήνα"
+  },
+  {
+    "id": "109",
+    "name": "Φιλοσοφία",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "theoretiko",
+    "schoolType": "gel",
+    "avgScore": 15.5,
+    "minMoria": 14500,
+    "maxMoria": 18500,
+    "city": "Αθήνα"
+  },
+  {
+    "id": "110",
+    "name": "Ιστορία και Αρχαιολογία",
+    "university": "Εθνικό Καποδιστριακό Πανεπιστήμιο Αθηνών",
+    "field": "theoretiko",
+    "schoolType": "gel",
+    "avgScore": 15.8,
+    "minMoria": 15000,
+    "maxMoria": 19000,
+    "city": "Αθήνα"
+  },
+  {
+    "id": "201",
+    "name": "Ιατρική",
+    "university": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης",
+    "field": "thetiko",
+    "schoolType": "gel",
+    "avgScore": 19.0,
+    "minMoria": 19500,
+    "maxMoria": 21300,
+    "city": "Θεσσαλονίκη"
+  },
+  {
+    "id": "202",
+    "name": "Οδοντιατρική",
+    "university": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης",
+    "field": "thetiko",
+    "schoolType": "gel",
+    "avgScore": 18.6,
+    "minMoria": 18800,
+    "maxMoria": 20900,
+    "city": "Θεσσαλονίκη"
+  },
+  {
+    "id": "301",
+    "name": "Εφαρμοσμένη Πληροφορική",
+    "university": "Πανεπιστήμιο Δυτικής Μακεδονίας",
+    "field": "pliroforiki",
+    "schoolType": "epal",
+    "avgScore": 16.0,
+    "minMoria": 15000,
+    "maxMoria": 19000,
+    "city": "Κοζάνη"
+  }
+]

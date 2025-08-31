@@ -1,0 +1,46 @@
+[
+  {
+    "id": "mix_001",
+    "name": "Εθνικό Μετσόβιο Πολυτεχνείο - Μηχανολόγων Μηχανικών",
+    "schoolType": "epal",
+    "scientificField": "mixanologias",
+    "baseMoria": 17000,
+    "minMoria": 15500,
+    "maxMoria": 18500,
+    "avgMoria": 17000,
+    "category": "Πολυτεχνικές Σχολές"
+  },
+  {
+    "id": "mix_002",
+    "name": "Εθνικό Μετσόβιο Πολυτεχνείο - Ναυπηγών Μηχανικών",
+    "schoolType": "epal",
+    "scientificField": "mixanologias",
+    "baseMoria": 16500,
+    "minMoria": 15000,
+    "maxMoria": 18000,
+    "avgMoria": 16500,
+    "category": "Πολυτεχνικές Σχολές"
+  },
+  {
+    "id": "mix_003",
+    "name": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης - Μηχανολόγων Μηχανικών",
+    "schoolType": "epal",
+    "scientificField": "mixanologias",
+    "baseMoria": 16000,
+    "minMoria": 14500,
+    "maxMoria": 17500,
+    "avgMoria": 16000,
+    "category": "Πολυτεχνικές Σχολές"
+  },
+  {
+    "id": "mix_004",
+    "name": "Πανεπιστήμιο Δυτικής Μακεδονίας - Μηχανολόγων Μηχανικών",
+    "schoolType": "epal",
+    "scientificField": "mixanologias",
+    "baseMoria": 14500,
+    "minMoria": 13000,
+    "maxMoria": 16000,
+    "avgMoria": 14500,
+    "category": "Πολυτεχνικές Σχολές"
+  }
+]

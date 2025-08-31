@@ -1,0 +1,46 @@
+[
+  {
+    "id": "ilek_001",
+    "name": "Εθνικό Μετσόβιο Πολυτεχνείο - Ηλεκτρολόγων Μηχανικών και Μηχανικών Υπολογιστών",
+    "schoolType": "epal",
+    "scientificField": "ilektrologias",
+    "baseMoria": 17500,
+    "minMoria": 16000,
+    "maxMoria": 19000,
+    "avgMoria": 17500,
+    "category": "Πολυτεχνικές Σχολές"
+  },
+  {
+    "id": "ilek_002",
+    "name": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης - Ηλεκτρολόγων Μηχανικών",
+    "schoolType": "epal",
+    "scientificField": "ilektrologias",
+    "baseMoria": 16500,
+    "minMoria": 15000,
+    "maxMoria": 18000,
+    "avgMoria": 16500,
+    "category": "Πολυτεχνικές Σχολές"
+  },
+  {
+    "id": "ilek_003",
+    "name": "Πανεπιστήμιο Πατρών - Μηχανικών Ηλεκτρονικών Υπολογιστών",
+    "schoolType": "epal",
+    "scientificField": "ilektrologias",
+    "baseMoria": 16000,
+    "minMoria": 14500,
+    "maxMoria": 17500,
+    "avgMoria": 16000,
+    "category": "Πολυτεχνικές Σχολές"
+  },
+  {
+    "id": "ilek_004",
+    "name": "Πολυτεχνείο Κρήτης - Ηλεκτρονικών Μηχανικών",
+    "schoolType": "epal",
+    "scientificField": "ilektrologias",
+    "baseMoria": 15500,
+    "minMoria": 14000,
+    "maxMoria": 17000,
+    "avgMoria": 15500,
+    "category": "Πολυτεχνικές Σχολές"
+  }
+]

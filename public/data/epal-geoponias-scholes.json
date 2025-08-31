@@ -1,0 +1,46 @@
+[
+  {
+    "id": "geop_001",
+    "name": "Γεωπονικό Πανεπιστήμιο Αθηνών - Φυτικής Παραγωγής",
+    "schoolType": "epal",
+    "scientificField": "geoponias",
+    "baseMoria": 12500,
+    "minMoria": 11000,
+    "maxMoria": 14000,
+    "avgMoria": 12500,
+    "category": "Γεωπονικές Σχολές"
+  },
+  {
+    "id": "geop_002", 
+    "name": "Γεωπονικό Πανεπιστήμιο Αθηνών - Ζωικής Παραγωγής",
+    "schoolType": "epal",
+    "scientificField": "geoponias",
+    "baseMoria": 12000,
+    "minMoria": 10500,
+    "maxMoria": 13500,
+    "avgMoria": 12000,
+    "category": "Γεωπονικές Σχολές"
+  },
+  {
+    "id": "geop_003",
+    "name": "Αριστοτέλειο Πανεπιστήμιο Θεσσαλονίκης - Γεωπονίας",
+    "schoolType": "epal", 
+    "scientificField": "geoponias",
+    "baseMoria": 12800,
+    "minMoria": 11300,
+    "maxMoria": 14300,
+    "avgMoria": 12800,
+    "category": "Γεωπονικές Σχολές"
+  },
+  {
+    "id": "geop_004",
+    "name": "Πανεπιστήμιο Θεσσαλίας - Γεωπονίας",
+    "schoolType": "epal",
+    "scientificField": "geoponias", 
+    "baseMoria": 11500,
+    "minMoria": 10000,
+    "maxMoria": 13000,
+    "avgMoria": 11500,
+    "category": "Γεωπονικές Σχολές"
+  }
+]
