@@ -3,15 +3,21 @@ import mysql from 'mysql2'
 import dotenv from 'dotenv'
 
 dotenv.config()
-
+if (process.env.MYSQL_HOST) {
 const pool = mysql.createPool({
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DB, // εδώ βάζεις "school_db"
-  port: process.env.MYSQL_PORT,
-}).promise();
-
+  port: process.env.MYSQL_PORT|| 3306,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+  });
+  console.log("✅ MySQL pool created");
+} else {
+  console.log("⚠️ No DB config, running in NO-DB mode");
+}
 // Export pool for direct use in app.js
 export { pool };
 if (!pool) {
