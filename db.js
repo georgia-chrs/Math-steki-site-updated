@@ -1,25 +1,22 @@
 // db.js
-import mysql from 'mysql2'
-import dotenv from 'dotenv'
+import pkg from 'pg';
+import dotenv from 'dotenv';
+const { Pool } = pkg;
+dotenv.config();
 
-dotenv.config()
-if (process.env.MYSQL_HOST) {
-const pool = mysql.createPool({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DB, // εδώ βάζεις "school_db"
-  port: process.env.MYSQL_PORT|| 3306,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
-  });
-  console.log("✅ MySQL pool created");
+export const pool = new Pool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 5432,
+});
+
+if (process.env.DB_HOST) {
+  console.log("✅ PostgreSQL pool created");
 } else {
   console.log("⚠️ No DB config, running in NO-DB mode");
 }
-// Export pool for direct use in app.js
-export { pool };
 if (!pool) {
   throw new Error("Database not connected");
 }
@@ -29,16 +26,16 @@ export async function getStudents() {
     console.log("⚠️ No DB connection, returning dummy data");
     return [{ id: 1, name: "Test Students" }];
   }
-  const [rows] = await pool.query('SELECT * FROM Students');
-  return rows;
+  const res = await pool.query('SELECT * FROM Students');
+  return res.rows;
 }
 export async function getStudent(id) {
    if (!pool) {
     console.log("⚠️ No DB connection, returning dummy data");
     return [{ id: 1, name: "Test Students" }];
   }
-  const [rows] = await pool.query('SELECT * FROM Students WHERE id = ?', [id]);
-  return rows[0];
+  const res = await pool.query('SELECT * FROM Students WHERE id = $1', [id]);
+  return res.rows[0];
 }
 
 export async function createStudent(first_name, last_name, father_name, username, password_hash) {
@@ -46,11 +43,11 @@ export async function createStudent(first_name, last_name, father_name, username
     console.log("⚠️ No DB connection, returning dummy data");
     return [{ id: 1, name: "Test Students" }];
   }
-  const [result] = await pool.query(
-        `INSERT INTO Students (first_name, last_name, father_name, username, password_hash) VALUES (?, ?, ?, ?, ?)`,
+  const res = await pool.query(
+        `INSERT INTO Students (first_name, last_name, father_name, username, password_hash) VALUES ($1, $2, $3, $4, $5) RETURNING id`,
         [first_name, last_name, father_name, username, password_hash]
     );
-    return getStudents(result.insertId);
+    return getStudent(res.rows[0].id);
 }
 
 export async function deleteStudent(id) {
@@ -58,11 +55,11 @@ export async function deleteStudent(id) {
     console.log("⚠️ No DB connection, returning dummy data");
     return [{ id: 1, name: "Test Students" }];
   }
-    const [result] = await pool.query(
-        "DELETE FROM Students WHERE student_id = ?",
-        [id]
-    );
-    return result.affectedRows > 0;
+  const res = await pool.query(
+    "DELETE FROM Students WHERE id = $1 RETURNING id",
+    [id]
+  );
+  return res.rowCount > 0;
 }
 
 
@@ -85,7 +82,7 @@ export async function getUserByUsername(username) {
     return [{ id: 1, name: "Test Students" }];
   }
   // Ψάχνει πρώτα στους Admins
-  let [rows] = await pool.query("SELECT *, 'admin' as role FROM Admins WHERE username = ?", [username]);
+  let [rows] = await pool.query("SELECT *, 'admin' as role FROM Admins WHERE username = $1", [username]);
   console.log(`📋 Admins rows found: ${rows.length}`);
   if (rows.length > 0) {
     console.log(`✅ Βρέθηκε admin: ${rows[0].username}`);
@@ -99,7 +96,7 @@ export async function getUserByUsername(username) {
     return [{ id: 1, name: "Test Students" }];
   }
 
-  [rows] = await pool.query("SELECT *, 'student' as role FROM Students WHERE username = ?", [username]);
+  [rows] = await pool.query("SELECT *, 'student' as role FROM Students WHERE username = $1", [username]);
   console.log(`📋 Students rows found: ${rows.length}`);
   if (rows.length > 0) {
     console.log(`✅ Βρέθηκε student: ${rows[0].username}`);
@@ -121,7 +118,7 @@ export async function getProgressNotes(student_id) {
             s.name AS subject_name
      FROM progress_notes p
      LEFT JOIN subjects s ON p.subject_id = s.id
-     WHERE p.student_id = ? ORDER BY p.created_at DESC`,
+     WHERE p.student_id = $1 ORDER BY p.created_at DESC`,
     [student_id]
   );
   return rows;
@@ -140,7 +137,7 @@ export async function getGradesByStudent(student_id) {
             s.name as subject_name, s.code as subject_code
      FROM grades g
      LEFT JOIN subjects s ON g.subject_id = s.id
-     WHERE g.student_id = ?
+     WHERE g.student_id = $1
      ORDER BY g.exam_date DESC`,
     [student_id]
   );
@@ -205,7 +202,7 @@ export async function createAnnouncement(title, content, admin_id = 1) {
 
   const [result] = await pool.query(
     `INSERT INTO Notifications (title, content, created_by, is_active) 
-     VALUES (?, ?, ?, TRUE)`,
+     VALUES ($1, $2, $3, TRUE) RETURNING id`,
     [title, content, admin_id]
   );
   return result.insertId;
@@ -221,10 +218,10 @@ export async function updateAnnouncement(id, title, content, type = 'general', t
 
   await pool.query(
     `UPDATE Notifications SET 
-      title = ?, content = ?, notification_type = ?, target_class = ?, target_subject_id = ?,
-      start_date = ?, end_date = ?, priority = ?, pdf_attachment = ?, external_link = ?,
+      title = $1, content = $2, notification_type = $3, target_class = $4, target_subject_id = $5,
+      start_date = $6, end_date = $7, priority = $8, pdf_attachment = $9, external_link = $10,
       updated_at = CURRENT_TIMESTAMP
-    WHERE notification_id = ?`,
+    WHERE notification_id = $11`,
     [title, content, type, targetClass, targetSubjectId, startDate, endDate, priority, pdfAttachment, externalLink, id]
   );
 }
@@ -238,7 +235,7 @@ export async function deleteAnnouncement(id) {
   }
 
   await pool.query(
-    `DELETE FROM Notifications WHERE notification_id = ?`,
+    `DELETE FROM Notifications WHERE notification_id = $1`,
     [id]
   );
 }
@@ -252,7 +249,7 @@ export async function deactivateAnnouncement(id) {
   }
 
   await pool.query(
-    `UPDATE Notifications SET is_active = FALSE WHERE notification_id = ?`,
+    `UPDATE Notifications SET is_active = FALSE WHERE notification_id = $1`,
     [id]
   );
 }
@@ -289,7 +286,7 @@ export async function getPDFById(id) {
     return { id, title: "Test PDF", description: "This is a test PDF." };
   }
 
-  const [rows] = await pool.query('SELECT * FROM PalliaThemata WHERE id = ?', [id]);
+  const [rows] = await pool.query('SELECT * FROM PalliaThemata WHERE id = $1', [id]);
   return rows[0];
 }
 
@@ -299,7 +296,7 @@ export async function getPDFByFilename(filename) {
     return { id: 1, title: "Test PDF", description: "This is a test PDF." };
   }
 
-  const [rows] = await pool.query('SELECT * FROM PalliaThemata WHERE filename = ?', [filename]);
+  const [rows] = await pool.query('SELECT * FROM PalliaThemata WHERE filename = $1', [filename]);
   return rows[0];
 }
 
@@ -313,7 +310,7 @@ export async function createPDF(pdfData) {
 
   const [result] = await pool.query(
     `INSERT INTO PalliaThemata (title, lykeio, subject, year, type, filename, description, file_data, file_size, upload_date) 
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id`,
     [title, lykeio, subject, year, type, filename, description, file_data, file_size, upload_date]
   );
   
@@ -330,8 +327,8 @@ export async function updatePDF(id, pdfData) {
 
   const [result] = await pool.query(
     `UPDATE PalliaThemata 
-     SET title = ?, lykeio = ?, subject = ?, year = ?, description = ?, filename = ?, updated_at = CURRENT_TIMESTAMP
-     WHERE id = ?`,
+     SET title = $1, lykeio = $2, subject = $3, year = $4, description = $5, filename = $6, updated_at = CURRENT_TIMESTAMP
+     WHERE id = $7`,
     [title, lykeio, subject, year, description, filename, id]
   );
   
@@ -344,7 +341,7 @@ export async function deletePDF(id) {
     return false;
   }
 
-  const [result] = await pool.query('DELETE FROM PalliaThemata WHERE id = ?', [id]);
+  const [result] = await pool.query('DELETE FROM PalliaThemata WHERE id = $1', [id]);
   return result.affectedRows > 0;
 }
 
@@ -353,17 +350,17 @@ export async function filterPDFs(filters = {}) {
   const params = [];
   
   if (filters.lykeio) {
-    query += ' AND lykeio = ?';
+    query += ' AND lykeio = $1';
     params.push(filters.lykeio);
   }
   
   if (filters.subject) {
-    query += ' AND subject = ?';
+    query += ' AND subject = $2';
     params.push(filters.subject);
   }
   
   if (filters.year) {
-    query += ' AND year = ?';
+    query += ' AND year = $3';
     params.push(filters.year);
   }
   
@@ -406,7 +403,7 @@ export async function getVaseisScholonById(id) {
     return { id, title: "Test Announcement", content: "This is a test announcement." };
   }
 
-  const [rows] = await pool.query('SELECT * FROM VaseisScholon WHERE id = ?', [id]);
+  const [rows] = await pool.query('SELECT * FROM VaseisScholon WHERE id = $1', [id]);
   if (rows.length === 0) return null;
   
   const row = rows[0];
@@ -427,7 +424,7 @@ export async function createVaseisScholon(vaseisData) {
 
   const [result] = await pool.query(`
     INSERT INTO VaseisScholon (title, year, lykeio, field, description, filename, file_data, file_size)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id
   `, [title, year, lykeio, field, description, filename, file_data, file_size]);
   
   return result;
@@ -450,7 +447,7 @@ export async function updateVaseisScholon(id, updateData) {
   values.push(id);
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log("⚠️ No DB connection, skipping update");
     return false;
   }
 
@@ -465,11 +462,11 @@ export async function updateVaseisScholon(id, updateData) {
 
 export async function deleteVaseisScholon(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log("⚠️ No DB connection, skipping delete");
     return false;
   }
 
-  const [result] = await pool.query('DELETE FROM VaseisScholon WHERE id = ?', [id]);
+  const [result] = await pool.query('DELETE FROM VaseisScholon WHERE id = $1', [id]);
   return result.affectedRows > 0;
 }
 
@@ -500,7 +497,7 @@ export async function getMixanografikoById(id) {
     return { id, title: "Test Mixanografiko", description: "This is a test Mixanografiko." };
   }
 
-  const [rows] = await pool.query('SELECT * FROM Mixanografiko WHERE id = ?', [id]);
+  const [rows] = await pool.query('SELECT * FROM Mixanografiko WHERE id = $1', [id]);
   if (rows.length === 0) return null;
   
   const row = rows[0];
@@ -521,7 +518,7 @@ export async function createMixanografiko(mixanografikoData) {
 
   const [result] = await pool.query(`
     INSERT INTO Mixanografiko (title, lykeio, field, specialty, description, filename, file_data, file_size)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id
   `, [title, lykeio, field, specialty || '', description, filename, file_data, file_size]);
   
   return result;
@@ -544,7 +541,7 @@ export async function updateMixanografiko(id, updateData) {
   values.push(id);
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log("⚠️ No DB connection, skipping update");
     return false;
   }
 
@@ -559,11 +556,11 @@ export async function updateMixanografiko(id, updateData) {
 
 export async function deleteMixanografiko(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log("⚠️ No DB connection, skipping delete");
     return false;
   }
 
-  const [result] = await pool.query('DELETE FROM Mixanografiko WHERE id = ?', [id]);
+  const [result] = await pool.query('DELETE FROM Mixanografiko WHERE id = $1', [id]);
   return result.affectedRows > 0;
 }
 
@@ -575,17 +572,17 @@ export async function filterMixanografiko(filters = {}) {
   const params = [];
   
   if (filters.lykeio) {
-    query += ' AND lykeio = ?';
+    query += ' AND lykeio = $1';
     params.push(filters.lykeio);
   }
   
   if (filters.field) {
-    query += ' AND field = ?';
+    query += ' AND field = $2';
     params.push(filters.field);
   }
   
   if (filters.specialty) {
-    query += ' AND specialty = ?';
+    query += ' AND specialty = $3';
     params.push(filters.specialty);
   }
   
@@ -629,7 +626,7 @@ export async function getStudentById(id) {
     console.log("⚠️ No DB connection, returning dummy data");
     return { id, firstName: "Test", lastName: "Student" };
   }
-  const [rows] = await pool.query('SELECT * FROM Students WHERE id = ?', [id]);
+  const [rows] = await pool.query('SELECT * FROM Students WHERE id = $1', [id]);
   return rows[0];
 }
 
@@ -640,7 +637,7 @@ export async function createNewStudent(studentData) {
   }
   const [result] = await pool.query(`
     INSERT INTO Students (firstName, lastName, studentClass, phone, email, parentName, parentPhone, address, birthDate, enrollmentDate, status, notes)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
   `, [
     studentData.firstName,
     studentData.lastName,
@@ -667,59 +664,59 @@ export async function updateStudent(id, studentData) {
     
     // Handle both old and new field names for compatibility
     if (studentData.first_name !== undefined || studentData.firstName !== undefined) { 
-      fields.push('first_name = ?'); 
+      fields.push('first_name = $1'); 
       values.push(studentData.first_name || studentData.firstName); 
     }
     if (studentData.last_name !== undefined || studentData.lastName !== undefined) { 
-      fields.push('last_name = ?'); 
+      fields.push('last_name = $2'); 
       values.push(studentData.last_name || studentData.lastName); 
     }
     if (studentData.father_name !== undefined || studentData.fatherName !== undefined) { 
-      fields.push('father_name = ?'); 
+      fields.push('father_name = $3'); 
       values.push(studentData.father_name || studentData.fatherName); 
     }
     if (studentData.username !== undefined) { 
-      fields.push('username = ?'); 
+      fields.push('username = $4'); 
       values.push(studentData.username); 
     }
     if (studentData.class !== undefined || studentData.studentClass !== undefined) { 
-      fields.push('class = ?'); 
+      fields.push('class = $5'); 
       values.push(studentData.class || studentData.studentClass); 
     }
     if (studentData.phone !== undefined) { 
-      fields.push('phone = ?'); 
+      fields.push('phone = $6'); 
       values.push(studentData.phone); 
     }
     if (studentData.email !== undefined) { 
-      fields.push('email = ?'); 
+      fields.push('email = $7'); 
       values.push(studentData.email); 
     }
     if (studentData.parentName !== undefined) { 
-      fields.push('parentName = ?'); 
+      fields.push('parentName = $8'); 
       values.push(studentData.parentName); 
     }
     if (studentData.parentPhone !== undefined) { 
-      fields.push('parentPhone = ?'); 
+      fields.push('parentPhone = $9'); 
       values.push(studentData.parentPhone); 
     }
     if (studentData.address !== undefined) { 
-      fields.push('address = ?'); 
+      fields.push('address = $10'); 
       values.push(studentData.address); 
     }
     if (studentData.birthDate !== undefined) { 
-      fields.push('birthDate = ?'); 
+      fields.push('birthDate = $11'); 
       values.push(studentData.birthDate); 
     }
     if (studentData.enrollmentDate !== undefined) { 
-      fields.push('enrollmentDate = ?'); 
+      fields.push('enrollmentDate = $12'); 
       values.push(studentData.enrollmentDate); 
     }
     if (studentData.status !== undefined) { 
-      fields.push('status = ?'); 
+      fields.push('status = $13'); 
       values.push(studentData.status); 
     }
     if (studentData.notes !== undefined) { 
-      fields.push('notes = ?'); 
+      fields.push('notes = $14'); 
       values.push(studentData.notes); 
     }
     
@@ -733,7 +730,7 @@ export async function updateStudent(id, studentData) {
     
     values.push(id);
     
-    const query = `UPDATE Students SET ${fields.join(', ')}, updated_at = CURRENT_TIMESTAMP WHERE id = ?`;
+    const query = `UPDATE Students SET ${fields.join(', ')}, updated_at = CURRENT_TIMESTAMP WHERE id = $15`;
     console.log('🔍 Query:', query);
     console.log('🔍 Values:', values);
 
@@ -742,7 +739,7 @@ export async function updateStudent(id, studentData) {
       return false;
     }
 
-    const [result] = await pool.execute(query, values);
+    const [result] = await pool.query(query, values);
     console.log('📊 Update result:', result);
     console.log('✅ Affected rows:', result.affectedRows);
     
@@ -758,7 +755,7 @@ export async function deleteStudentById(id) {
     console.log("⚠️ No DB connection, skipping delete");
     return false;
   }
-  const [result] = await pool.query('DELETE FROM Students WHERE id = ?', [id]);
+  const [result] = await pool.query('DELETE FROM Students WHERE id = $1', [id]);
   return result.affectedRows > 0;
 }
 
@@ -774,13 +771,13 @@ export async function searchStudents(searchTerm, classFilter) {
   const params = [];
   
   if (searchTerm) {
-    query += ` AND (s.first_name LIKE ? OR s.last_name LIKE ? OR s.phone LIKE ? OR s.email LIKE ?)`;
+    query += ` AND (s.first_name LIKE $1 OR s.last_name LIKE $2 OR s.phone LIKE $3 OR s.email LIKE $4)`;
     const searchPattern = `%${searchTerm}%`;
     params.push(searchPattern, searchPattern, searchPattern, searchPattern);
   }
   
   if (classFilter) {
-    query += ` AND s.studentClass = ?`;
+    query += ` AND s.studentClass = $5`;
     params.push(classFilter);
   }
   
@@ -802,7 +799,7 @@ export async function getStudentsByClass(className) {
       return [];
     }
     const [rows] = await pool.execute(
-      'SELECT * FROM Students WHERE class = ?',
+      'SELECT * FROM Students WHERE class = $1',
       [className]
     );
     return rows;
@@ -835,7 +832,7 @@ export async function getTeacherById(id) {
     console.log("⚠️ No DB connection, returning dummy data");
     return { id, name: "Test Teacher", subject: "Math", phone: "1234567890", email: "test@example.com" };
   }
-  const [rows] = await pool.query('SELECT * FROM Teachers WHERE id = ?', [id]);
+  const [rows] = await pool.query('SELECT * FROM Teachers WHERE id = $1', [id]);
   return rows[0];
 }
 
@@ -846,7 +843,7 @@ export async function createTeacher(teacherData) {
   }
   const [result] = await pool.query(`
     INSERT INTO Teachers (name, subject, phone, email)
-    VALUES (?, ?, ?, ?)
+    VALUES ($1, $2, $3, $4) RETURNING id
   `, [teacherData.name, teacherData.subject, teacherData.phone, teacherData.email]);
   return result.insertId;
 }
@@ -855,10 +852,10 @@ export async function updateTeacher(id, teacherData) {
   const fields = [];
   const values = [];
   
-  if (teacherData.name !== undefined) { fields.push('name = ?'); values.push(teacherData.name); }
-  if (teacherData.subject !== undefined) { fields.push('subject = ?'); values.push(teacherData.subject); }
-  if (teacherData.phone !== undefined) { fields.push('phone = ?'); values.push(teacherData.phone); }
-  if (teacherData.email !== undefined) { fields.push('email = ?'); values.push(teacherData.email); }
+  if (teacherData.name !== undefined) { fields.push('name = $1'); values.push(teacherData.name); }
+  if (teacherData.subject !== undefined) { fields.push('subject = $2'); values.push(teacherData.subject); }
+  if (teacherData.phone !== undefined) { fields.push('phone = $3'); values.push(teacherData.phone); }
+  if (teacherData.email !== undefined) { fields.push('email = $4'); values.push(teacherData.email); }
   
   if (fields.length === 0) return false;
   
@@ -883,7 +880,7 @@ export async function deleteTeacher(id) {
     console.log("⚠️ No DB connection, skipping delete");
     return false;
   }
-  const [result] = await pool.query('DELETE FROM Teachers WHERE id = ?', [id]);
+  const [result] = await pool.query('DELETE FROM Teachers WHERE id = $1', [id]);
   return result.affectedRows > 0;
 }
 
@@ -901,7 +898,7 @@ export async function searchTeachers(searchTerm) {
               GROUP_CONCAT(s.name SEPARATOR ', ') as subjects
        FROM Teachers t
        LEFT JOIN Subjects s ON t.id = s.teacher_id
-       WHERE t.first_name LIKE ? OR t.last_name LIKE ? OR t.phone LIKE ? OR t.email LIKE ?
+       WHERE t.first_name LIKE $1 OR t.last_name LIKE $2 OR t.phone LIKE $3 OR t.email LIKE $4
        GROUP BY t.id
        ORDER BY t.first_name, t.last_name`,
       [searchPattern, searchPattern, searchPattern, searchPattern]
@@ -932,7 +929,7 @@ export async function getSubjectById(id) {
     console.log("⚠️ No DB connection, returning dummy data");
     return { id, name: "Test Subject", code: "MATH101", class: "Math", teacherId: 1 };
   }
-  const [rows] = await pool.query('SELECT * FROM Subjects WHERE id = ?', [id]);
+  const [rows] = await pool.query('SELECT * FROM Subjects WHERE id = $1', [id]);
   return rows[0];
 }
 
@@ -943,7 +940,7 @@ export async function createSubject(subjectData) {
   }
   const [result] = await pool.query(`
     INSERT INTO Subjects (name, code, class, teacherId)
-    VALUES (?, ?, ?, ?)
+    VALUES ($1, $2, $3, $4) RETURNING id
   `, [subjectData.name, subjectData.code, subjectData.class, subjectData.teacherId]);
   return result.insertId;
 }
@@ -952,10 +949,10 @@ export async function updateSubject(id, subjectData) {
   const fields = [];
   const values = [];
   
-  if (subjectData.name !== undefined) { fields.push('name = ?'); values.push(subjectData.name); }
-  if (subjectData.code !== undefined) { fields.push('code = ?'); values.push(subjectData.code); }
-  if (subjectData.class !== undefined) { fields.push('class = ?'); values.push(subjectData.class); }
-  if (subjectData.teacherId !== undefined) { fields.push('teacherId = ?'); values.push(subjectData.teacherId); }
+  if (subjectData.name !== undefined) { fields.push('name = $1'); values.push(subjectData.name); }
+  if (subjectData.code !== undefined) { fields.push('code = $2'); values.push(subjectData.code); }
+  if (subjectData.class !== undefined) { fields.push('class = $3'); values.push(subjectData.class); }
+  if (subjectData.teacherId !== undefined) { fields.push('teacherId = $4'); values.push(subjectData.teacherId); }
   
   if (fields.length === 0) return false;
   
@@ -979,7 +976,7 @@ export async function deleteSubject(id) {
     console.log("⚠️ No DB connection, skipping delete");
     return false;
   }
-  const [result] = await pool.query('DELETE FROM Subjects WHERE id = ?', [id]);
+  const [result] = await pool.query('DELETE FROM Subjects WHERE id = $1', [id]);
   return result.affectedRows > 0;
 }
 
@@ -999,7 +996,7 @@ export async function searchSubjects(searchTerm) {
               CONCAT(t.first_name, ' ', t.last_name) as teacher_name
        FROM Subjects s
        LEFT JOIN Teachers t ON s.teacher_id = t.id
-       WHERE s.name LIKE ? OR s.class LIKE ? OR s.schedule LIKE ?
+       WHERE s.name LIKE $1 OR s.class LIKE $2 OR s.schedule LIKE $3
        ORDER BY s.name`,
       [searchPattern, searchPattern, searchPattern]
     );
@@ -1022,7 +1019,7 @@ export async function getStudentEnrollments(studentId) {
     SELECT e.*, s.name as subjectName, s.code as subjectCode, s.class as subjectClass
     FROM Enrollments e
     JOIN Subjects s ON e.class_id = s.id
-    WHERE e.student_id = ?
+    WHERE e.student_id = $1
     ORDER BY s.name
   `, [studentId]);
   return rows;
@@ -1037,7 +1034,7 @@ export async function createEnrollment(studentId, classId) {
     }
     const [result] = await pool.execute(`
       INSERT INTO Enrollments (student_id, class_id)
-      VALUES (?, ?)
+      VALUES ($1, $2) RETURNING id
     `, [studentId, classId]);
     return result.insertId;
   } catch (error) {
@@ -1053,7 +1050,7 @@ export async function deleteEnrollment(id) {
       console.log("⚠️ No DB connection, skipping delete");
       return false;
     }
-    const [result] = await pool.query('DELETE FROM Enrollments WHERE enrollment_id = ?', [id]);
+    const [result] = await pool.query('DELETE FROM Enrollments WHERE enrollment_id = $1', [id]);
     return result.affectedRows > 0;
   } catch (error) {
     console.error('Error deleting enrollment:', error);
@@ -1074,7 +1071,7 @@ export async function getSubjectsNotEnrolledByStudent(studentId) {
       FROM Subjects s
       LEFT JOIN NewTeachers t ON s.teacherId = t.id
       WHERE s.id NOT IN (
-        SELECT class_id FROM Enrollments WHERE student_id = ?
+        SELECT class_id FROM Enrollments WHERE student_id = $1
       )
       ORDER BY s.name
     `, [studentId]);
@@ -1131,7 +1128,7 @@ export async function getEnrollmentsByStudent(studentId) {
        FROM Enrollments e
        JOIN Subjects s ON e.class_id = s.id
        LEFT JOIN Teachers t ON s.teacherId = t.id
-       WHERE e.student_id = ?
+       WHERE e.student_id = $1
        ORDER BY s.name`,
       [studentId]
     );
@@ -1171,7 +1168,7 @@ export async function getEnrollmentsBySubject(subjectId) {
               st.phone as student_phone
        FROM Enrollments e
        JOIN Students st ON e.student_id = st.id
-       WHERE e.class_id = ?
+       WHERE e.class_id = $1
        ORDER BY st.last_name, st.first_name`,
       [subjectId]
     );
@@ -1192,8 +1189,8 @@ export async function updateEnrollment(id, enrollmentData) {
     }
     const [result] = await pool.execute(
       `UPDATE Enrollments 
-       SET student_id = ?, class_id = ?
-       WHERE enrollment_id = ?`,
+       SET student_id = $1, class_id = $2
+       WHERE enrollment_id = $3`,
       [studentId, classId, id]
     );
     
@@ -1231,16 +1228,16 @@ export async function searchEnrollments(searchTerm, statusFilter) {
     if (searchTerm) {
       const searchPattern = `%${searchTerm}%`;
       conditions.push(`(
-        st.first_name LIKE ? OR 
-        st.last_name LIKE ? OR 
-        s.name LIKE ? OR 
+        st.first_name LIKE $1 OR 
+        st.last_name LIKE $2 OR 
+        s.name LIKE $3 OR 
         CONCAT(st.first_name, ' ', st.last_name) LIKE ?
       )`);
       params.push(searchPattern, searchPattern, searchPattern, searchPattern);
     }
     
     if (statusFilter && statusFilter !== 'all') {
-      conditions.push('e.status = ?');
+      conditions.push('e.status = $4');
       params.push(statusFilter);
     }
     
@@ -1297,7 +1294,7 @@ export async function getStudentCodeById(id) {
               s.class as student_class
        FROM StudentCodes sc
        LEFT JOIN Students s ON sc.student_id = s.id
-       WHERE sc.id = ?`,
+       WHERE sc.id = $1`,
       [id]
     );
     return rows[0] || null;
@@ -1319,7 +1316,7 @@ export async function getStudentCodeByStudentId(studentId) {
               s.class as student_class
        FROM StudentCodes sc
        LEFT JOIN Students s ON sc.student_id = s.id
-       WHERE sc.student_id = ?`,
+       WHERE sc.student_id = $1`,
       [studentId]
     );
     return rows[0] || null;
@@ -1339,7 +1336,7 @@ export async function createStudentCode(studentCodeData) {
     }
     const [result] = await pool.execute(
       `INSERT INTO StudentCodes (student_id, code, password_hash, status, created_at, updated_at)
-       VALUES (?, ?, ?, ?, NOW(), NOW())`,
+       VALUES ($1, $2, $3, $4, NOW(), NOW()) RETURNING id`,
       [student_id, code, password_hash, status || 'active']
     );
     
@@ -1360,8 +1357,8 @@ export async function updateStudentCode(id, studentCodeData) {
     }
     const [result] = await pool.execute(
       `UPDATE StudentCodes 
-       SET student_id = ?, code = ?, password_hash = ?, status = ?, updated_at = NOW()
-       WHERE id = ?`,
+       SET student_id = $1, code = $2, password_hash = $3, status = $4, updated_at = NOW()
+       WHERE id = $5`,
       [student_id, code, password_hash, status, id]
     );
     
@@ -1382,7 +1379,7 @@ export async function deleteStudentCode(id) {
       console.log("⚠️ No DB connection, skipping delete");
       return false;
     }
-    const [result] = await pool.execute('DELETE FROM StudentCodes WHERE id = ?', [id]);
+    const [result] = await pool.execute('DELETE FROM StudentCodes WHERE id = $1', [id]);
     
     if (result.affectedRows === 0) {
       throw new Error('Student code not found');
@@ -1411,16 +1408,16 @@ export async function searchStudentCodes(searchTerm, statusFilter) {
     if (searchTerm) {
       const searchPattern = `%${searchTerm}%`;
       conditions.push(`(
-        s.first_name LIKE ? OR 
-        s.last_name LIKE ? OR 
-        sc.code LIKE ? OR 
+        s.first_name LIKE $1 OR 
+        s.last_name LIKE $2 OR 
+        sc.code LIKE $3 OR 
         CONCAT(s.first_name, ' ', s.last_name) LIKE ?
       )`);
       params.push(searchPattern, searchPattern, searchPattern, searchPattern);
     }
     
     if (statusFilter && statusFilter !== 'all') {
-      conditions.push('sc.status = ?');
+      conditions.push('sc.status = $4');
       params.push(statusFilter);
     }
     
@@ -1463,7 +1460,7 @@ export async function createBulkStudentCodes(studentIds, codePrefix = 'STU') {
       }
       const [result] = await pool.execute(
         `INSERT INTO StudentCodes (student_id, code, password_hash, status, created_at, updated_at)
-         VALUES (?, ?, ?, 'active', NOW(), NOW())`,
+         VALUES ($1, $2, $3, 'active', NOW(), NOW()) RETURNING id`,
         [studentId, code, password_hash]
       );
       
@@ -1604,7 +1601,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
         return false;
       }
       [result] = await pool.execute(
-        'UPDATE Admins SET password_hash = ? WHERE username = ?',
+        'UPDATE Admins SET password_hash = $1 WHERE username = $2',
         [password_hash, username]
       );
     } else {
@@ -1613,7 +1610,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
         return false;
       }
       [result] = await pool.execute(
-        'UPDATE Students SET password_hash = ? WHERE username = ?',
+        'UPDATE Students SET password_hash = $1 WHERE username = $2',
         [password_hash, username]
       );
     }
@@ -1629,7 +1626,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
    }
    await pool.execute(
       `INSERT INTO UserPasswordsView (username, plain_password, user_type) 
-       VALUES (?, ?, ?) 
+       VALUES ($1, $2, $3) 
        ON DUPLICATE KEY UPDATE 
        plain_password = VALUES(plain_password), 
        last_updated = NOW()`,
@@ -1653,7 +1650,7 @@ export async function getStudentByUsername(username) {
       return null;
     }
     const [rows] = await pool.execute(
-      'SELECT * FROM Students WHERE username = ?',
+      'SELECT * FROM Students WHERE username = $1',
       [username]
     );
     return rows[0] || null;
@@ -1682,7 +1679,7 @@ export async function createStudentComplete(studentData) {
         first_name, last_name, father_name, username, password_hash,
         class, phone, email, parentName, parentPhone, address,
         birthDate, enrollmentDate, status, notes
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`,
       [
         studentData.first_name,
         studentData.last_name,
@@ -1707,7 +1704,7 @@ export async function createStudentComplete(studentData) {
     // Also insert into OldStudents for foreign key compatibility
     await connection.execute(
       `INSERT INTO OldStudents (student_id, first_name, last_name, father_name, username, password_hash)
-       VALUES (?, ?, ?, ?, ?, ?)`,
+       VALUES ($1, $2, $3, $4, $5, $6)`,
       [
         studentId,
         studentData.first_name,
@@ -1765,7 +1762,7 @@ export async function createAnnouncementSimple(title, content, admin_id) {
     }
     const [result] = await pool.query(
       `INSERT INTO Notifications (title, content, created_by, is_active, created_at)
-       VALUES (?, ?, ?, TRUE, NOW())`,
+       VALUES ($1, $2, $3, TRUE, NOW()) RETURNING id`,
       [title, content, admin_id]
     );
     return result.insertId;
@@ -1812,7 +1809,7 @@ export async function getSchoolsDataByType(schoolType) {
         min_moria, max_moria, field_code, school_type, avg_score,
         upload_date, updated_at, uploaded_by, file_type, batch_id
       FROM SchoolsData 
-      WHERE school_type = ?
+      WHERE school_type = $1
       ORDER BY school_name ASC
     `, [schoolType]);
     return rows;
@@ -1846,7 +1843,7 @@ export async function replaceAllSchoolsData(schoolsArray, uploadedBy = 'admin', 
           school_id, school_name, university, position_type, scientific_field,
           min_moria, max_moria, field_code, school_type, avg_score,
           uploaded_by, file_type, batch_id
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
       `;
       
       for (const school of schoolsArray) {
@@ -1967,7 +1964,7 @@ export async function saveCalculatorTemplate(templateData) {
     const [result] = await pool.query(
       `INSERT INTO CalculatorTemplates 
        (filename, original_name, template_type, file_data, file_size, mimetype, created_by) 
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+       VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
       [
         templateData.filename,
         templateData.originalName,
@@ -2015,7 +2012,7 @@ export async function getCalculatorTemplate(filename) {
       return null;
     }
     const [rows] = await pool.query(
-      `SELECT * FROM CalculatorTemplates WHERE filename = ?`,
+      `SELECT * FROM CalculatorTemplates WHERE filename = $1`,
       [filename]
     );
     return rows[0] || null;
@@ -2036,7 +2033,7 @@ export async function getCalculatorTemplateMetadata(filename) {
       `SELECT id, filename, original_name, template_type, file_size, mimetype, 
               upload_date, created_by 
        FROM CalculatorTemplates 
-       WHERE filename = ?`,
+       WHERE filename = $1`,
       [filename]
     );
     return rows[0] || null;
@@ -2054,7 +2051,7 @@ export async function deleteCalculatorTemplate(filename) {
       return false;
     }
     const [result] = await pool.query(
-      `DELETE FROM CalculatorTemplates WHERE filename = ?`,
+      `DELETE FROM CalculatorTemplates WHERE filename = $1`,
       [filename]
     );
     
@@ -2123,7 +2120,7 @@ export async function addCalendarEventForStudent(student_id, subject_id, event_t
   }
   await pool.query(
     `INSERT INTO CalendarEvents (student_id, subject_id, event_title, event_type, event_date, event_time, event_text)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+     VALUES ($1, $2, $3, $4, $5, $6, $7)`,
     [student_id, subject_id, event_title, event_type, event_date, event_time, event_text]
   );
 }
