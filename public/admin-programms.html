@@ -581,11 +581,17 @@
               else if (classValue === 'Γ') section = "Γ' Γυμνασίου";
               else section = 'Γυμνάσιο';
             } else if (type === 'lykeio') {
-              section = 'Λύκειο - ΓΕΛ';
               classValue = form.querySelector('select[name="class"]').value;
+              if (classValue === 'Α') section = "Α' Λυκείου-ΓΕΛ";
+              else if (classValue === 'Β') section = "Β' Λυκείου-ΓΕΛ";
+              else if (classValue === 'Γ') section = "Γ' Λυκείου-ΓΕΛ";
+              section = 'Λύκειο - ΓΕΛ';
             } else if (type === 'epal') {
               section = 'Λύκειο - ΕΠΑΛ';
               classValue = form.querySelector('select[name="class"]').value;
+              if (classValue === 'Α') section = "Α' Λυκείου-ΕΠΑΛ";
+              else if (classValue === 'Β') section = "Β' Λυκείου-ΕΠΑΛ";
+              else if (classValue === 'Γ') section = "Γ' Λυκείου-ΕΠΑΛ";
             }
             const payload = {
               section,
