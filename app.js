@@ -1087,7 +1087,7 @@ app.get('/api/calendar/:studentId', async (req, res) => {
   try {
     const result = await pool.query(
       `SELECT c.*, s.name as subject_name, st.class as student_class 
-       FROM calendar_entries c 
+       FROM CalendarEvents c 
        LEFT JOIN subjects s ON c.subject_id = s.id 
        LEFT JOIN Students st ON c.student_id = st.id
        WHERE c.student_id = $1 
@@ -1109,7 +1109,7 @@ app.post('/api/calendar', async (req, res) => {
       return res.status(400).json({ error: 'Required fields missing' });
     }
     const result = await pool.query(
-      'INSERT INTO calendar_entries (student_id, subject_id, entry_date, event_type, title, description, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING id',
+      'INSERT INTO CalendarEvents (student_id, subject_id, entry_date, event_type, title, description, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING id',
       [studentId, subjectId, entryDate, eventType || 'Ενημέρωση', title, description || '']
     );
     res.json({ success: true, id: result.rows[0].id, message: 'Calendar entry added successfully' });
@@ -1124,7 +1124,7 @@ app.put('/api/calendar/:id', async (req, res) => {
   try {
     const { subjectId, entryDate, eventType, title, description } = req.body;
     const result = await pool.query(
-      'UPDATE calendar_entries SET subject_id = $1, entry_date = $2, event_type = $3, title = $4, description = $5, updated_at = NOW() WHERE id = $6',
+      'UPDATE CalendarEvents SET subject_id = $1, entry_date = $2, event_type = $3, title = $4, description = $5, updated_at = NOW() WHERE id = $6',
       [subjectId || null, entryDate, eventType, title, description || '', req.params.id]
     );
     if (result.rowCount === 0) {
@@ -1140,7 +1140,7 @@ app.put('/api/calendar/:id', async (req, res) => {
 // Delete a calendar entry
 app.delete('/api/calendar/:id', async (req, res) => {
   try {
-    const result = await pool.query('DELETE FROM calendar_entries WHERE id = $1', [req.params.id]);
+    const result = await pool.query('DELETE FROM CalendarEvents WHERE id = $1', [req.params.id]);
     if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Calendar entry not found' });
     }
@@ -1163,7 +1163,7 @@ app.post('/api/events', async (req, res) => {
       fullDescription = time + (fullDescription ? ': ' + fullDescription : '');
     }
     const result = await pool.query(
-      'INSERT INTO calendar_entries (student_id, subject_id, entry_date, event_type, title, description, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING id',
+      'INSERT INTO CalendarEvents (student_id, subject_id, entry_date, event_type, title, description, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING id',
       [studentId, subjectId || null, entryDate, eventType || 'Ενημέρωση', title, fullDescription]
     );
     res.json({ success: true, id: result.rows[0].id, message: 'Event added successfully' });
