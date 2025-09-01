@@ -1003,9 +1003,25 @@
       setDefaultDates();
     }
     
+    // Φόρτωση subject.code στο dropdown του calendar modal
+    async function loadCalendarSubjects() {
+      const select = document.getElementById('subjectSelect');
+      if (select) {
+        select.innerHTML = '<option value="">Επιλέξτε κωδικό μαθήματος...</option>';
+        if (window.allSubjects && Array.isArray(window.allSubjects)) {
+          window.allSubjects.forEach(subject => {
+            const option = document.createElement('option');
+            option.value = subject.code;
+            option.textContent = `${subject.code} - ${subject.name}`;
+            select.appendChild(option);
+          });
+        }
+      }
+    }
+    
     function openCalendarModal() {
       document.getElementById('calendarModal').style.display = 'flex';
-      loadClasses();
+      loadCalendarSubjects();
     }
     
     function closeCalendarModal() {
