@@ -27,7 +27,7 @@ async function loadStudentInfo() {
 
 async function loadCalendarEntries(studentId) {
   try {
-    const response = await fetch(`/api/calendar/${studentId}`);
+    const response = await fetch(`/api/calendar/events/${studentId}`);
     if (response.ok) {
       const calendarEntries = await response.json();
       return calendarEntries;
@@ -396,7 +396,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     
   } catch (error) {
     console.error('Error initializing calendar page:', error);
-    document.getElementById('loadingMessage').textContent = 'Σφάλμα κατά τη φόρτωση της σελίδας.';
+    const loadingMsg = document.getElementById('loadingMessage');
+    if (loadingMsg) loadingMsg.textContent = 'Σφάλμα κατά τη φόρτωση της σελίδας.';
   }
 });
 
