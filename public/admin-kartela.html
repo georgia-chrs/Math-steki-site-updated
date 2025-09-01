@@ -1048,7 +1048,8 @@ async function openCalendarModal() {
       const eventTime = document.getElementById('eventTime').value;
       const eventTitle = document.getElementById('eventTitle').value.trim();
       const eventText = document.getElementById('eventText').value.trim();
-      if (!eventType || !subjectId || !eventDate || !eventTitle) {
+      const classId = document.getElementById('studentClassFilter').value; // Διόρθωση: παίρνουμε το classId από το επιλεγμένο πεδίο
+      if (!eventType || !subjectId || !eventDate || !eventTitle || !classId) {
         alert('Συμπληρώστε όλα τα υποχρεωτικά πεδία!');
         return;
       }
