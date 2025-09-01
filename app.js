@@ -924,7 +924,7 @@ app.post('/api/grades', async (req, res) => {
     }
 
     const result = await pool.query(
-      'INSERT INTO grades (student_id, subject_id, exam_type, grade, exam_date, notes, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())',
+      'INSERT INTO grades (student_id, subject_id, exam_type, grade, exam_date, notes, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW())',
       [studentId, subjectId, examType || 'Διαγώνισμα', grade, examDate, notes || '']
     );
     
@@ -942,7 +942,7 @@ app.put('/api/grades/:id', async (req, res) => {
     const { subjectId, examType, grade, examDate, notes } = req.body;
     
     const result = await pool.query(
-      'UPDATE grades SET subject_id = ?, exam_type = ?, grade = ?, exam_date = ?, notes = ?, updated_at = NOW() WHERE id = ?',
+      'UPDATE grades SET subject_id = $1, exam_type = $2, grade = $3, exam_date = $4, notes = $5, updated_at = NOW() WHERE id = $6',
       [subjectId, examType, grade, examDate, notes || '', req.params.id]
     );
     
@@ -960,8 +960,8 @@ app.put('/api/grades/:id', async (req, res) => {
 // Delete a grade
 app.delete('/api/grades/:id', async (req, res) => {
   try {
-    const result = await pool.query('DELETE FROM grades WHERE id = ?', [req.params.id]);
-    
+    const result = await pool.query('DELETE FROM grades WHERE id = $1', [req.params.id]);
+
     if (result[0].affectedRows === 0) {
       return res.status(404).json({ error: 'Grade not found' });
     }
@@ -1032,7 +1032,7 @@ app.post('/api/progress', async (req, res) => {
     }
 
     const result = await pool.query(
-      'INSERT INTO progress_notes (student_id, subject_id, note_date, content, performance_level, created_at) VALUES (?, ?, ?, ?, ?, NOW())',
+      'INSERT INTO progress_notes (student_id, subject_id, note_date, content, performance_level, created_at) VALUES ($1, $2, $3, $4, $5, NOW())',
       [finalStudentId, finalSubjectId, finalDate, finalContent, finalRating || 'average']
     );
     
@@ -1050,7 +1050,7 @@ app.put('/api/progress/:id', async (req, res) => {
     const { subjectId, noteDate, content, performanceLevel } = req.body;
     
     const result = await pool.query(
-      'UPDATE progress_notes SET subject_id = ?, note_date = ?, content = ?, performance_level = ?, updated_at = NOW() WHERE id = ?',
+      'UPDATE progress_notes SET subject_id = $1, note_date = $2, content = $3, performance_level = $4, updated_at = NOW() WHERE id = $5',
       [subjectId || null, noteDate, content, performanceLevel, req.params.id]
     );
 
@@ -1068,7 +1068,7 @@ app.put('/api/progress/:id', async (req, res) => {
 // Delete a progress note
 app.delete('/api/progress/:id', async (req, res) => {
   try {
-    const result = await pool.query('DELETE FROM progress_notes WHERE id = ?', [req.params.id]);
+    const result = await pool.query('DELETE FROM progress_notes WHERE id = $1', [req.params.id]);
     
     if (result[0].affectedRows === 0) {
       return res.status(404).json({ error: 'Progress note not found' });
@@ -1091,7 +1091,7 @@ app.get('/api/calendar/:studentId', async (req, res) => {
        FROM calendar_entries c 
        LEFT JOIN subjects s ON c.subject_id = s.id 
        LEFT JOIN Students st ON c.student_id = st.id
-       WHERE c.student_id = ? 
+       WHERE c.student_id = $1 
        ORDER BY c.entry_date DESC`,
       [req.params.studentId]
     );
@@ -1122,7 +1122,7 @@ app.post('/api/calendar', async (req, res) => {
     }
 
     const result = await pool.query(
-      'INSERT INTO calendar_entries (student_id, subject_id, entry_date, event_type, title, description, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())',
+      'INSERT INTO calendar_entries (student_id, subject_id, entry_date, event_type, title, description, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW())',
       [studentId, subjectId, entryDate, eventType || 'Ενημέρωση', title, description || '']
     );
     
@@ -1140,7 +1140,7 @@ app.put('/api/calendar/:id', async (req, res) => {
     const { subjectId, entryDate, eventType, title, description } = req.body;
     
     const result = await pool.query(
-      'UPDATE calendar_entries SET subject_id = ?, entry_date = ?, event_type = ?, title = ?, description = ?, updated_at = NOW() WHERE id = ?',
+      'UPDATE calendar_entries SET subject_id = $1, entry_date = $2, event_type = $3, title = $4, description = $5, updated_at = NOW() WHERE id = $6',
       [subjectId || null, entryDate, eventType, title, description || '', req.params.id]
     );
     
@@ -1158,7 +1158,7 @@ app.put('/api/calendar/:id', async (req, res) => {
 // Delete a calendar entry
 app.delete('/api/calendar/:id', async (req, res) => {
   try {
-    const result = await pool.query('DELETE FROM calendar_entries WHERE id = ?', [req.params.id]);
+    const result = await pool.query('DELETE FROM calendar_entries WHERE id = $1', [req.params.id]);
 
     if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Calendar entry not found' });
