@@ -1120,10 +1120,10 @@ export async function getEnrollmentsByStudent(studentId) {
       [studentId]
     );
     
-    console.log(`📊 Raw query result for student ${studentId}:`, rows);
+    console.log(`📊 Raw query result for student ${studentId}:`, res.rows);
     
     // Μετατρέπουμε τα δεδομένα για συμβατότητα με το frontend
-    return rows.map(row => ({
+    return res.rows.map(row => ({
       enrollment_id: row.enrollment_id,
       student_id: row.student_id,
       class_id: row.class_id,
