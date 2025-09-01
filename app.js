@@ -2439,8 +2439,8 @@ app.post('/api/programms', async (req, res) => {
       return res.status(400).json({ error: 'Συμπληρώστε όλα τα πεδία' });
     }
     // Αποθήκευση στη βάση
-    const [result] = await pool.query(
-      'INSERT INTO programms (section, subject, hour, type, field) VALUES (?, ?, ?, ?, ?)',
+    const result = await pool.query(
+      'INSERT INTO programms (section, subject, hour, type, field) VALUES ($1, $2, $3, $4, $5)',
       [section, subject, hour, type, field || null]
     );
     res.json({ success: true, id: result.insertId });
@@ -2469,8 +2469,8 @@ app.put('/api/programms/:id', async (req, res) => {
     if (!section || !subject || !hour) {
       return res.status(400).json({ error: 'Συμπληρώστε όλα τα πεδία' });
     }
-    const [result] = await pool.query(
-      'UPDATE programms SET section=?, subject=?, hour=?, type=?, field=? WHERE id=?',
+    const result = await pool.query(
+      'UPDATE programms SET section=$1, subject=$2, hour=$3, type=$4, field=$5 WHERE id=$6',
       [section, subject, hour, type, field || null, id]
     );
     res.json({ success: true });
@@ -2484,7 +2484,7 @@ app.put('/api/programms/:id', async (req, res) => {
 app.delete('/api/programms/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const [result] = await pool.query('DELETE FROM programms WHERE id=?', [id]);
+    const result = await pool.query('DELETE FROM programms WHERE id=$1', [id]);
     res.json({ success: true });
   } catch (error) {
     console.error('Σφάλμα διαγραφής προγράμματος:', error);
