@@ -68,6 +68,16 @@
       color: #ffffff !important;
       font-weight: bold;
     }
+
+
+
+.total-row td {
+      background: #fcf6f0 !important;
+      color: #f5ab72 !important;
+      font-weight: bold;
+    }
+
+
     .section-header th {
       background: #54381a !important;
       color: #ffffff !important;
@@ -167,7 +177,7 @@ async function loadDimotikoProgram() {
   // Υπολογισμός και εμφάνιση συνόλου ωρών
   const totalHours = data.reduce((sum, row) => sum + Number(row.hour), 0);
   tbody.innerHTML += `
-    <tr style="font-weight:bold; background:#f7e7c1;">
+    <tr class="total-row">
       <td>Σύνολο</td>
       <td>${totalHours}</td>
     </tr>
