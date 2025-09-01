@@ -2350,13 +2350,11 @@ app.get('/api/classes', async (req, res) => {
 // Endpoint για ανάρτηση γεγονότος σε όλους τους μαθητές ενός μαθήματος
 app.post('/api/calendar/event', async (req, res) => {
   try {
-    const { classId, eventType, eventDate, eventTime, eventTitle, eventText } = req.body;
-    if (!classId || !eventType || !eventDate || !eventTitle) {
+    const { subjectId, eventType, eventDate, eventTime, eventTitle, eventText } = req.body;
+    if (!subjectId || !eventType || !eventDate || !eventTitle) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    // Χρησιμοποίησε το classId απευθείας ως subjectId
-    const subjectId = classId;
-    // Βρες όλους τους μαθητές που είναι εγγεγραμμένοι στο μάθημα
+    // Βρες όλους τους μαθητές που είναι εγγεγραμμένοι στο τμήμα
     const enrollments = await getEnrollmentsBySubject(subjectId);
     const studentIds = enrollments.map(e => e.student_id);
     for (const studentId of studentIds) {
