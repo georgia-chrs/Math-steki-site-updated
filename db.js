@@ -1009,16 +1009,15 @@ export async function getStudentEnrollments(studentId) {
 
 export async function createEnrollment(studentId, classId) {
   try {
-
     if (!pool) {
       console.log("⚠️ No DB connection, skipping create");
       return false;
     }
-    const [result] = await pool.query(`
+    const res = await pool.query(`
       INSERT INTO Enrollments (student_id, class_id)
       VALUES ($1, $2) RETURNING id
     `, [studentId, classId]);
-    return result.insertId;
+    return res.rows[0]?.id;
   } catch (error) {
     console.error('Error creating enrollment:', error);
     throw error;
@@ -1170,22 +1169,19 @@ export async function getEnrollmentsBySubject(subjectId) {
 export async function updateEnrollment(id, enrollmentData) {
   try {
     const { studentId, classId, status, notes } = enrollmentData;
-
     if (!pool) {
       console.log("⚠️ No DB connection, skipping update");
       return false;
     }
-    const [result] = await pool.query(
+    const res = await pool.query(
       `UPDATE Enrollments 
        SET student_id = $1, class_id = $2
        WHERE enrollment_id = $3`,
       [studentId, classId, id]
     );
-    
-    if (result.affectedRows === 0) {
+    if (res.rowCount === 0) {
       throw new Error('Enrollment not found');
     }
-    
     return { id, ...enrollmentData };
   } catch (error) {
     console.error('Error updating enrollment:', error);
@@ -1219,13 +1215,13 @@ export async function searchEnrollments(searchTerm, statusFilter) {
         st.first_name LIKE $1 OR 
         st.last_name LIKE $2 OR 
         s.name LIKE $3 OR 
-        CONCAT(st.first_name, ' ', st.last_name) LIKE ?
+        CONCAT(st.first_name, ' ', st.last_name) LIKE $4
       )`);
       params.push(searchPattern, searchPattern, searchPattern, searchPattern);
     }
-    
+
     if (statusFilter && statusFilter !== 'all') {
-      conditions.push('e.status = $4');
+      conditions.push(`e.status = $${params.length + 1}`);
       params.push(statusFilter);
     }
     
@@ -1317,18 +1313,16 @@ export async function getStudentCodeByStudentId(studentId) {
 export async function createStudentCode(studentCodeData) {
   try {
     const { student_id, code, password_hash, status } = studentCodeData;
-
     if (!pool) {
       console.log("⚠️ No DB connection, skipping create");
       return false;
     }
-    const [result] = await pool.query(
+    const res = await pool.query(
       `INSERT INTO StudentCodes (student_id, code, password_hash, status, created_at, updated_at)
        VALUES ($1, $2, $3, $4, NOW(), NOW()) RETURNING id`,
       [student_id, code, password_hash, status || 'active']
     );
-    
-    return { id: result.insertId, ...studentCodeData };
+    return { id: res.rows[0]?.id, ...studentCodeData };
   } catch (error) {
     console.error('Error creating student code:', error);
     throw error;
@@ -1338,22 +1332,19 @@ export async function createStudentCode(studentCodeData) {
 export async function updateStudentCode(id, studentCodeData) {
   try {
     const { student_id, code, password_hash, status } = studentCodeData;
-
     if (!pool) {
       console.log("⚠️ No DB connection, skipping update");
       return false;
     }
-    const [result] = await pool.query(
+    const res = await pool.query(
       `UPDATE StudentCodes 
        SET student_id = $1, code = $2, password_hash = $3, status = $4, updated_at = NOW()
        WHERE id = $5`,
       [student_id, code, password_hash, status, id]
     );
-    
-    if (result.affectedRows === 0) {
+    if (res.rowCount === 0) {
       throw new Error('Student code not found');
     }
-    
     return { id, ...studentCodeData };
   } catch (error) {
     console.error('Error updating student code:', error);
@@ -1367,12 +1358,10 @@ export async function deleteStudentCode(id) {
       console.log("⚠️ No DB connection, skipping delete");
       return false;
     }
-    const [result] = await pool.query('DELETE FROM StudentCodes WHERE id = $1', [id]);
-    
-    if (result.affectedRows === 0) {
+    const res = await pool.query('DELETE FROM StudentCodes WHERE id = $1', [id]);
+    if (res.rowCount === 0) {
       throw new Error('Student code not found');
     }
-    
     return { success: true };
   } catch (error) {
     console.error('Error deleting student code:', error);
@@ -1399,13 +1388,12 @@ export async function searchStudentCodes(searchTerm, statusFilter) {
         s.first_name LIKE $1 OR 
         s.last_name LIKE $2 OR 
         sc.code LIKE $3 OR 
-        CONCAT(s.first_name, ' ', s.last_name) LIKE ?
+        CONCAT(s.first_name, ' ', s.last_name) LIKE $4
       )`);
       params.push(searchPattern, searchPattern, searchPattern, searchPattern);
     }
-    
     if (statusFilter && statusFilter !== 'all') {
-      conditions.push('sc.status = $4');
+      conditions.push(`sc.status = $${params.length + 1}`);
       params.push(statusFilter);
     }
     
@@ -1446,17 +1434,17 @@ export async function createBulkStudentCodes(studentIds, codePrefix = 'STU') {
         console.log("⚠️ No DB connection, skipping create");
         return false;
       }
-      const [result] = await pool.query(
+      const res = await pool.query(
         `INSERT INTO StudentCodes (student_id, code, password_hash, status, created_at, updated_at)
-         VALUES ($1, $2, $3, 'active', NOW(), NOW()) RETURNING id`,
+        VALUES ($1, $2, $3, 'active', NOW(), NOW()) RETURNING id`,
         [studentId, code, password_hash]
       );
-      
+
       createdCodes.push({
-        id: result.insertId,
+        id: res.rows[0]?.id,
         student_id: studentId,
         code: code,
-        password: password, // Return plain password for initial setup
+        password: password,
         status: 'active'
       });
     }
