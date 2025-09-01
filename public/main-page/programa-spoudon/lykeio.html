@@ -477,9 +477,9 @@ async function loadProgrammsPublic() {
       // Δέχεται και "Α' Λυκείου", "Β' Λυκείου", "Γ' Λυκείου" και "Α", "Β", "Γ"
       let classMatch = true;
       if (filterClass) {
-        if (filterClass === 'Α') classMatch = row.section === 'Α' || row.section === "Α' Λυκείου";
-        else if (filterClass === 'Β') classMatch = row.section === 'Β' || row.section === "Β' Λυκείου";
-        else if (filterClass === 'Γ') classMatch = row.section === 'Γ' || row.section === "Γ' Λυκείου";
+        if (filterClass === 'Α') classMatch = row.section === 'Α' || row.section === "Α' Λυκείου" || row.section === "Α' ΓΕΛ";
+        else if (filterClass === 'Β') classMatch = row.section === 'Β' || row.section === "Β' Λυκείου" || row.section === "Β' ΓΕΛ";
+        else if (filterClass === 'Γ') classMatch = row.section === 'Γ' || row.section === "Γ' Λυκείου" || row.section === "Γ' ΓΕΛ";
         else classMatch = row.section === filterClass;
       }
       let fieldMatch = true;
@@ -537,30 +537,30 @@ async function loadProgrammsPublic() {
         sumEpal += Number(row.hour) || 0;
       } 
       // --- ΕΠΑΛ ανά τάξη ---
-      if (row.type === 'epal' && (row.section === 'Α' || row.section === "Α' Λυκείου")) {
+      if (row.type === 'epal' && (row.section === 'Α' || row.section === "Α' Λυκείου" || row.section === "Α' ΕΠΑΛ")) {
         foundA = true;
         tbodyEpalA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumEA += Number(row.hour) || 0;
-      } else if (row.type === 'epal' && (row.section === 'Β' || row.section === "Β' Λυκείου")) {
+      } else if (row.type === 'epal' && (row.section === 'Β' || row.section === "Β' Λυκείου" || row.section === "Β' ΕΠΑΛ")) {
         foundB = true;
         tbodyEpalB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumEB += Number(row.hour) || 0;
-      } else if (row.type === 'epal' && (row.section === 'Γ' || row.section === "Γ' Λυκείου")) {
+      } else if (row.type === 'epal' && (row.section === 'Γ' || row.section === "Γ' Λυκείου" || row.section === "Γ' ΕΠΑΛ")) {
         foundG = true;
         tbodyEpalG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumEG += Number(row.hour) || 0;
       }
       
       // --- Λύκειο ανά τάξη ---
-      if (row.type === 'lykeio' && (row.section === 'Α' || row.section === "Α' Λυκείου")) {
+      if (row.type === 'lykeio' && (row.section === 'Α' || row.section === "Α' Λυκείου" || row.section === "Α' ΓΕΛ")) {
         foundA = true;
         tbodyLykeioA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumA += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && (row.section === 'Β' || row.section === "Β' Λυκείου")) {
+      } else if (row.type === 'lykeio' && (row.section === 'Β' || row.section === "Β' Λυκείου" || row.section === "Β' ΓΕΛ")) {
         foundB = true;
         tbodyLykeioB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumB += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && (row.section === 'Γ' || row.section === "Γ' Λυκείου")) {
+      } else if (row.type === 'lykeio' && (row.section === 'Γ' || row.section === "Γ' Λυκείου" || row.section === "Γ' ΓΕΛ")) {
         foundG = true;
         tbodyLykeioG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumG += Number(row.hour) || 0;
