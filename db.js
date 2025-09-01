@@ -824,11 +824,12 @@ export async function createTeacher(teacherData) {
     console.log("⚠️ No DB connection, skipping create");
     return false;
   }
-  const [result] = await pool.query(`
-    INSERT INTO teachers (name, subject, phone, email)
-    VALUES ($1, $2, $3, $4) RETURNING id
-  `, [teacherData.name, teacherData.subject, teacherData.phone, teacherData.email]);
-  return result.insertId;
+  const res = await pool.query(
+    `INSERT INTO teachers (name, subject, phone, email)
+    VALUES ($1, $2, $3, $4) RETURNING id`,
+    [teacherData.name, teacherData.subject, teacherData.phone, teacherData.email]
+  );
+  return res.rows[0].id;
 }
 
 export async function updateTeacher(id, teacherData) {
