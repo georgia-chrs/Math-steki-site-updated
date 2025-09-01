@@ -1586,12 +1586,7 @@
       }
 
       filteredSubjects.forEach(subject => {
-        // Ασφαλής πρόσβαση στο πεδίο subject
-        if (!subject || typeof subject.subject === 'undefined') {
-          console.warn('Missing subject field:', subject);
-          // Μπορείς να κάνεις skip ή να εμφανίσεις κενή γραμμή
-          return;
-        }
+        // Αφαιρέθηκε ο έλεγχος για το πεδίο subject
         const enrolledCount = enrollments.filter(e => e.class_id === subject.id).length;
         const teacher = teachers.find(t => t.id === subject.teacherId);
         const teacherName = teacher ? teacher.name : 'Δεν έχει ανατεθεί';
@@ -1602,7 +1597,7 @@
           <td>${subject.code}</td>
           <td>${subject.class}</td>
           <td>${teacherName}</td>
-          <td>${teacher.subject}</td>
+          <td>${teacher ? teacher.subject : '-'}</td>
           <td>${enrolledCount}</td>
           <td>
             <div class="action-buttons">
