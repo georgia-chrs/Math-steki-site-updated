@@ -1082,7 +1082,6 @@ app.delete('/api/progress/:id', async (req, res) => {
 });
 
 // ========== CALENDAR API ==========
-
 // Get calendar entries for a student
 app.get('/api/calendar/:studentId', async (req, res) => {
   try {
@@ -1095,8 +1094,7 @@ app.get('/api/calendar/:studentId', async (req, res) => {
        ORDER BY c.entry_date DESC`,
       [req.params.studentId]
     );
-    
-    res.json(result[0]);
+    res.json(result.rows);
   } catch (error) {
     console.error('Error fetching calendar entries:', error);
     res.status(500).json({ error: 'Error fetching calendar entries' });
@@ -1107,27 +1105,14 @@ app.get('/api/calendar/:studentId', async (req, res) => {
 app.post('/api/calendar', async (req, res) => {
   try {
     const { studentId, subjectId, entryDate, eventType, title, description } = req.body;
-    
-    console.log('📅 Calendar submission data:', { studentId, subjectId, entryDate, eventType, title, description });
-    
-    if (!studentId || !entryDate || !title) {
-      console.log('❌ Missing required fields:', { studentId: !!studentId, entryDate: !!entryDate, title: !!title });
+    if (!studentId || !entryDate || !title || !subjectId) {
       return res.status(400).json({ error: 'Required fields missing' });
     }
-
-    // Validation για το subject_id
-    if (!subjectId) {
-      console.log('❌ Invalid subject_id:', subjectId);
-      return res.status(400).json({ error: 'Πρέπει να επιλέξετε ένα συγκεκριμένο μάθημα' });
-    }
-
     const result = await pool.query(
-      'INSERT INTO calendar_entries (student_id, subject_id, entry_date, event_type, title, description, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW())',
+      'INSERT INTO calendar_entries (student_id, subject_id, entry_date, event_type, title, description, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING id',
       [studentId, subjectId, entryDate, eventType || 'Ενημέρωση', title, description || '']
     );
-    
-    console.log('✅ Calendar entry added successfully, ID:', result[0].insertId);
-    res.json({ success: true, id: result[0].insertId, message: 'Calendar entry added successfully' });
+    res.json({ success: true, id: result.rows[0].id, message: 'Calendar entry added successfully' });
   } catch (error) {
     console.error('Error adding calendar entry:', error);
     res.status(500).json({ error: 'Error adding calendar entry' });
@@ -1138,16 +1123,13 @@ app.post('/api/calendar', async (req, res) => {
 app.put('/api/calendar/:id', async (req, res) => {
   try {
     const { subjectId, entryDate, eventType, title, description } = req.body;
-    
     const result = await pool.query(
       'UPDATE calendar_entries SET subject_id = $1, entry_date = $2, event_type = $3, title = $4, description = $5, updated_at = NOW() WHERE id = $6',
       [subjectId || null, entryDate, eventType, title, description || '', req.params.id]
     );
-    
-    if (result[0].affectedRows === 0) {
+    if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Calendar entry not found' });
     }
-    
     res.json({ success: true, message: 'Calendar entry updated successfully' });
   } catch (error) {
     console.error('Error updating calendar entry:', error);
@@ -1159,11 +1141,9 @@ app.put('/api/calendar/:id', async (req, res) => {
 app.delete('/api/calendar/:id', async (req, res) => {
   try {
     const result = await pool.query('DELETE FROM calendar_entries WHERE id = $1', [req.params.id]);
-
     if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Calendar entry not found' });
     }
-    
     res.json({ success: true, message: 'Calendar entry deleted successfully' });
   } catch (error) {
     console.error('Error deleting calendar entry:', error);
@@ -1171,33 +1151,22 @@ app.delete('/api/calendar/:id', async (req, res) => {
   }
 });
 
-// ========== EVENTS API (Alias for Calendar) ==========
-
 // Add a new event (alias for calendar)
 app.post('/api/events', async (req, res) => {
   try {
     const { studentId, subjectId, entryDate, eventType, title, description, time } = req.body;
-    
-    console.log('📅 Event submission data:', { studentId, subjectId, entryDate, eventType, title, description, time });
-    
     if (!studentId || !entryDate || !title) {
-      console.log('❌ Missing required fields:', { studentId: !!studentId, entryDate: !!entryDate, title: !!title });
       return res.status(400).json({ error: 'Required fields missing' });
     }
-
-    // Combine description and time if time is provided
     let fullDescription = description || '';
     if (time) {
       fullDescription = time + (fullDescription ? ': ' + fullDescription : '');
     }
-
     const result = await pool.query(
-      'INSERT INTO calendar_entries (student_id, subject_id, entry_date, event_type, title, description, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())',
+      'INSERT INTO calendar_entries (student_id, subject_id, entry_date, event_type, title, description, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING id',
       [studentId, subjectId || null, entryDate, eventType || 'Ενημέρωση', title, fullDescription]
     );
-    
-    console.log('✅ Event added successfully, ID:', result[0].insertId);
-    res.json({ success: true, id: result[0].insertId, message: 'Event added successfully' });
+    res.json({ success: true, id: result.rows[0].id, message: 'Event added successfully' });
   } catch (error) {
     console.error('Error adding event:', error);
     res.status(500).json({ error: 'Error adding event' });
