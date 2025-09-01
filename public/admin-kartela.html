@@ -1362,6 +1362,25 @@
       document.body.appendChild(card);
       setTimeout(() => { card.style.opacity = '0'; setTimeout(() => card.remove(), 400); }, 9000);
     }
+
+    // Φόρτωση τάξεων για το calendar modal
+    async function loadClasses() {
+      try {
+          const response = await fetch('/classes');
+          if (response.ok) {
+              const classes = await response.json();
+              const select = document.getElementById('targetClass');
+              if (select) {
+                  select.innerHTML = '<option value="">Επιλέξτε τάξη...</option>';
+                  classes.forEach(cls => {
+                      select.innerHTML += `<option value="${cls.class_name}">${cls.class_name}</option>`;
+                  });
+              }
+          }
+      } catch (error) {
+          console.error('Error loading classes:', error);
+      }
+    }
   </script>
     <script src="announcements.js"></script>
 </body>
