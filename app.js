@@ -1677,7 +1677,7 @@ app.delete('/api/announcements/:id', async (req, res) => {
     
     // First check if announcement exists
     const existing = await pool.query(
-      'SELECT notification_id FROM Notifications WHERE notification_id = ?',
+      'SELECT notification_id FROM Notifications WHERE notification_id = $1',
       [id]
     );
     
@@ -1690,7 +1690,7 @@ app.delete('/api/announcements/:id', async (req, res) => {
     
     // Delete the announcement
     const result = await pool.query(
-      'DELETE FROM Notifications WHERE notification_id = ?',
+      'DELETE FROM Notifications WHERE notification_id = $1',
       [id]
     );
     
