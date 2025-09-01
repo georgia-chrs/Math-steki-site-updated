@@ -901,29 +901,33 @@
     // Update subject dropdowns to show only enrolled subjects
     function updateSubjectDropdowns() {
       const subjectSelects = ['gradeSubject', 'progressSubject', 'calendarSubject'];
-      
       subjectSelects.forEach(selectId => {
         const select = document.getElementById(selectId);
         if (select) {
-          // Clear existing options except first one
-          const firstOption = select.querySelector('option[value=""]');
           select.innerHTML = '';
-          if (firstOption) {
-            select.appendChild(firstOption.cloneNode(true));
+          const defaultOption = document.createElement('option');
+          defaultOption.value = '';
+          defaultOption.textContent = 'Επιλέξτε μάθημα';
+          select.appendChild(defaultOption);
+          if (selectId === 'calendarSubject') {
+            if (window.allSubjects && Array.isArray(window.allSubjects)) {
+              window.allSubjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject.code;
+                option.textContent = `${subject.code} - ${subject.name}`;
+                select.appendChild(option);
+              });
+            }
           } else {
-            const defaultOption = document.createElement('option');
-            defaultOption.value = '';
-            defaultOption.textContent = 'Επιλέξτε μάθημα';
-            select.appendChild(defaultOption);
+            if (window.selectedStudentSubjects && Array.isArray(window.selectedStudentSubjects)) {
+              window.selectedStudentSubjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject.id;
+                option.textContent = `${subject.name} (${subject.code})`;
+                select.appendChild(option);
+              });
+            }
           }
-          
-          // Add enrolled subjects only
-          selectedStudentSubjects.forEach(subject => {
-            const option = document.createElement('option');
-            option.value = subject.id;
-            option.textContent = `${subject.name} (${subject.code})`;
-            select.appendChild(option);
-          });
         }
       });
     }
