@@ -582,16 +582,16 @@
               else section = 'Γυμνάσιο';
             } else if (type === 'lykeio') {
               classValue = form.querySelector('select[name="class"]').value;
-              if (classValue === 'Α') section = "Α' Λυκείου-ΓΕΛ";
-              else if (classValue === 'Β') section = "Β' Λυκείου-ΓΕΛ";
-              else if (classValue === 'Γ') section = "Γ' Λυκείου-ΓΕΛ";
+              if (classValue === 'Α') section = "Α' ΓΕΛ";
+              else if (classValue === 'Β') section = "Β' ΓΕΛ";
+              else if (classValue === 'Γ') section = "Γ' ΓΕΛ";
               section = 'Λύκειο - ΓΕΛ';
             } else if (type === 'epal') {
               section = 'Λύκειο - ΕΠΑΛ';
               classValue = form.querySelector('select[name="class"]').value;
-              if (classValue === 'Α') section = "Α' Λυκείου-ΕΠΑΛ";
-              else if (classValue === 'Β') section = "Β' Λυκείου-ΕΠΑΛ";
-              else if (classValue === 'Γ') section = "Γ' Λυκείου-ΕΠΑΛ";
+              if (classValue === 'Α') section = "Α' ΕΠΑΛ";
+              else if (classValue === 'Β') section = "Β' ΕΠΑΛ";
+              else if (classValue === 'Γ') section = "Γ' ΕΠΑΛ";
             }
             const payload = {
               section,
