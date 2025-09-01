@@ -1091,7 +1091,7 @@ app.get('/api/calendar/:studentId', async (req, res) => {
        LEFT JOIN subjects s ON c.subject_id = s.id 
        LEFT JOIN Students st ON c.student_id = st.id
        WHERE c.student_id = $1 
-       ORDER BY c.entry_date DESC`,
+       ORDER BY c.event_date DESC`,
       [req.params.studentId]
     );
     res.json(result.rows);
@@ -1104,13 +1104,13 @@ app.get('/api/calendar/:studentId', async (req, res) => {
 // Add a new calendar entry
 app.post('/api/calendar', async (req, res) => {
   try {
-    const { studentId, subjectId, entryDate, eventType, title, description } = req.body;
-    if (!studentId || !entryDate || !title || !subjectId) {
+    const { studentId, subjectId, eventDate, eventType, title, description } = req.body;
+    if (!studentId || !eventDate || !title || !subjectId) {
       return res.status(400).json({ error: 'Required fields missing' });
     }
     const result = await pool.query(
-      'INSERT INTO CalendarEvents (student_id, subject_id, entry_date, event_type, title, description, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING id',
-      [studentId, subjectId, entryDate, eventType || 'Ενημέρωση', title, description || '']
+      'INSERT INTO CalendarEvents (student_id, subject_id, event_date, event_type, title, description, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING id',
+      [studentId, subjectId, eventDate, eventType || 'Ενημέρωση', title, description || '']
     );
     res.json({ success: true, id: result.rows[0].id, message: 'Calendar entry added successfully' });
   } catch (error) {
@@ -1122,10 +1122,10 @@ app.post('/api/calendar', async (req, res) => {
 // Update a calendar entry
 app.put('/api/calendar/:id', async (req, res) => {
   try {
-    const { subjectId, entryDate, eventType, title, description } = req.body;
+    const { subjectId, eventDate, eventType, title, description } = req.body;
     const result = await pool.query(
-      'UPDATE CalendarEvents SET subject_id = $1, entry_date = $2, event_type = $3, title = $4, description = $5, updated_at = NOW() WHERE id = $6',
-      [subjectId || null, entryDate, eventType, title, description || '', req.params.id]
+      'UPDATE CalendarEvents SET subject_id = $1, event_date = $2, event_type = $3, title = $4, description = $5, updated_at = NOW() WHERE id = $6',
+      [subjectId || null, eventDate, eventType, title, description || '', req.params.id]
     );
     if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Calendar entry not found' });
@@ -1154,8 +1154,8 @@ app.delete('/api/calendar/:id', async (req, res) => {
 // Add a new event (alias for calendar)
 app.post('/api/events', async (req, res) => {
   try {
-    const { studentId, subjectId, entryDate, eventType, title, description, time } = req.body;
-    if (!studentId || !entryDate || !title) {
+    const { studentId, subjectId, eventDate, eventType, title, description, time } = req.body;
+    if (!studentId || !eventDate || !title) {
       return res.status(400).json({ error: 'Required fields missing' });
     }
     let fullDescription = description || '';
@@ -1163,8 +1163,8 @@ app.post('/api/events', async (req, res) => {
       fullDescription = time + (fullDescription ? ': ' + fullDescription : '');
     }
     const result = await pool.query(
-      'INSERT INTO CalendarEvents (student_id, subject_id, entry_date, event_type, title, description, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING id',
-      [studentId, subjectId || null, entryDate, eventType || 'Ενημέρωση', title, fullDescription]
+      'INSERT INTO CalendarEvents (student_id, subject_id, event_date, event_type, title, description, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING id',
+      [studentId, subjectId || null, eventDate, eventType || 'Ενημέρωση', title, fullDescription]
     );
     res.json({ success: true, id: result.rows[0].id, message: 'Event added successfully' });
   } catch (error) {
