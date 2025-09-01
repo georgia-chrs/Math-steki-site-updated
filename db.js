@@ -1593,7 +1593,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
       );
     }
     
-    if (result.affectedRows === 0) {
+    if (result.rowCount === 0) {
       throw new Error('User not found');
     }
     
