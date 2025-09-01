@@ -1704,7 +1704,10 @@ app.delete('/api/announcements/:id', async (req, res) => {
     });
   } catch (err) {
     console.error('Error deleting announcement:', err);
-    res.status(500).json({ error: 'Error deleting announcement' });
+    if (err && err.stack) {
+      console.error('Stack trace:', err.stack);
+    }
+    res.status(500).json({ error: 'Error deleting announcement', details: err && err.message ? err.message : err });
   }
 });
 
@@ -1819,11 +1822,10 @@ app.post('/api/upload-schools-csv', async (req, res) => {
       }
       
       // ΕΠΑΛ Πληροφορική
-      if (name.includes('εφαρμοσμένη πληροφορικ') || name.includes('τει')) {
+      if ( name.includes('εφαρμοσμένη πληροφορικ') || name.includes('τει')) {
        
         return 'pliroforiki';
       }
-      
  }
     
     // Function to determine school type
