@@ -1991,6 +1991,18 @@ app.delete('/api/teachers/:id', async (req, res) => {
   }
 });
 
+//post teacher
+app.post('/api/teachers', async (req, res) => {
+  try {
+    const teacherData = req.body;
+    const result = await createTeacher(teacherData);
+    res.json({ success: true, teacher: result });
+  } catch (err) {
+    console.error('Error creating teacher:', err);
+    res.status(500).json({ error: 'Error creating teacher' });
+  }
+});
+
 // ========== PHOTOS API ==========
 
 // Get all photos
