@@ -840,7 +840,7 @@ observer.observe(document.getElementById('stats'));
   </footer>
   
   <script>
-    // Teachers data (shared with admin-kartela.html)
+/*    // Teachers data (shared with admin-kartela.html)
     let teachers = [
       { id: 1, name: "Δρ. Μαρία Αντωνίου", subject: "Μαθηματικά", phone: "6901234567", email: "maria.antoniou@mathsteki.gr" },
       { id: 2, name: "Κώστας Γεωργίου", subject: "Φυσική", phone: "6902345678", email: "kostas.georgiou@mathsteki.gr" },
@@ -857,7 +857,7 @@ observer.observe(document.getElementById('stats'));
       { id: 4, name: "Αρχαία", code: "Αρα3", class: "Α' Λυκείου", teacherId: 4 },
       { id: 5, name: "Νέα Ελληνικά", code: "Νεγ1", class: "Γ' Γυμνασίου", teacherId: 5 }
     ];
-/*
+
     // Load teachers on page load
     document.addEventListener('DOMContentLoaded', function() {
       loadTeachers();
@@ -893,7 +893,7 @@ observer.observe(document.getElementById('stats'));
         tbody.appendChild(row);
       });
     }
-*/
+
     // Add teacher form submission
     document.getElementById('teacherForm').addEventListener('submit', function(e) {
       e.preventDefault();
@@ -926,6 +926,9 @@ observer.observe(document.getElementById('stats'));
       
       document.getElementById('editTeacherModal').style.display = 'block';
     }
+
+
+
 
     function closeEditTeacherModal() {
       document.getElementById('editTeacherModal').style.display = 'none';
@@ -1000,6 +1003,9 @@ observer.observe(document.getElementById('stats'));
         closeEditTeacherModal();
       }
     }
+      
+    
+    */
   </script>
   
     <script src="main.js"></script>
