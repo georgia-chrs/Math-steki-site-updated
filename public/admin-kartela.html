@@ -573,6 +573,7 @@
         if (response.ok) {
           const subjects = await response.json();
           allSubjects = subjects; // <-- Ενημέρωση του global array
+          console.log('Loaded subjects:', allSubjects); // DEBUG: Δες τι επιστρέφει το API
         } else {
           console.error('Failed to load subjects');
           allSubjects = [];
