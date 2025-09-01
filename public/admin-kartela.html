@@ -1030,12 +1030,12 @@
     
     async function postCalendarEvent() {
       const eventType = document.getElementById('eventType').value;
-      const classId = document.getElementById('subjectSelect').value;
+      const subjectId = document.getElementById('subjectSelect').value;
       const eventDate = document.getElementById('eventDate').value;
       const eventTime = document.getElementById('eventTime').value;
       const eventTitle = document.getElementById('eventTitle').value.trim();
       const eventText = document.getElementById('eventText').value.trim();
-      if (!eventType || !classId || !eventDate || !eventTitle) {
+      if (!eventType || !subjectId || !eventDate || !eventTitle) {
         alert('Συμπληρώστε όλα τα υποχρεωτικά πεδία!');
         return;
       }
