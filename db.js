@@ -960,8 +960,11 @@ export async function deleteSubject(id) {
     console.log("⚠️ No DB connection, skipping delete");
     return false;
   }
-  const res = await pool.query('DELETE FROM subjects WHERE id = $1', [id]);
-  return res.rowCount > 0;
+  const res = await pool.query(`
+    UPDATE subjects 
+    SET ${fields.join(', ')}
+    WHERE id = $${values.length}
+  `, values);  return res.rowCount > 0;
 }
 
 export async function searchSubjects(searchTerm) {
