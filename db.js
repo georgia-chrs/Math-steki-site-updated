@@ -1684,6 +1684,13 @@ export async function createStudentComplete(studentData) {
         studentData.password_hash
       ]
     );
+    // Εισαγωγή plain password στον πίνακα UserPasswordsView για να εμφανίζεται στο admin-kodikoi
+    await client.query(
+      `INSERT INTO UserPasswordsView (username, plain_password, user_type)
+       VALUES ($1, $2, 'student')
+       ON CONFLICT (username, user_type) DO UPDATE SET plain_password = EXCLUDED.plain_password, last_updated = NOW()`,
+      [studentData.username, studentData.plain_password || '123']
+    );
     await client.query('COMMIT');
     console.log(`✅ Student created with ID: ${studentId}`);
     return studentId;

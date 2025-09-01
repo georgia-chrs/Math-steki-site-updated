@@ -50,6 +50,7 @@ CREATE TABLE Admins (
   password_hash VARCHAR(255) NOT NULL
 );
 
+
 CREATE TABLE CalculatorTemplates (
   id SERIAL PRIMARY KEY,
   filename VARCHAR(255) NOT NULL UNIQUE,
@@ -118,7 +119,7 @@ CREATE TABLE Grades (
   date_recorded TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (enrollment_id) REFERENCES Enrollments(enrollment_id)
 );
-
+/*
 CREATE TABLE Mixanografiko (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
@@ -133,8 +134,22 @@ CREATE TABLE Mixanografiko (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   created_by INT DEFAULT 1
+);*/
+CREATE TABLE mixanografiko (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  lykeio VARCHAR(10) NOT NULL,
+  field VARCHAR(255) NOT NULL,
+  specialty VARCHAR(255) DEFAULT '',
+  description TEXT,
+  filename VARCHAR(255) NOT NULL,
+  file_data BYTEA NOT NULL,
+  file_size VARCHAR(50) DEFAULT NULL,
+  upload_date DATE DEFAULT CURRENT_DATE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_by INT DEFAULT 1
 );
-
 CREATE TABLE NewStudents (
   id SERIAL PRIMARY KEY,
   first_name VARCHAR(100) NOT NULL,
