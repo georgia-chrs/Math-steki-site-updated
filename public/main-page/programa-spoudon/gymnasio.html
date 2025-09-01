@@ -343,7 +343,15 @@ async function loadProgrammsPublic() {
       let typeMatch = row.type === filterType;
       let classMatch = true;
       if (filterAppliedValue && filterClassValue) {
-        classMatch = row.section === filterClassValue;
+        if (filterClassValue === 'Α') {
+          classMatch = row.section.includes("Α'");
+        } else if (filterClassValue === 'Β') {
+          classMatch = row.section.includes("Β'");
+        } else if (filterClassValue === 'Γ') {
+          classMatch = row.section.includes("Γ'");
+        } else {
+          classMatch = true;
+        }
       }
       return typeMatch && classMatch;
     });
