@@ -2381,9 +2381,11 @@ app.get('/api/calendar/events/:studentId', async (req, res) => {
       return res.json([]); // Ο μαθητής δεν έχει εγγραφές
     }
     // Επιστρέφουμε όλα τα γεγονότα που αφορούν αυτά τα μαθήματα/τμήματα
+    // Διορθώνουμε το IN (?) ώστε να λειτουργεί σωστά με array
+    const placeholders = classIds.map(() => '?').join(',');
     const [events] = await pool.query(
-      `SELECT * FROM CalendarEvents WHERE subject_id IN (?) ORDER BY event_date DESC, event_time DESC`,
-      [classIds]
+      `SELECT * FROM CalendarEvents WHERE subject_id IN (${placeholders}) ORDER BY event_date DESC, event_time DESC`,
+      classIds
     );
     res.json(events);
   } catch (err) {
