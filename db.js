@@ -1605,9 +1605,10 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
    await pool.query(
       `INSERT INTO UserPasswordsView (username, plain_password, user_type) 
        VALUES ($1, $2, $3) 
-       ON DUPLICATE KEY UPDATE 
-       plain_password = VALUES(plain_password), 
-       last_updated = NOW()`,
+       ON CONFLICT (username)
+       DO UPDATE SET 
+         plain_password = EXCLUDED.plain_password, 
+         last_updated = NOW()`,
       [username, newPassword, userType]
     );
     
@@ -2085,7 +2086,7 @@ export async function getCalculatorTemplatesStats() {
     };
   } catch (error) {
     console.error('Error getting calculator templates stats:', error);
-       throw error;
+    throw error;
   }
 }
 
