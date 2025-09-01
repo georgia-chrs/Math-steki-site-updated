@@ -1011,7 +1011,7 @@
         if (window.allSubjects && Array.isArray(window.allSubjects)) {
           window.allSubjects.forEach(subject => {
             const option = document.createElement('option');
-            option.value = subject.code;
+            option.value = subject.id;
             option.textContent = `${subject.code} - ${subject.name}`;
             select.appendChild(option);
           });
