@@ -1366,7 +1366,7 @@
     // Φόρτωση τάξεων για το calendar modal
     async function loadClasses() {
       try {
-          const response = await fetch('/classes');
+          const response = await fetch('/api/classes');
           if (response.ok) {
               const classes = await response.json();
               const select = document.getElementById('targetClass');
