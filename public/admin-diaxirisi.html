@@ -1311,116 +1311,116 @@
     }
 
     // Format date for display
-    function formatDate(dateString) {
-      if (!dateString) return '-';
-      const date = new Date(dateString);
-      return date.toLocaleDateString('el-GR');
-    }
+  function formatDate(dateString) {
+    if (!dateString) return '-';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('el-GR');
+  }
 
     // Modal functions
-    function openAddModal() {
-      document.getElementById('modalTitle').textContent = 'Προσθήκη Νέου Μαθητή';
-      document.getElementById('studentForm').reset();
-      document.getElementById('studentId').value = '';
-      document.getElementById('enrollmentDate').value = new Date().toISOString().split('T')[0];
-      document.getElementById('status').value = 'active';
-      
-      // Clear username and password fields
-      document.getElementById('username').value = '';
-      document.getElementById('password').value = '';
-      
-      document.getElementById('studentModal').style.display = 'block';
-    }
+function openAddModal() {
+  document.getElementById('modalTitle').textContent = 'Προσθήκη Νέου Μαθητή';
+  document.getElementById('studentForm').reset();
+  document.getElementById('studentId').value = '';
+  document.getElementById('enrollmentDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('status').value = 'active';
+  
+  // Clear username and password fields
+  document.getElementById('username').value = '';
+  document.getElementById('password').value = '';
+  
+  document.getElementById('studentModal').style.display = 'block';
+}
 
-    function editStudent(id) {
-      const student = students.find(s => s.id === id);
-      if (!student) return;
+function editStudent(id) {
+  const student = students.find(s => s.id === id);
+  if (!student) return;
 
-      document.getElementById('modalTitle').textContent = 'Επεξεργασία Μαθητή';
-      document.getElementById('studentId').value = student.id;
-      document.getElementById('firstName').value = student.firstName;
-      document.getElementById('lastName').value = student.lastName;
-      document.getElementById('studentClass').value = student.studentClass;
-      document.getElementById('phone').value = student.phone;
-      document.getElementById('email').value = student.email || '';
-      document.getElementById('parentName').value = student.parentName || '';
-      document.getElementById('parentPhone').value = student.parentPhone || '';
-      document.getElementById('address').value = student.address || '';
-      document.getElementById('birthDate').value = student.birthDate || '';
-      document.getElementById('enrollmentDate').value = student.enrollmentDate || '';
-      document.getElementById('status').value = student.status || 'active';
-      document.getElementById('notes').value = student.notes || '';
-      
-      document.getElementById('studentModal').style.display = 'block';
-    }
+  document.getElementById('modalTitle').textContent = 'Επεξεργασία Μαθητή';
+  document.getElementById('studentId').value = student.id;
+  document.getElementById('firstName').value = student.firstName;
+  document.getElementById('lastName').value = student.lastName;
+  document.getElementById('studentClass').value = student.studentClass;
+  document.getElementById('phone').value = student.phone;
+  document.getElementById('email').value = student.email || '';
+  document.getElementById('parentName').value = student.parentName || '';
+  document.getElementById('parentPhone').value = student.parentPhone || '';
+  document.getElementById('address').value = student.address || '';
+  document.getElementById('birthDate').value = student.birthDate || '';
+  document.getElementById('enrollmentDate').value = student.enrollmentDate || '';
+  document.getElementById('status').value = student.status || 'active';
+  document.getElementById('notes').value = student.notes || '';
+  
+  document.getElementById('studentModal').style.display = 'block';
+}
+   
+function viewStudent(id) {
+  const student = students.find(s => s.id === id);
+  if (!student) return;
 
-    function viewStudent(id) {
-      const student = students.find(s => s.id === id);
-      if (!student) return;
+  const content = document.getElementById('studentDetailsContent');
+  content.innerHTML = `
+    <div class="student-details">
+      <h3>${student.firstName} ${student.lastName}</h3>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+        <div><strong>Τάξη:</strong> ${student.studentClass}</div>
+        <div><strong>Κατάσταση:</strong> ${getStatusText(student.status)}</div>
+        <div><strong>Τηλέφωνο:</strong> ${student.phone}</div>
+        <div><strong>Email:</strong> ${student.email || '-'}</div>
+        <div><strong>Ημ. Γέννησης:</strong> ${formatDate(student.birthDate)}</div>
+        <div><strong>Ημ. Εγγραφής:</strong> ${formatDate(student.enrollmentDate)}</div>
+        <div><strong>Γονέας:</strong> ${student.parentName || '-'}</div>
+        <div><strong>Τηλ. Γονέα:</strong> ${student.parentPhone || '-'}</div>
+      </div>
+      ${student.address ? `<div style="margin-top: 15px;"><strong>Διεύθυνση:</strong><br>${student.address}</div>` : ''}
+      ${student.notes ? `<div style="margin-top: 15px;"><strong>Σημειώσεις:</strong><br>${student.notes}</div>` : ''}
+      <div style="margin-top: 20px; text-align: center;">
+        ${student.username ? 
+          `<button class="btn btn-info" onclick="viewStudentProfile(${student.id})" style="margin-right: 10px;">
+              Δες Καρτέλα Μαθητή
+           </button>` : 
+          `<span style="color: #888; font-style: italic;">Δεν είναι διαθέσιμη καρτέλα (χωρίς username)</span>`
+        }
+        <button class="btn btn-primary" onclick="editStudent(${student.id})">
+           Επεξεργασία
+        </button>
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('viewStudentModal').style.display = 'block';
+}
+    
+function getStatusText(status) {
+  switch(status) {
+    case 'active': return 'Ενεργός';
+    case 'inactive': return 'Ανενεργός';
+    case 'graduated': return 'Απόφοιτος';
+    default: return status;
+  }
+}
 
-      const content = document.getElementById('studentDetailsContent');
-      content.innerHTML = `
-        <div class="student-details">
-          <h3>${student.firstName} ${student.lastName}</h3>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
-            <div><strong>Τάξη:</strong> ${student.studentClass}</div>
-            <div><strong>Κατάσταση:</strong> ${getStatusText(student.status)}</div>
-            <div><strong>Τηλέφωνο:</strong> ${student.phone}</div>
-            <div><strong>Email:</strong> ${student.email || '-'}</div>
-            <div><strong>Ημ. Γέννησης:</strong> ${formatDate(student.birthDate)}</div>
-            <div><strong>Ημ. Εγγραφής:</strong> ${formatDate(student.enrollmentDate)}</div>
-            <div><strong>Γονέας:</strong> ${student.parentName || '-'}</div>
-            <div><strong>Τηλ. Γονέα:</strong> ${student.parentPhone || '-'}</div>
-          </div>
-          ${student.address ? `<div style="margin-top: 15px;"><strong>Διεύθυνση:</strong><br>${student.address}</div>` : ''}
-          ${student.notes ? `<div style="margin-top: 15px;"><strong>Σημειώσεις:</strong><br>${student.notes}</div>` : ''}
-          <div style="margin-top: 20px; text-align: center;">
-            ${student.username ? 
-              `<button class="btn btn-info" onclick="viewStudentProfile(${student.id})" style="margin-right: 10px;">
-                  Δες Καρτέλα Μαθητή
-               </button>` : 
-              `<span style="color: #888; font-style: italic;">Δεν είναι διαθέσιμη καρτέλα (χωρίς username)</span>`
-            }
-            <button class="btn btn-primary" onclick="editStudent(${student.id})">
-               Επεξεργασία
-            </button>
-          </div>
-        </div>
-      `;
-      
-      document.getElementById('viewStudentModal').style.display = 'block';
-    }
+function closeModal() {
+  document.getElementById('studentModal').style.display = 'none';
+}
 
-    function getStatusText(status) {
-      switch(status) {
-        case 'active': return 'Ενεργός';
-        case 'inactive': return 'Ανενεργός';
-        case 'graduated': return 'Απόφοιτος';
-        default: return status;
-      }
-    }
+function closeViewModal() {
+  document.getElementById('viewStudentModal').style.display = 'none';
+}
 
-    function closeModal() {
-      document.getElementById('studentModal').style.display = 'none';
-    }
+ function deleteStudent(id) {
+  const student = students.find(s => s.id === id);
+  if (!student) return;
 
-    function closeViewModal() {
-      document.getElementById('viewStudentModal').style.display = 'none';
-    }
-
-    function deleteStudent(id) {
-      const student = students.find(s => s.id === id);
-      if (!student) return;
-
-      if (confirm(`Είστε βέβαιοι ότι θέλετε να διαγράψετε τον μαθητή ${student.firstName} ${student.lastName};`)) {
-        students = students.filter(s => s.id !== id);
-        filteredStudents = filteredStudents.filter(s => s.id !== id);
-        loadStudents();
-        showAlert('Ο μαθητής διαγράφηκε επιτυχώς!', 'success');
-      }
-    }
-
-    // Function to view student profile in student-tablet.html
+  if (confirm(`Είστε βέβαιοι ότι θέλετε να διαγράψετε τον μαθητή ${student.firstName} ${student.lastName};`)) {
+    students = students.filter(s => s.id !== id);
+    filteredStudents = filteredStudents.filter(s => s.id !== id);
+    loadStudents();
+    showAlert('Ο μαθητής διαγράφηκε επιτυχώς!', 'success');
+  }
+}
+    
+// Function to view student profile in student-tablet.html
     function viewStudentProfile(studentId) {
       const student = students.find(s => s.id === studentId);
       if (!student) {
