@@ -1578,7 +1578,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
         console.log("⚠️ No DB connection, skipping update");
         return false;
       }
-      [result] = await pool.query(
+      const result = await pool.query(
         'UPDATE Admins SET password_hash = $1 WHERE username = $2',
         [password_hash, username]
       );
@@ -1587,7 +1587,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
         console.log("⚠️ No DB connection, skipping update");
         return false;
       }
-      [result] = await pool.query(
+      const result = await pool.query(
         'UPDATE Students SET password_hash = $1 WHERE username = $2',
         [password_hash, username]
       );
@@ -2085,7 +2085,7 @@ export async function getCalculatorTemplatesStats() {
     };
   } catch (error) {
     console.error('Error getting calculator templates stats:', error);
-    throw error;
+       throw error;
   }
 }
 
