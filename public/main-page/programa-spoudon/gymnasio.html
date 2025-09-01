@@ -368,18 +368,16 @@ async function loadProgrammsPublic() {
         `;
         sumGymnasio += Number(row.hour) || 0;
       }
-      // --- ΕΠΑΛ ανά τάξη ---
-
-      if (row.type === 'gymnasio' && row.section === 'Α' ) {
-        console.log('filterClassValue:', filterClassValue);
+      // --- Γυμνάσιο ανά τάξη ---
+      if (row.type === 'gymnasio' && row.section.includes("Α'")) {
         foundA = true;
         tbodyA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumA += Number(row.hour) || 0;
-      } else if (row.type === 'gymnasio' && row.section === 'Β' ) {
+      } else if (row.type === 'gymnasio' && row.section.includes("Β'")) {
         foundB = true;
         tbodyB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumB += Number(row.hour) || 0;
-      } else if (row.type === 'gymnasio' && row.section === 'Γ'  ) {
+      } else if (row.type === 'gymnasio' && row.section.includes("Γ'")) {
         foundG = true;
         tbodyG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumG += Number(row.hour) || 0;
