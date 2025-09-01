@@ -27,7 +27,7 @@ async function loadStudentInfo() {
 
 async function loadCalendarEntries(studentId) {
   try {
-    const response = await fetch(`/api/calendar/events/${studentId}`);
+    const response = await fetch(`/api/calendar/${studentId}`);
     if (response.ok) {
       const calendarEntries = await response.json();
       return calendarEntries;
@@ -248,7 +248,7 @@ function createEventCard(entry, isUpcoming) {
   const isToday = eventDate.toDateString() === new Date().toDateString();
   
   // Handle different types of entries (calendar events vs announcements)
-  const isAnnouncement = entry.eventType === 'announcement';
+  const isAnnouncement = (entry.eventType || entry.event_type) === 'announcement';
   const title = entry.title || entry.eventTitle;
   const description = entry.eventDescription || entry.description;
   const subjectName = entry.subject_name;
