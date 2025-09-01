@@ -2453,8 +2453,8 @@ app.post('/api/programms', async (req, res) => {
 // Επιστροφή όλων των προγραμμάτων
 app.get('/api/programms', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT * FROM programms');
-    res.json(rows);
+    const result = await pool.query('SELECT * FROM programms');
+    res.json(result.rows);
   } catch (error) {
     console.error('Σφάλμα λήψης προγραμμάτων:', error);
     res.status(500).json({ error: 'Σφάλμα λήψης προγραμμάτων' });
