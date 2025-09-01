@@ -164,6 +164,14 @@ async function loadDimotikoProgram() {
       </tr>
     `;
   });
+  // Υπολογισμός και εμφάνιση συνόλου ωρών
+  const totalHours = data.reduce((sum, row) => sum + Number(row.hour), 0);
+  tbody.innerHTML += `
+    <tr style="font-weight:bold; background:#f7e7c1;">
+      <td>Σύνολο</td>
+      <td>${totalHours}</td>
+    </tr>
+  `;
 }
 
 window.addEventListener('DOMContentLoaded', loadDimotikoProgram);
