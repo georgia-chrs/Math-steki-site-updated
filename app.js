@@ -2371,11 +2371,21 @@ app.post('/api/calendar/event', async (req, res) => {
 app.get('/api/calendar/events/:studentId', async (req, res) => {
   try {
     const studentId = req.params.studentId;
-    const [rows] = await pool.query(
-      `SELECT * FROM CalendarEvents WHERE student_id = ? ORDER BY event_date DESC, event_time DESC`,
+    // Βρίσκουμε όλα τα subjectId (ή classId) στα οποία είναι εγγεγραμμένος ο μαθητής
+    const [enrollments] = await pool.query(
+      `SELECT class_id FROM Enrollments WHERE student_id = ?`,
       [studentId]
     );
-    res.json(rows);
+    const classIds = enrollments.map(e => e.class_id);
+    if (classIds.length === 0) {
+      return res.json([]); // Ο μαθητής δεν έχει εγγραφές
+    }
+    // Επιστρέφουμε όλα τα γεγονότα που αφορούν αυτά τα μαθήματα/τμήματα
+    const [events] = await pool.query(
+      `SELECT * FROM CalendarEvents WHERE subject_id IN (?) ORDER BY event_date DESC, event_time DESC`,
+      [classIds]
+    );
+    res.json(events);
   } catch (err) {
     console.error('Σφάλμα ανάκτησης γεγονότων:', err);
     res.status(500).json({ error: 'Σφάλμα ανάκτησης γεγονότων' });
