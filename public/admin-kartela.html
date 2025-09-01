@@ -1020,10 +1020,11 @@
       }
     }
     
-    function openCalendarModal() {
-      document.getElementById('calendarModal').style.display = 'flex';
-      loadCalendarSubjects();
-    }
+async function openCalendarModal() {
+  document.getElementById('calendarModal').style.display = 'flex';
+  await loadSubjects();
+  loadCalendarSubjects();
+}
     
     function closeCalendarModal() {
       document.getElementById('calendarModal').style.display = 'none';
