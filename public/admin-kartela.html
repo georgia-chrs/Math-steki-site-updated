@@ -1365,20 +1365,21 @@
 
     // Φόρτωση τάξεων για το calendar modal
     async function loadClasses() {
+      // Φόρτωση codes από τα subjects αντί για τάξεις
       try {
-          const response = await fetch('/api/classes');
+          const response = await fetch('/api/subjects');
           if (response.ok) {
-              const classes = await response.json();
+              const subjects = await response.json();
               const select = document.getElementById('targetClass');
               if (select) {
-                  select.innerHTML = '<option value="">Επιλέξτε τάξη...</option>';
-                  classes.forEach(cls => {
-                      select.innerHTML += `<option value="${cls.class_name}">${cls.class_name}</option>`;
+                  select.innerHTML = '<option value="">Επιλέξτε κωδικό μαθήματος...</option>';
+                  subjects.forEach(subj => {
+                      select.innerHTML += `<option value="${subj.code}">${subj.code} - ${subj.name}</option>`;
                   });
               }
           }
       } catch (error) {
-          console.error('Error loading classes:', error);
+          console.error('Error loading subjects:', error);
       }
     }
   </script>
