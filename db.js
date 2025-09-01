@@ -932,26 +932,21 @@ export async function createSubject(subjectData) {
 export async function updateSubject(id, subjectData) {
   const fields = [];
   const values = [];
-  
-  if (subjectData.name !== undefined) { fields.push('name = $1'); values.push(subjectData.name); }
-  if (subjectData.code !== undefined) { fields.push('code = $2'); values.push(subjectData.code); }
-  if (subjectData.class !== undefined) { fields.push('class = $3'); values.push(subjectData.class); }
-  if (subjectData.teacherId !== undefined) { fields.push('teacherId = $4'); values.push(subjectData.teacherId); }
-  
+  if (subjectData.name !== undefined) { fields.push(`name = $${fields.length + 1}`); values.push(subjectData.name); }
+  if (subjectData.code !== undefined) { fields.push(`code = $${fields.length + 1}`); values.push(subjectData.code); }
+  if (subjectData.class !== undefined) { fields.push(`class = $${fields.length + 1}`); values.push(subjectData.class); }
+  if (subjectData.teacherId !== undefined) { fields.push(`teacherId = $${fields.length + 1}`); values.push(subjectData.teacherId); }
   if (fields.length === 0) return false;
-  
+  fields.push('updated_at = CURRENT_TIMESTAMP');
   values.push(id);
-
   if (!pool) {
     console.log("⚠️ No DB connection, skipping update");
     return false;
   }
-  const res = await pool.query(`
-    UPDATE subjects 
-    SET ${fields.join(', ')}, updated_at = CURRENT_TIMESTAMP
-    WHERE id = ?
-  `, values);
-  
+  const res = await pool.query(
+    `UPDATE subjects SET ${fields.join(', ')} WHERE id = $${values.length}`,
+    values
+  );
   return res.rowCount > 0;
 }
 
@@ -960,11 +955,11 @@ export async function deleteSubject(id) {
     console.log("⚠️ No DB connection, skipping delete");
     return false;
   }
-  const res = await pool.query(`
-    UPDATE subjects 
-    SET ${fields.join(', ')}
-    WHERE id = $${values.length}
-  `, values);  return res.rowCount > 0;
+  const res = await pool.query(
+    `DELETE FROM subjects WHERE id = $1`,
+    [id]
+  );
+  return res.rowCount > 0;
 }
 
 export async function searchSubjects(searchTerm) {
