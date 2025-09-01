@@ -1696,14 +1696,13 @@ app.delete('/api/announcements/:id', async (req, res) => {
     
     console.log(`✅ Deleted announcement ${id}, affected rows:`, result[0].affectedRows);
     
-    if (result[0].affectedRows === 0) {
+    if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Announcement not found or already deleted' });
     }
-    
     res.json({ 
       message: 'Announcement deleted successfully',
       deletedId: id,
-      affectedRows: result[0].affectedRows
+      affectedRows: result.rowCount
     });
   } catch (err) {
     console.error('Error deleting announcement:', err);
@@ -1823,6 +1822,7 @@ app.post('/api/upload-schools-csv', async (req, res) => {
       
       // ΕΠΑΛ Πληροφορική
       if (name.includes('εφαρμοσμένη πληροφορικ') || name.includes('τει')) {
+       
         return 'pliroforiki';
       }
       
