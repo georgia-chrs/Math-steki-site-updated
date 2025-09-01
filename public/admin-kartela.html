@@ -1030,7 +1030,12 @@
 async function openCalendarModal() {
   document.getElementById('calendarModal').style.display = 'flex';
   await loadSubjects();
-  loadCalendarSubjects();
+  console.log('openCalendarModal: window.allSubjects after loadSubjects:', window.allSubjects);
+  if (window.allSubjects && Array.isArray(window.allSubjects) && window.allSubjects.length > 0) {
+    loadCalendarSubjects();
+  } else {
+    console.log('openCalendarModal: No subjects available to populate dropdown!');
+  }
 }
     
     function closeCalendarModal() {
