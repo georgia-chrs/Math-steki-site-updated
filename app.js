@@ -1711,6 +1711,16 @@ app.delete('/api/announcements/:id', async (req, res) => {
   }
 });
 
+
+// app.js
+app.get('/api/dimotiko-program', async (req, res) => {
+  const result = await pool.query('SELECT subject, hours FROM DimotikoProgram');
+  res.json(result.rows);
+});
+
+
+
+
 // ==================== FOOTER LINKS ENDPOINT ====================
 
 app.get('/footer-links', async (req, res) => {

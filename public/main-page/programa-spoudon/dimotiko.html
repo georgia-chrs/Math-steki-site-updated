@@ -130,26 +130,44 @@
         </div>
   <h1 style="justify-self: center;">Προγράμματα</h1>
  <!-- Δημοτικό -->
-   <h2 style="margin: 40px ;">Δημοτικό</h2>
-  <div class="table-section" style=" margin: 30px; margin-bottom: 250px;">
-    
-    <table>
-      <tr>
-        <th>Μάθημα</th>
-        <th>Ώρες</th>
-      </tr>
-      <tr>
-        <td>Μελέτη</td>
-        <td>5</td>
-      </tr>
-      <tr>
-        <td>Προετοιμασία Για Πρότυπα</td>
-        <td>5</td>
-      </tr>
-    </table>
+  <h2 style="margin: 40px ;">Δημοτικό</h2>
+  <div class="table-section" style="margin: 30px; margin-bottom: 250px;">
+   <table>
+    <tr>
+      <th>Μάθημα</th>
+      <th>Ώρες</th>
+    </tr>
+    <!-- Τα δεδομένα του πίνακα θα φορτωθούν δυναμικά από το JavaScript -->
+    <tbody>
+    </tbody>
+   </table>
   </div>
+  <script>
+async function loadDimotikoProgram() {
+  const response = await fetch('/api/dimotiko-program');
+  const data = await response.json();
+  const tbody = document.querySelector('.table-section table').getElementsByTagName('tbody')[0] || document.querySelector('.table-section table');
 
-  
+  // Καθαρίζουμε το υπάρχον περιεχόμενο (εκτός από το header)
+  tbody.innerHTML = `
+    <tr>
+      <th>Μάθημα</th>
+      <th>Ώρες</th>
+    </tr>
+  `;
+
+  data.forEach(row => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${row.subject}</td>
+        <td>${row.hours}</td>
+      </tr>
+    `;
+  });
+}
+
+window.addEventListener('DOMContentLoaded', loadDimotikoProgram);
+</script>
  
   </main>
   <footer >
