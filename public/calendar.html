@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return map;
   }
   // Μετά το fetch των γεγονότων:
-  const res = await fetch(`/api/calendar/events/${studentId}`);
+  const res = await fetch(`/api/calendar/${studentId}`);
   let events = [];
   if (res.ok) {
     events = await res.json();
