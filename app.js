@@ -1714,10 +1714,14 @@ app.delete('/api/announcements/:id', async (req, res) => {
 
 // app.js
 app.get('/api/dimotiko-program', async (req, res) => {
-  const result = await pool.query('SELECT subject, hours FROM DimotikoProgram');
-  res.json(result.rows);
+  try {
+    const result = await pool.query("SELECT subject, hour FROM programms WHERE type = 'dimotiko'");
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching dimotiko program:', err);
+    res.status(500).json({ error: 'Error fetching dimotiko program' });
+  }
 });
-
 
 
 
