@@ -781,7 +781,7 @@ export async function getStudentsByClass(className) {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const res = await pool.execute(
+    const res = await pool.query(
       'SELECT * FROM students WHERE class = $1',
       [className]
     );
@@ -876,7 +876,7 @@ export async function searchTeachers(searchTerm) {
       return [];
     }
 
-    const res = await pool.execute(
+    const res = await pool.query(
       `SELECT t.*, 
               GROUP_CONCAT(s.name SEPARATOR ', ') as subjects
        FROM teachers t
@@ -972,7 +972,7 @@ export async function searchSubjects(searchTerm) {
       return [];
     }
 
-    const res = await pool.execute(
+    const res = await pool.query(
       `SELECT s.*, 
               t.first_name as teacher_first_name,
               t.last_name as teacher_last_name,
@@ -1015,7 +1015,7 @@ export async function createEnrollment(studentId, classId) {
       console.log("⚠️ No DB connection, skipping create");
       return false;
     }
-    const [result] = await pool.execute(`
+    const [result] = await pool.query(`
       INSERT INTO Enrollments (student_id, class_id)
       VALUES ($1, $2) RETURNING id
     `, [studentId, classId]);
@@ -1071,7 +1071,7 @@ export async function getAllEnrollments() {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const res = await pool.execute(
+    const res = await pool.query(
       `SELECT e.enrollment_id,
               e.student_id,
               e.class_id,
@@ -1080,10 +1080,10 @@ export async function getAllEnrollments() {
               s.name as subject_name,
               s.code as subject_code,
               t.name as teacher_name
-       FROM Enrollments e
-       JOIN Students st ON e.student_id = st.id
-       JOIN Subjects s ON e.class_id = s.id
-       LEFT JOIN Teachers t ON s.teacherId = t.id
+       FROM enrollments e
+       JOIN students st ON e.student_id = st.id
+       JOIN subjects s ON e.class_id = s.id
+       LEFT JOIN teachers t ON s.teacherid = t.id
        ORDER BY st.last_name, st.first_name, s.name`
     );
     return res.rows;
@@ -1099,7 +1099,7 @@ export async function getEnrollmentsByStudent(studentId) {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const res = await pool.execute(
+    const res = await pool.query(
       `SELECT e.enrollment_id,
               e.student_id,
               e.class_id,
@@ -1142,7 +1142,7 @@ export async function getEnrollmentsBySubject(subjectId) {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const res = await pool.execute(
+    const res = await pool.query(
       `SELECT e.enrollment_id,
               e.student_id,
               e.class_id as subject_id,
@@ -1170,7 +1170,7 @@ export async function updateEnrollment(id, enrollmentData) {
       console.log("⚠️ No DB connection, skipping update");
       return false;
     }
-    const [result] = await pool.execute(
+    const [result] = await pool.query(
       `UPDATE Enrollments 
        SET student_id = $1, class_id = $2
        WHERE enrollment_id = $3`,
@@ -1234,7 +1234,7 @@ export async function searchEnrollments(searchTerm, statusFilter) {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const res = await pool.execute(query, params);
+    const res = await pool.query(query, params);
     return res.rows;
   } catch (error) {
     console.error('Error searching enrollments:', error);
@@ -1250,7 +1250,7 @@ export async function getAllStudentCodes() {
       console.log("⚠️ No DB connection, returning dummy data");
       return [];
     }
-    const res= await pool.execute(
+    const res= await pool.query(
       `SELECT sc.*,
               CONCAT(s.first_name, ' ', s.last_name) as student_name,
               s.class as student_class
@@ -1271,7 +1271,7 @@ export async function getStudentCodeById(id) {
       console.log("⚠️ No DB connection, returning null");
       return { id, code: "TESTCODE", student_id: 1, status: "active" };
     }
-    const res = await pool.execute(
+    const res = await pool.query(
       `SELECT sc.*,
               CONCAT(s.first_name, ' ', s.last_name) as student_name,
               s.class as student_class
@@ -1293,7 +1293,7 @@ export async function getStudentCodeByStudentId(studentId) {
       console.log("⚠️ No DB connection, returning null");
       return { id: 1, code: "TESTCODE", student_id: studentId, status: "active" };
     }
-    const res = await pool.execute(
+    const res = await pool.query(
       `SELECT sc.*,
               CONCAT(s.first_name, ' ', s.last_name) as student_name,
               s.class as student_class
@@ -1317,7 +1317,7 @@ export async function createStudentCode(studentCodeData) {
       console.log("⚠️ No DB connection, skipping create");
       return false;
     }
-    const [result] = await pool.execute(
+    const [result] = await pool.query(
       `INSERT INTO StudentCodes (student_id, code, password_hash, status, created_at, updated_at)
        VALUES ($1, $2, $3, $4, NOW(), NOW()) RETURNING id`,
       [student_id, code, password_hash, status || 'active']
@@ -1338,7 +1338,7 @@ export async function updateStudentCode(id, studentCodeData) {
       console.log("⚠️ No DB connection, skipping update");
       return false;
     }
-    const [result] = await pool.execute(
+    const [result] = await pool.query(
       `UPDATE StudentCodes 
        SET student_id = $1, code = $2, password_hash = $3, status = $4, updated_at = NOW()
        WHERE id = $5`,
@@ -1362,7 +1362,7 @@ export async function deleteStudentCode(id) {
       console.log("⚠️ No DB connection, skipping delete");
       return false;
     }
-    const [result] = await pool.execute('DELETE FROM StudentCodes WHERE id = $1', [id]);
+    const [result] = await pool.query('DELETE FROM StudentCodes WHERE id = $1', [id]);
     
     if (result.affectedRows === 0) {
       throw new Error('Student code not found');
@@ -1415,7 +1415,7 @@ export async function searchStudentCodes(searchTerm, statusFilter) {
       return [];
     }
 
-    const res = await pool.execute(query, params);
+    const res = await pool.query(query, params);
     return res.rows;
   } catch (error) {
     console.error('Error searching student codes:', error);
@@ -1441,7 +1441,7 @@ export async function createBulkStudentCodes(studentIds, codePrefix = 'STU') {
         console.log("⚠️ No DB connection, skipping create");
         return false;
       }
-      const [result] = await pool.execute(
+      const [result] = await pool.query(
         `INSERT INTO StudentCodes (student_id, code, password_hash, status, created_at, updated_at)
          VALUES ($1, $2, $3, 'active', NOW(), NOW()) RETURNING id`,
         [studentId, code, password_hash]
@@ -1501,7 +1501,7 @@ export async function getAllUsersWithPasswords() {
         console.log("⚠️ No DB connection, returning dummy data");
         return [];
       }
-      [adminRows] = await pool.execute(
+      [adminRows] = await pool.query(
         `SELECT a.admin_id as id, a.username, a.username as name, '' as email, 'admin' as role,
                 COALESCE(p.plain_password, '123') as password
          FROM Admins a 
@@ -1522,7 +1522,7 @@ export async function getAllUsersWithPasswords() {
         console.log("⚠️ No DB connection, returning dummy data");
         return [];
       }
-      [studentRows] = await pool.execute(
+      [studentRows] = await pool.query(
         `SELECT s.id, s.username, CONCAT(s.first_name, ' ', s.last_name) as name, s.email, 'student' as role,
                 COALESCE(p.plain_password, '123') as password
          FROM Students s 
@@ -1583,7 +1583,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
         console.log("⚠️ No DB connection, skipping update");
         return false;
       }
-      [result] = await pool.execute(
+      [result] = await pool.query(
         'UPDATE Admins SET password_hash = $1 WHERE username = $2',
         [password_hash, username]
       );
@@ -1592,7 +1592,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
         console.log("⚠️ No DB connection, skipping update");
         return false;
       }
-      [result] = await pool.execute(
+      [result] = await pool.query(
         'UPDATE Students SET password_hash = $1 WHERE username = $2',
         [password_hash, username]
       );
@@ -1607,7 +1607,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
      console.log("⚠️ No DB connection, skipping update");
      return false;
    }
-   await pool.execute(
+   await pool.query(
       `INSERT INTO UserPasswordsView (username, plain_password, user_type) 
        VALUES ($1, $2, $3) 
        ON DUPLICATE KEY UPDATE 
@@ -1632,7 +1632,7 @@ export async function getStudentByUsername(username) {
       console.log("⚠️ No DB connection, returning null");
       return null;
     }
-    const res = await pool.execute(
+    const res = await pool.query(
       'SELECT * FROM students WHERE username = $1',
       [username]
     );
@@ -1651,18 +1651,15 @@ export async function createStudentComplete(studentData) {
     console.log("⚠️ No DB connection, skipping create");
     return false;
   }
-  const connection = await pool.getConnection();
-  
+  const client = await pool.connect();
   try {
-    await connection.beginTransaction();
-    
-    // Insert into Students table
-    const [result] = await connection.execute(
+    await client.query('BEGIN');
+    const res = await client.query(
       `INSERT INTO students (
         first_name, last_name, father_name, username, password_hash,
-        class, phone, email, parentName, parentPhone, address,
-        birthDate, enrollmentDate, status, notes
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id`,
+        class, phone, email, parentname, parentphone, address,
+        birthdate, enrollmentdate, status, notes
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id`,
       [
         studentData.first_name,
         studentData.last_name,
@@ -1681,12 +1678,9 @@ export async function createStudentComplete(studentData) {
         studentData.notes
       ]
     );
-    
-    const studentId = result.insertId;
-    
-    // Also insert into OldStudents for foreign key compatibility
-    await connection.execute(
-      `INSERT INTO OldStudents (student_id, first_name, last_name, father_name, username, password_hash)
+    const studentId = res.rows[0].id;
+    await client.query(
+      `INSERT INTO oldstudents (student_id, first_name, last_name, father_name, username, password_hash)
        VALUES ($1, $2, $3, $4, $5, $6)`,
       [
         studentId,
@@ -1697,17 +1691,15 @@ export async function createStudentComplete(studentData) {
         studentData.password_hash
       ]
     );
-    
-    await connection.commit();
+    await client.query('COMMIT');
     console.log(`✅ Student created with ID: ${studentId}`);
-    
     return studentId;
   } catch (error) {
-    await connection.rollback();
+    await client.query('ROLLBACK');
     console.error('❌ Error creating student:', error);
     throw error;
   } finally {
-    connection.release();
+    client.release();
   }
 }
 
@@ -1808,15 +1800,15 @@ export async function replaceAllSchoolsData(schoolsArray, uploadedBy = 'admin', 
     console.log("⚠️ No DB connection, skipping replace");
     return false;
   }
-  const connection = await pool.getConnection();
+  const client = await pool.connect();
   try {
-    await connection.beginTransaction();
+    await client.query('BEGIN');
     
     // Generate unique batch ID
     const batchId = `batch_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     
     // Clear existing data
-    await connection.query('DELETE FROM SchoolsData');
+    await client.query('DELETE FROM SchoolsData');
     console.log('Cleared existing schools data');
     
     // Insert new data
@@ -1830,7 +1822,7 @@ export async function replaceAllSchoolsData(schoolsArray, uploadedBy = 'admin', 
       `;
       
       for (const school of schoolsArray) {
-        await connection.query(insertQuery, [
+        await client.query(insertQuery, [
           school.id || school.school_id,
           school.name || school.school_name,
           school.university,
@@ -1849,15 +1841,15 @@ export async function replaceAllSchoolsData(schoolsArray, uploadedBy = 'admin', 
       console.log(`Inserted ${schoolsArray.length} schools with batch ID: ${batchId}`);
     }
     
-    await connection.commit();
+    await client.query('COMMIT');
     return { success: true, batchId, count: schoolsArray.length };
     
   } catch (error) {
-    await connection.rollback();
+    await client.query('ROLLBACK');
     console.error('Error replacing schools data:', error);
     throw error;
   } finally {
-    connection.release();
+    client.release();
   }
 }
 
@@ -2109,6 +2101,7 @@ export async function addCalendarEventForStudent(student_id, subject_id, event_t
 }
 
 // Όλα τα queries πρέπει να χρησιμοποιούν τα ονόματα πινάκων όπως είναι στη βάση: όλα lowercase
+
 // Παράδειγμα:
 // 'SELECT * FROM Students' -> 'SELECT * FROM students'
 // 'SELECT * FROM Teachers' -> 'SELECT * FROM teachers'

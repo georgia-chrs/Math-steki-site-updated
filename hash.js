@@ -10,17 +10,17 @@ console.log(`Admin: username='admin', password='${adminPassword}', hash='${admin
 console.log('UPDATE admins SET password_hash = "' + adminHash + '" WHERE username = "admin";');
 
 // Για mariaio
-const mariaPassword = "maria123";
+const mariaPassword = "123";
 const mariaHash = bcrypt.hashSync(mariaPassword, 10);
 console.log(`Maria: username='mariaio', password='${mariaPassword}', hash='${mariaHash}'`);
 
 // Για giannisp
-const giannisPassword = "giannis123";
+const giannisPassword = "123";
 const giannisHash = bcrypt.hashSync(giannisPassword, 10);
 console.log(`Giannis: username='giannisp', password='${giannisPassword}', hash='${giannisHash}'`);
 
 // Για kostasd
-const kostasPassword = "kostas123";
+const kostasPassword = "123";
 const kostasHash = bcrypt.hashSync(kostasPassword, 10);
 console.log(`Kostas: username='kostasd', password='${kostasPassword}', hash='${kostasHash}'`);
 
