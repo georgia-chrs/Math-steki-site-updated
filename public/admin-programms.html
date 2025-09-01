@@ -667,10 +667,10 @@
     tbody.innerHTML = '';
     const filtered = data.filter(filterFn);
     for (const row of filtered) {
+      console.log(row);
       const tr = document.createElement('tr');
-      const classLetter = row.section[0]; // 'Α', 'Β', 'Γ'
       tr.innerHTML = `
-        <td>${classLetter}</td>
+        <td>${row.section}</td>
         <td>${row.subject}</td>
         <td>${row.hour}</td>
         ${row.type === 'lykeio' ? `<td>${row.field !== undefined && row.field !== '' ? row.field : 'null'}</td>` : ''}
