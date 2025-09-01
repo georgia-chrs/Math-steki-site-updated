@@ -2354,12 +2354,8 @@ app.post('/api/calendar/event', async (req, res) => {
     if (!classId || !eventType || !eventDate || !eventTitle) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    // Βρες το subject id από το code
-    const result = await pool.query('SELECT id FROM subjects WHERE code = $1', [classId]);
-    const subjectId = result.rows[0]?.id;
-    if (!subjectId) {
-      return res.status(404).json({ error: 'Subject not found' });
-    }
+    // Χρησιμοποίησε το classId απευθείας ως subjectId
+    const subjectId = classId;
     // Βρες όλους τους μαθητές που είναι εγγεγραμμένοι στο μάθημα
     const enrollments = await getEnrollmentsBySubject(subjectId);
     const studentIds = enrollments.map(e => e.student_id);
