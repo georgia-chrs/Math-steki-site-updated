@@ -1578,7 +1578,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
         console.log("⚠️ No DB connection, skipping update");
         return false;
       }
-      const result = await pool.query(
+      result = await pool.query(
         'UPDATE Admins SET password_hash = $1 WHERE username = $2',
         [password_hash, username]
       );
@@ -1587,7 +1587,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
         console.log("⚠️ No DB connection, skipping update");
         return false;
       }
-      const result = await pool.query(
+      result = await pool.query(
         'UPDATE Students SET password_hash = $1 WHERE username = $2',
         [password_hash, username]
       );
