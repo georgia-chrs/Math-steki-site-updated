@@ -636,42 +636,42 @@ async function loadProgrammsPublic() {
         sumEpal += Number(row.hour) || 0;
       } 
       // --- ΕΠΑΛ ανά τάξη ---
-      if (row.type === 'epal' && row.section === 'Α') {
+      if (row.type === 'epal' && row.section[0] === 'Α') {
         foundA = true;
         tbodyEpalA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumEA += Number(row.hour) || 0;
-      } else if (row.type === 'epal' && row.section === 'Β') {
+      } else if (row.type === 'epal' && row.section[0] === 'Β') {
         foundB = true;
         tbodyEpalB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumEB += Number(row.hour) || 0;
-      } else if (row.type === 'epal' && row.section === 'Γ') {
+      } else if (row.type === 'epal' && row.section[0] === 'Γ') {
         foundG = true;
         tbodyEpalG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumEG += Number(row.hour) || 0;
       }
-      if (row.type === 'gymnasio' && row.section === 'Α') {
+      if (row.type === 'gymnasio' && row.section[0] === 'Α') {
         foundA = true;
         tbodyA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumGymnasioA += Number(row.hour) || 0;
-      } else if (row.type === 'gymnasio' && row.section === 'Β') {
+      } else if (row.type === 'gymnasio' && row.section[0] === 'Β') {
         foundB = true;
         tbodyB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumGymnasioB += Number(row.hour) || 0;
-      } else if (row.type === 'gymnasio' && row.section === 'Γ') {
+      } else if (row.type === 'gymnasio' && row.section[0] === 'Γ') {
         foundG = true;
         tbodyG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumGymnasioG += Number(row.hour) || 0;
       } 
       // --- Λύκειο ανά τάξη ---
-      if (row.type === 'lykeio' && row.section === 'Α') {
+      if (row.type === 'lykeio' && row.section[0] === 'Α') {
         foundA = true;
         tbodyLykeioA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumA += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.section === 'Β') {
+      } else if (row.type === 'lykeio' && row.section[0] === 'Β') {
         foundB = true;
         tbodyLykeioB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumB += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.section === 'Γ') {
+      } else if (row.type === 'lykeio' && row.section[0] === 'Γ') {
         foundG = true;
         tbodyLykeioG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumG += Number(row.hour) || 0;
