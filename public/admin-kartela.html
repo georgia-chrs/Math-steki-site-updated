@@ -1007,16 +1007,23 @@
     // Φόρτωση subject.code στο dropdown του calendar modal
     async function loadCalendarSubjects() {
       const select = document.getElementById('subjectSelect');
+      console.log('loadCalendarSubjects called, select:', select);
       if (select) {
         select.innerHTML = '<option value="">Επιλέξτε κωδικό μαθήματος...</option>';
         if (window.allSubjects && Array.isArray(window.allSubjects)) {
+          console.log('Populating dropdown with subjects:', window.allSubjects.length);
           window.allSubjects.forEach(subject => {
             const option = document.createElement('option');
             option.value = subject.id;
             option.textContent = `${subject.code} - ${subject.name} (${subject.class})`;
             select.appendChild(option);
           });
+          console.log('Dropdown options count:', select.options.length);
+        } else {
+          console.log('No subjects found to populate dropdown.');
         }
+      } else {
+        console.log('Dropdown element with id subjectSelect not found!');
       }
     }
     
