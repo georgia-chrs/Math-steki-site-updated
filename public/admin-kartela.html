@@ -1048,15 +1048,15 @@ async function openCalendarModal() {
       const eventTime = document.getElementById('eventTime').value;
       const eventTitle = document.getElementById('eventTitle').value.trim();
       const eventText = document.getElementById('eventText').value.trim();
-      const classId = document.getElementById('studentClassFilter').value; // Διόρθωση: παίρνουμε το classId από το επιλεγμένο πεδίο
-      if (!eventType || !subjectId || !eventDate || !eventTitle || !classId) {
+      // Δεν απαιτείται πλέον classId, αρκεί το subjectId
+      if (!eventType || !subjectId || !eventDate || !eventTitle) {
         alert('Συμπληρώστε όλα τα υποχρεωτικά πεδία!');
         return;
       }
       const res = await fetch('/api/calendar/event', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ classId, eventType, eventDate, eventTime, eventTitle, eventText })
+        body: JSON.stringify({ subjectId, eventType, eventDate, eventTime, eventTitle, eventText })
       });
       if (res.ok) {
         alert('Το γεγονός αναρτήθηκε!');
