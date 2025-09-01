@@ -1032,12 +1032,12 @@ app.post('/api/progress', async (req, res) => {
     }
 
     const result = await pool.query(
-      'INSERT INTO progress_notes (student_id, subject_id, note_date, content, performance_level, created_at) VALUES ($1, $2, $3, $4, $5, NOW())',
+      'INSERT INTO progress_notes (student_id, subject_id, note_date, content, performance_level, created_at) VALUES ($1, $2, $3, $4, $5, NOW()) RETURNING id',
       [finalStudentId, finalSubjectId, finalDate, finalContent, finalRating || 'average']
     );
     
-    console.log('✅ Progress note added successfully, ID:', result[0].insertId);
-    res.json({ success: true, id: result[0].insertId, message: 'Progress note added successfully' });
+    console.log('✅ Progress note added successfully, ID:', result.rows[0].id);
+    res.json({ success: true, id: result.rows[0].id, message: 'Progress note added successfully' });
   } catch (error) {
     console.error('Error adding progress note:', error);
     res.status(500).json({ error: 'Error adding progress note' });
@@ -1070,7 +1070,7 @@ app.delete('/api/progress/:id', async (req, res) => {
   try {
     const result = await pool.query('DELETE FROM progress_notes WHERE id = $1', [req.params.id]);
     
-    if (result[0].affectedRows === 0) {
+    if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Progress note not found' });
     }
     
