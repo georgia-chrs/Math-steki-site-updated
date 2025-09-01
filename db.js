@@ -1494,12 +1494,13 @@ export async function getAllUsersWithPasswords() {
         console.log("⚠️ No DB connection, returning dummy data");
         return [];
       }
-      [adminRows] = await pool.query(
+      const adminRes = await pool.query(
         `SELECT a.admin_id as id, a.username, a.username as name, '' as email, 'admin' as role,
                 COALESCE(p.plain_password, '123') as password
          FROM Admins a 
          LEFT JOIN UserPasswordsView p ON a.username = p.username AND p.user_type = 'admin'`
       );
+      adminRows = adminRes.rows;
       console.log('✅ Φορτώθηκαν Admins:', adminRows.length);
     } catch (error) {
       console.log('❌ Πίνακας Admins δεν βρέθηκε ή έχει διαφορετική δομή:', error.message);
@@ -1515,12 +1516,13 @@ export async function getAllUsersWithPasswords() {
         console.log("⚠️ No DB connection, returning dummy data");
         return [];
       }
-      [studentRows] = await pool.query(
+      const studentRes = await pool.query(
         `SELECT s.id, s.username, CONCAT(s.first_name, ' ', s.last_name) as name, s.email, 'student' as role,
                 COALESCE(p.plain_password, '123') as password
          FROM Students s 
          LEFT JOIN UserPasswordsView p ON s.username = p.username AND p.user_type = 'student'`
       );
+      studentRows = studentRes.rows;
       console.log('✅ Φορτώθηκαν Students:', studentRows.length);
     } catch (error) {
       console.error('❌ Σφάλμα φόρτωσης Students:', error);
