@@ -924,12 +924,12 @@ app.post('/api/grades', async (req, res) => {
     }
 
     const result = await pool.query(
-      'INSERT INTO grades (student_id, subject_id, exam_type, grade, exam_date, notes, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW())',
+  'INSERT INTO grades (student_id, subject_id, exam_type, grade, exam_date, notes, created_at) VALUES ($1, $2, $3, $4, $5, $6, NOW()) RETURNING id',
       [studentId, subjectId, examType || 'Διαγώνισμα', grade, examDate, notes || '']
     );
-    
-    console.log('✅ Grade added successfully, ID:', result[0].insertId);
-    res.json({ success: true, id: result[0].insertId, message: 'Grade added successfully' });
+
+    console.log('✅ Grade added successfully, ID:', result.rows[0].id);
+    res.json({ success: true, id: result.rows[0].id, message: 'Grade added successfully' });
   } catch (error) {
     console.error('Error adding grade:', error);
     res.status(500).json({ error: 'Error adding grade' });
