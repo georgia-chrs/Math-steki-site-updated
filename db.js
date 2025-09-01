@@ -1015,9 +1015,9 @@ export async function createEnrollment(studentId, classId) {
     }
     const res = await pool.query(`
       INSERT INTO Enrollments (student_id, class_id)
-      VALUES ($1, $2) RETURNING id
+      VALUES ($1, $2) RETURNING enrollment_id
     `, [studentId, classId]);
-    return res.rows[0]?.id;
+    return res.rows[0]?.enrollment_id;
   } catch (error) {
     console.error('Error creating enrollment:', error);
     throw error;
