@@ -585,13 +585,13 @@
               if (classValue === 'Α') section = "Α' ΓΕΛ";
               else if (classValue === 'Β') section = "Β' ΓΕΛ";
               else if (classValue === 'Γ') section = "Γ' ΓΕΛ";
-              section = 'Λύκειο - ΓΕΛ';
+              else section = 'Λύκειο - ΓΕΛ';
             } else if (type === 'epal') {
-              section = 'Λύκειο - ΕΠΑΛ';
               classValue = form.querySelector('select[name="class"]').value;
               if (classValue === 'Α') section = "Α' ΕΠΑΛ";
               else if (classValue === 'Β') section = "Β' ΕΠΑΛ";
               else if (classValue === 'Γ') section = "Γ' ΕΠΑΛ";
+              else section = 'Λύκειο - ΕΠΑΛ';
             }
             const payload = {
               section,
