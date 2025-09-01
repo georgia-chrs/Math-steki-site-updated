@@ -922,11 +922,11 @@ export async function createSubject(subjectData) {
     console.log("⚠️ No DB connection, skipping create");
     return false;
   }
-  const [result] = await pool.query(`
+  const res = await pool.query(`
     INSERT INTO subjects (name, code, class, teacherId)
     VALUES ($1, $2, $3, $4) RETURNING id
   `, [subjectData.name, subjectData.code, subjectData.class, subjectData.teacherId]);
-  return result.insertId;
+  return res.rows[0]?.id;
 }
 
 export async function updateSubject(id, subjectData) {
