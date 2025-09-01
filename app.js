@@ -946,7 +946,7 @@ app.put('/api/grades/:id', async (req, res) => {
       [subjectId, examType, grade, examDate, notes || '', req.params.id]
     );
     
-    if (result[0].affectedRows === 0) {
+    if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Grade not found' });
     }
     
@@ -962,7 +962,7 @@ app.delete('/api/grades/:id', async (req, res) => {
   try {
     const result = await pool.query('DELETE FROM grades WHERE id = $1', [req.params.id]);
 
-    if (result[0].affectedRows === 0) {
+    if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Grade not found' });
     }
     
@@ -1680,10 +1680,8 @@ app.delete('/api/announcements/:id', async (req, res) => {
       'SELECT notification_id FROM Notifications WHERE notification_id = $1',
       [id]
     );
-    
-    console.log('📋 Existing announcement check:', existing[0]);
-    
-    if (existing[0].length === 0) {
+    console.log('📋 Existing announcement check:', existing.rows);
+    if (existing.rows.length === 0) {
       console.log('❌ Announcement not found in database');
       return res.status(404).json({ error: 'Announcement not found' });
     }
@@ -1826,9 +1824,7 @@ app.post('/api/upload-schools-csv', async (req, res) => {
         return 'pliroforiki';
       }
       
-      // Default
-      return 'theoretiko';
-    }
+ }
     
     // Function to determine school type
     function determineSchoolType(schoolName, university) {
