@@ -1132,7 +1132,13 @@ export async function getEnrollmentsByStudent(studentId) {
       subject_class: row.subject_class,
       teacher_name: row.teacher_name || 'Δεν έχει οριστεί',
       enrollment_date: null, // Δεν υπάρχει στη βάση
-      status: 'active' // Default status
+      status: 'active', // Default status
+      subject: {
+        name: row.subject_name,
+        code: row.subject_code,
+        class: row.subject_class,
+        teacher: row.teacher_name || 'Δεν έχει οριστεί'
+      }
     }));
   } catch (error) {
     console.error('Error fetching enrollments by student:', error);
