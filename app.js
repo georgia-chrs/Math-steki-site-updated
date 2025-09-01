@@ -1283,15 +1283,15 @@ app.delete('/api/subjects/:id', async (req, res) => {
 // Get all enrollments
 app.get('/api/enrollments', async (req, res) => {
   try {
-    const { search, studentId, subjectId } = req.query;
+    const { search, studentId, classId } = req.query;
     let enrollments;
     
     if (search) {
       enrollments = await searchEnrollments(search);
     } else if (studentId) {
       enrollments = await getEnrollmentsByStudent(studentId);
-    } else if (subjectId) {
-      enrollments = await getEnrollmentsBySubject(subjectId);
+    } else if (classId) {
+      enrollments = await getEnrollmentsBySubject(classId);
     } else {
       enrollments = await getAllEnrollments();
     }
