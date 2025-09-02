@@ -7,6 +7,7 @@ h2{
   margin: 0 auto;
   text-align: center;
   flex: 1;
+  margin-top: 30px;
 }
 
 footer {
@@ -24,7 +25,27 @@ footer {
    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   
 }
+.target{
+  margin-bottom: 50px;
+}
+.target p{
+  background: #ffffff;
+  width: 350px;
+  word-break: break-word;
+  text-align: center;
+  margin: 0 auto;
+ height: 70%;
+ padding: 15px;
+  border-radius: 20px;
 
+}
+.target h3{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 260px;
+  text-align: center;
+  justify-self: center;
+}
 details{
   border: 1px solid #dddddd21;
   border-radius: 20px;
