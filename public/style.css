@@ -690,7 +690,7 @@ nav .login-btn:hover {
     border-radius: 16px !important;
     text-align: center !important;
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important; /* column*/
     align-items: center !important;
     justify-content: center !important;
     padding: 18px 10px !important;
