@@ -1,4 +1,4 @@
- // Μεταβλητές για τα φίλτρα
+// Μεταβλητές για τα φίλτρα
     let currentFilters = {
       lykeio: '',
       year: '',
@@ -522,9 +522,11 @@
     
     // Φιλτράρισμα αρχείων
     function filterPDFs() {
-      const lykeioFilter = document.getElementById('lykeio-filter').value;
-      const yearFilter = document.getElementById('year-filter').value;
-      const subjectFilter = document.getElementById('subject-filter').value;
+      // Παίρνουμε την τιμή του λυκείου από το κουμπί/option που έχει επιλεγεί
+      const lykeioFilter = currentFilters.lykeio;
+      // Αντίστοιχα για year και subject (αν τα έχεις ως custom dropdown)
+      const yearFilter = currentFilters.year;
+      const subjectFilter = currentFilters.subject;
       
       const filteredPDFs = allPDFs.filter(pdf => {
         const lykeioMatch = !lykeioFilter || (pdf.lykeio || 'ΓΕΛ') === lykeioFilter;
