@@ -141,13 +141,13 @@ function displayAnnouncementsOnMainPage(announcements) {
           </div>
         </div>
         `;
-        li.addEventListener('click', function() {
-          const content = this.querySelector('.announcement-content');
-          content.style.display = content.style.display === 'none' ? 'flex' : 'none';
-        });
+        
         ul.appendChild(li);
     });
     container.appendChild(ul);
+        announcementDiv.addEventListener('click', function() {
+          showAnnouncementModal(announcement.title, announcement.content, `${day}/${month}/${year}, ${time}`);
+        });
       } else {
 
         announcementDiv.innerHTML = `
