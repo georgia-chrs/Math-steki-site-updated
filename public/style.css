@@ -1223,7 +1223,6 @@ nav .login-btn:hover {
 .program-category {
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s;
 }
 
