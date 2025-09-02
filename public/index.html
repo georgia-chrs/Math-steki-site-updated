@@ -156,7 +156,18 @@
           </div>
         </section>
       </div>
-        <script src="main-announcements.js"></script>
+        <script>
+    if (window.innerWidth <= 600) {
+      var script = document.createElement('script');
+      script.src = 'public/announcements-mobile.js';
+      document.body.appendChild(script);
+    } else {
+      var script = document.createElement('script');
+      script.src = 'public/main-announcements.js';
+      document.body.appendChild(script);
+    }
+  </script>
+       
     
     <!--<script src="announcements.js"></script>-->
     </section>
