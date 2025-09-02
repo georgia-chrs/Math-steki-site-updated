@@ -649,6 +649,15 @@ header {
   .resource-card {
     max-width: 95vw;
   }
+  .logo{
+    max-width: 150px;
+    height: auto;
+  }
+  nav {
+    
+    font-size: 14px;
+  }
+
 }
 .faq {
   max-width: 1000px;
@@ -1166,4 +1175,54 @@ footer {
   scrollbar-width: thick;
   scrollbar-color: #A0522D #ff874b00;
   padding-right: 40px;
+}
+@media (max-width: 900px) {
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    position: relative;
+  }
+  .logo {
+    max-width: 120px;
+    height: auto;
+  }
+  nav {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100vw;
+    background: #fff8e8;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    z-index: 100;
+  }
+  nav.open {
+    display: flex;
+  }
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    margin-left: auto;
+    cursor: pointer;
+  }
+  .icons {
+    display: none;
+  }
+}
+@media (min-width: 901px) {
+  .menu-toggle {
+    display: none;
+  }
+  nav {
+    display: flex !important;
+    position: static;
+    flex-direction: row;
+    background: none;
+    box-shadow: none;
+  }
 }
