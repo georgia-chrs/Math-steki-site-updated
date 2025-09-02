@@ -95,23 +95,70 @@ function displayAnnouncementsOnMainPage(announcements) {
     const announcementDiv = document.createElement('div');
     announcementDiv.style.cssText = `
       display: flex;
-      flex-direction: column;
       align-items: flex-start;
-      margin-bottom: 18px;
-      padding: 14px 10px;
-      border-radius: 12px;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(44,95,79,0.07);
+      margin-bottom: ${index < announcements.length - 1 ? '15px' : '0'};
+      padding-bottom: ${index < announcements.length - 1 ? '15px' : '0'};
+      border-bottom: ${index < announcements.length - 1 ? '1px solid rgba(255,255,255,0.3)' : 'none'};
       cursor: pointer;
-      transition: box-shadow 0.2s;
+      transition: all 0.2s ease;
     `;
+
+    // Add hover effect
+    announcementDiv.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateX(5px)';
+    });
+
+    announcementDiv.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateX(0)';
+    });
+
     announcementDiv.innerHTML = `
-      <h3 style="margin:0 0 6px 0;font-size:18px;color:#d44f22;font-weight:bold;">${announcement.title}</h3>
-      <div style="font-size:13px;color:#5f1a0f;margin-bottom:4px;">${day}/${month}/${year} <span style='font-size:12px;color:#888;'>${time}</span></div>
+      <h3 style="
+        margin: 0 0 8px 0;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        color: rgba(212, 79, 34, 0.82);
+      ">${announcement.title}</h3>
+      <div style="
+        font-size: 13px;
+        color: rgba(95, 26, 15, 0.64);
+        text-align: center;
+        margin-bottom: 8px;
+      ">
+        <span>${day}/${month}/${year}</span>
+        <span style="font-size: 12px; margin-left: 8px;">${time}</span>
+      </div>
+      <div style="
+        flex: 1; 
+        color: white; 
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        max-height: 100px;
+        overflow-y: auto;
+      ">
+        <div style="
+          flex: 1;
+          overflow-y: auto;
+          padding-right: 5px;
+        " class="announcement-content-scroll">
+          <p style="
+            margin: 0;
+            color:rgba(95, 26, 15, 0.64);
+            font-size: 14px;
+            line-height: 1.4;
+            text-align: left;
+          ">${announcement.content}</p>
+        </div>
+      </div>
     `;
+
+    // Add click event to show full content in modal
     announcementDiv.addEventListener('click', function() {
       showAnnouncementModal(announcement.title, announcement.content, `${day}/${month}/${year}, ${time}`);
     });
+
     mainContainer.appendChild(announcementDiv);
   });
 
