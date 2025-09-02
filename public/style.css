@@ -523,7 +523,7 @@ header {
 .animation-for-section , .animation-for-section *{
   animation: appear 5s linear;
     animation-timeline: view();
-    animation-range: entry 0% cover 40%;
+    animation-range: entry 0% cover 30%;
 }
 
 .experience {
