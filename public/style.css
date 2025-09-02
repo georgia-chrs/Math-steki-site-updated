@@ -726,15 +726,18 @@ nav .login-btn:hover {
   }
 
   .hero-text span {
+    padding: 10px;
+    background-color: white;
+    border-radius: 20px;
     font-size: 1.2rem;
     width: 90%;
     justify-self: center;
     text-align: center;
   }
-   .hero-logo {
+  .hero .hero-text .hero-logo {
     width: 250px;
     margin-bottom: 20px;
-    margin-top: 20vw;
+    margin-top: 30vw;
     justify-self: center;
   }
 }
@@ -1359,6 +1362,28 @@ nav .login-btn:hover {
   line-height: 1.6;
 }
 
+@media screen and (max-width: 900px) {
+  .programs-title-center {
+    padding: 0 10px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    justify-content: center;
+
+    flex-direction: column;
+    
+  }
+  .programs-title-center h2 {
+    font-size: 1.6rem;
+    text-align: center;
+    justify-self: center;
+  }
+  .programs-title-center p {
+    font-size: 1rem;
+    padding: 0 10px;
+    text-align: center;
+  }
+  
+}
 .programs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
