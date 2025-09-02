@@ -15,6 +15,36 @@ footer {
     padding: auto;
 }
 
+.faq{
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 20px;
+   background: #ffffff;
+   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  
+}
+
+details{
+  border: 1px solid #dddddd21;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+
+.resources-list{
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border-radius: 20px;
+   
+   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+   gap: 1rem;
+   flex-direction: row;
+}
 .student{
   background: #ffffff;
   border: 1px solid #ddd;
@@ -368,6 +398,7 @@ nav .login-btn:hover {
 }
 
 .program-category h3 {
+  text-align: center;
   margin-bottom: 10px;
   color: #3c1c08;
 }
@@ -552,6 +583,13 @@ nav .login-btn:hover {
   animation: appear 3s linear;
   animation-timeline: view();
   animation-range: entry 0% cover 40%;
+  
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 300px;
+
+  
 }
 
 @keyframes appear {
