@@ -112,60 +112,106 @@ function displayAnnouncementsOnMainPage(announcements) {
       this.style.transform = 'translateX(0)';
     });
 
-    announcementDiv.innerHTML = `
-      <div style="
-        font-size: 13px;
-        margin-right: 15px;
-        min-width: 120px;
-        font-weight: bold;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        color:rgba(95, 26, 15, 0.47);
-      ">
-        <span>${day}/${month}/${year}</span>
-        <span style="font-size: 12px; margin-top: 2px;">${time}</span>
-      </div>
-      <div style="
-        width: 2px;
-        background: rgba(255,255,255,0.4);
-        margin-right: 15px;
-        align-self: stretch;
-      "></div>
-      <div style="
-        flex: 1; 
-        color: white; 
-        text-align: left;
-        display: flex;
-        flex-direction: column;
-        max-height: 100px;
-        overflow-y: auto;
-      ">
-        <h3 style="
-          margin: 0 0 8px 0;
-          font-size: 16px;
-          font-weight: bold;
-          text-align: left;
-          flex-shrink: 0;
-          color:rgba(212, 79, 34, 0.82);
-        ">${announcement.title}</h3>
-        <div style="
-          flex: 1;
-          overflow-y: auto;
-          padding-right: 5px;
-        " class="announcement-content-scroll">
-          <p style="
-            margin: 0;
-            color:rgba(95, 26, 15, 0.64);
-            font-size: 14px;
-            line-height: 1.4;
-            text-align: left;
-          ">${announcement.content}</p>
-        </div>
-      </div>
-    `;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
 
+    if (window.innerWidth <= 600) { announcementDiv.innerHTML = `
+          <h3 style="
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            color: rgba(212, 79, 34, 0.82);
+          ">${announcement.title}</h3>
+          <div style="
+            font-size: 13px;
+            color: rgba(95, 26, 15, 0.64);
+            text-align: center;
+            margin-bottom: 8px;
+          ">
+            <span>${day}/${month}/${year}</span>
+            <span style="font-size: 12px; margin-left: 8px;">${time}</span>
+          </div>
+          <div style="
+            flex: 1; 
+            color: white; 
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            max-height: 100px;
+            overflow-y: auto;
+          ">
+            <div style="
+              flex: 1;
+              overflow-y: auto;
+              padding-right: 5px;
+            " class="announcement-content-scroll">
+              <p style="
+                margin: 0;
+                color:rgba(95, 26, 15, 0.64);
+                font-size: 14px;
+                line-height: 1.4;
+                text-align: left;
+              ">${announcement.content}</p>
+            </div>
+          </div>
+        `;
+      } else {
+
+        announcementDiv.innerHTML = `
+          <div style="
+            font-size: 13px;
+            margin-right: 15px;
+            min-width: 120px;
+            font-weight: bold;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            color:rgba(95, 26, 15, 0.47);
+          ">
+            <span>${day}/${month}/${year}</span>
+            <span style="font-size: 12px; margin-top: 2px;">${time}</span>
+          </div>
+          <div style="
+            width: 2px;
+            background: rgba(255,255,255,0.4);
+            margin-right: 15px;
+            align-self: stretch;
+          "></div>
+          <div style="
+            flex: 1; 
+            color: white; 
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            max-height: 100px;
+            overflow-y: auto;
+          ">
+            <h3 style="
+              margin: 0 0 8px 0;
+              font-size: 16px;
+              font-weight: bold;
+              text-align: left;
+              flex-shrink: 0;
+              color:rgba(212, 79, 34, 0.82);
+            ">${announcement.title}</h3>
+            <div style="
+              flex: 1;
+              overflow-y: auto;
+              padding-right: 5px;
+            " class="announcement-content-scroll">
+              <p style="
+                margin: 0;
+                color:rgba(95, 26, 15, 0.64);
+                font-size: 14px;
+                line-height: 1.4;
+                text-align: left;
+              ">${announcement.content}</p>
+            </div>
+          </div>
+        `;
+    }
     // Add click event to show full content in modal
     announcementDiv.addEventListener('click', function() {
       showAnnouncementModal(announcement.title, announcement.content, `${day}/${month}/${year}, ${time}`);
