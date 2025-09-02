@@ -463,6 +463,12 @@ header {
 
 /* Specific styling for admin announcements container */
 .announcements .container-2 .announcements {
+    animation: appear 5s linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+
+
+
   background: transparent !important;
   padding: 0 !important;
   margin: 0 !important;
