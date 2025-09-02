@@ -725,12 +725,13 @@ nav .login-btn:hover {
     max-width: 350px;
   }
   .hero-text * {
-    font-size: 2.5rem;
+    font-size: 2.0rem;
     text-align: center;
 
   }
   .hero-text .hero-logo {
-    width: 350px;
+    width: 250px;
+    margin-bottom: 20px;
     margin-top: 5vw;
     justify-self: center;
   }
