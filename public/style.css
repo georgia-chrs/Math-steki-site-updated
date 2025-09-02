@@ -657,7 +657,28 @@ header {
     
     font-size: 14px;
   }
-
+  .hero-text {
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: 0 !important;
+    margin-top: 20px !important;
+    padding: 0 10px;
+    text-align: center;
+  }
+  .hero-logo {
+    margin-bottom: 1rem !important;
+    text-align: center !important;
+  }
+  .hero-logo img {
+    max-width: 90vw !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+  .hero-text span {
+    font-size: 1.1em;
+    display: block;
+    margin-top: 10px;
+  }
 }
 .faq {
   max-width: 1000px;
