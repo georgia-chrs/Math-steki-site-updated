@@ -539,8 +539,8 @@
     
     // Καθαρισμός φίλτρων
     function clearFilters() {
-      document.getElementById('lykeio-filter').value = '';
-      document.getElementById('year-filter').value = '';
+      /*document.getElementById('lykeio-filter').value = '';
+      document.getElementById('year-filter').value = '';*/
       document.getElementById('subject-filter').value = '';
       updateSubjects(); // Επαναφορά όλων των μαθημάτων
       displayPDFs(allPDFs);
