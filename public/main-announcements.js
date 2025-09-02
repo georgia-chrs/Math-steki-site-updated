@@ -128,6 +128,7 @@ function displayAnnouncementsOnMainPage(announcements) {
         li.style.boxShadow = '0 2px 8px rgba(44,95,79,0.07)';
         li.style.padding = '14px 10px';
         li.innerHTML = `
+        <div style="background: #fff; border-radius: 15px; padding: 14px 10px; box-shadow: 0 2px 8px rgba(44,95,79,0.07);">
           <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: bold; text-align: center; color: rgba(212, 79, 34, 0.82);">${announcement.title}</h3>
           <div style="font-size: 13px; color: rgba(95, 26, 15, 0.64); text-align: center; margin-bottom: 8px;">
             <span>${day}/${month}/${year}</span>
@@ -138,6 +139,7 @@ function displayAnnouncementsOnMainPage(announcements) {
               <p style="margin: 0; color:rgba(95, 26, 15, 0.64); font-size: 14px; line-height: 1.4; text-align: left;">${announcement.content}</p>
             </div>
           </div>
+        </div>
         `;
         li.addEventListener('click', function() {
           const content = this.querySelector('.announcement-content');
