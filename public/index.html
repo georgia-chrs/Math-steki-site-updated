@@ -56,81 +56,116 @@
     </script>
   </header>
   
-  <main>
-  <div class="main-wrapper" style="max-width: 1200px; margin-left: auto; margin-right: auto; box-sizing: border-box;">
-    <div class="ball"></div>
-    <section class="hero" style="width: 100vw; position: relative; left: 50%; right: 50%; transform: translateX(-50%); align-items: left; gap: 40px; margin-top: 0px; padding-top: 0;">
-      <div class="hero-text" style="align-items: center; justify-content: center; margin-left: 0px; margin-top: -100px;">
-        <div class="hero-logo" style="margin-bottom: 1rem; text-align: left;">
-          <img src="logo/l.png" alt="Μαθητικό Στέκι" style="max-width: 520px; width: 100%; height: auto;">
+    <main>
+    <div class="main-wrapper" style="max-width: 1200px; margin-left: auto; margin-right: auto; box-sizing: border-box;">
+      <div class="ball"></div>
+      <section class="hero" style="width: 100vw; position: relative; left: 50%; right: 50%; transform: translateX(-50%); align-items: left; gap: 40px; margin-top: 0px; padding-top: 0;">
+        <div class="hero-text" style="align-items: center; justify-content: center; margin-left: 0px; margin-top: -100px;">
+          <div class="hero-logo" style="margin-bottom: 1rem; text-align: left;">
+            <img src="logo/l.png" alt="Μαθητικό Στέκι" style="max-width: 520px; width: 100%; height: auto;">
+          </div>
+          <!-- <h1>Μαθητικό Στέκι<br>
+          <span>we offer lessons to students for All classes and we do our best.</span></h1> -->
+          <span>Στο στέκι μας, η επιτυχία είναι ομαδική υπόθεση</span>
+
         </div>
-        <span>Στο στέκι μας, η επιτυχία είναι ομαδική υπόθεση</span>
+        <div class="slideshow-wrapper" style="margin-left: 220px; margin-right: auto; margin-top: 80px;">
+          <img class="slide active" src="photos/i1.jpeg" alt="photo 1">
+          <img class="slide" src="photos/i2.jpeg" alt="photo 2">
+          <img class="slide" src="photos/i3.jpeg" alt="photo 3">
+          <img class="slide" src="photos/i4.png" alt="photo 4">
+          <img class="slide" src="photos/i5.png" alt="photo 5">
+          <img class="slide" src="photos/i6.jpeg" alt="photo 6">
+          <img class="slide" src="photos/i7.jpeg" alt="photo 7">
+          <img class="slide" src="photos/i8.jpeg" alt="photo 8">
+        </div>
+        <script src="image.js"></script>
+
+      </section>
+          <div style="display: flex; justify-content: left; align-items: center; margin-top: -10px; width: 100%; margin-left: 50px; padding-bottom: 100px;">
+            <button class="contact-btn" onclick="window.location.href='contact.html'">Επικοινωνήστε μαζί μας</button>
+          </div>
+
+
+      <section >     
+        <div style="width: 1000px; height: 2px; background-color: rgb(253, 198, 150); justify-content:center; margin: auto;"></div>
+        <div class="programs-title-center" style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 50px;">
+          <h2 style="margin: 0 auto; text-align: center; flex: 1; margin-left: 110px;">Πρόγραμμα σπουδών</h2>
+          <a href="#" class="contact-btn" style="text-decoration: none;">Πλήρες πρόγραμμα</a>
+        </div>
+
+
+
+    <p style=" color: rgba(10, 10, 10, 0.500); margin-top: 10px; padding: 10px; margin-bottom: 50px; text-align: center;">Για αναλυτικότερη περιγραφή των προγραμμάτων παρακαλούμε συνδεθείτε στο σύστημα του φροντιστηρίου μας ή επικοινωνήστε μαζί μας.</p>
+     <div class="animation-for-section">
+    <div class="programs-grid" style="display: flex; justify-content: center; align-items: center; margin-bottom: 100px; max-width: 1200px; margin-left: auto; margin-right: auto;">
+      <!-- Δημοτικό -->
+      <div class="program-category" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; margin-right: 40px;">
+        <div class="icon-circle">  
+          <img src="elements\book-1.svg" alt="Book Icon">
+        </div>
+        <h3>Δημοτικό</h3>
+        <button class="btn brown">Δημιουργική Μελέτη</button>
+        <button class="btn yellow">Προετοιμασία Για Πρότυπα</button>
+        <button class="btn yellow" style="visibility: hidden;">Προετοιμασία Για Πρότυπα</button>
       </div>
-      <div class="slideshow-wrapper" style="margin-left: 220px; margin-right: auto; margin-top: 80px;">
-        <img class="slide active" src="photos/i1.jpeg" alt="photo 1">
-        <img class="slide" src="photos/i2.jpeg" alt="photo 2">
-        <img class="slide" src="photos/i3.jpeg" alt="photo 3">
-        <img class="slide" src="photos/i4.png" alt="photo 4">
-        <img class="slide" src="photos/i5.png" alt="photo 5">
-        <img class="slide" src="photos/i6.jpeg" alt="photo 6">
-        <img class="slide" src="photos/i7.jpeg" alt="photo 7">
-        <img class="slide" src="photos/i8.jpeg" alt="photo 8">
+
+      <!-- Γυμνάσιο -->
+      <div class="program-category" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; margin-right: 40px;">
+        <div class="icon-circle">
+                  <img src="elements\book-2.svg" alt="Book Icon">
+
+        </div>
+        <h3>Γυμνάσιο</h3>
+        <button class="btn brown">Α’ Γυμνασίου</button>
+        <button class="btn yellow">Β’ Γυμνασίου</button>
+        <button class="btn brown">Γ’ Γυμνασίου</button>
       </div>
-    </section>
-    <div class="contact-btn-wrapper">
-      <button class="contact-btn" onclick="window.location.href='contact.html'">Επικοινωνήστε μαζί μας</button>
+
+      <!-- Λύκειο -->
+      <div class="program-category" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; margin-right: 40px;">
+        <div class="icon-circle">
+                  <img src="elements\book-3.svg" alt="Book Icon">
+
+        </div>
+        <h3>Λύκειο</h3>
+        <button class="btn brown">Α’ Λυκείου</button>
+        <button class="btn yellow">Β’ Λυκείου</button>
+        <button class="btn brown">Γ’ Λυκείου</button>
+      </div>
     </div>
-    <section>
+      </div>  
+  </section>
+
+
+
       <div style="width: 1000px; height: 2px; background-color: rgb(253, 198, 150); justify-content:center; margin: auto;"></div>
-      <div class="programs-title-center" style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 50px;">
-        <h2 style="margin: 0 auto; text-align: center; flex: 1; margin-left: 110px;">Πρόγραμμα σπουδών</h2>
-        <a href="#" class="contact-btn" style="text-decoration: none;">Πλήρες πρόγραμμα</a>
-      </div>
-      <p style=" color: rgba(10, 10, 10, 0.500); margin-top: 10px; padding: 10px; margin-bottom: 50px; text-align: center;">Για αναλυτικότερη περιγραφή των προγραμμάτων παρακαλούμε συνδεθείτε στο σύστημα του φροντιστηρίου μας ή επικοινωνήστε μαζί μας.</p>
+
+      
+  <section class="experience">
+    
+        
+          <h2>Ανακοινώσεις</h2>
+          <p style=" color: rgba(10, 10, 10, 0.500); margin-top: 10px; padding: 10px; margin-bottom: 50px; text-align: center;">Μείνετε διαρκώς ενημερωμένοι για όλα όσα αφορούν το Μαθητικό Στέκι αλλά και την ευρύτερη εκπαιδευτική επικαιρότητα.</p>
       <div class="animation-for-section">
-        <div class="programs-grid" style="display: flex; justify-content: center; align-items: center; margin-bottom: 100px; max-width: 1200px; margin-left: auto; margin-right: auto;">
-          <div class="program-category" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; margin-right: 40px;">
-            <div class="icon-circle"><img src="elements/book-1.svg" alt="Book Icon"></div>
-            <h3>Δημοτικό</h3>
-            <a class="btn brown" href="main-page/programa-spoudon/dimotiko.html" style="text-decoration: none; text-align: center;max-width: 350px;">Δημιουργική Μελέτη</a>
-            <a class="btn yellow" href="main-page/programa-spoudon/dimotiko.html" style="text-decoration: none; text-align: center;max-width: 350px;">Προετοιμασία Για Πρότυπα</a>
-            <a class="btn yellow" style="visibility: hidden;">Προετοιμασία Για Πρότυπα</a>
-          </div>
-          <div class="program-category" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; margin-right: 40px;">
-            <div class="icon-circle"><img src="elements/book-2.svg" alt="Book Icon"></div>
-            <h3>Γυμνάσιο</h3>
-            <a class="btn brown" href="main-page/programa-spoudon/gymnasio.html?class=A" style="text-decoration: none; text-align: center;max-width: 350px;">Α’ Γυμνασίου</a>
-            <a class="btn yellow" href="main-page/programa-spoudon/gymnasio.html" style="text-decoration: none; text-align: center;max-width: 350px;">Β’ Γυμνασίου</a>
-            <a class="btn brown" href="main-page/programa-spoudon/gymnasio.html" style="text-decoration: none; text-align: center;max-width: 350px;">Γ’ Γυμνασίου</a>
-          </div>
-          <div class="program-category" style="flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; margin-right: 40px;">
-            <div class="icon-circle"><img src="elements/book-3.svg" alt="Book Icon"></div>
-            <h3>Λύκειο</h3>
-            <a class="btn brown" href="main-page/programa-spoudon/lykeio.html" style="text-decoration: none; text-align: center;max-width: 350px;">Α’ Λυκείου</a>
-            <a class="btn yellow" href="main-page/programa-spoudon/lykeio.html" style="text-decoration: none; text-align: center;max-width: 350px;">Β’ Λυκείου</a>
-            <a class="btn brown" href="main-page/programa-spoudon/lykeio.html" style="text-decoration: none; text-align: center;max-width: 350px;">Γ’ Λυκείου</a>
-          </div>
+          <section class="announcements">
+      <div class="container-2">
+        <div class="announcements">
+          <!-- Εδώ θα μπουν οι ανακοινώσεις από JS -->
         </div>
       </div>
     </section>
-    <div style="width: 1000px; height: 2px; background-color: rgb(253, 198, 150); justify-content:center; margin: auto;"></div>
-    <section class="experience">
-      <div class="animation-for-section">
-        <h2>Ανακοινώσεις</h2>
-        <p style=" color: rgba(10, 10, 10, 0.500); margin-top: 10px; padding: 10px; margin-bottom: 50px; text-align: center;">Μείνετε διαρκώς ενημερωμένοι για όλα όσα αφορούν το Μαθητικό Στέκι αλλά και την ευρύτερη εκπαιδευτική επικαιρότητα.</p>
-        <section class="announcements">
-          <div class="container-2">
-            <div class="announcements"><!-- Εδώ θα μπουν οι ανακοινώσεις από JS --></div>
-          </div>
-        </section>
       </div>
-      <script src="main-announcements.js"></script>
+        <script src="main-announcements.js"></script>
+    
+    <!--<script src="announcements.js"></script>-->
     </section>
-    <div style="width: 1000px; height: 2px; background-color: rgb(253, 198, 150); justify-content:center; margin: auto;"></div>
+
+  <div style="width: 1000px; height: 2px; background-color: rgb(253, 198, 150); justify-content:center; margin: auto;"></div>
 
  <section class="resources" >
           <h2 style="margin-bottom: 48px;">Χρήσιμο Υλικό</h2>
-          
+    <div class="animation-for-section">
           <div class="resources-list" >
             <div class="resource-card" style="position: relative; height: 320px; padding:0; overflow:hidden;">
               <img src="photos-site/main-FEKAEI.jpg" alt="ΦΕΚ Μετεγγραφών Αντιστοιχίας Τμημάτων" style="width:100%; height:100%; object-fit:cover; display:block;">
@@ -151,7 +186,7 @@
               </div>
             </div>
           </div> 
-      
+    </div>
         </section>
     <section class="stats-section" id="stats" style="width: 100vw; position: relative; left: 50%; right: 50%; transform: translateX(-50%); overflow: visible; padding-top: 120px; z-index: 1; min-height: 180px;">
         <!-- Blob από κάτω -->
@@ -214,7 +249,7 @@
                   <div style=" color: rgba(10, 10, 10, 0.500); margin-top: 10px; padding: 10px; margin-bottom: 100px; text-align: center; ">
               <p > Στο Μαθητικό Στέκι, ο στόχος μας δεν είναι απλώς η επιτυχία στις εξετάσεις, αλλά μια πορεία που έχει ουσία, έμπνευση και στήριξη σε κάθε βήμα. Πιστεύουμε ότι η μάθηση δεν χρειάζεται να είναι μονότονη – μπορεί να είναι δημιουργική, ενδιαφέρουσα και να γίνεται με την καλύτερη παρέα. Γιατί το μέλλον δεν το προβλέπεις. Το προετοιμάζεις</p>
             </div>
-      <div class="animation-for-section">
+            <div class="animation-for-section">
         <div class="programs-grid" style="gap: 20px;">
           <div class="program-category" >
          
@@ -247,8 +282,8 @@
             </div>
           </div>
         </div>
-      </div>
-    </section>
+            </div>
+      </section>
       <section class="faq">
         <h2>FAQ</h2>
         <details>
