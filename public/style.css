@@ -6,6 +6,7 @@ h1 {
 footer {
     background: #4d2c1e !important;
     color: #fff !important;
+    padding: auto;
 }
 
 .student{
