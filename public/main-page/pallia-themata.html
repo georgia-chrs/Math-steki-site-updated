@@ -342,15 +342,17 @@
       <div class="main-content">
         <!-- Φίλτρα στο αριστερό sidebar -->
         <div class="filters-sidebar">
-          <div class="filter-dropdown">
-            <button class="filter-button" id="lykeio-btn">Λύκειο</button>
-            <div class="filter-options" id="lykeio-options">
-              <div class="filter-option" data-value="">Όλα τα Λύκεια</div>
-              <div class="filter-option" data-value="ΓΕΛ">ΓΕΛ (Γενικό Λύκειο)</div>
-              <div class="filter-option" data-value="ΕΠΑΛ">ΕΠΑΛ (Επαγγελματικό Λύκειο)</div>
-            </div>
-          </div>
-          
+          <!-- Προσθήκη φίλτρων select για JS -->
+          <label for="lykeio-filter">Λύκειο:</label>
+          <select id="lykeio-filter">
+            <option value="">Όλα</option>
+            <option value="ΓΕΛ">ΓΕΛ</option>
+            <option value="ΕΠΑΛ">ΕΠΑΛ</option>
+          </select>
+          <label for="subject-filter">Μάθημα:</label>
+          <select id="subject-filter">
+            <option value="">Όλα τα μαθήματα</option>
+          </select>
           <div class="filter-dropdown">
             <button class="filter-button" id="year-btn">Έτος</button>
             <div class="filter-options" id="year-options">
