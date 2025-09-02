@@ -421,14 +421,14 @@ nav .login-btn:hover {
   .programs-grid {
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 70px;
   }
 
   .contact-btn{
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 120px !important;
+    margin-top: 130px !important;
   }
   
 
@@ -1256,11 +1256,13 @@ nav .login-btn:hover {
     justify-content: center !important;
     width: 100vw !important;
     max-width: 100vw !important;
-    margin: 0 auto !important;
+    margin: 0 auto;
     box-sizing: border-box;
     position: relative !important;
     height: 54vw !important;
     min-height: 180px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
   }
   .slideshow-wrapper img {
     position: absolute !important;
@@ -1268,12 +1270,11 @@ nav .login-btn:hover {
     right: 0;
     top: 0;
     bottom: 0;
-    margin: auto;
-    max-width: 90vw !important;
-    width: 90vw !important;
+    margin: 0 auto;
+    max-width: 80vw !important;
+    width: 80vw !important;
     height: auto !important;
     border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
     object-fit: cover;
     background: #fff8e8;
     border: 1px solid #f3e2d2;
@@ -1322,6 +1323,10 @@ nav .login-btn:hover {
     font-size: 0.95em !important;
     margin-top: 10px !important;
     text-align: center !important;
+  }
+
+  #program-description {
+    margin-top: 50px !important;
   }
 }
 
