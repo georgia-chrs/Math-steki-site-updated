@@ -31,7 +31,7 @@
     }
     
     
-    .filter-button {
+    .filter-button, label {
       width: 100%;
       background: #f08955;
       border: 2px solid transparent;
@@ -46,17 +46,17 @@
       position: relative;
     }
     
-    .filter-button:hover {
+    .filter-button:hover  , label:hover {
       background: #cf5b20;
       border-color: #ffffff;
     }
     
-    .filter-button.active {
+    .filter-button.active  , label.active {
       background: #cf5b20;
       border-color: #ffffff;
     }
     
-    .filter-button::after {
+    .filter-button::after , label::after {
       content: '▼';
       position: absolute;
       right: 12px;
@@ -66,11 +66,12 @@
       transition: transform 0.2s ease;
     }
     
-    .filter-button.active::after {
+    .filter-button.active::after , label.active::after {
       transform: translateY(-50%) rotate(180deg);
     }
-    
-    .filter-options {
+
+
+    option ,.filter-options {
       position: absolute;
       top: 100%;
       left: 0;
@@ -86,26 +87,26 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     
-    .filter-options.show {
+    .filter-options.show  , option.show {
       display: block;
     }
     
-    .filter-option {
+    .filter-option , option {
       padding: 10px 16px;
       cursor: pointer;
       transition: background-color 0.2s ease;
       border-bottom: 1px solid #faf9f8;
     }
     
-    .filter-option:hover {
+    .filter-option:hover  , option:hover {
       background: #ffcaa7;
     }
     
-    .filter-option:last-child {
+    .filter-option:last-child , option:last-child {
       border-bottom: none;
     }
     
-    .filter-option.selected {
+    .filter-option.selected  , option.selected {
       background: #fdf0e3;
       color: #d25a19;
       font-weight: 500;
