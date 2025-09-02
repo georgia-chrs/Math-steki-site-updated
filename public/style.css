@@ -724,11 +724,12 @@ nav .login-btn:hover {
     width: 70%;/*100*/
     max-width: 350px;
   }
-  .hero-text *{
-    font-size: 1.4rem;
-    margin-top: 10px;
-    text-align: center;
 
+  .hero-text span {
+    font-size: 1.2rem;
+    width: 90%;
+    justify-self: center;
+    text-align: center;
   }
    .hero-logo {
     width: 250px;
