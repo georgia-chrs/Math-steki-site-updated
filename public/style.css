@@ -546,7 +546,7 @@ nav .login-btn:hover {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 100vw !important;
+    width: 100% !important;
     box-sizing: border-box;
     text-align: center !important;
   }
