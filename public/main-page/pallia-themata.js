@@ -549,7 +549,7 @@
     // Event listeners
     document.addEventListener('DOMContentLoaded', function() {
       loadPDFs();
-      updateSubjects(); // Αρχική φόρτωση μαθημάτων
+     // updateSubjects(); // Αρχική φόρτωση μαθημάτων
       
       document.getElementById('lykeio-filter').addEventListener('change', function() {
         updateSubjects();
