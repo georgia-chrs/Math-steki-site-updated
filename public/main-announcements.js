@@ -116,38 +116,53 @@ function displayAnnouncementsOnMainPage(announcements) {
     const height = window.innerHeight;
     if (window.innerWidth <= 600) { 
           const ul = document.createElement('ul');
-      ul.style.listStyle = 'none';
-      ul.style.padding = '0';
+          ul.style.listStyle = 'none';
+          ul.style.padding = '0';
 
-      announcements.forEach(announcement => {
-        const li = document.createElement('li');
-        li.style.marginBottom = '18px';
-        li.style.cursor = 'pointer';
-        li.style.background = '#fff';
-        li.style.borderRadius = '12px';
-        li.style.boxShadow = '0 2px 8px rgba(44,95,79,0.07)';
-        li.style.padding = '14px 10px';
-        li.innerHTML = `
-        <div style="background: #fff; border-radius: 15px; padding: 14px 10px; box-shadow: 0 2px 8px rgba(44,95,79,0.07);">
-          <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: bold; text-align: center; color: rgba(212, 79, 34, 0.82);">${announcement.title}</h3>
-          <div style="font-size: 13px; color: rgba(95, 26, 15, 0.64); text-align: center; margin-bottom: 8px;">
-            <span>${day}/${month}/${year}</span>
-            <span style="font-size: 12px; margin-left: 8px;">${time}</span>
-          </div>
-          <div class="announcement-content" style="display:none; flex: 1; color: white; text-align: left; display: flex; flex-direction: column; max-height: 100px; overflow-y: auto;">
-            <div style="flex: 1; overflow-y: auto; padding-right: 5px;" class="announcement-content-scroll">
-              <p style="margin: 0; color:rgba(95, 26, 15, 0.64); font-size: 14px; line-height: 1.4; text-align: left;">${announcement.content}</p>
-            </div>
-          </div>
-        </div>
-        `;
-        
-        ul.appendChild(li);
-    });
-    container.appendChild(ul);
-        announcementDiv.addEventListener('click', function() {
-          showAnnouncementModal(announcement.title, announcement.content, `${day}/${month}/${year}, ${time}`);
+          announcements.forEach(announcement => {
+            const date = new Date(announcement.created_at);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            const time = date.toLocaleTimeString('el-GR', { hour: '2-digit', minute: '2-digit' });
+
+            const li = document.createElement('li');
+            li.style.marginBottom = '18px';
+            li.style.cursor = 'pointer';
+            li.style.background = '#fff';
+            li.style.borderRadius = '12px';
+            li.style.boxShadow = '0 2px 8px rgba(44,95,79,0.07)';
+            li.style.padding = '14px 10px';
+
+            const announcementDiv = document.createElement('div');
+            announcementDiv.style.background = '#fff';
+            announcementDiv.style.borderRadius = '15px';
+            announcementDiv.style.padding = '14px 10px';
+            announcementDiv.style.boxShadow = '0 2px 8px rgba(44,95,79,0.07)';
+
+            announcementDiv.innerHTML = `
+              <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: bold; text-align: center; color: rgba(212, 79, 34, 0.82);">${announcement.title}</h3>
+              <div style="font-size: 13px; color: rgba(95, 26, 15, 0.64); text-align: center; margin-bottom: 8px;">
+                <span>${day}/${month}/${year}</span>
+                <span style="font-size: 12px; margin-left: 8px;">${time}</span>
+              </div>
+              <div class="announcement-content" style="display:none; flex: 1; color: white; text-align: left; display: flex; flex-direction: column; max-height: 100px; overflow-y: auto;">
+                <div style="flex: 1; overflow-y: auto; padding-right: 5px;" class="announcement-content-scroll">
+                  <p style="margin: 0; color:rgba(95, 26, 15, 0.64); font-size: 14px; line-height: 1.4; text-align: left;">${announcement.content}</p>
+                </div>
+              </div>
+            `;
+
+            announcementDiv.addEventListener('click', function() {
+              const content = this.querySelector('.announcement-content');
+              content.style.display = content.style.display === 'none' ? 'flex' : 'none';
+            });
+
+            li.appendChild(announcementDiv);
+            ul.appendChild(li);
         });
+        container.appendChild(ul);
+     
       } else {
 
         announcementDiv.innerHTML = `
