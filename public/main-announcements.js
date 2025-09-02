@@ -122,21 +122,28 @@ function displayAnnouncementsOnMainPage(announcements) {
       announcements.forEach(announcement => {
         const li = document.createElement('li');
         li.style.marginBottom = '18px';
+        li.style.cursor = 'pointer';
+        li.style.background = '#fff';
+        li.style.borderRadius = '12px';
+        li.style.boxShadow = '0 2px 8px rgba(44,95,79,0.07)';
+        li.style.padding = '14px 10px';
         li.innerHTML = `
-        <div style="background:  rgba(255, 252, 251, 0.08); border-radius:10px; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); justify-content: left; align-items: left; ">
-          <h3 style="margin: 0 0 8px 0; font-size: 23px; font-weight: bold; text-align: left; color: rgba(212, 79, 34, 0.82);">${announcement.title}</h3>
-          <div style="font-size: 18px; color: rgba(95, 26, 15, 0.64); text-align: left; margin-bottom: 8px;">
+          <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: bold; text-align: center; color: rgba(212, 79, 34, 0.82);">${announcement.title}</h3>
+          <div style="font-size: 13px; color: rgba(95, 26, 15, 0.64); text-align: center; margin-bottom: 8px;">
             <span>${day}/${month}/${year}</span>
-            <span style="font-size: 18px; margin-left: 8px;">${time}</span>
+            <span style="font-size: 12px; margin-left: 8px;">${time}</span>
           </div>
-          <div style="flex: 1; color: white; text-align: left; display: flex; flex-direction: column; max-height: 100px; overflow-y: auto;">
+          <div class="announcement-content" style="display:none; flex: 1; color: white; text-align: left; display: flex; flex-direction: column; max-height: 100px; overflow-y: auto;">
             <div style="flex: 1; overflow-y: auto; padding-right: 5px;" class="announcement-content-scroll">
-              <p style="margin: 0; color:rgba(95, 26, 15, 0.64); font-size: 20px; line-height: 1.4; text-align: left;">${announcement.content}</p>
+              <p style="margin: 0; color:rgba(95, 26, 15, 0.64); font-size: 14px; line-height: 1.4; text-align: left;">${announcement.content}</p>
             </div>
           </div>
-        </div>
-      `;
-      ul.appendChild(li);
+        `;
+        li.addEventListener('click', function() {
+          const content = this.querySelector('.announcement-content');
+          content.style.display = content.style.display === 'none' ? 'flex' : 'none';
+        });
+        ul.appendChild(li);
     });
     container.appendChild(ul);
       } else {
