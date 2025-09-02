@@ -370,7 +370,7 @@
         }
       ];
     }
-    
+    /*
     // Ενημέρωση μαθημάτων βάσει τύπου λυκείου
     function updateSubjects() {
       const lykeioFilter = document.getElementById('lykeio-filter').value;
@@ -393,7 +393,7 @@
         option.textContent = subject;
         subjectFilter.appendChild(option);
       });
-    }
+    }*/
     
     // Εμφάνιση PDF αρχείων
     function displayPDFs(pdfs) {
