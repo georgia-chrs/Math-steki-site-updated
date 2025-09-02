@@ -552,7 +552,7 @@
      // updateSubjects(); // Αρχική φόρτωση μαθημάτων
       
       document.getElementById('lykeio-filter').addEventListener('change', function() {
-        updateSubjects();
+        //updateSubjects();
         filterPDFs();
       });
       document.getElementById('year-filter').addEventListener('change', filterPDFs);
