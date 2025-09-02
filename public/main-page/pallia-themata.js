@@ -550,11 +550,11 @@
     document.addEventListener('DOMContentLoaded', function() {
       loadPDFs();
      // updateSubjects(); // Αρχική φόρτωση μαθημάτων
-      
+      /*
       document.getElementById('lykeio-filter').addEventListener('change', function() {
         //updateSubjects();
         filterPDFs();
-      });
+      });*/
       document.getElementById('year-filter').addEventListener('change', filterPDFs);
       document.getElementById('subject-filter').addEventListener('change', filterPDFs);
       document.getElementById('clear-filters').addEventListener('click', clearFilters);
