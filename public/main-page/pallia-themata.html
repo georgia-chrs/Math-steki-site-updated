@@ -30,6 +30,7 @@
       position: relative;
     }
     
+    
     .filter-button {
       width: 100%;
       background: #f08955;
@@ -343,15 +344,15 @@
         <!-- Φίλτρα στο αριστερό sidebar -->
         <div class="filters-sidebar">
           <!-- Προσθήκη φίλτρων select για JS -->
-          <label for="lykeio-filter">Λύκειο:</label>
-          <select id="lykeio-filter">
-            <option value="">Όλα</option>
-            <option value="ΓΕΛ">ΓΕΛ</option>
-            <option value="ΕΠΑΛ">ΕΠΑΛ</option>
+          <label for="lykeio-filter" class="filter-label">Λύκειο:</label>
+          <select id="lykeio-filter" class="filter-select">
+            <option value="" class="filter-option">Όλα</option>
+            <option value="ΓΕΛ" class="filter-option">ΓΕΛ</option>
+            <option value="ΕΠΑΛ" class="filter-option">ΕΠΑΛ</option>
           </select>
-          <label for="subject-filter">Μάθημα:</label>
-          <select id="subject-filter">
-            <option value="">Όλα τα μαθήματα</option>
+          <label for="subject-filter" class="filter-label">Μάθημα:</label>
+          <select id="subject-filter" class="filter-select">
+            <option value="" class="filter-option">Όλα τα μαθήματα</option>
           </select>
           <div class="filter-dropdown">
             <button class="filter-button" id="year-btn">Έτος</button>
