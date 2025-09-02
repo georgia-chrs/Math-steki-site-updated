@@ -1345,6 +1345,21 @@ footer {
     z-index: 100;
   }
   nav.open {
+    font-size: 1.3em !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    padding-top: 60px !important;
+  }
+  nav.open a, nav.open .dropdown > a {
+    font-size: 1.2em !important;
+    padding: 18px 0 !important;
+    width: 100vw !important;
+    text-align: center !important;
+    display: block !important;
+  }
+  nav.open {
     display: flex;
     flex-direction: column;
     position: fixed;
