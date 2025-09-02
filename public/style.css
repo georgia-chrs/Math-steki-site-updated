@@ -541,6 +541,33 @@ nav .login-btn:hover {
     animation-duration: 1.2s !important;
     animation-timing-function: cubic-bezier(0.4, 0.2, 0.2, 1) !important;
   }
+  .animation-for-section *{
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100vw !important;
+    box-sizing: border-box;
+    text-align: center !important;
+  }
+  .animation-for-section h2,
+  .animation-for-section p {
+    text-align: center !important;
+    width: 95vw !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .announcements, .container-2 {
+    max-width: 95vw !important;
+    width: 95vw !important;
+    margin: 0 auto !important;
+    box-sizing: border-box;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
 }
 
 .experience {
@@ -1425,7 +1452,7 @@ footer {
   }
   .login-btn {
     position: absolute !important;
-    bottom: 50px !important;
+    bottom: 150px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: 80vw !important;
