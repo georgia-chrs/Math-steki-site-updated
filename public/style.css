@@ -541,6 +541,7 @@ header {
   text-align: center;
 }
 
+/*scroll*/
 .resources-list {
   display: flex;
   justify-content: center;
@@ -549,6 +550,11 @@ header {
   flex-wrap: wrap;
 }
 .resource-card {
+  animation: appear 5s linear;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
+
+
   position: relative;
   background: #fff;
   border-radius: 16px;
@@ -616,6 +622,14 @@ header {
   border-radius: 10px;
   z-index: 3;
 }
+
+@keyframes appear {
+  from { opacity: 0; scale: 0.4; }
+  to { opacity: 1; scale: 1; }
+}
+
+
+
 @media (max-width: 900px) {
   .resources-list {
     flex-direction: column;
