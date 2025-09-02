@@ -422,6 +422,14 @@ nav .login-btn:hover {
     flex-direction: column;
     align-items: center;
   }
+
+  .contact-btn{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    justify-self: center;
+  }
   
 
 }
@@ -1374,8 +1382,12 @@ nav .login-btn:hover {
   }
   .programs-title-center h2 {
     font-size: 1.6rem;
+    
+    
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
-    justify-self: center;
   }
   .programs-title-center p {
     font-size: 1rem;
