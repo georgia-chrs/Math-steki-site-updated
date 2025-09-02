@@ -46,17 +46,17 @@
       position: relative;
     }
     
-    .filter-button:hover  , label:hover {
+    .filter-button:hover  , option:hover {
       background: #cf5b20;
       border-color: #ffffff;
     }
     
-    .filter-button.active  , label.active {
+    .filter-button.active  , option.active {
       background: #cf5b20;
       border-color: #ffffff;
     }
     
-    .filter-button::after , label::after {
+    .filter-button::after , option::after {
       content: '▼';
       position: absolute;
       right: 12px;
@@ -66,7 +66,7 @@
       transition: transform 0.2s ease;
     }
     
-    .filter-button.active::after , label.active::after {
+    .filter-button.active::after , option.active::after {
       transform: translateY(-50%) rotate(180deg);
     }
 
@@ -345,16 +345,22 @@
         <!-- Φίλτρα στο αριστερό sidebar -->
         <div class="filters-sidebar">
           <!-- Προσθήκη φίλτρων select για JS -->
-          <label for="lykeio-filter" class="filter-label">Λύκειο:</label>
-          <select id="lykeio-filter" class="filter-select">
-            <option value="" class="filter-option">Όλα</option>
-            <option value="ΓΕΛ" class="filter-option">ΓΕΛ</option>
-            <option value="ΕΠΑΛ" class="filter-option">ΕΠΑΛ</option>
-          </select>
-          <label for="subject-filter" class="filter-label">Μάθημα:</label>
-          <select id="subject-filter" class="filter-select">
-            <option value="" class="filter-option">Όλα τα μαθήματα</option>
-          </select>
+          <div class="filter-dropdown">
+            <button class="filter-button" id="lykeio-btn">Λύκειο</button>
+            <div class="filter-options" id="lykeio-options">
+              <div class="filter-option" data-value="">Όλα</div>
+              <div class="filter-option" data-value="ΓΕΛ">ΓΕΛ</div>
+              <div class="filter-option" data-value="ΕΠΑΛ">ΕΠΑΛ</div>
+            </div>
+          </div>
+          <!-- Custom dropdown για Μάθημα -->
+          <div class="filter-dropdown">
+            <button class="filter-button" id="subject-btn">Μάθημα</button>
+            <div class="filter-options" id="subject-options">
+              <div class="filter-option" data-value="">Όλα τα μαθήματα</div>
+              <!-- Τα μαθήματα θα ενημερώνονται δυναμικά -->
+            </div>
+          </div>
           <div class="filter-dropdown">
             <button class="filter-button" id="year-btn">Έτος</button>
             <div class="filter-options" id="year-options">
@@ -364,14 +370,6 @@
               <div class="filter-option" data-value="2022">2022</div>
               <div class="filter-option" data-value="2021">2021</div>
               <div class="filter-option" data-value="2020">2020</div>
-            </div>
-          </div>
-          
-          <div class="filter-dropdown">
-            <button class="filter-button" id="subject-btn">Μάθημα</button>
-            <div class="filter-options" id="subject-options">
-              <div class="filter-option" data-value="">Όλα τα μαθήματα</div>
-              <!-- Τα μαθήματα θα ενημερώνονται δυναμικά -->
             </div>
           </div>
           
