@@ -1222,12 +1222,15 @@ nav .login-btn:hover {
     bottom: 150px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
-    width: 80vw !important;
+    width: 200px !important;
     max-width: 320px !important;
+    font-size: 1.0rem !important;
     text-align: center !important;
-    z-index: 300;
+    z-index: 200;
+    border-radius: 30px !important;
     margin: 0 !important;
   }
+  
 }
 @media (min-width: 901px) {
   .menu-toggle {
