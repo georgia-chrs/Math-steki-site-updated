@@ -138,6 +138,11 @@ header {
 nav .login-btn {
   color: #fff !important;
 }
+nav .login-btn:hover {
+      background: #F7C19C;
+  color: #BC5E29;
+  box-shadow: 0 0 0 2px rgba(183, 54, 22, 0.495)
+}
 
 .login-btn {
   background: #4d2c1e;
@@ -698,6 +703,22 @@ nav .login-btn {
     max-width: 90vw;
     height: auto;
     margin: 0 2px;
+  }
+  .contact-btn {
+    display: block;
+    margin: 0 auto;
+    font-size: 1.1em;
+    padding: 0.7em 2em;
+  }
+  .contact-btn-wrapper {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 20px !important;
+    margin-left: 0 !important;
+    width: 100vw !important;
+    padding-bottom: 40px !important;
+    box-sizing: border-box;
   }
 }
 .faq {
