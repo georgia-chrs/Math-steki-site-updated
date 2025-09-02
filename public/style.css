@@ -541,7 +541,7 @@ nav .login-btn:hover {
     animation-duration: 1.2s !important;
     animation-timing-function: cubic-bezier(0.4, 0.2, 0.2, 1) !important;
   }
-  .animation-for-section *{
+  .animation-for-section {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
