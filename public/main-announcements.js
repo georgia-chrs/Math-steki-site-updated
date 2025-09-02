@@ -115,6 +115,7 @@ function displayAnnouncementsOnMainPage(announcements) {
     const width = window.innerWidth;
     const height = window.innerHeight;
     if (window.innerWidth <= 600) { 
+          container.innerHTML = '';
           const ul = document.createElement('ul');
           ul.style.listStyle = 'none';
           ul.style.padding = '0';
@@ -160,6 +161,7 @@ function displayAnnouncementsOnMainPage(announcements) {
             li.appendChild(announcementDiv);
             ul.appendChild(li);
         });
+        
         container.appendChild(ul);
      
       } else {
