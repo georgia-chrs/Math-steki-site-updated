@@ -114,48 +114,29 @@ function displayAnnouncementsOnMainPage(announcements) {
 
     const width = window.innerWidth;
     const height = window.innerHeight;
+    if (window.innerWidth <= 600) { 
+          const ul = document.createElement('ul');
+      ul.style.listStyle = 'none';
+      ul.style.padding = '0';
 
-    if (window.innerWidth <= 600) { announcementDiv.innerHTML = `
-          <h3 style="
-            margin: 0 0 8px 0;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-            color: rgba(212, 79, 34, 0.82);
-          ">${announcement.title}</h3>
-          <div style="
-            font-size: 13px;
-            color: rgba(95, 26, 15, 0.64);
-            text-align: center;
-            margin-bottom: 8px;
-          ">
-            <span>${day}/${month}/${year}</span>
-            <span style="font-size: 12px; margin-left: 8px;">${time}</span>
+      announcements.forEach(announcement => {
+        const li = document.createElement('li');
+        li.style.marginBottom = '18px';
+        li.innerHTML = `
+        <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: bold; text-align: center; color: rgba(212, 79, 34, 0.82);">${announcement.title}</h3>
+        <div style="font-size: 13px; color: rgba(95, 26, 15, 0.64); text-align: center; margin-bottom: 8px;">
+          <span>${day}/${month}/${year}</span>
+          <span style="font-size: 12px; margin-left: 8px;">${time}</span>
+        </div>
+        <div style="flex: 1; color: white; text-align: left; display: flex; flex-direction: column; max-height: 100px; overflow-y: auto;">
+          <div style="flex: 1; overflow-y: auto; padding-right: 5px;" class="announcement-content-scroll">
+            <p style="margin: 0; color:rgba(95, 26, 15, 0.64); font-size: 14px; line-height: 1.4; text-align: left;">${announcement.content}</p>
           </div>
-          <div style="
-            flex: 1; 
-            color: white; 
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            max-height: 100px;
-            overflow-y: auto;
-          ">
-            <div style="
-              flex: 1;
-              overflow-y: auto;
-              padding-right: 5px;
-            " class="announcement-content-scroll">
-              <p style="
-                margin: 0;
-                color:rgba(95, 26, 15, 0.64);
-                font-size: 14px;
-                line-height: 1.4;
-                text-align: left;
-              ">${announcement.content}</p>
-            </div>
-          </div>
-        `;
+        </div>
+      `;
+      ul.appendChild(li);
+    });
+    container.appendChild(ul);
       } else {
 
         announcementDiv.innerHTML = `
