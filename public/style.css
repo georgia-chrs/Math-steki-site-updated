@@ -461,6 +461,11 @@ header {
   box-sizing: border-box;
 }
 
+.announcements-section  {
+  animation: appear 5s linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+}
 /* Specific styling for admin announcements container */
 .announcements .container-2 .announcements {
     animation: appear 5s linear;
