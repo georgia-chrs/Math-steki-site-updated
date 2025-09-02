@@ -2,6 +2,13 @@ h1 {
   color: #3c1d0c;
 }
 
+h2{
+  color: #4d2c1e;
+  margin: 0 auto;
+  text-align: center;
+  flex: 1;
+  margin-left: 110px;
+}
 
 footer {
     background: #4d2c1e !important;
