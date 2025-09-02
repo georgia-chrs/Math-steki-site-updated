@@ -424,11 +424,10 @@ nav .login-btn:hover {
   }
 
   .contact-btn{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    justify-self: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 120px !important;
   }
   
 
@@ -1385,12 +1384,15 @@ nav .login-btn:hover {
   }
   .programs-title-center h2 {
     font-size: 1.6rem;
-    
-    
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    position: absolute;
+    width: 90%;
+    /* left: 50%; */
+    transform: translateX(-10%);
+    justify-self: center;
     text-align: center;
+   
+    
+
   }
   .programs-title-center p {
     font-size: 1rem;
