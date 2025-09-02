@@ -154,8 +154,7 @@ function displayAnnouncementsOnMainPage(announcements) {
             `;
 
             announcementDiv.addEventListener('click', function() {
-              const content = this.querySelector('.announcement-content');
-              content.style.display = content.style.display === 'none' ? 'flex' : 'none';
+              showAnnouncementModal(announcement.title, announcement.content, `${day}/${month}/${year}, ${time}`);
             });
 
             li.appendChild(announcementDiv);
