@@ -157,11 +157,14 @@
         </section>
       </div>
   <script>
+    console.log('Screen width:', window.innerWidth);
     if (window.innerWidth <= 600) {
+      console.log('Loading mobile script');
       var script = document.createElement('script');
       script.src = 'announcements-mobile.js';
       document.body.appendChild(script);
     } else {
+      console.log('Loading desktop script');
       var script = document.createElement('script');
       script.src = 'main-announcements.js';
       document.body.appendChild(script);
