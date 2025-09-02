@@ -542,7 +542,7 @@
       /*document.getElementById('lykeio-filter').value = '';
       document.getElementById('year-filter').value = '';*/
       document.getElementById('subject-filter').value = '';
-      updateSubjects(); // Επαναφορά όλων των μαθημάτων
+     // updateSubjects(); // Επαναφορά όλων των μαθημάτων
       displayPDFs(allPDFs);
     }
     
