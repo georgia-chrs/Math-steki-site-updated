@@ -1,6 +1,13 @@
 h1 {
   color: #3c1d0c;
 }
+
+
+.footer {
+    background: #4d2c1e !important;
+    color: #fff !important;
+}
+
 .student{
   background: #ffffff;
   border: 1px solid #ddd;
@@ -1214,7 +1221,6 @@ nav .login-btn:hover {
 }
 
 .program-category {
-  background: #fff;
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -1238,7 +1244,7 @@ nav .login-btn:hover {
 }
 
 .announcements {
-  background: #fff;
+  background: #ff0000;
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
