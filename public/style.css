@@ -1880,7 +1880,7 @@ nav .login-btn:hover {
   }
   .faq{
     background: #fff8e8;
-    bottom: 0 !important;
+    margin-bottom: -20px !important;
 
   }
   .program-table,
@@ -1906,7 +1906,7 @@ nav .login-btn:hover {
     .shape{
     z-index: 1 !important;
     position: absolute !important;
-    height: 6300px !important;
+    height: 6450px !important;
     width: 100% !important;
     background: #fff8e8 !important;
     align-self: flex-start !important;
