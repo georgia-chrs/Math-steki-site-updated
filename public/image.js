@@ -25,17 +25,19 @@ document.addEventListener('DOMContentLoaded', function() {
         img.style.opacity = '1';
         img.style.visibility = 'visible';
         img.style.position = 'static';
+        img.style.height = '800px';
         img.style.zIndex = '2';
       } else {
         img.style.opacity = '0';
         img.style.visibility = 'hidden';
         img.style.position = 'absolute';
+        img.style.height = '800px';
         img.style.zIndex = '1';
       }
       img.style.transition = 'opacity 0.7s';
-      img.style.maxWidth = '100vw';
-      img.style.width = '100vw';
-      img.style.height = 'auto';
+      img.style.maxWidth = '100%';
+      img.style.width = '100%';
+      img.style.height = '800px';
       img.style.margin = '0 auto';
       img.style.display = 'block';
       img.style.left = '0';
