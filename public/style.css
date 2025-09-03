@@ -429,8 +429,15 @@ nav .login-btn:hover {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 130px !important;
+    z-index: 6000;
+    
   }
+  #contact-btn1{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6000;
+    margin-top: -1100px;
   
 
 }
@@ -479,9 +486,7 @@ nav .login-btn:hover {
   transform: scale(1.05);
 }
 
-.full-program {
-  margin-top: 20px;
-}
+
 
 .full-program-btn {
   text-decoration: none;
@@ -1295,9 +1300,7 @@ nav .login-btn:hover {
     text-align: center !important;
   }
 
-  #program-description {
-    margin-top: 50px !important;
-  }
+
 }
 
 /* Animation for mobile slideshow images */
@@ -1358,6 +1361,34 @@ nav .login-btn:hover {
     flex-direction: column;
     
   }
+
+  #program-description {
+    margin-bottom: -700px; 
+    position: absolute; 
+    z-index: 5000;
+    width: 100%;
+    top: 750px;
+  }
+  .line{
+    background: #3c1c08;
+  }
+  .height-adjust-space{
+    height: 800px;
+    position: relative;
+    z-index: 5000;
+    
+  }
+  .height-adjust {
+    margin-top: -400px;
+    position: absolute;
+    z-index: 5000;
+    height: 5000px;
+  }
+  #full-program{
+    position: absolute;
+    margin-top: -500px;
+    z-index: 5000;
+  }
   .programs-title-center h2 {
     font-size: 1.6rem;
     position: absolute;
@@ -1366,7 +1397,8 @@ nav .login-btn:hover {
     transform: translateX(-10%);
     justify-self: center;
     text-align: center;
-    margin-top: -20px;    
+    margin-top: -600px;  
+    z-index: 5000;  
 
   }
   .programs-title-center p {
@@ -1374,6 +1406,7 @@ nav .login-btn:hover {
     padding: 0 10px;
     text-align: center;
     margin-top: 50px;
+    
   }
   
 }
@@ -1738,29 +1771,44 @@ nav .login-btn:hover {
 }
 @media (max-width: 900px) {
 
-.slideshow-wrapper img,
-.slideshow-image {
-  z-index: -1 !important;
-  position: absolute;
-}
+  .slideshow-wrapper img,
+  .slideshow-image {
+    z-index: -1 !important;
+    position: absolute;
+  }
 
 
-.program-table,
-.experience-list,
-.resources-list,
-.footer-content,
-.hero-img img,
-.hero-text span,
-.hero .hero-text .hero-logo {
-  z-index: 10 !important;
-  position: relative !important;
-}
+  .program-table,
+  .experience-list,
+  .resources-list,
+  .footer-content,
+  .hero-img img,
+  .hero-text span,
+  .hero .hero-text .hero-logo {
+    z-index: 10 !important;
+    position: relative !important;
+  }
 
-header,.topbar, .logo, .menu-toggle {
-  z-index: 40000 !important;
-  position: relative !important;
-}
+  header,.topbar, .logo, .menu-toggle {
+    z-index: 40000 !important;
+    position: relative !important;
+  }
+
+  .shape{
+    z-index: 1 !important;
+    position: relative !important;
+    height: 500px !important;
+    width: 100vw !important;
+    background: #fff8e8 !important;
+    /*border-radius: 100vw 100vw 0 0/ 100vw 100vw 0 0 !important;
+    */
+    border-top-left-radius: 50px !important;
+    border-top-right-radius: 50px !important;
+    border-bottom: 0 !important;
+    margin-top: -250px !important;
+    overflow: hidden;
+    z-index: 5000 !important;
+  }
 
 
-
-}
+}} 
