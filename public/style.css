@@ -1319,9 +1319,7 @@ nav{
     cursor: pointer;
     z-index: 200;
   }
-  .icons {
-    display: none;
-  }
+
   .login-btn {
     position: absolute !important;
     bottom: 150px !important;
@@ -1459,7 +1457,7 @@ nav{
 }
 @media screen and (max-width: 900px) {
   .programs-title-center {
-    padding: 0 10px;
+    padding: 0 1rem;
     margin-bottom: 1.5rem;
     text-align: center;
     justify-content: center;
@@ -1528,7 +1526,7 @@ nav{
   }
   .programs-title-center p {
     font-size: 1rem;
-    padding: 0 10px;
+    padding: 0 1rem;
     text-align: center;
     margin-top: 50px;
     
@@ -1656,7 +1654,7 @@ nav{
 @media (max-width: 900px) {
 
   .logo {
-    max-width: 120px;
+    max-width: 4rem;
     height: auto;
   }
   nav {
@@ -1665,9 +1663,9 @@ nav{
     top: 60px;
     left: 0;
     width: 100vw;
-    background: #fff8e8;
+    background: #ffffff;
     flex-direction: column;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    
     z-index: 100;
   }
   nav.open {
@@ -1693,30 +1691,53 @@ nav{
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(255, 248, 232, 0.95);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(6px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     z-index: 150;
     align-items: center;
     justify-content: flex-start;
     overflow-y: auto;
-    padding-top: 60px;
+    
   }
 
-  .icons {
-    display: none;
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    margin-left: auto;
+    cursor: pointer;
+    z-index: 200;
+    
   }
   .login-btn {
     position: absolute !important;
-    bottom: 150px !important;
+    bottom: 5% !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
-    width: 80vw !important;
-    max-width: 320px !important;
-    text-align: center !important;
+    font-size: 1.0rem !important;
     z-index: 300;
     margin: 0 !important;
   }
+  .icons {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 0.1rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+    max-width: 320px !important;
+    margin-top: 10%;
+    }
+    .icons img {
+    width: 30px !important;
+    height: 30px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 30px !important;
+    max-height: 30px !important;
+    object-fit: contain !important;
+    }
 }
 @media (min-width: 901px) {
   .menu-toggle {
