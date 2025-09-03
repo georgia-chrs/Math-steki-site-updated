@@ -430,7 +430,7 @@ nav .login-btn:hover {
   .programs-grid {
     flex-direction: column;
     align-items: center;
-    margin-top: 70px;
+    margin-top: 180px;
   }
 
   .contact-btn{
@@ -440,12 +440,13 @@ nav .login-btn:hover {
     z-index: 6000;
     
   }
+ 
   #contact-btn1{
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     z-index: 6000;
-    margin-top: -1100px;
+    margin-top: 50px;
   
 
 }
@@ -1370,8 +1371,8 @@ nav .login-btn:hover {
   #program-description {
     position: absolute; 
     z-index: 5000;
-    width: 100%;
-    top: 450px;
+    width: 90%;
+    top: 800px;
   }
   .line{
     background: #3c1c08;
@@ -1399,10 +1400,11 @@ nav .login-btn:hover {
   .height-adjust {
     position: absolute;
     z-index: 5000;
+    margin-top: 200px;
   }
   #full-program{
     position: absolute;
-    margin-top: -500px;
+    margin-top: 300px;
     z-index: 5000;
   }
   .programs-title-center h2 {
@@ -1413,7 +1415,7 @@ nav .login-btn:hover {
     transform: translateX(-10%);
     justify-self: center;
     text-align: center;
-    margin-top: -600px;  
+    margin-top: 150px;  
     z-index: 5000;  
 
   }
@@ -1798,7 +1800,9 @@ nav .login-btn:hover {
     position: absolute;
   }
 
-
+  .experience{
+    margin-top: 750px !important;
+  }
   .program-table,
   .experience-list,
   .resources-list,
@@ -1819,7 +1823,7 @@ nav .login-btn:hover {
     .shape{
     z-index: 1 !important;
     position: absolute !important;
-    height: 6200px !important;
+    height: 6600px !important;
     width: 100vw !important;
     background: #fff8e8 !important;
     align-self: flex-start !important;
