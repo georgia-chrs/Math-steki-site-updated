@@ -163,6 +163,7 @@ header {
 .dropdown {
   position: relative;
   display: inline-block;
+  z-index: 50000;
 }
 
 .dropdown-content {
@@ -177,6 +178,7 @@ header {
   left: 0;
   border: 1px solid #ddd;
   overflow: hidden;
+  z-index: 50000;
 }
 
 .dropdown-content a {
@@ -224,6 +226,11 @@ nav .login-btn:hover {
   color: #BC5E29;
   box-shadow: 0 0 0 2px rgba(183, 54, 22, 0.495)
 }
+nav{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 
 .login-btn {
   background: #4d2c1e;
@@ -260,6 +267,13 @@ nav .login-btn:hover {
 
 }
 
+#contact-btn1{
+    margin-bottom: 100px;
+    margin-left: 40%;
+    margin-top: 10%;
+     
+}
+
 .contact-btn:hover {
   background: #F7C19C;
   color: #BC5E29;
@@ -269,7 +283,7 @@ nav .login-btn:hover {
 .hero-logo{
   margin-bottom: 1.5rem;
    text-align: left;
-     position: relative;
+  position: relative;
   right: 20%;
 
 }
@@ -303,9 +317,10 @@ nav .login-btn:hover {
 }
 .hero-text span {
   color: #562010aa;
-  font-size: 3rem;
+  font-size: 4rem;
+  
   font-weight: 400;
-  width: 30rem;
+  width: 40rem;
   display: inline-block;
   margin-bottom: 120px;
   /* right: 80%; */
@@ -370,7 +385,11 @@ nav .login-btn:hover {
   width: 28px !important;
   height: 28px !important;
 }
-
+.mail-icon
+{
+  width: 26px !important;
+  height: 26px !important;
+}
 .icons {
   display: flex;
   gap: 15px;
@@ -388,13 +407,14 @@ nav .login-btn:hover {
   position: absolute;
   left: 60%;
   transform: translateX(-50%);
-  width: 500px;
-  height: 300px;
+  width: 80vb;
+  height: 200px;
+  
   margin: 0;
   box-sizing: border-box;
   border-radius: 0;
-  min-height: 100%;
-  max-width: 60%;
+  min-height: 90%;
+  max-width: 90%;
 }
 
 .slide {
@@ -465,7 +485,8 @@ nav .login-btn:hover {
     left: 50%;
     transform: translateX(-50%);
     z-index: 6000;
-  margin-top: 150px;
+     margin-top: 150px;
+     
 }
 }
 .program-category {
