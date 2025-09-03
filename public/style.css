@@ -26,6 +26,10 @@ footer {
   
 }
 .target{
+  color: rgba(10, 10, 10, 0.500); 
+  padding: 10px; 
+  border-radius: 15px;  
+  height: 250px;
   margin-bottom: 50px;
 }
 .target p{
@@ -1357,6 +1361,14 @@ nav .login-btn:hover {
   line-height: 1.6;
 }
   
+
+.line {
+  width: 1000px; 
+  height: 2px; 
+  background-color: rgb(253, 198, 150);
+   justify-content:center;
+    margin: auto;
+}
 @media screen and (max-width: 900px) {
   .programs-title-center {
     padding: 0 10px;
@@ -1374,8 +1386,8 @@ nav .login-btn:hover {
     width: 90%;
     top: 800px;
   }
-  .line{
-    background: #3c1c08;
+  .height-adjust2 .line{
+    background: #3c1c0800;
   }
   .height-adjust2{
     position: relative;
@@ -1801,7 +1813,14 @@ nav .login-btn:hover {
   }
 
   .experience{
-    margin-top: 750px !important;
+    position: relative;
+
+  }
+  #ex2{
+    margin-top: 700px !important;
+  }
+  #ex1{
+    margin-top: -1000px !important;
   }
   .program-table,
   .experience-list,
@@ -1813,7 +1832,10 @@ nav .login-btn:hover {
     z-index: 10 !important;
     position: relative !important;
   }
-
+.resources-list{
+  margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
   header,.topbar, .logo, .menu-toggle {
     z-index: 40000 !important;
     position: relative !important;
@@ -1824,7 +1846,7 @@ nav .login-btn:hover {
     z-index: 1 !important;
     position: absolute !important;
     height: 6600px !important;
-    width: 100vw !important;
+    width: 100% !important;
     background: #fff8e8 !important;
     align-self: flex-start !important;
     /*border-radius: 100vw 100vw 0 0/ 100vw 100vw 0 0 !important;
