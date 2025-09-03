@@ -842,6 +842,7 @@ nav{
     top: 0;
     display: block;
     margin: 0 auto;
+    z-index: 50000 !important;
   }
   .hero-logo #footer-logo img {
     background: #ffffffbc;
@@ -856,6 +857,7 @@ nav{
     top: 0;
     display: block;
     margin: 0 auto;
+     z-index: 50000 !important;
 }
 .ball {
       position: absolute;
