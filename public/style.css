@@ -859,6 +859,7 @@ nav{
     margin: 0 auto;
      z-index: 50000 !important;
 }
+}
 .ball {
       position: absolute;
       top: 50%;
@@ -1353,6 +1354,7 @@ nav{
     width: 100vw;
     max-width: 100vw !important;
     overflow-x: hidden !important;
+    touch-action: manipulation;
     
   }
   footer {
@@ -1400,6 +1402,7 @@ nav{
 
 
 }
+
 
 /* Animation for mobile slideshow images */
 @keyframes mobileSlideAppear {
