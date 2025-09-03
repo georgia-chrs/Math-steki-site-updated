@@ -263,22 +263,26 @@ nav .login-btn:hover {
 
 
 .hero {
+  width: 100vw; 
+  position: relative;
+  align-items: left;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 100px; /* Αυτό προσθέτει μεγαλύτερο κενό ανάμεσα στα στοιχεία του flex container */
   /*max-width: 1200px;
   margin: 2rem auto;
   gap: 2rem;*/
   max-width: none;
   margin: 0;
   width: auto;
-  max-width: 100vw;
-  padding-left: 2vw;
-  padding-right: 2vw;
+  max-width: 100%;
+ 
   box-sizing: border-box;
-  margin-top: 0 !important;
+  margin-top: 10px !important;
   padding-top: 0 !important;
   z-index: 1300;
+ 
 }
 
 .hero-text h1 {
@@ -364,14 +368,18 @@ nav .login-btn:hover {
   transition: filter 0.3s;
 }
 
-/**/
+
 .slideshow-wrapper {
-  position: relative;
-  width: 500px; /* προσαρμόζεις όπως θες */
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
   height: 300px;
-  overflow: hidden;
-  border-radius: 16px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  margin: 0;
+  box-sizing: border-box;
+  border-radius: 0;
+  min-height: 100%;
+  max-width: 60%;
 }
 
 .slide {
@@ -441,7 +449,7 @@ nav .login-btn:hover {
   
 
 }
-
+}
 .program-category {
   display: flex;
   flex-direction: column;
@@ -1320,12 +1328,9 @@ nav .login-btn:hover {
 }
 @media (max-width: 900px) {
   .slideshow-wrapper img {
-    animation: mobileSlideAppear 0.8s cubic-bezier(0.4, 0.2, 0.2, 1) both;
+    animation: mobileSlideAppear 0.5s forwards;
   }
 }
-
-/* Επαναφορά των αρχικών κανόνων για divider, programs-title-center, programs-grid, announcements, goal-blocks, χωρίς τα νέα media queries και max-width: 95vw. Διατήρηση των fixed widths, paddings, margins όπως ήταν αρχικά. */
-
 .divider {
   height: 2px;
   background: linear-gradient(to right, #ff7e5f, #feb47b);
@@ -1350,7 +1355,7 @@ nav .login-btn:hover {
   margin: 0 auto 1.5rem;
   line-height: 1.6;
 }
-
+  
 @media screen and (max-width: 900px) {
   .programs-title-center {
     padding: 0 10px;
@@ -1816,4 +1821,4 @@ nav .login-btn:hover {
   }
 
 
-}} 
+}
