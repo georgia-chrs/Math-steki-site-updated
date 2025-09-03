@@ -39,4 +39,19 @@ document.addEventListener('DOMContentLoaded', function() {
     showSlide(current);
     setInterval(nextSlide, 2500);
   }
+
+  // Κώδικας για να εμφανίζονται οι εικόνες σε όλο το ύψος της οθόνης στο κινητό
+  function setMobileImageFullHeight() {
+    if (window.innerWidth <= 600) {
+      const images = document.querySelectorAll('.slideshow-image');
+      images.forEach(img => {
+        img.style.height = window.innerHeight + 'px';
+        img.style.width = '100vw';
+        img.style.objectFit = 'cover';
+        img.style.display = 'block';
+      });
+    }
+  }
+  window.addEventListener('resize', setMobileImageFullHeight);
+  document.addEventListener('DOMContentLoaded', setMobileImageFullHeight);
 });
