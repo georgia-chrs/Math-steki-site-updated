@@ -441,30 +441,31 @@ nav .login-btn:hover {
   flex-wrap: wrap;
   margin-bottom: 30px;
 }
-@media screen and (max-width: 900px) {
+@media (max-width: 900px) {
   .programs-grid {
     flex-direction: column;
     align-items: center;
     margin-top: 150px;
   }
 
-  .contact-btn{
+  .contact-btn {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     z-index: 6000;
+
+    
     
   }
+
  
   #contact-btn1{
     position: absolute;
-
+    font-size: 1rem !important;
     left: 50%;
     transform: translateX(-50%);
     z-index: 6000;
-    margin-top: 150px;
-  
-
+  margin-top: 150px;
 }
 }
 .program-category {
@@ -771,11 +772,14 @@ nav .login-btn:hover {
     background-color: white;
     border-radius: 20px;
     font-size: 1.2rem;
-    width: 90%;
+    width: 80vw;
+    max-width: 95vw;
     justify-self: center;
     text-align: center;
     z-index: 1320 !important;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
   }
   .hero .hero-text .hero-logo {
     width: 250px;
@@ -798,9 +802,20 @@ nav .login-btn:hover {
 
   }
   #hero-logo img{
-    background: linear-gradient(90deg, #fff5e95f 50%, #f7e7db 100%);
+    background: linear-gradient(90deg, #ffffffbc 50%, #f7e7db 100%);
     border-radius: 20px;
     padding: 10px;
+
+    width: 80vw;
+    max-width: 95vw;
+    justify-self: center;
+    text-align: center;
+    z-index: 1320 !important;
+    top: -100%; /* πιο ψηλά από 40% */
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+  
 
   }
 }
@@ -1409,10 +1424,13 @@ nav .login-btn:hover {
   }
 
   #program-description {
-    position: absolute; 
+    position: relative; 
     z-index: 5000;
     width: 90%;
-    top: 950px;
+    top: 22vh;
+    justify-self: center;
+    text-align: center;
+
   }
   .height-adjust2 .line{
     background: #3c1c0800;
@@ -1449,6 +1467,7 @@ nav .login-btn:hover {
     position: absolute;
     margin-top: 300px;
     z-index: 5000;
+    font-size: 1rem;
   }
   .programs-title-center h2 {
     font-size: 1.6rem;
