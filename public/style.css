@@ -267,9 +267,10 @@ nav .login-btn:hover {
 }
 
 .hero-logo{
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
    text-align: left;
-   
+     position: relative;
+  right: 20%;
 
 }
 .hero {
@@ -279,7 +280,7 @@ nav .login-btn:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 100px; /* Αυτό προσθέτει μεγαλύτερο κενό ανάμεσα στα στοιχεία του flex container */
+  gap: 300px; /* Αυτό προσθέτει μεγαλύτερο κενό ανάμεσα στα στοιχεία του flex container */
   /*max-width: 1200px;
   margin: 2rem auto;
   gap: 2rem;*/
@@ -300,15 +301,18 @@ nav .login-btn:hover {
   font-weight: 700;
   margin: 0 0 1rem 0;
 }
-
 .hero-text span {
   color: #562010aa;
   font-size: 3rem;
   font-weight: 400;
-  width: 30rem;/**/
+  width: 30rem;
   display: inline-block;
-  
-
+  margin-bottom: 120px;
+  /* right: 80%; */
+  /* Το right εφαρμόζεται μόνο σε στοιχεία με position: relative, absolute, fixed ή sticky */
+  /* Αν θέλεις να δουλέψει το right, πρόσθεσε position: relative ή absolute */
+  position: relative;
+  right: 20%;
 }
 
 .search-bar {
@@ -382,7 +386,7 @@ nav .login-btn:hover {
 
 .slideshow-wrapper {
   position: absolute;
-  left: 50%;
+  left: 60%;
   transform: translateX(-50%);
   width: 500px;
   height: 300px;
