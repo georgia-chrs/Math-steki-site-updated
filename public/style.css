@@ -786,6 +786,7 @@ nav{
     width: 70%;/*100*/
     max-width: 350px;
     z-index: 1320 !important;
+    
   }
   
 
@@ -819,26 +820,23 @@ nav{
     position: relative;
     align-self: center;
     justify-self: center;
-    left: 0;
-
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
   #hero-logo img{
     background: linear-gradient(90deg, #ffffffbc 50%, #f7e7db 100%);
     border-radius: 20px;
     padding: 10px;
-
     width: 80vw;
     max-width: 95vw;
-    justify-self: center;
     text-align: center;
     z-index: 1320 !important;
-    top: -100%; /* πιο ψηλά από 40% */
-    left: 50%;
-    transform: translateX(-50%);
     position: absolute;
-  
-
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 .ball {
