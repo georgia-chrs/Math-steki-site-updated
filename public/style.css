@@ -407,9 +407,9 @@ nav{
   position: absolute;
   left: 60%;
   transform: translateX(-50%);
-  width: 80vb;
-  height: 200px;
-  
+  width: 40vw;
+  height: 40vh;
+
   margin: 0;
   box-sizing: border-box;
   border-radius: 0;
