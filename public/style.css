@@ -1368,26 +1368,37 @@ nav .login-btn:hover {
   }
 
   #program-description {
-    margin-bottom: -700px; 
     position: absolute; 
     z-index: 5000;
     width: 100%;
-    top: 750px;
+    top: 450px;
   }
   .line{
     background: #3c1c08;
   }
+  .height-adjust2{
+    position: relative;
+    z-index: 5000;
+  }
+  .height-adjust3{
+    position: relative;
+    z-index: 5000;
+  }
+  .height-adjust4
+  {
+    position: relative;
+    z-index: 5000;
+  }
   .height-adjust-space{
-    height: 800px;
+    height: 1000px;
     position: relative;
     z-index: 5000;
     
   }
+  
   .height-adjust {
-    margin-top: -400px;
     position: absolute;
     z-index: 5000;
-    height: 5000px;
   }
   #full-program{
     position: absolute;
@@ -1804,20 +1815,25 @@ nav .login-btn:hover {
     position: relative !important;
   }
 
-  .shape{
+
+    .shape{
     z-index: 1 !important;
-    position: relative !important;
-    height: 500px !important;
+    position: absolute !important;
+    height: 6200px !important;
     width: 100vw !important;
     background: #fff8e8 !important;
+    align-self: flex-start !important;
     /*border-radius: 100vw 100vw 0 0/ 100vw 100vw 0 0 !important;
     */
     border-top-left-radius: 50px !important;
     border-top-right-radius: 50px !important;
-    border-bottom: 0 !important;
-    margin-top: -250px !important;
+    margin-top: 250px !important;
     overflow: hidden;
     z-index: 5000 !important;
+  }
+  footer{
+    position: relative;
+    z-index: 5100;
   }
 
 
