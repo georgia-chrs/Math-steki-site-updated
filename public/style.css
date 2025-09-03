@@ -1337,6 +1337,7 @@ nav{
   html, body {
     max-width: 100% !important;
     overflow-x: hidden !important;
+    width: 100% !important;
   }
   footer {
     padding: 2rem 0.5rem 1rem 0.5rem !important;
