@@ -815,28 +815,33 @@ nav{
     padding: 10px;
     border-radius: 30px;
   }
-  .hero-logo{
+  .hero-logo {
     z-index: 1320 !important;
     position: relative;
-    align-self: center;
-    justify-self: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    text-align: center;
+    width: 100vw !important;
+    max-width: 90vw !important;
   }
-  #hero-logo img{
-    background: linear-gradient(90deg, #ffffffbc 50%, #f7e7db 100%);
+  .hero-logo img, #hero-logo img {
+    background: #ffffffbc;
     border-radius: 20px;
     padding: 10px;
-    width: 80vw;
     max-width: 95vw;
     text-align: center;
     z-index: 1320 !important;
-    position: absolute;
+    position: relative;
     left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
+    top: 0;
+    display: block;
+    margin: 0 auto;
   }
 }
 .ball {
