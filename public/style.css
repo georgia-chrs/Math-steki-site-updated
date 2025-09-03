@@ -25,6 +25,7 @@ footer {
    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   
 }
+
 .target{
   color: rgba(10, 10, 10, 0.500); 
   padding: 10px; 
@@ -265,9 +266,14 @@ nav .login-btn:hover {
   box-shadow: 0 0 0 2px rgba(183, 54, 22, 0.495)
 }
 
+.hero-logo{
+  margin-bottom: 1rem;
+   text-align: left;
+   
 
+}
 .hero {
-  width: 100vw; 
+  width: 2500px;
   position: relative;
   align-items: left;
   display: flex;
@@ -301,6 +307,7 @@ nav .login-btn:hover {
   font-weight: 400;
   width: 30rem;/**/
   display: inline-block;
+  
 
 }
 
@@ -773,9 +780,16 @@ nav .login-btn:hover {
     justify-content: center;
     align-items: center;
     z-index: 1 !important;
-    background: linear-gradient(90deg, #fff5e95f 50%, #f7e7db 100%);
     padding: 10px;
     border-radius: 30px;
+  }
+  .hero-logo{
+    z-index: 1320 !important;
+    position: relative;
+    align-self: center;
+    background: linear-gradient(90deg, #fff5e95f 50%, #f7e7db 100%);
+
+
   }
 }
 .ball {
@@ -1716,6 +1730,20 @@ nav .login-btn:hover {
   }
 }
 
+@media screen and (max-width: 900px) {
+  .slideshow-wrapper {
+    height: 60vh !important;
+    min-height: 300px !important;
+    padding-top: 20px !important;
+  }
+  .slideshow-wrapper img {
+    height: 60vh !important;
+    max-height: 60vh !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+}
+
 /* Animation for mobile slideshow images */
 @keyframes mobileSlideAppear {
   0% {
@@ -1816,6 +1844,12 @@ nav .login-btn:hover {
   }
   #ex1{
     margin-top: -1000px !important;
+    background: #fff8e8;
+  }
+  .faq{
+    background: #fff8e8;
+    bottom: 0 !important;
+
   }
   .program-table,
   .experience-list,
@@ -1840,7 +1874,7 @@ nav .login-btn:hover {
     .shape{
     z-index: 1 !important;
     position: absolute !important;
-    height: 6000px !important;
+    height: 6300px !important;
     width: 100% !important;
     background: #fff8e8 !important;
     align-self: flex-start !important;
