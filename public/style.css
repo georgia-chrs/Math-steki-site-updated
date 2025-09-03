@@ -1619,9 +1619,14 @@ nav .login-btn:hover {
     max-width: 100vw !important;
     margin: 0 auto !important;
     box-sizing: border-box;
-    position: relative !important;
+    position: fixed !important;
     height: 54vw !important;
     min-height: 180px;
+  }
+  .slideshow-wrapper::-webkit-scrollbar-thumb {
+    background: #ff874b;
+    border-radius: 10px;
+    position: fixed;
   }
   .slideshow-wrapper img {
     position: absolute !important;
