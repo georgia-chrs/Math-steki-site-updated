@@ -1151,13 +1151,7 @@ nav .login-btn:hover {
   padding-right: 40px;
 }
 @media (max-width: 900px) {
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    position: relative;
-  }
+
   .logo {
     max-width: 120px;
     height: auto;
@@ -1526,13 +1520,7 @@ nav .login-btn:hover {
 }
 
 @media (max-width: 900px) {
-  .topbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    position: relative;
-  }
+
   .logo {
     max-width: 120px;
     height: auto;
@@ -1580,15 +1568,7 @@ nav .login-btn:hover {
     overflow-y: auto;
     padding-top: 60px;
   }
-  .menu-toggle {
-    display: block;
-    background: none;
-    border: none;
-    font-size: 2rem;
-    margin-left: auto;
-    cursor: pointer;
-    z-index: 200;
-  }
+
   .icons {
     display: none;
   }
@@ -1715,5 +1695,42 @@ nav .login-btn:hover {
 @media (max-width: 900px) {
   .slideshow-wrapper img {
     animation: mobileSlideAppear 0.8s cubic-bezier(0.4, 0.2, 0.2, 1) both;
+  }
+}
+
+
+@media (max-width: 900px) {
+
+  
+  header{
+    background: #e9000000;
+    box-shadow: none;
+  }
+
+    .topbar {
+    display: flex;    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    position: relative;
+  }
+    .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-radius: 50px;
+    padding: 18px 25px;
+    font-size: 2rem;
+    margin-left: auto;
+    cursor: pointer;
+    z-index: 200;
+  }
+  .logo{
+    background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+    border-radius: 50px;
+    padding: 9px 9px;
   }
 }
