@@ -2181,7 +2181,7 @@ nav{
 
 
 }
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   .hero{
     justify-content: center;
     align-items: center;
@@ -2209,5 +2209,6 @@ nav{
     width: 240px;
     border-radius: 70px;
     margin-bottom: 10px;
+    
   }
 }
