@@ -2392,16 +2392,19 @@ nav{
 
 
   .table-section {
-    width: 50%;
-
+    width: 80%;
     margin-bottom: 20px;
     border-radius: 6px;
     box-shadow: 0 1px 5px rgba(0,0,0,0.08), 0 0 0 1px #0000002f;
     padding: 0 4px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
   }
   .table-section h2 {
     font-size: 16px;
     padding: 8px;
+    word-wrap: none;
   }
   table {
     font-size: 13px;
@@ -2424,8 +2427,16 @@ nav{
   td:nth-child(1), th:nth-child(1) {
     width: auto;
   }
-  .section-header th {
-    font-size: 14px;
-    padding: 10px;
+
+
+  #programms-dimotiko .section-header th,
+  #programms-gymnasiou .section-header th,
+  #programms-lykeiou-gel .section-header th,
+  #programms-lykeiou-epal .section-header th {
+
+    white-space: nowrap;
+    font-size: 10px;
+    word-break: keep-all;
   }
+  
 }
