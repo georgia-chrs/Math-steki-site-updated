@@ -2389,7 +2389,7 @@ nav{
   }
 
 
-  #progr-tit h1 {
+  .progr-tit h1 {
     display: flex;
     justify-content: center;
     align-items: center;
