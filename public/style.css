@@ -2220,11 +2220,14 @@ nav{
     margin: 0 auto;
     font-size: 1.1rem;
     display: block;
+  
   }
   #hero-logo {
     width: 70%;
     margin: 0 auto 10px auto;
     display: block;
+    background-color: #fff8e88a;
+    backdrop-filter: blur(5px);
   }
   .hero {
     flex-direction: column;
