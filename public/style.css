@@ -1013,6 +1013,13 @@ nav{
       animation: moveAndGrow 2s ease-out forwards;
     }
 
+  @media (max-width: 900px) {
+    .ball {
+      display: none; /* Απόκρυψη σε μικρές οθόνες */
+    }
+    
+  }  
+
     /* Animation */
     @keyframes moveAndGrow {
       0% {
@@ -2134,6 +2141,7 @@ nav{
     backdrop-filter: blur(5px);
     padding: 15px;
     border-radius: 70px;
+    margin-bottom: 10px;
   }
 .resources-list{
   margin-bottom: 0 !important;
@@ -2168,4 +2176,34 @@ nav{
   }
 
 
+}
+@media (max-width: 900px) {
+  .hero{
+    justify-content: center;
+    align-items: center;
+  }
+  .hero-text p{
+    justify-self: center !important;
+    position: relative !important;
+    text-align: center !important;
+    font-size: 1.5rem;
+    background: #fff8e8;
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 20px;
+    padding-left: 10px;
+    width: 60%;
+    padding-right: 10px;
+  }
+  #hero-logo  {
+    justify-self: center !important;
+    text-align: center !important;
+    background-color: #fff8e88a;
+    backdrop-filter: blur(5px);
+    padding: 15px;
+    width: 240px;
+    border-radius: 70px;
+    margin-bottom: 10px;
+  }
 }
