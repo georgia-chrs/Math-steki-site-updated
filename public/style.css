@@ -1598,7 +1598,14 @@ nav{
       position: relative;
       width: 100%;
     }
-    
+
+    @media (max-width: 900px) {
+          .filter-dropdown {
+            position: relative;
+            width: 60%;
+            align-self: center;
+          }
+    }
     
     .filter-button, label {
       width: 100%;
