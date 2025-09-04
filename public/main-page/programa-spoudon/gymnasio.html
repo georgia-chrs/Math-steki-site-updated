@@ -92,12 +92,26 @@
 
     }
 
-    @media (max-width: 600px) {
+    .filter-container {
+    display: flex !important;
+    gap: 18px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 30px 0 !important;
+    width: 100%;
+  }
+  #filterClass {
+    display: block;
+    min-width: 120px;
+    max-width: 200px;
+    background: #fff;
+    color: #333;
+  }
+  @media (max-width: 600px) {
     .filter-container {
       flex-direction: column !important;
       align-items: stretch !important;
       gap: 10px !important;
-      width: 100%;
     }
     #filterClass, #filterBtn {
       width: 100%;
@@ -181,20 +195,17 @@
 
 
   <div style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: center;">
-    <div class="filter-container" style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: center;">
-      <label style="font-weight: bold; color: #ac4e26;">Τάξεις:</label>
-      <div style="position: relative;">
-        <button id="toggleClassDropdown" style="padding: 8px 16px; border-radius: 8px; border: 2px solid #e39c50; font-size: 15px; background: #fff; color: #ac4e26; font-weight: bold; cursor: pointer;">Τάξεις</button>
-        <div id="classDropdown" style="display: none; position: absolute; top: 110%; left: 0; background: #fff; border: 2px solid #e39c50; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 10; min-width: 120px;">
-          <div class="class-option" data-value="" style="padding: 8px 16px; cursor: pointer;">Όλες</div>
-          <div class="class-option" data-value="Α" style="padding: 8px 16px; cursor: pointer;">Α'</div>
-          <div class="class-option" data-value="Β" style="padding: 8px 16px; cursor: pointer;">Β'</div>
-          <div class="class-option" data-value="Γ" style="padding: 8px 16px; cursor: pointer;">Γ'</div>
-        </div>
-      </div>
-      <button id="filterBtn" class="btn btn-success">Εφαρμογή Φίλτρων</button>
-    </div>
-  </div>
+    <div class="filter-container"  style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: center;">
+      <label for="filterClass" style="font-weight: bold; color: #ac4e26;">Τάξη:</label>
+      <select id="filterClass"  style="padding: 8px 16px; border-radius: 8px; border: 2px solid #e39c50; font-size: 15px;">
+        <option value="">Όλες</option>
+        <option value="Α">Α'</option>
+        <option value="Β">Β'</option>
+        <option value="Γ">Γ'</option>
+      </select>
+  <button id="filterBtn" class="btn btn-success" >Εφαρμογή Φίλτρων</button>
+</div>
+</div>
 
 
 
@@ -526,35 +537,6 @@ showHideSections();
   loadProgrammsPublic();
 
     
-</script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const toggleBtn = document.getElementById('toggleClassDropdown');
-    const dropdown = document.getElementById('classDropdown');
-    let selectedClass = '';
-    toggleBtn.addEventListener('click', function(e) {
-      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    });
-    dropdown.querySelectorAll('.class-option').forEach(function(option) {
-      option.addEventListener('click', function() {
-        selectedClass = option.getAttribute('data-value');
-        toggleBtn.textContent = option.textContent;
-        dropdown.style.display = 'none';
-        // Αν θέλεις να αποθηκεύεις την επιλογή κάπου, μπορείς να το κάνεις εδώ
-      });
-    });
-    // Κλείσιμο dropdown αν πατηθεί εκτός
-    document.addEventListener('click', function(e) {
-      if (!toggleBtn.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.style.display = 'none';
-      }
-    });
-    // Αν θες να χρησιμοποιήσεις το selectedClass στην εφαρμογή, μπορείς να το διαβάσεις όταν πατηθεί το filterBtn
-    document.getElementById('filterBtn').addEventListener('click', function() {
-      // Χρησιμοποίησε το selectedClass για το φιλτράρισμα
-      // π.χ. console.log('Επιλεγμένη τάξη:', selectedClass);
-    });
-  });
 </script>
 </body>
 </html>
