@@ -754,7 +754,7 @@ document.addEventListener('click', function(e) {
     } else {
       document.getElementById(filterType + '-btn').textContent = e.target.textContent;
     }
-    filterPDFs();
+  //  filterPDFs();
     document.querySelectorAll('.filter-options').forEach(opt => opt.classList.remove('show'));
     document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
   }
@@ -766,10 +766,10 @@ document.addEventListener('click', function(e) {
 });
 
 document.getElementById('clear-filters-btn').addEventListener('click', clearAllFilters);
-
+/*
 document.addEventListener('DOMContentLoaded', function() {
   filterPDFs();
-});
+});*/
 </script>
 
 <script>
