@@ -2075,7 +2075,7 @@ nav{
   }
   .slideshow-wrapper img,
   .slideshow-image {
-    width: 90vw !important;
+    width: 100vw !important;
     height: 2000px !important;  /*apo edo alaz*/
     max-width: 100vw !important;
     max-height: 150vh !important;
@@ -2090,7 +2090,7 @@ nav{
      
   }
 }
-@media (max-width: 1200px) {
+@media (max-width: 900px) {
 
   .slideshow-wrapper img,
   .slideshow-image {
@@ -2099,6 +2099,8 @@ nav{
     
   }
 
+}
+@media (max-width: 1200px) {
 
   .experience{
     position: relative;
