@@ -337,6 +337,7 @@ document.getElementById('clear-filters-btn').addEventListener('click', clearAllF
 
 
 
+
   
  
   </main>
@@ -387,7 +388,6 @@ function showGymnasioTables(classValue) {
       const el = document.getElementById(id);
       if (el) el.style.display = '';
     });
-    document.getElementById('files-info').textContent = 'Εμφανίζονται όλα τα μαθήματα';
   } else {
     let id = '';
     if (classValue === 'Α') id = 'programms-gymnasiou-a';
@@ -396,7 +396,6 @@ function showGymnasioTables(classValue) {
     if (id) {
       const el = document.getElementById(id);
       if (el) el.style.display = '';
-      document.getElementById('files-info').textContent = 'Εμφανίζονται μόνο τα μαθήματα της ' + classValue + "' Γυμνασίου";
     }
   }
 }
@@ -421,6 +420,167 @@ document.addEventListener('DOMContentLoaded', function() {
   showGymnasioTables('');
 });
 </script>
+
+<script>
+let filterType = '';
+let filterClass = '';
+let filterField = '';
+document.getElementById('filterBtn').addEventListener('click', () => {
+  filterType = document.getElementById('filterType').value;
+  filterClass = document.getElementById('filterClass').value;
+  loadProgrammsPublic();
+});
+
+
+// Απόκρυψη φίλτρου πεδίου αρχικά
+document.getElementById('fieldFilterDiv').style.display = 'none';
+
+
+document.getElementById('filterField').addEventListener('change', function() {
+  filterField = this.value;
+});
+
+async function loadProgrammsPublic() {
+  try {
+    const res = await fetch('/api/programms');
+    if (!res.ok) {
+      console.error('API error:', res.status, await res.text());
+      document.getElementById('programms-tbody-gymnasio').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+     
+      document.getElementById('programms-tbody-gymnasio-a').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+      document.getElementById('programms-tbody-gymnasio-b').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+      document.getElementById('programms-tbody-gymnasio-g').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+     
+      return;
+    }
+    const data = await res.json();
+    console.log('Fetched programms:', data); // Debug
+    const tbodyGymnasio = document.getElementById('programms-tbody-gymnasio');
+    const tbodyA = document.getElementById('programms-tbody-gymnasio-a');
+    const tbodyB = document.getElementById('programms-tbody-gymnasio-b');
+    const tbodyG = document.getElementById('programms-tbody-gymnasio-g');
+   
+    tbodyGymnasio.innerHTML = '';
+    tbodyA.innerHTML = '';
+    tbodyB.innerHTML = '';
+    tbodyG.innerHTML = '';
+    
+    // Φιλτράρισμα δεδομένων πριν την εμφάνιση
+    let filteredData = data.filter(row => {
+      let typeMatch = !filterType || row.type === filterType;
+      let classMatch = !filterClass || row.section === filterClass;
+      let fieldMatch = true;
+     
+    });
+    // Χρησιμοποίησε filteredData για να γεμίσεις τους πίνακες
+    let foundGymnasio = false
+    let sumA = 0, sumB = 0, sumG = 0;
+    tbodyGymnasio.innerHTML = '';
+   
+    tbodyA.innerHTML = '';
+    tbodyB.innerHTML = '';
+    tbodyG.innerHTML = '';
+   
+    filteredData.forEach(row => {
+      if (row.type === 'gymnasio') {
+        foundGymnasio = true;
+        tbodyGymnasio.innerHTML += `
+          <tr>
+            <td>${row.subject}</td>
+            <td>${row.hour}</td>
+          </tr>
+        `;
+        sumGymnasio += Number(row.hour) || 0;
+      } 
+      // --- ΕΠΑΛ ανά τάξη ---
+     
+      if (row.type === 'gymnasio' && row.section[0] === 'Α') {
+        foundA = true;
+        tbodyA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+        sumGymnasioA += Number(row.hour) || 0;
+      } else if (row.type === 'gymnasio' && row.section[0] === 'Β') {
+        foundB = true;
+        tbodyB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+        sumGymnasioB += Number(row.hour) || 0;
+      } else if (row.type === 'gymnasio' && row.section[0] === 'Γ') {
+        foundG = true;
+        tbodyG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+        sumGymnasioG += Number(row.hour) || 0;
+      } 
+      
+    });
+    if (!foundGymnasio) tbodyGymnasio.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Γυμνασίου!</td></tr>';
+   
+    if (!foundA) tbodyA.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Α Γυμνασίου!</td></tr>';
+    if (!foundB) tbodyB.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Β Γυμνασίου!</td></tr>';
+    if (!foundG) tbodyG.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Γ Γυμνασίου!</td></tr>';
+    
+    if (foundGymnasio) {
+      sumGymnasio = sumGymnasioA + sumGymnasioB + sumGymnasioG;
+      tbodyGymnasio.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasio}</td></tr>`;
+    }
+
+    // --- Ενημέρωση εμφάνισης sections μετά το φιλτράρισμα ---
+    showHideSections();
+  } catch (err) {
+    console.error('JS error:', err);
+    
+    document.getElementById('programms-tbody-gymnasio').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+   
+    document.getElementById('programms-tbody-gymnasio-a').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+    document.getElementById('programms-tbody-gymnasio-b').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+    document.getElementById('programms-tbody-gymnasio-g').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
+   
+  }
+}
+// --- Απόκρυψη/Εμφάνιση sections ανάλογα με τα φίλτρα ---
+function showHideSections() {
+  const sections = [
+    'programms-gymnasiou',
+    'programms-gymnasiou-a',
+    'programms-gymnasiou-b',
+    'programms-gymnasiou-g',
+   
+  ];
+  // Κρύψε όλα τα divs με !important
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.setProperty('display', 'none', 'important');
+    if (el) el.style.opacity = 0;
+  });
+  // Εμφάνισε μόνο το section που πρέπει με fade-in
+  function showOnly(ids) {
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.setProperty('display', '', 'important');
+        el.style.transition = 'opacity 0.5s';
+        setTimeout(() => { el.style.opacity = 1; }, 50);
+      }
+    });
+  }
+  if (!filterType) {
+    showOnly(sections);
+    return;
+  }
+  
+  if (filterType === 'gymnasio') {
+    let ids = ['programms-gymnasiou'];
+    if (!filterClass) {
+      ids.push('programms-gymnasiou-a','programms-gymnasiou-b','programms-gymnasiou-g');
+    } else {
+      if (filterClass === 'Α') ids.push('programms-gymnasiou-a');
+      if (filterClass === 'Β') ids.push('programms-gymnasiou-b');
+      if (filterClass === 'Γ') ids.push('programms-gymnasiou-g');
+    }
+    showOnly(ids);
+  }
+ 
+}
+    showHideSections();
+window.addEventListener('DOMContentLoaded', loadProgrammsPublic);
+</script>
+  
 
 
 </body>
