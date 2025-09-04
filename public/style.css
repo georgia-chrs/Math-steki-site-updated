@@ -2389,12 +2389,12 @@ nav{
   }
 
 
-
-  #progr-tit h1{
-    justify-self: center;
-     display: flex; 
-     position: relative;
-
+  #progr-tit h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
   }
   .table-section {
     width: 80%;
