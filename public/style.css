@@ -2214,6 +2214,8 @@ nav{
 }
 
 
+
+
 @media (max-width: 600px) {
   .hero-text p {
     width: 90%;
@@ -2235,4 +2237,6 @@ nav{
     justify-content: center;
     display: flex;
   }
+
 }
+
