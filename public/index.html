@@ -14,9 +14,9 @@
       <button class="menu-toggle" aria-label="Μενού">&#9776;</button>
       <nav>
         <a href="index.html" style="color: #960e0e;">Αρχική Σελίδα</a>
-        <div class="dropdown">
+        <div class="dropdown" id="dropdownBtn">
           <a href="#">Πρόγραμμα Σπουδών</a>
-          <div class="dropdown-content">
+          <div class="dropdown-content" id="dropdownMenu">
         <a href="main-page/programs.html">Πλήρες Πρόγραμμα</a>
         <a href="main-page/programa-spoudon/dimotiko.html">Δημοτικό</a>
         <a href="main-page/programa-spoudon/gymnasio.html">Γυμνάσιο</a>
@@ -24,15 +24,15 @@
           </div>
         </div>
 
-        <div class="dropdown">
+        <div class="dropdown" id="dropdownBtn2">
           <a href="#">Πανελλαδικές Εξετάσεις</a>
-          <div class="dropdown-content">
-        <a href="main-page/panelladikes.html">Όλα τα παρακάτω</a>
-        <a href="moria-calculator.html">Υπολογισμός Μορίων</a>
-        <a href="main-page/pallia-themata.html">Παλιά Θέματα</a>
-        <a href="https://www.trapeza-thematon.gr/">Τράπεζα Θεμάτων</a>
-        <a href="admin-vaseis-scholon.html">Βάσεις Σχολών</a>
-        <a href="main-page/mixanografiko.html">Μηχανογραφικό</a>
+          <div class="dropdown-content" id="dropdownMenu2">
+            <a href="main-page/panelladikes.html">Όλα τα παρακάτω</a>
+            <a href="moria-calculator.html">Υπολογισμός Μορίων</a>
+            <a href="main-page/pallia-themata.html">Παλιά Θέματα</a>
+            <a href="https://www.trapeza-thematon.gr/">Τράπεζα Θεμάτων</a>
+            <a href="admin-vaseis-scholon.html">Βάσεις Σχολών</a>
+            <a href="main-page/mixanografiko.html">Μηχανογραφικό</a>
           </div>
         </div>
         <a href="main-page/photos.html">Φωτογραφίες</a>
@@ -42,11 +42,25 @@
           <a href="#"><img src="elements/mdi_instagram.svg" alt="insta" class="instagram-icon"></a>
           <a href="#"><img src="elements/phone.svg" alt="phone"></a>
           <a href="#"><img src="elements/mail.svg" class="mail-icon" alt="mail"></a>
-          <a href="index2.html" class="login-btn" >Είσοδος</a>
+          
         </div>
+        <a href="index2.html" class="login-btn" >Είσοδος</a>
       </nav>
         </div>
         <script>
+          const dropdownBtn = document.getElementById('dropdownBtn');
+          const dropdownMenu = document.getElementById('dropdownMenu');
+
+          dropdownBtn.addEventListener('click', function() {
+            dropdownMenu.classList.toggle('open');
+          });
+
+           const dropdownBtn2 = document.getElementById('dropdownBtn2');
+          const dropdownMenu2 = document.getElementById('dropdownMenu2');
+
+          dropdownBtn2.addEventListener('click', function() {
+            dropdownMenu2.classList.toggle('open');
+          });
       // Mobile menu toggle
       const menuToggle = document.querySelector('.menu-toggle');
       const nav = document.querySelector('nav');
@@ -59,29 +73,27 @@
     <main>
     <div class="main-wrapper" style="max-width: 1200px; margin-left: auto; margin-right: auto; box-sizing: border-box;">
       <div class="ball"></div>
-      <section class="hero" >
-        <div class="hero-text" >
-          <div class="hero-logo" id="hero-logo" >
-            <img src="logo/l.png" alt="Μαθητικό Στέκι" style="max-width: 520px; width: 100%; height: auto;">
-          </div>
-          <!-- <h1>Μαθητικό Στέκι<br>
-          <span>we offer lessons to students for All classes and we do our best.</span></h1> -->
-          <span>Στο στέκι μας, η επιτυχία είναι ομαδική υπόθεση</span>
-
-        </div>
-        <div class="slideshow-wrapper" style="margin-left: 220px; margin-right: auto; margin-top: 80px;">
-          <img class="slide active" src="photos/i1.jpeg" alt="photo 1">
-          <img class="slide" src="photos/i2.jpeg" alt="photo 2">
-          <img class="slide" src="photos/i3.jpeg" alt="photo 3">
-          <img class="slide" src="photos/i4.png" alt="photo 4">
-          <img class="slide" src="photos/i5.png" alt="photo 5">
-          <img class="slide" src="photos/i6.jpeg" alt="photo 6">
-          <img class="slide" src="photos/i7.jpeg" alt="photo 7">
-          <img class="slide" src="photos/i8.jpeg" alt="photo 8">
-        </div>
-        <script src="image.js"></script>
-
-      </section>
+      <section class="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-logo" id="hero-logo">
+        <img src="logo/l.png" alt="Μαθητικό Στέκι" style="max-width: 520px; width: 100%; height: auto;">
+      </div>
+      <p>Στο στέκι μας, η επιτυχία είναι ομαδική υπόθεση</p>
+    </div>
+    <div class="slideshow-wrapper">
+      <img class="slide active" src="photos/i1.jpeg" alt="photo 1">
+      <img class="slide" src="photos/i2.jpeg" alt="photo 2">
+      <img class="slide" src="photos/i3.jpeg" alt="photo 3">
+      <img class="slide" src="photos/i4.png" alt="photo 4">
+      <img class="slide" src="photos/i5.png" alt="photo 5">
+      <img class="slide" src="photos/i6.jpeg" alt="photo 6">
+      <img class="slide" src="photos/i7.jpeg" alt="photo 7">
+      <img class="slide" src="photos/i8.jpeg" alt="photo 8">
+    </div>
+  </div>
+  <script src="image.js"></script>
+</section>
       <div class="shape"></div>
           <div  style="display: flex; justify-content: left; align-items: center; margin-top: -10px; width: 100%; margin-left: 50px; padding-bottom: 100px;">
             <button id="contact-btn1" class="contact-btn" onclick="window.location.href='contact.html'">Επικοινωνήστε μαζί μας</button>
@@ -259,7 +271,7 @@
                     <p > Στο Μαθητικό Στέκι, ο στόχος μας δεν είναι απλώς η επιτυχία στις εξετάσεις, αλλά μια πορεία που έχει ουσία, έμπνευση και στήριξη σε κάθε βήμα. Πιστεύουμε ότι η μάθηση δεν χρειάζεται να είναι μονότονη – μπορεί να είναι δημιουργική, ενδιαφέρουσα και να γίνεται με την καλύτερη παρέα. Γιατί το μέλλον δεν το προβλέπεις. Το προετοιμάζεις</p>
                   </div>
                   <div class="animation-for-section">
-              <div class="programs-grid" style="gap: 20px;">
+              <div class="programs-grid" id="grid-prog" style="gap: 20px;">
                 <div class="program-category" >
               
                     <div class="icon-circle" style="width: 50px; height: 50px; border-radius: 50%; background-color: #FDE9DA;  align-items: center;  justify-content: center;  ">  

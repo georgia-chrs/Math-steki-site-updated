@@ -1,14 +1,19 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const slides = document.querySelectorAll('.slide');
+document.addEventListener("DOMContentLoaded", function() {
+  const slides = document.querySelectorAll('.slideshow-wrapper .slide');
   let current = 0;
 
+  function showSlide(index) {
+    slides.forEach((img, i) => {
+      img.classList.toggle('active', i === index);
+    });
+  }
+
+  showSlide(current);
+
   setInterval(() => {
-    slides[current].classList.remove('active');
-
     current = (current + 1) % slides.length;
-
-    slides[current].classList.add('active');
-  }, 3000); // κάθε 3 δευτερόλεπτα
+    showSlide(current);
+  }, 3000);
 });
 
 
