@@ -2390,7 +2390,12 @@ nav{
 
 
 
+  #progr-tit h1{
+    justify-self: center;
+     display: flex; 
+     position: relative;
 
+  }
   .table-section {
     width: 80%;
     margin-bottom: 20px;
