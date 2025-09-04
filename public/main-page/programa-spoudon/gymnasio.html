@@ -79,60 +79,14 @@
       padding: 15px;
     }
 
-  #filterBtn {
-    padding: 8px 24px; 
-    border-radius: 20px;
-    background-color: #ac4e26;
-      color: #fff;
-    
-  }
-    #filterBtn:hover {
-      background-color: #e39c50;
-      color: #ac4e26;
 
-    }
 
-    .filter-container {
-    display: flex !important;
-    gap: 18px !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin: 30px 0 !important;
-    width: 100%;
-  }
-  #filterClass {
-    display: block;
-    min-width: 120px;
-    max-width: 200px;
-    align-self: center;
-    background: #f08955;
-    color: white;
 
-    border-radius: 30px;
-  }
 
-  #filterClass option, #filterClass select {
-    border: none;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 0;
-    z-index: 5000000;
-    visibility: visible;
-    opacity: 1;
-  }
 
-  @media (max-width: 600px) {
-    .filter-container {
-      flex-direction: column !important;
-      align-items: stretch !important;
-      gap: 10px !important;
-    }
-    #filterClass, #filterBtn {
-      width: 100%;
-      font-size: 16px;
-    }
 
-  }
+
+
   </style>
 </head>
 <body>
@@ -209,22 +163,12 @@
 <!-- Φίλτρα τάξης στην αρχή της σελίδας -->
 
 
-  <div style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: center;">
-    <div class="filter-container"  style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: center;">
-      <select id="filterClass"  style="position: relative; z-index:10000000; padding: 8px 16px; border-radius: 20px; border: 2px solid #e39c50; font-size: 15px; ">
-        <option value="">Τάξη:</option>
-        <option value="Α">Α'</option>
-        <option value="Β">Β'</option>
-        <option value="Γ">Γ'</option>
-      </select>
-      <button id="filterBtn" class="btn btn-success" >Εφαρμογή Φίλτρων</button>
-    </div>
-</div>
-
 <!-- Φίλτρα mixanografikoy -->
     <div class="filters-sidebar" >
           <div class="filter-dropdown">
-            <button class="filter-button" id="class-btn">Τάξη</button>
+            <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+              <button class="filter-button" id="class-btn" style="width: 30%;">Τάξη</button>
+            </div>
             <div class="filter-options" id="class-options">
               <div class="filter-option" data-value="">Όλες οι Τάξεις</div>
               <div class="filter-option" data-value="Α">Α'</div>
@@ -232,9 +176,12 @@
               <div class="filter-option" data-value="Γ">Γ'</div>
             </div>
           </div>
-          <div class="files-info" id="files-info" style="font-weight: bold; font-size: small; color: #333; margin-left: 20px;">
-            Εμφανίζονται όλα τα μαθήματα
-          </div>
+  
+          
+          
+          <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+           
+         
           <button id="clear-filters-btn" class="clear-filters-btn"
                    onmouseover="this.style.background='#F7C19C'; this.style.color='#BC5E29'; this.style.boxShadow='0 0 0 2px rgba(183, 54, 22, 0.495)'"
                   onmouseout="this.style.background='#4d2c1e'; this.style.color='#fff'; this.style.boxShadow='none'"
@@ -249,7 +196,7 @@
                     transition: all 0.2s;">Καθαρισμός Φίλτρων</button>
         </div>
 
-
+        </div>
 <script>
   let currentFilters = {
   class: ''
@@ -428,226 +375,6 @@ document.addEventListener('DOMContentLoaded', function() {
     <script src="../../main.js"></script>
     <script src="../../client-text.js"></script>
 
-<script>
-let filterType = 'gymnasio';
-const params = new URLSearchParams(window.location.search);
-const filterClassFromQuery = params.get('class') || '';
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Αρχικό φόρτωμα: αν υπάρχει query, θέσε το dropdown και κάλεσε loadProgrammsPublic
-  const filterClassFromQuery = params.get('class') || '';
-  if (filterClassFromQuery) {
-    const select = document.getElementById('filterClass');
-    if (select) select.value = filterClassFromQuery;
-  }
-  // Εμφάνισε μόνο την Α' τάξη αν υπάρχει query
-  if (filterClassFromQuery === 'Α' || filterClassFromQuery === 'A') {
-    HideAllSections();
-    showOnly(['programms-gymnasiou-a']);
-  } else {
-    showOnly(['programms-gymnasiou-a', 'programms-gymnasiou-b', 'programms-gymnasiou-g']);
-  }
-  loadProgrammsPublic();
-});
-
-document.getElementById('filterBtn').addEventListener('click', () => {
-  const filterClassValue = document.getElementById('filterClass').value;
-  if (!filterClassValue) {
-    showOnly(['programms-gymnasiou-a', 'programms-gymnasiou-b', 'programms-gymnasiou-g']);
-  } else if (filterClassValue === 'Α' || filterClassValue === 'A') {
-    HideAllSections();
-    showOnly(['programms-gymnasiou-a']);
-  } else if (filterClassValue === 'Β') {
-    HideAllSections();
-    showOnly(['programms-gymnasiou-b']);
-  } else if (filterClassValue === 'Γ') {
-    HideAllSections();
-    showOnly(['programms-gymnasiou-g']);
-  }
-  loadProgrammsPublic();
-});
-
-// Στο τέλος της loadProgrammsPublic: χρησιμοποίησε μόνο το dropdown
-async function loadProgrammsPublic() {
-  const filterClassValue = document.getElementById('filterClass').value;
-  const filterAppliedValue = !!filterClassValue;
-  try {
-    const res = await fetch('/api/programms');
-    if (!res.ok) {
-      console.error('API error:', res.status, await res.text());
-      document.getElementById('programms-tbody-gymnasio').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
-
-      document.getElementById('programms-tbody-gymnasio-a').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
-      document.getElementById('programms-tbody-gymnasio-b').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
-      document.getElementById('programms-tbody-gymnasio-g').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
-      
-      return;
-    }
-    const data = await res.json();
-    console.log('Fetched programms:', data); // Debug
-    const tbodyGymnasio = document.getElementById('programms-tbody-gymnasio');
-    const tbodyA = document.getElementById('programms-tbody-gymnasio-a');
-    const tbodyB = document.getElementById('programms-tbody-gymnasio-b');
-    const tbodyG = document.getElementById('programms-tbody-gymnasio-g');
-    tbodyGymnasio.innerHTML = '';
-    tbodyA.innerHTML = '';
-    tbodyB.innerHTML = '';
-    tbodyG.innerHTML = '';
-   
-    // Φιλτράρισμα δεδομένων πριν την εμφάνιση
-    let filteredData = data.filter(row => {
-      let typeMatch = row.type === filterType;
-      let classMatch = true;
-      if (filterAppliedValue && filterClassValue) {
-        if (filterClassValue === 'Α') {
-          classMatch = row.section.includes("Α'");
-        } else if (filterClassValue === 'Β') {
-          classMatch = row.section.includes("Β'");
-        } else if (filterClassValue === 'Γ') {
-          classMatch = row.section.includes("Γ'");
-        } else {
-          classMatch = true;
-        }
-      }
-      return typeMatch && classMatch;
-    });
-    // Χρησιμοποίησε filteredData για να γεμίσεις τους πίνακες
-    let foundGymnasio = false, sumGymnasio = 0;
-    let foundA = false, foundB = false, foundG = false;
-    let sumA = 0, sumB = 0, sumG = 0;
-    tbodyGymnasio.innerHTML = '';
-   
-    tbodyA.innerHTML = '';
-    tbodyB.innerHTML = '';
-    tbodyG.innerHTML = '';
-    
-    filteredData.forEach(row => {
-       if (row.type === 'gymnasio') {
-        foundGymnasio = true;
-        tbodyGymnasio.innerHTML += `
-          <tr>
-            <td>${row.subject}</td>
-            <td>${row.hour}</td>
-          </tr>
-        `;
-        sumGymnasio += Number(row.hour) || 0;
-      }
-      // --- Γυμνάσιο ανά τάξη ---
-      if (row.type === 'gymnasio' && row.section.includes("Α'")) {
-        foundA = true;
-        tbodyA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
-        sumA += Number(row.hour) || 0;
-      } else if (row.type === 'gymnasio' && row.section.includes("Β'")) {
-        foundB = true;
-        tbodyB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
-        sumB += Number(row.hour) || 0;
-      } else if (row.type === 'gymnasio' && row.section.includes("Γ'")) {
-        foundG = true;
-        tbodyG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
-        sumG += Number(row.hour) || 0;
-      }
-    
-     
-    });
-    if (!foundGymnasio) tbodyGymnasio.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Γυμνασίου!</td></tr>';
-   
-    if (!foundA) tbodyA.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Α Γυμνασίου!</td></tr>';
-    if (!foundB) tbodyB.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Β Γυμνασίου!</td></tr>';
-    if (!foundG) tbodyG.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Γ Γυμνασίου!</td></tr>';
-    
-    if (foundGymnasio) tbodyGymnasio.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasio}</td></tr>`;
-    if (foundA) tbodyA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumA}</td></tr>`;
-    if (foundB) tbodyB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumB}</td></tr>`;
-    if (foundG) tbodyG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumG}</td></tr>`;
-    
-    // --- Ενημέρωση εμφάνισης sections μετά το φιλτράρισμα ---
-    showHideSections();
-  } catch (err) {
-    console.error('JS error:', err);
-    document.getElementById('programms-tbody-gymnasio').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
-    
-    document.getElementById('programms-tbody-gymnasio-a').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
-    document.getElementById('programms-tbody-gymnasio-b').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
-    document.getElementById('programms-tbody-gymnasio-g').innerHTML = '<tr><td colspan="2">Σφάλμα φόρτωσης δεδομένων!</td></tr>';
-   
-  }
-
-  // Εμφάνιση sections μόνο με βάση το dropdown
-  if (filterClassValue === 'Α' || filterClassValue === 'A') {
-    HideAllSections();
-    showOnly(['programms-gymnasiou-a']);
-  } else if (filterClassValue === 'Β') {
-    HideAllSections();
-    showOnly(['programms-gymnasiou-b']);
-  } else if (filterClassValue === 'Γ') {
-    HideAllSections();
-    showOnly(['programms-gymnasiou-g']);
-  } else if (!filterClassValue) {
-    showOnly(['programms-gymnasiou-a', 'programms-gymnasiou-b', 'programms-gymnasiou-g']);
-  }
-}
-// --- Απόκρυψη/Εμφάνιση sections ανάλογα με τα φίλτρα ---
-function showHideSections() {
-  const sections = [
-   
-    'programms-gymnasiou-a',
-    'programms-gymnasiou-b',
-    'programms-gymnasiou-g'  
-  ];
-  sections.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.setProperty('display', 'none', 'important');
-    if (el) el.style.opacity = 0;
-  });
-
-  if (!filterType) {
-    showOnly(sections);
-    return;
-  }
-  // ΔΙΑΒΑΣΕ ΠΑΝΤΑ ΤΗΝ ΤΡΕΧΟΥΣΑ ΤΙΜΗ ΤΟΥ DROPDOWN
-  const filterClassValue = document.getElementById('filterClass').value;
-  if (filterType === 'gymnasio') {
-    let ids = ['programms-gymnasiou'];
-    if (!filterClassValue) {
-      ids.push('programms-gymnasiou-a','programms-gymnasiou-b','programms-gymnasiou-g');
-    } else {
-      if (filterClassValue === 'Α') ids.push('programms-gymnasiou', 'programms-gymnasiou-a');
-      if (filterClassValue === 'Β') ids.push('programms-gymnasiou', 'programms-gymnasiou-b');
-      if (filterClassValue === 'Γ') ids.push('programms-gymnasiou', 'programms-gymnasiou-g');
-    }
-    showOnly(ids);
-  }
-}
-  function showOnly(ids) {
-    ids.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.style.setProperty('display', '', 'important');
-        el.style.transition = 'opacity 0.5s';
-        setTimeout(() => { el.style.opacity = 1; }, 50);
-      }
-    });
-  }
-
-  function HideAllSections() {
-    const sections = [
-      'programms-gymnasiou-a',
-      'programms-gymnasiou-b',
-      'programms-gymnasiou-g'  
-    ];
-    sections.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.setProperty('display', 'none', 'important');
-      if (el) el.style.opacity = 0;
-    });
-  }
-
-showHideSections();
-
-  loadProgrammsPublic();
-
-    
-</script>
 
 <script>
 // --- Εμφάνιση μόνο των πινάκων της επιλεγμένης τάξης ---
