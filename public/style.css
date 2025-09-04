@@ -1602,7 +1602,7 @@ nav{
     @media (max-width: 900px) {
           .filter-dropdown {
             position: relative;
-            width: 60%;
+            width: 100%;
             align-self: center;
           }
     }
