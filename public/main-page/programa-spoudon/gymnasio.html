@@ -104,11 +104,23 @@
     display: block;
     min-width: 120px;
     max-width: 200px;
+    align-self: center;
     background: #f08955;
     color: white;
 
     border-radius: 30px;
   }
+
+  #filterClass option, #filterClass select {
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 0;
+    z-index: 5000000;
+    visibility: visible;
+    opacity: 1;
+  }
+
   @media (max-width: 600px) {
     .filter-container {
       flex-direction: column !important;
@@ -199,16 +211,111 @@
 
   <div style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: center;">
     <div class="filter-container"  style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: center;">
-      <label for="filterClass" style="font-weight: bold; color: #ac4e26;">Τάξη:</label>
-      <select id="filterClass"  style="padding: 8px 16px; border-radius: 20px; border: 2px solid #e39c50; font-size: 15px;">
+      <select id="filterClass"  style="position: relative; z-index:10000000; padding: 8px 16px; border-radius: 20px; border: 2px solid #e39c50; font-size: 15px; ">
         <option value="">Τάξη:</option>
         <option value="Α">Α'</option>
         <option value="Β">Β'</option>
         <option value="Γ">Γ'</option>
       </select>
-  <button id="filterBtn" class="btn btn-success" >Εφαρμογή Φίλτρων</button>
+      <button id="filterBtn" class="btn btn-success" >Εφαρμογή Φίλτρων</button>
+    </div>
 </div>
-</div>
+
+<!-- Φίλτρα mixanografikoy -->
+    <div class="filters-sidebar" >
+          <div class="filter-dropdown">
+            <button class="filter-button" id="class-btn">Τάξη</button>
+            <div class="filter-options" id="class-options">
+              <div class="filter-option" data-value="">Όλες οι Τάξεις</div>
+              <div class="filter-option" data-value="Α">Α'</div>
+              <div class="filter-option" data-value="Β">Β'</div>
+              <div class="filter-option" data-value="Γ">Γ'</div>
+            </div>
+          </div>
+          <div class="files-info" id="files-info" style="font-weight: bold; font-size: small; color: #333; margin-left: 20px;">
+            Εμφανίζονται όλα τα μαθήματα
+          </div>
+          <button id="clear-filters-btn" class="clear-filters-btn"
+                   onmouseover="this.style.background='#F7C19C'; this.style.color='#BC5E29'; this.style.boxShadow='0 0 0 2px rgba(183, 54, 22, 0.495)'"
+                  onmouseout="this.style.background='#4d2c1e'; this.style.color='#fff'; this.style.boxShadow='none'"
+                  style="background: #4d2c1e;
+                    color: #fff;
+                    border: none;
+                    border-radius: 20px;
+                    padding: 0.5rem 1.5rem;
+                    font-weight: 700;
+                    font-size:small;
+                    cursor: pointer;
+                    transition: all 0.2s;">Καθαρισμός Φίλτρων</button>
+        </div>
+
+
+<script>
+  let currentFilters = {
+  class: ''
+};
+
+function filterClasses() {
+  let filteredClasses = allClasses.filter(classes => {
+    const matchesClass = !currentFilters.class || classes.class === currentFilters.class;
+    return matchesClass ;
+  });
+  displayPDFs(filteredClasses);
+  updateFilesInfo(filteredClasses.length);
+}
+
+function clearAllFilters() {
+  currentFilters = { class: '' };
+  document.getElementById('class-btn').textContent = 'Τύπος Μαθήματος';
+  filterClasses();
+}
+
+document.querySelectorAll('.filter-button').forEach(button => {
+  button.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const options = document.getElementById(button.id.replace('-btn', '-options'));
+    const isOpen = options.classList.contains('show');
+    document.querySelectorAll('.filter-options').forEach(opt => opt.classList.remove('show'));
+    document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
+    if (!isOpen) {
+      options.classList.add('show');
+      button.classList.add('active');
+    }
+  });
+});
+
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('filter-option')) {
+    const value = e.target.getAttribute('data-value');
+    const filterType = e.target.closest('.filter-dropdown').querySelector('.filter-button').id.replace('-btn', '');
+    currentFilters[filterType] = value;
+    // Ενημέρωση button text
+    if (value === '') {
+      if (filterType === 'lykeio') document.getElementById('lykeio-btn').textContent = 'Τύπος Λυκείου';
+      if (filterType === 'field') document.getElementById('field-btn').textContent = 'Πεδίο Σπουδών';
+      if (filterType === 'specialty') document.getElementById('specialty-btn').textContent = 'Ειδικά Μαθήματα';
+    } else {
+      document.getElementById(filterType + '-btn').textContent = e.target.textContent;
+    }
+    filterPDFs();
+    document.querySelectorAll('.filter-options').forEach(opt => opt.classList.remove('show'));
+    document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
+  }
+  // Κλείσιμο dropdown όταν κάνεις click έξω
+  if (!e.target.closest('.filter-dropdown')) {
+    document.querySelectorAll('.filter-options').forEach(opt => opt.classList.remove('show'));
+    document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
+  }
+});
+
+document.getElementById('clear-filters-btn').addEventListener('click', clearAllFilters);
+
+document.addEventListener('DOMContentLoaded', function() {
+  filterPDFs();
+});
+</script>
+
+
 
 
 
@@ -221,7 +328,7 @@
     <table>
       <thead>
         <tr>
-          <th>Μ
+          <th>Μάθημα</th>
           <th>Ώρες</th>
         </tr>
       </thead>
@@ -540,6 +647,54 @@ showHideSections();
   loadProgrammsPublic();
 
     
+</script>
+
+<script>
+// --- Εμφάνιση μόνο των πινάκων της επιλεγμένης τάξης ---
+function showGymnasioTables(classValue) {
+  const ids = ['programms-gymnasiou-a', 'programms-gymnasiou-b', 'programms-gymnasiou-g'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  if (!classValue || classValue === '') {
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = '';
+    });
+    document.getElementById('files-info').textContent = 'Εμφανίζονται όλα τα μαθήματα';
+  } else {
+    let id = '';
+    if (classValue === 'Α') id = 'programms-gymnasiou-a';
+    if (classValue === 'Β') id = 'programms-gymnasiou-b';
+    if (classValue === 'Γ') id = 'programms-gymnasiou-g';
+    if (id) {
+      const el = document.getElementById(id);
+      if (el) el.style.display = '';
+      document.getElementById('files-info').textContent = 'Εμφανίζονται μόνο τα μαθήματα της ' + classValue + "' Γυμνασίου";
+    }
+  }
+}
+
+// --- Dropdown επιλογή τάξης ---
+document.querySelectorAll('#class-options .filter-option').forEach(option => {
+  option.addEventListener('click', function() {
+    const value = option.getAttribute('data-value');
+    document.getElementById('class-btn').textContent = option.textContent;
+    showGymnasioTables(value);
+  });
+});
+
+// --- Καθαρισμός φίλτρων ---
+document.getElementById('clear-filters-btn').addEventListener('click', function() {
+  document.getElementById('class-btn').textContent = 'Τάξη';
+  showGymnasioTables('');
+});
+
+// --- Αρχική εμφάνιση όλων των πινάκων ---
+document.addEventListener('DOMContentLoaded', function() {
+  showGymnasioTables('');
+});
 </script>
 </body>
 </html>
