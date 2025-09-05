@@ -1873,6 +1873,10 @@ nav{
 }
 @media  (max-width: 1200px) {
   .filter-container{
+   justify-self: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
     flex-direction: column;
     margin-bottom: 50px;
   }
@@ -2553,4 +2557,13 @@ nav{
     align-items: center;
     position: relative;
     text-align: center;
+  }
+
+
+
+  .filter-container{
+   justify-self: center;
+    align-items: center;
+    justify-content: center;
+
   }
