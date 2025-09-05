@@ -167,14 +167,13 @@
           <h1 style="justify-self: center;">Προγράμματα</h1>
         </div>
 
-<!-- Φίλτρα τύπου, τάξης και δυναμικό φίλτρο πεδίου -->
-<div style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: center;">
-  
-<div class="filter-container"  style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: center;">
-
+<!-- Φίλτρα τύπου και τάξης στην αρχή της σελίδας -->
+<div class="filter-container" style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: center;">
   <label for="filterType" style="font-weight: bold; color: #ac4e26;">Τύπος:</label>
   <select id="filterType" style="padding: 8px 16px; border-radius: 8px; border: 2px solid #e39c50; font-size: 15px;">
-    <option value="">Επιλέξτε</option>
+    <option value="">Όλοι</option>
+    <option value="dimotiko">Δημοτικό</option>
+    <option value="gymnasio">Γυμνάσιο</option>
     <option value="lykeio">ΓΕΛ</option>
     <option value="epal">ΕΠΑΛ</option>
   </select>
@@ -185,86 +184,26 @@
     <option value="Β">Β'</option>
     <option value="Γ">Γ'</option>
   </select>
-  <div id="fieldFilterDiv" style="display:none; align-items: center; gap: 8px;">
-    <label for="filterField" style="font-weight: bold; color: #ac4e26;">Πεδίο:</label>
-    <select id="filterField" style="padding: 8px 16px; border-radius: 8px; border: 2px solid #e39c50; font-size: 15px;">
-      <option value="">Όλα</option>
-      <option value="Ανθρωπιστικές Επιστήμες">Ανθρωπιστικές Επιστήμες</option>
-      <option value="Θετικές Επιστήμες">Θετικές Επιστήμες</option>
-      <option value="Σπουδές Υγείας">Σπουδές Υγείας</option>
-      <option value="Οικονομία Και Πληροφορική">Οικονομία Και Πληροφορική</option>
-    </select>
+
+    <div style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: flex-start;" id="fieldFilterDiv">
+      <label for="filterField" style="font-weight: bold; color: #ac4e26;">Πεδίο:</label>
+      <select id="filterField" style="padding: 8px 16px; border-radius: 8px; border: 2px solid #e39c50; font-size: 15px;">
+        <option value="">Όλα</option>
+        <option value="Ανθρωπιστικές Επιστήμες">Ανθρωπιστικές Επιστήμες</option>
+        <option value="Θετικές Επιστήμες">Θετικές Επιστήμες</option>
+        <option value="Σπουδές Υγείας">Σπουδές Υγείας</option>
+        <option value="Οικονομία Και Πληροφορική">Οικονομία Και Πληροφορική</option>
+      </select>
   </div>
   <button id="filterBtn" class="btn btn-success" >Εφαρμογή Φίλτρων</button>
 
-</div>
 
 </div>
-
-<!--   new filters-->
-   <!-- Φίλτρα mixanografikoy -->
-    <div class="filters-sidebar" >
-          <div class="filter-dropdown">
-              <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-                <button class="filter-button" id="type-btn" style="width: 30%;">Τύπος</button>
-              </div>
-              <div class="filter-options" id="type-options">
-                <div class="filter-option" data-value="">Όλα τα Λύκεια</div>
-                <div class="filter-option" data-value="gel">ΓΕΛ</div>
-                <div class="filter-option" data-value="epal">ΕΠΑΛ</div>
-              </div>
-          </div>
-
-          <div class="filter-dropdown">
-              <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-                <button class="filter-button" id="class-btn" style="width: 30%;">Τάξη</button>
-              </div>
-              <div class="filter-options" id="class-options">
-                <div class="filter-option" data-value="">Όλες οι Τάξεις</div>
-                <div class="filter-option" data-value="Α">Α'</div>
-                <div class="filter-option" data-value="Β">Β'</div>
-                <div class="filter-option" data-value="Γ">Γ'</div>
-              </div>
-          </div>
-
-          <div class="filter-dropdown">
-              <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-                <button class="filter-button" id="field-btn" style="width: 30%;">Πεδίο</button>
-              </div>
-              <div class="filter-options" id="field-options">
-                <div class="filter-option" data-value="">Όλα τα Πεδία</div>
-                <div class="filter-option" data-value="Ανθρωπιστικές Επιστήμες">Ανθρωπιστικές Επιστήμες</div>
-                <div class="filter-option" data-value="Θετικές Επιστήμες">Θετικές Επιστήμες</div>
-                <div class="filter-option" data-value="Σπουδές Υγείας">Σπουδές Υγείας</div>
-                <div class="filter-option" data-value="Οικονομία Και Πληροφορική">Οικονομία Και Πληροφορική</div>
-              </div>
-          </div>
-
-          <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-           
-            <button id="clear-filters-btn" class="clear-filters-btn"
-                    onmouseover="this.style.background='#F7C19C'; this.style.color='#BC5E29'; this.style.boxShadow='0 0 0 2px rgba(183, 54, 22, 0.495)'"
-                    onmouseout="this.style.background='#4d2c1e'; this.style.color='#fff'; this.style.boxShadow='none'"
-                    style="background: #4d2c1e;
-                      color: #fff;
-                      border: none;
-                      border-radius: 20px;
-                      padding: 0.5rem 1.5rem;
-                      font-weight: 700;
-                      font-size:small;
-                      cursor: pointer;
-                      transition: all 0.2s;">Καθαρισμός Φίλτρων</button>
-          </div>
-
-        </div>
-
-<!-- end of new filters-->
-
 
 
 <!-- Λύκειο - ΓΕΛ -->
 <div id="programms-lykeiou-gel">
-  <h2 id="title-gel" style="margin-top: 50px;">Λύκειο - ΓΕΛ</h2>
+  <h2 style="margin-top: 50px;">Λύκειο - ΓΕΛ</h2>
   <div class="table-section" style="margin: 30px; display: none;">
     <h2>ΓΕΛ</h2>
     <table>
@@ -397,7 +336,7 @@
 
 <!-- ΕΠΑΛ -->
 <div id="programms-lykeiou-epal">
-  <h2 id="title-epal" style="margin-top: 50px;">Λύκειο - ΕΠΑΛ</h2>
+  <h2 style="margin-top: 50px;">Λύκειο - ΕΠΑΛ</h2>
   <div class="table-section" style="margin: 30px; display: none;">
     <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΕΠΑΛ</h2>
     <table>
@@ -461,7 +400,6 @@
     </div>
   </div>
 </div>
-
 
 
 
@@ -707,70 +645,6 @@ document.addEventListener('DOMContentLoaded', function() {
 --->
 
 
-<script>
-  let currentFilters = {
-  class: ''
-};
-
-function filterClasses() {
-  let filteredClasses = allClasses.filter(classes => {
-    const matchesClass = !currentFilters.class || classes.class === currentFilters.class;
-    return matchesClass ;
-  });
-  displayPDFs(filteredClasses);
-  updateFilesInfo(filteredClasses.length);
-}
-
-function clearAllFilters() {
-  currentFilters = { class: '' };
-  document.getElementById('class-btn').textContent = 'Τύπος Μαθήματος';
-  filterClasses();
-}
-
-document.querySelectorAll('.filter-button').forEach(button => {
-  button.addEventListener('click', function(e) {
-    e.stopPropagation();
-    const options = document.getElementById(button.id.replace('-btn', '-options'));
-    const isOpen = options.classList.contains('show');
-    document.querySelectorAll('.filter-options').forEach(opt => opt.classList.remove('show'));
-    document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
-    if (!isOpen) {
-      options.classList.add('show');
-      button.classList.add('active');
-    }
-  });
-});
-
-document.addEventListener('click', function(e) {
-  if (e.target.classList.contains('filter-option')) {
-    const value = e.target.getAttribute('data-value');
-    const filterType = e.target.closest('.filter-dropdown').querySelector('.filter-button').id.replace('-btn', '');
-    currentFilters[filterType] = value;
-    // Ενημέρωση button text
-    if (value === '') {
-      if (filterType === 'lykeio') document.getElementById('lykeio-btn').textContent = 'Τύπος Λυκείου';
-      if (filterType === 'field') document.getElementById('field-btn').textContent = 'Πεδίο Σπουδών';
-      if (filterType === 'specialty') document.getElementById('specialty-btn').textContent = 'Ειδικά Μαθήματα';
-    } else {
-      document.getElementById(filterType + '-btn').textContent = e.target.textContent;
-    }
-  //  filterPDFs();
-    document.querySelectorAll('.filter-options').forEach(opt => opt.classList.remove('show'));
-    document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
-  }
-  // Κλείσιμο dropdown όταν κάνεις click έξω
-  if (!e.target.closest('.filter-dropdown')) {
-    document.querySelectorAll('.filter-options').forEach(opt => opt.classList.remove('show'));
-    document.querySelectorAll('.filter-button').forEach(btn => btn.classList.remove('active'));
-  }
-});
-
-document.getElementById('clear-filters-btn').addEventListener('click', clearAllFilters);
-/*
-document.addEventListener('DOMContentLoaded', function() {
-  filterPDFs();
-});*/
-</script>
 
 <script>
 let filterType = '';
@@ -826,9 +700,6 @@ async function loadProgrammsPublic() {
     const tbodyEpalA = document.getElementById('programms-tbody-epal-a');
     const tbodyEpalB = document.getElementById('programms-tbody-epal-b');
     const tbodyEpalG = document.getElementById('programms-tbody-epal-g');
-    const tbodyA = document.getElementById('programms-tbody-gymnasio-a');
-    const tbodyB = document.getElementById('programms-tbody-gymnasio-b');
-    const tbodyG = document.getElementById('programms-tbody-gymnasio-g');
     const tbodyLykeioA = document.getElementById('programms-tbody-lykeio-a');
     const tbodyLykeioB = document.getElementById('programms-tbody-lykeio-b');
     const tbodyLykeioG = document.getElementById('programms-tbody-lykeio-g');
@@ -851,8 +722,7 @@ async function loadProgrammsPublic() {
     // Φιλτράρισμα δεδομένων πριν την εμφάνιση
     let filteredData = data.filter(row => {
       let typeMatch = !filterType || row.type === filterType;
-      // Ελέγχει αν το section ξεκινάει με το γράμμα της τάξης (π.χ. "Α' ΓΕΛ" -> 'Α')
-      let classMatch = !filterClass || (row.section && row.section[0] === filterClass);
+      let classMatch = !filterClass || row.section === filterClass;
       let fieldMatch = true;
       if (filterType === 'lykeio' && filterField) {
         fieldMatch = row.field === filterField;
@@ -915,7 +785,7 @@ async function loadProgrammsPublic() {
         tbodyEpalG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumEG += Number(row.hour) || 0;
       }
-      
+     
       // --- Λύκειο ανά τάξη ---
       if (row.type === 'lykeio' && row.section[0] === 'Α') {
         foundA = true;
@@ -958,7 +828,7 @@ async function loadProgrammsPublic() {
     if (!foundThetikes) tbodyThetikes.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Θετικών!</td></tr>';
     if (!foundYgeias) tbodyYgeias.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Υγείας!</td></tr>';
     if (!foundOikPlirof) tbodyOikPlirof.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Οικονομίας/Πληροφορικής!</td></tr>';
-    
+   
     if (foundLykeio) tbodyLykeio.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumLykeio}</td><td></td></tr>`;
     if (foundEpal) tbodyEpal.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEpal}</td></tr>`;
     if (foundA) tbodyLykeioA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumA}</td></tr>`;
@@ -1060,6 +930,6 @@ function showHideSections() {
     showHideSections();
 window.addEventListener('DOMContentLoaded', loadProgrammsPublic);
 </script>
-
+  
 </body>
 </html>
