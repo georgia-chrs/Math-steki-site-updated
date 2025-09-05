@@ -799,7 +799,7 @@ function showHideSections() {
     ids.forEach(id => {
       const el = document.getElementById(id);
       if (el) {
-        el.style.setProperty('display', '', 'important');
+        el.style.setProperty('display', 'block', 'important');
         el.style.transition = 'opacity 0.5s';
         setTimeout(() => { el.style.opacity = 1; }, 50);
       }
