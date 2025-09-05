@@ -164,8 +164,8 @@
 <!-- Φίλτρα τύπου και τάξης στην αρχή της σελίδας -->
 <div class="filter-container" style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: center;">
   <label for="filterClass" style="font-weight: bold; color: #ac4e26;">Τάξη:</label>
-  <select id="filterClass" style="padding: 8px 16px; border-radius: 8px; border: 2px solid #e39c50; font-size: 15px;">
-    <option value="">Όλες</option>
+  <select id="filterClass" style=" background:  #ac4e26;color: white; padding: 8px 16px; border-radius: 8px; border: 2px solid #e39c50; font-size: 15px;">
+    <option value="">Τάξη</option>
     <option value="Α">Α'</option>
     <option value="Β">Β'</option>
     <option value="Γ">Γ'</option>
@@ -293,7 +293,6 @@
 <script>
 let filterType = '';
 let filterClass = '';
-let filterField = '';
 document.getElementById('filterBtn').addEventListener('click', () => {
   filterType ="gymnasio";
   filterClass = document.getElementById('filterClass').value;
@@ -325,72 +324,66 @@ async function loadProgrammsPublic() {
     const tbodyG = document.getElementById('programms-tbody-gymnasio-g');
     
     tbodyGymnasio.innerHTML = '';
-  
     tbodyA.innerHTML = '';
     tbodyB.innerHTML = '';
     tbodyG.innerHTML = '';
-   
-    // Φιλτράρισμα δεδομένων πριν την εμφάνιση
-    let filteredData = data.filter(row => {
-      let typeMatch = !filterType || row.type === filterType;
-      let classMatch = !filterClass || row.section === filterClass;
-     
-      return typeMatch && classMatch ;
-    });
-    // Χρησιμοποίησε filteredData για να γεμίσεις τους πίνακες
-    let foundGymnasio = false
-    let foundA = false, foundB = false, foundG = false;
-    
-    
-    let sumGymnasioA = 0, sumGymnasioB = 0, sumGymnasioG = 0 , sumGymnasio = 0;
-    let sumA = 0, sumB = 0, sumG = 0;
-    tbodyGymnasio.innerHTML = '';
-    
-    tbodyA.innerHTML = '';
-    tbodyB.innerHTML = '';
-    tbodyG.innerHTML = '';
-    
-    filteredData.forEach(row => {
-     if (row.type === 'gymnasio') {
+
+    // ΝΕΑ ΛΟΓΙΚΗ: γεμίζουμε κάθε πίνακα με τα σωστά δεδομένα
+    let filtered = data.filter(row => row.type === 'gymnasio');
+    let foundGymnasio = false, foundA = false, foundB = false, foundG = false;
+    let sumGymnasioA = 0, sumGymnasioB = 0, sumGymnasioG = 0, sumGymnasio = 0;
+
+    // Αν δεν έχει επιλεγεί τάξη, γέμισε όλους τους πίνακες
+    if (!filterClass) {
+      filtered.forEach(row => {
         foundGymnasio = true;
-        tbodyGymnasio.innerHTML += `
-          <tr>
-            <td>${row.subject}</td>
-            <td>${row.hour}</td>
-          </tr>
-        `;
+        tbodyGymnasio.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumGymnasio += Number(row.hour) || 0;
-      }
-    
-      if (row.type === 'gymnasio' && row.section[0] === 'Α') {
-        foundA = true;
-        tbodyA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
-        sumGymnasioA += Number(row.hour) || 0;
-      } else if (row.type === 'gymnasio' && row.section[0] === 'Β') {
-        foundB = true;
-        tbodyB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
-        sumGymnasioB += Number(row.hour) || 0;
-      } else if (row.type === 'gymnasio' && row.section[0] === 'Γ') {
-        foundG = true;
-        tbodyG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
-        sumGymnasioG += Number(row.hour) || 0;
-      } 
-     
-    });
-    if (!foundGymnasio) tbodyGymnasio.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Γυμνασίου!</td></tr>';
-    if (!foundA) tbodyA.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Α Γυμνασίου!</td></tr>';
-    if (!foundB) tbodyB.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Β Γυμνασίου!</td></tr>';
-   
-    if (foundGymnasio) {
-      sumGymnasio = sumGymnasioA + sumGymnasioB + sumGymnasioG;
-      tbodyGymnasio.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasio}</td></tr>`;
+        if (row.section[0] === 'Α') {
+          foundA = true;
+          tbodyA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+          sumGymnasioA += Number(row.hour) || 0;
+        } else if (row.section[0] === 'Β') {
+          foundB = true;
+          tbodyB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+          sumGymnasioB += Number(row.hour) || 0;
+        } else if (row.section[0] === 'Γ') {
+          foundG = true;
+          tbodyG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+          sumGymnasioG += Number(row.hour) || 0;
+        }
+      });
+    } else {
+      // Αν έχει επιλεγεί τάξη, γέμισε μόνο τον αντίστοιχο πίνακα
+      filtered.forEach(row => {
+        if (row.section[0] === filterClass) {
+          if (filterClass === 'Α') {
+            foundA = true;
+            tbodyA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+            sumGymnasioA += Number(row.hour) || 0;
+          } else if (filterClass === 'Β') {
+            foundB = true;
+            tbodyB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+            sumGymnasioB += Number(row.hour) || 0;
+          } else if (filterClass === 'Γ') {
+            foundG = true;
+            tbodyG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+            sumGymnasioG += Number(row.hour) || 0;
+          }
+        }
+      });
     }
-   
-    if (foundA) tbodyA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioA}</td></tr>`;
-if (foundB) tbodyB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioB}</td></tr>`;
-if (foundG) tbodyG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioG}</td></tr>`;
-    
-    // --- Ενημέρωση εμφάνισης sections μετά το φιλτράρισμα ---
+
+    if (!foundGymnasio && !filterClass) tbodyGymnasio.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Γυμνασίου!</td></tr>';
+    if (!foundA && (!filterClass || filterClass === 'Α')) tbodyA.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Α Γυμνασίου!</td></tr>';
+    if (!foundB && (!filterClass || filterClass === 'Β')) tbodyB.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Β Γυμνασίου!</td></tr>';
+    if (!foundG && (!filterClass || filterClass === 'Γ')) tbodyG.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Γ Γυμνασίου!</td></tr>';
+
+    if (foundGymnasio && !filterClass) tbodyGymnasio.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasio}</td></tr>`;
+    if (foundA && (!filterClass || filterClass === 'Α')) tbodyA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioA}</td></tr>`;
+    if (foundB && (!filterClass || filterClass === 'Β')) tbodyB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioB}</td></tr>`;
+    if (foundG && (!filterClass || filterClass === 'Γ')) tbodyG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioG}</td></tr>`;
+
     showHideSections();
   } catch (err) {
     console.error('JS error:', err);
