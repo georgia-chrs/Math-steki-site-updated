@@ -94,6 +94,45 @@
       padding-right: 10vw !important;
     }
     
+    .grades-filters-flex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .filter-group label {
+      font-weight: 600;
+      color: #333;
+      font-size: 14px;
+    }
+    
+    .filter-group select {
+      padding: 12px 16px;
+      border-radius: 20px;
+      border: 2px solid #e1e5e9;
+      background: white;
+      font-size: 14px;
+      min-width: 200px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    
+    .filter-group select:hover,
+    .filter-group select:focus {
+      border-color: #A0522D;
+      box-shadow: 0 0 0 3px rgba(160,82,45,0.1);
+    }
+    
     @media (max-width: 768px) {
       .grades-filters > div {
         flex-direction: column !important;
@@ -102,6 +141,12 @@
       
       .grades-filters select {
         min-width: 250px !important;
+      }
+      
+      .grades-filters-flex {
+        flex-direction: column;
+        gap: 18px;
+        align-items: center;
       }
     }
   </style>
@@ -201,18 +246,17 @@
             <!-- Grade statistics will be displayed here -->
           </div>
 
-                   <div class="grades-filters" style="background-color: #fff8e8; margin-bottom: 20px; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <div style="display: flex; justify-content: center; align-items: center; gap: 30px; flex-wrap: wrap;">
-              <div class="filter-group" style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-                <label for="subjectFilter" style="font-weight: 600; color: #333; font-size: 14px;">Φίλτρο ανά μάθημα:</label>
-                <select id="subjectFilter" style="padding: 12px 16px; border-radius: 20px; border: 2px solid #e1e5e9; background: white; font-size: 14px; min-width: 200px; cursor: pointer; transition: all 0.3s ease; outline: none;" onmouseover="this.style.borderColor='#A0522D'" onmouseout="this.style.borderColor='#e1e5e9'" onfocus="this.style.borderColor='#A0522D'; this.style.boxShadow='0 0 0 3px rgba(160,82,45,0.1)'" onblur="this.style.borderColor='#e1e5e9'; this.style.boxShadow='none'">
+          <div class="grades-filters" style="background-color: #fff8e8; margin-bottom: 20px; padding: 30px; border-radius: 12px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <div class="grades-filters-flex">
+              <div class="filter-group">
+                <label for="subjectFilter">Φίλτρο ανά μάθημα:</label>
+                <select id="subjectFilter">
                   <option value="">Όλα τα μαθήματα</option>
                 </select>
               </div>
-              
-              <div class="filter-group" style="display: flex; flex-direction: column; align-items: center; gap: 8px; visibility: hidden;">
-                <label for="examTypeFilter" style="font-weight: 600; color: #333; font-size: 14px;">Φίλτρο ανά τύπο:</label>
-                <select id="examTypeFilter" style="padding: 12px 16px; border-radius: 20px; border: 2px solid #e1e5e9; background: white; font-size: 14px; min-width: 200px; cursor: pointer; transition: all 0.3s ease; outline: none;" onmouseover="this.style.borderColor='#A0522D'" onmouseout="this.style.borderColor='#e1e5e9'" onfocus="this.style.borderColor='#A0522D'; this.style.boxShadow='0 0 0 3px rgba(160,82,45,0.1)'" onblur="this.style.borderColor='#e1e5e9'; this.style.boxShadow='none'">
+              <div class="filter-group" style="visibility: hidden;">
+                <label for="examTypeFilter">Φίλτρο ανά τύπο:</label>
+                <select id="examTypeFilter">
                   <option value="">Όλοι οι τύποι</option>
                 </select>
               </div>
