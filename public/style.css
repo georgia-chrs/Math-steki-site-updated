@@ -1464,7 +1464,7 @@ nav{
     bottom: 20px !important;
     border-radius: 20px;
     transition: background 0.2s;
-    font-size: 1.0rem !important;
+    font-size: 0.8rem !important;
     
   }
   .login-btn:hover {
@@ -2191,7 +2191,7 @@ nav{
     left: auto !important;
     bottom: auto !important;
     transform: none !important;
-    font-size: 1.0rem !important;
+    font-size: 0.8rem !important;
     z-index: 300;
     width: 200px !important;
     max-width: 320px !important;
