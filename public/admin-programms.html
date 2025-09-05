@@ -317,9 +317,7 @@
 
     /* Responsive */
     @media (max-width: 768px) {
-      body {
-        padding: 1rem;
-      }
+
       
       .admin-header h1 {
         font-size: 2rem;
@@ -384,6 +382,9 @@
 .admin-add-programm input[type="number"]:hover {
   border-color: #ff623f;
 }
+
+
+
   </style>
   <style>
     h2 {
@@ -1053,18 +1054,35 @@
   </div>
 </main>
   <footer>
-    <div class="footer-content">
-      <div class="footer-logo">Μαθητικό Στέκι</div>
-      <div class="footer-links" contenteditable="true" data-id="footer-links">
-        <span>Καθηγητές:</span>
-        <span>...</span>
+    <div class="height-adjust4">
+    <div class="footer-content" style="display: flex; flex-direction: row; justify-content: space-between; justify-self: center; width: 95%; max-width: 95vw; box-sizing: border-box; margin-top: 20px;">
+      <div class="hero-logo" id="footer-logo"  style="margin-bottom: 1rem;">
+        <img src="logo/b-l.png" alt="Μαθητικό Στέκι" style="max-width: 320px; width: 100%; height: auto; filter: brightness(0) invert(1); ">
       </div>
-      <div class="footer-map">
-        <img src="map.png" alt="Χάρτης">
+      <div class="footer-links"  data-id="footer-links" style="display: flex; flex-direction: column; align-items: center; gap: 0.3em; text-align: center; justify-content: center; margin-top: 40px;">
+        <span>Επικοινωνία</span>
+        <span>τηλέφωνο επικοινωνίας: 2101553200236</span>
+         <span>e-mail: info@mathsteki.gr</span>
+         <span>Facebook: info@mathsteki.gr</span>
+         <span>Instagram: info@mathsteki.gr</span>
+      </div>
+      <div class="footer-map" >
+        <!-- Ενσωματωμένος χάρτης Google Maps με marker στη διεύθυνση Κρόνου 14, Κορυδαλλός 181 22 -->
+        <iframe
+          src="https://www.google.com/maps?q=Κρόνου+14,+Κορυδαλλός+181+22&output=embed"
+          width="290"
+          height="140"
+          style="border:10px solid #ffffff; border-radius: 10px; margin-top: 10px;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Χάρτης διεύθυνσης φροντιστηρίου"
+        ></iframe>
       </div>
     </div>
-    <div class="footer-bottom">
+    <div class="footer-bottom" style="margin-top: 30px;  text-align: center; font-size: 0.9em; color: #ccc;">
       &copy; 2025 Μαθητικό Στέκι
+    </div>
     </div>
   </footer>
   <script>
