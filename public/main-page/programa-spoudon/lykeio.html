@@ -172,8 +172,7 @@
   <label for="filterType" style="font-weight: bold; color: #ac4e26;">Τύπος:</label>
   <select id="filterType" style="padding: 8px 16px; border-radius: 8px; border: 2px solid #e39c50; font-size: 15px;">
     <option value="">Όλοι</option>
-    <option value="dimotiko">Δημοτικό</option>
-    <option value="gymnasio">Γυμνάσιο</option>
+
     <option value="lykeio">ΓΕΛ</option>
     <option value="epal">ΕΠΑΛ</option>
   </select>
@@ -452,7 +451,10 @@ let filterField = '';
 document.getElementById('filterBtn').addEventListener('click', () => {
   filterType = document.getElementById('filterType').value;
   filterClass = document.getElementById('filterClass').value;
+  console.log("filter type:", filterType,"filter class:", filterClass)// Debug
   loadProgrammsPublic();
+
+
 });
 
 // Απόκρυψη φίλτρου πεδίου αρχικά
@@ -493,7 +495,6 @@ async function loadProgrammsPublic() {
       return;
     }
     const data = await res.json();
-    console.log('Fetched programms:', data); // Debug
     const tbodyLykeio = document.getElementById('programms-tbody-lykeio');
     const tbodyEpal = document.getElementById('programms-tbody-epal');
     const tbodyEpalA = document.getElementById('programms-tbody-epal-a');
@@ -657,6 +658,9 @@ async function loadProgrammsPublic() {
 }
 // --- Απόκρυψη/Εμφάνιση sections ανάλογα με τα φίλτρα ---
 function showHideSections() {
+  console.log("show Hiding section:sss"); // Debug
+
+  // Όλα τα section IDs
   const sections = [
     'programms-lykeiou-gel',
     'programms-lykeiou-gel-a',
@@ -673,22 +677,25 @@ function showHideSections() {
   ];
   // Κρύψε όλα τα divs με !important
   sections.forEach(id => {
+    console.log("Hiding section:", id); // Debug
     const el = document.getElementById(id);
     if (el) el.style.setProperty('display', 'none', 'important');
     if (el) el.style.opacity = 0;
   });
   // Εμφάνισε μόνο το section που πρέπει με fade-in
   function showOnly(ids) {
+    console.log("Showing sections:", ids); // Debug
     ids.forEach(id => {
       const el = document.getElementById(id);
       if (el) {
-        el.style.setProperty('display', '', 'important');
+        el.style.setProperty('display', 'block', 'important'); // <-- ΕΔΩ η αλλαγή
         el.style.transition = 'opacity 0.5s';
         setTimeout(() => { el.style.opacity = 1; }, 50);
       }
     });
   }
   if (!filterType) {
+    console.log("No filter type selected"); // Debug
     showOnly(sections);
     return;
   }
@@ -728,6 +735,9 @@ function showHideSections() {
 }
     showHideSections();
 window.addEventListener('DOMContentLoaded', loadProgrammsPublic);
+
+
+
 </script>
   
 </body>
