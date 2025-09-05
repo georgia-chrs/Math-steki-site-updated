@@ -2384,7 +2384,7 @@ nav{
   .slideshow-wrapper img,
   .slideshow-image {
     width: 100vw !important;
-    height: 2000px !important;  /*apo edo alaz*/
+    height: 1000px !important;  /*apo edo alaz*/
     max-width: 100vw !important;
     max-height: 150vh !important;
     object-fit: cover !important;
