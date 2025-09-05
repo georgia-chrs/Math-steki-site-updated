@@ -154,7 +154,7 @@ nav {
       <div id="announcements-container" style="max-height: 500px; overflow-y: auto; padding: 20px;">
         <!-- Εδώ θα μπουν οι ανακοινώσεις από JS -->
         <div style="padding: 20px; background: #f0f0f0; margin: 10px 0; border-radius: 10px; text-align: center;">
-          🔄 Φόρτωση ανακοινώσεων...
+           Φόρτωση ανακοινώσεων...
         </div>
       </div>
     </div>
@@ -246,14 +246,14 @@ async function loadAnnouncements() {
     displayAnnouncements();
     
   } catch (error) {
-    console.error('❌ Error loading announcements:', error);
+    console.error(' Error loading announcements:', error);
     container.innerHTML = `
       <div style="padding: 20px; background: #ffebee; margin: 10px 0; border-radius: 5px; text-align: center;">
-        <h4 style="margin: 0 0 10px 0; color: #c62828;">❌ Σφάλμα φόρτωσης</h4>
+        <h4 style="margin: 0 0 10px 0; color: #c62828;"> Σφάλμα φόρτωσης</h4>
         <p style="margin: 0; color: #666;">Δεν μπορώ να συνδεθώ στη βάση δεδομένων.</p>
         <p style="margin: 10px 0 0 0; font-size: 12px; color: #999;">Error: ${error.message}</p>
         <button onclick="loadAnnouncements()" style="margin-top: 15px; padding: 8px 16px; background: #E39C50; color: white; border: none; border-radius: 4px; cursor: pointer;">
-          🔄 Δοκιμάστε ξανά
+           Δοκιμάστε ξανά
         </button>
       </div>
     `;
@@ -267,7 +267,7 @@ function displayAnnouncements() {
   if (announcements.length === 0) {
     container.innerHTML = `
       <div style="padding: 40px; text-align: center; color: #666;">
-        <h4>📝 Δεν υπάρχουν ανακοινώσεις</h4>
+        <h4> Δεν υπάρχουν ανακοινώσεις</h4>
         <p>Προσθέστε την πρώτη ανακοίνωση χρησιμοποιώντας τη φόρμα παραπάνω.</p>
       </div>
     `;
@@ -277,7 +277,7 @@ function displayAnnouncements() {
   // Sort announcements by date (newest first)
   const sortedAnnouncements = [...announcements].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
   
-  console.log('🎨 Displaying announcements with IDs:', sortedAnnouncements.map(a => a.id));
+  console.log(' Displaying announcements with IDs:', sortedAnnouncements.map(a => a.id));
   
   container.innerHTML = sortedAnnouncements.map(announcement => `
     <div style="padding: 20px; background: #fff; margin-bottom: 15px; border-radius: 8px; border-left: 4px solid #E39C50; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
@@ -315,7 +315,7 @@ function displayAnnouncements() {
         </div>
       </div>
       <p style="margin: 0 0 10px 0; color: #555; line-height: 1.5;">${announcement.content}</p>
-      <small style="color: #999;">📅 ${new Date(announcement.created_at).toLocaleString('el-GR')}</small>
+      <small style="color: #999;"> ${new Date(announcement.created_at).toLocaleString('el-GR')}</small>
     </div>
   `).join('');
 }
@@ -336,7 +336,7 @@ document.getElementById('add-announcement-form').addEventListener('submit', asyn
 
   // Show loading state
   submitButton.disabled = true;
-  submitButton.textContent = '⏳ Προσθήκη...';
+  submitButton.textContent = ' Προσθήκη...';
 
   try {
     const response = await fetch('/api/announcements', {
@@ -353,7 +353,7 @@ document.getElementById('add-announcement-form').addEventListener('submit', asyn
     }
 
     const result = await response.json();
-    console.log('✅ Announcement created:', result);
+    console.log(' Announcement created:', result);
     
     // Clear form
     this.reset();
@@ -364,7 +364,7 @@ document.getElementById('add-announcement-form').addEventListener('submit', asyn
     showAnnouncementAlert('Η ανακοίνωση προστέθηκε επιτυχώς!', 'success');
     
   } catch (error) {
-    console.error('❌ Error creating announcement:', error);
+    console.error(' Error creating announcement:', error);
     
     if (error.message.includes('Failed to fetch')) {
       showAnnouncementAlert('Πρόβλημα σύνδεσης με τον server!', 'error');
@@ -643,23 +643,7 @@ window.addEventListener('click', function(event) {
 });
 </script>
 
-  <section class="stats-section" id="stats" style="padding-top: 120px;">
-      <!-- Blob από κάτω -->
-      <svg class="blob-bg blob1" id="blob1" viewBox="0 0 1440 800" preserveAspectRatio="none">
-        <path fill="#EB5A4A" fill-opacity="1"
 
-  d="M0,530L60,479C120,428,240,328,360,326.7C480,328,600,428,720,507C840,586,960,642,1080,584.4C1200,530,1320,384,1380,306L1440,228L1440,800L1380,800C1320,800,1200,800,1080,800C960,800,840,800,720,800C600,800,480,800,360,800C240,800,120,800,60,800L0,800Z" />
-      </svg>
-
-      <!-- Blob από πάνω -->
-      <svg class="blob-bg blob2" id="blob2" viewBox="0 0 1440 800" preserveAspectRatio="none">
-        <path fill="#FF9B69" fill-opacity="0.8" transform="scale(-1, 1) translate(-1440, 0)"
-  d="M0,530L60,479C120,428,240,328,360,326.7C480,328,600,428,720,507C840,586,960,642,1080,584.4C1200,530,1320,384,1380,306L1440,228L1440,800L1380,800C1320,800,1200,800,1080,800C960,800,840,800,720,800C600,800,480,800,360,800C240,800,120,800,60,800L0,800Z" />
-      </svg>
-
-      <!-- Κείμενο -->
-
-  </section>
 
 
   <script>
