@@ -257,7 +257,7 @@ nav {
           max-width: 300px !important;
         }
       }
-@media (max-width: 700px) {
+@media (max-width: 1200px) {
   .search-controls {
     display: flex !important;
     flex-direction: column !important;
@@ -276,6 +276,10 @@ nav {
     width:80% !important;
     text-align: center !important;
   }
+  #studentSearchInput{
+    width:95% !important;
+  }
+  
 }
     </style>
     
@@ -350,7 +354,7 @@ nav {
       <!-- Search and Filter Controls -->
       <div class="search-controls" style="width:80%; justify-content: center; margin-left: auto; margin-right: auto; padding: 20px;     display: grid; grid-template-columns: 1fr 200px 200px 150px; gap: 15px; margin: 20px 0; align-items: end;">
         
-        <div class="form-group" style="margin-bottom: 0; max-width: fit-content;">
+        <div class="form-group form-group-vertical" style="margin-bottom: 0; max-width: fit-content;">
           <label for="studentSearchInput">Αναζήτηση Μαθητή</label>
           <input type="text" id="studentSearchInput" placeholder="Όνομα, επώνυμο ή τηλέφωνο..." style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px;" oninput="searchStudents()">
         </div>

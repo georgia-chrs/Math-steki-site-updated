@@ -69,7 +69,7 @@
       display: flex !important;
       gap: 15px;
       margin-top: 15px;
-      flex-wrap: wrap;
+      flex-wrap:nowrap;
     }
 
     .action-buttons-bar .btn {
@@ -451,6 +451,52 @@
         justify-content: center;
       }
     }
+
+    /* Responsive: κάθετα σε κινητό */
+    @media (max-width: 1200px) {
+      .search-section > div[style*="display: flex"] {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+      }
+      .action-buttons-bar {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        align-self: center !important;
+        justify-self: center !important;
+        width: 80% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      .search-section {
+        width: 98% !important;
+        padding: 10px !important;
+      }
+      .students-table {
+        width: 98% !important;
+      }
+       .search-bar, .search-bar * {
+        min-width: 0 !important;
+        box-sizing: border-box;
+        width: 100% !important;
+      }
+      .search-input {
+        min-width: 0 !important;
+        box-sizing: border-box;
+        width: 40% !important;
+        height: 30px ;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        display: block !important;
+        text-align: center !important;
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+      }
+  #searchInput, #subjectSearchInput, #teacherSearchInput {
+  width: 100% !important;
+}
+    }
   </style>
 </head>
 <body>
@@ -504,7 +550,7 @@
           <div class="search-bar" style="flex: 1 1 auto;">
             <input type="text" id="searchInput" class="search-input" placeholder="Αναζήτηση με όνομα, επώνυμο, τηλέφωνο ή email...">
           </div>
-          <select id="classFilter" class="search-input" style="flex: 0 0 200px; min-width: 180px;">
+          <select id="classFilter" class="search-input" >
             <option value="">Όλες οι τάξεις</option>
             <option value="Α' Γυμνασίου">Α' Γυμνασίου</option>
             <option value="Β' Γυμνασίου">Β' Γυμνασίου</option>
@@ -515,7 +561,7 @@
           </select>
         </div>
         <!-- Action Buttons -->
-        <div class="action-buttons-bar" style="display: flex; gap: 15px; margin-top: 15px; flex-wrap:nowrap">
+        <div class="action-buttons-bar" >
           <button type="button" id="search-btn" class="btn btn-primary" onclick="searchStudents()" style="display: inline-block !important; ">
             Αναζήτηση
           </button>
@@ -561,7 +607,7 @@
             <div class="search-bar" style="flex: 1 1 auto;">
               <input type="text" id="subjectSearchInput" class="search-input" placeholder="Αναζήτηση με όνομα μαθήματος, κωδικό ή καθηγητή...">
             </div>
-            <select id="subjectClassFilter" class="search-input" style="flex: 0 0 200px; min-width: 180px;">
+            <select id="subjectClassFilter" class="search-input" >
               <option value="">Όλες οι τάξεις</option>
               <option value="Α' Γυμνασίου">Α' Γυμνασίου</option>
               <option value="Β' Γυμνασίου">Β' Γυμνασίου</option>
@@ -572,7 +618,7 @@
             </select>
           </div>
         <!-- Action Buttons -->
-        <div class="action-buttons-bar" style="display: flex; gap: 15px; margin-top: 15px; flex-wrap:nowrap">
+        <div class="action-buttons-bar">
           <button type="button" class="btn btn-primary" onclick="searchSubjects()" style="display: inline-block !important;">
             Αναζήτηση Τμημάτων
           </button>
@@ -621,7 +667,7 @@
           <div class="search-bar" style="flex: 1 1 auto;">
             <input type="text" id="teacherSearchInput" class="search-input" placeholder="Αναζήτηση με όνομα, ειδικότητα ή email καθηγητή...">
           </div>
-          <select id="teacherSubjectFilter" class="search-input" style="flex: 0 0 200px; min-width: 180px;">
+          <select id="teacherSubjectFilter" class="search-input" >
             <option value="">Όλες οι ειδικότητες</option>
             <option value="Μαθηματικά">Μαθηματικά</option>
             <option value="Φυσική">Φυσική</option>
@@ -633,7 +679,7 @@
           </select>
         </div>
         <!-- Action Buttons -->
-        <div class="action-buttons-bar" style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: nowrap;">
+        <div class="action-buttons-bar" >
           <button type="button" class="btn btn-primary" onclick="searchTeachers()" style="display: inline-block !important;">
             Αναζήτηση Καθηγητών
           </button>
@@ -1606,7 +1652,7 @@ function closeViewModal() {
 
       filteredSubjects.forEach(subject => {
         // Αφαιρέθηκε ο έλεγχος για το πεδίο subject
-        const enrolledCount = enrollments.filter(e => e.class_id === subject.id).length;
+        const enrolledCount = enrollments.filter (e => e.class_id === subject.id).length;
         const teacher = teachers.find(t => t.id === subject.teacherId);
         const teacherName = teacher ? teacher.name : 'Δεν έχει ανατεθεί';
         const row = document.createElement('tr');
