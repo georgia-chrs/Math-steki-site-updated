@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
         img.style.display = 'block';
         img.style.left = '0';
         img.style.right = '0';
-        img.style.height = '1000px';
-        img.style.maxHeight = '1000px';
+        img.style.height = '100vh';
+        img.style.maxHeight = '100vh';
         img.style.marginTop = '0'; // Αφαιρεί extra περιθώριο πάνω
         img.style.marginBottom = '0 auto';
         img.style.margin = '0 auto';
