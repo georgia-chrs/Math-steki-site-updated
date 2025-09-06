@@ -2376,6 +2376,7 @@ nav{
     right: 0;
     top: 0; 
      bottom: 0;
+     border-radius: 0 !important;
   }
   .slideshow-wrapper img {
     height: 100vh !important;
@@ -2383,8 +2384,8 @@ nav{
     width: 100vw !important;
     object-fit: cover;
     display: block;
-    
-    
+    border-radius: 0 !important;
+
     margin: 0 auto;
   }
   .slideshow-image {
