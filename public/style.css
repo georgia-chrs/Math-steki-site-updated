@@ -865,7 +865,7 @@ nav{
     
     border-radius: 5px !important;
     background: #fffffe;
-    z-index: 1000;
+    z-index: 1000000 !important;
 
     text-align: center !important;
     display: flex !important;
