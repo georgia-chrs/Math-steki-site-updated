@@ -302,7 +302,7 @@ function showAnnouncementModal(title, content, date) {
       " onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='none'">×</button>
       
       <div style="margin-bottom: 15px;">
-        <h2 style="margin: 0 0 10px 0; color: #2C5F4F; font-size: 22px; line-height: 1.3;">${title}</h2>
+        <h2 style="margin: 0 0 10px 0; color:rgb(49, 24, 5); font-size: 22px; line-height: 1.3;">${title}</h2>
         <p style="margin: 0; color: #666; font-size: 14px;">${date}</p>
       </div>
       
