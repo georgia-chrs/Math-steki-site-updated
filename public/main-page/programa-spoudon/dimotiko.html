@@ -311,27 +311,7 @@
         <a href="../../index2.html" class="login-btn" >Είσοδος</a>
       </nav>
         </div>
-        <script>
-          const dropdownBtn = document.getElementById('dropdownBtn');
-          const dropdownMenu = document.getElementById('dropdownMenu');
 
-          dropdownBtn.addEventListener('click', function() {
-            dropdownMenu.classList.toggle('open');
-          });
-
-           const dropdownBtn2 = document.getElementById('dropdownBtn2');
-          const dropdownMenu2 = document.getElementById('dropdownMenu2');
-
-          dropdownBtn2.addEventListener('click', function() {
-            dropdownMenu2.classList.toggle('open');
-          });
-      // Mobile menu toggle
-      const menuToggle = document.querySelector('.menu-toggle');
-      const nav = document.querySelector('nav');
-      menuToggle.addEventListener('click', function() {
-        nav.classList.toggle('open');
-      });
-        </script>
   </header>
   <main>
     <div class="progr-tit">
@@ -350,40 +330,7 @@
     </tbody>
    </table>
   </div>
-  <script>
-async function loadDimotikoProgram() {
-  const response = await fetch('/api/dimotiko-program');
-  const data = await response.json();
-  const tbody = document.querySelector('.table-section table').getElementsByTagName('tbody')[0] || document.querySelector('.table-section table');
 
-  // Καθαρίζουμε το υπάρχον περιεχόμενο (εκτός από το header)
-  tbody.innerHTML = `
-    <tr>
-      <th>Μάθημα</th>
-      <th>Ώρες</th>
-    </tr>
-  `;
-
-  data.forEach(row => {
-    tbody.innerHTML += `
-      <tr>
-        <td>${row.subject}</td>
-        <td>${row.hour}</td>
-      </tr>
-    `;
-  });
-  // Υπολογισμός και εμφάνιση συνόλου ωρών
-  const totalHours = data.reduce((sum, row) => sum + Number(row.hour), 0);
-  tbody.innerHTML += `
-    <tr class="total-row">
-      <td>Σύνολο</td>
-      <td>${totalHours}</td>
-    </tr>
-  `;
-}
-
-window.addEventListener('DOMContentLoaded', loadDimotikoProgram);
-</script>
  
   </main>
   <footer >
@@ -416,5 +363,7 @@ window.addEventListener('DOMContentLoaded', loadDimotikoProgram);
       &copy; 2025 Μαθητικό Στέκι
     </div>
   </footer>
+  <script src="dimotiko.js"></script>
+  <script src="../../menu-drop.js"></script>
 </body>
 </html>

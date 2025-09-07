@@ -322,3 +322,116 @@ style.textContent = `
   }
 `;
 document.head.appendChild(style);
+
+
+
+
+
+      // Comprehensive force καφέ χρώματα στα dropdown
+      document.addEventListener('DOMContentLoaded', function() {
+        const selects = document.querySelectorAll('#subjectFilter, #examTypeFilter');
+        
+        // CSS injection για override browser defaults
+        const style = document.createElement('style');
+        style.textContent = `
+          select, select:focus, select:hover, select:active {
+            accent-color: #A0522D !important;
+            color-scheme: light !important;
+          }
+          
+          select option {
+            background-color: white !important;
+            color: #333 !important;
+          }
+          
+          select option:hover,
+          select option:focus,
+          select option:checked,
+          select option:active,
+          select option[selected] {
+            background-color: #A0522D !important;
+            background: #A0522D !important;
+            color: white !important;
+          }
+          
+          /* Browser-specific overrides */
+          select::-webkit-calendar-picker-indicator {
+            filter: invert(31%) sepia(45%) saturate(1000%) hue-rotate(180deg) !important;
+          }
+          
+          select::-moz-list-bullet {
+            color: #A0522D !important;
+          }
+        `;
+        document.head.appendChild(style);
+        
+        selects.forEach(select => {
+          // Override inline styles
+          select.style.setProperty('accent-color', '#A0522D', 'important');
+          select.style.setProperty('color-scheme', 'light', 'important');
+          
+          // Force καφέ σε όλα τα options
+          const options = select.querySelectorAll('option');
+          options.forEach(option => {
+            option.style.setProperty('background-color', 'white', 'important');
+            option.style.setProperty('color', '#333', 'important');
+            
+            // Event listeners για τα options
+            option.addEventListener('mouseover', function() {
+              this.style.setProperty('background-color', '#A0522D', 'important');
+              this.style.setProperty('color', 'white', 'important');
+            });
+            
+            option.addEventListener('mouseout', function() {
+              if (!this.selected) {
+                this.style.setProperty('background-color', 'white', 'important');
+                this.style.setProperty('color', '#333', 'important');
+              }
+            });
+          });
+          
+          // Add event listeners για καφέ highlights στο select element
+          select.addEventListener('focus', function() {
+            this.style.setProperty('border-color', '#A0522D', 'important');
+            this.style.setProperty('box-shadow', '0 0 0 3px rgba(160,82,45,0.1)', 'important');
+          });
+          
+          select.addEventListener('blur', function() {
+            this.style.setProperty('border-color', '#e1e5e9', 'important');
+            this.style.setProperty('box-shadow', 'none', 'important');
+          });
+          
+          select.addEventListener('mouseover', function() {
+            this.style.setProperty('border-color', '#A0522D', 'important');
+          });
+          
+          select.addEventListener('mouseout', function() {
+            if (document.activeElement !== this) {
+              this.style.setProperty('border-color', '#e1e5e9', 'important');
+            }
+          });
+          
+          // Override οποιαδήποτε browser default highlighting
+          select.addEventListener('change', function() {
+            this.style.setProperty('accent-color', '#A0522D', 'important');
+          });
+        });
+        
+        // MutationObserver για νέα options που προστίθενται δυναμικά
+        const observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.type === 'childList') {
+              mutation.addedNodes.forEach(function(node) {
+                if (node.tagName === 'OPTION') {
+                  node.style.setProperty('background-color', 'white', 'important');
+                  node.style.setProperty('color', '#333', 'important');
+                }
+              });
+            }
+          });
+        });
+        
+        selects.forEach(select => {
+          observer.observe(select, { childList: true });
+        });
+      });

@@ -49,27 +49,7 @@
         <a href="index.html" class="login-btn" >Έξοδος</a>
       </nav>
         </div>
-        <script>
-          const dropdownBtn = document.getElementById('dropdownBtn');
-          const dropdownMenu = document.getElementById('dropdownMenu');
 
-          dropdownBtn.addEventListener('click', function() {
-            dropdownMenu.classList.toggle('open');
-          });
-
-           const dropdownBtn2 = document.getElementById('dropdownBtn2');
-          const dropdownMenu2 = document.getElementById('dropdownMenu2');
-
-          dropdownBtn2.addEventListener('click', function() {
-            dropdownMenu2.classList.toggle('open');
-          });
-      // Mobile menu toggle
-      const menuToggle = document.querySelector('.menu-toggle');
-      const nav = document.querySelector('nav');
-      menuToggle.addEventListener('click', function() {
-        nav.classList.toggle('open');
-      });
-        </script>
   </header>
   
 
@@ -228,41 +208,7 @@
 </div>
 
     <div class="height-adjust-space"></div>
-    <script>
-  const blob1 = document.getElementById('blob1');
-  const blob2 = document.getElementById('blob2');
-  const statsSection = document.getElementById('stats');
-  const statsContent = document.getElementById('statsContent');
 
-  let blobsShown = false;
-  blob1.style.display = 'none';
-  blob2.style.display = 'none';
-
-  function showBlobsAnimated() {
-    if (blobsShown) return;
-    blobsShown = true;
-    blob1.style.display = 'block';
-    blob2.style.display = 'block';
-    blob1.classList.add('visible');
-    blob2.classList.add('visible');
-    setTimeout(() => {
-      blob1.classList.add('animate');
-      blob2.classList.add('animate');
-      if (statsContent) statsContent.classList.add('animate');
-    }, 50);
-  }
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        showBlobsAnimated();
-      }
-    });
-  }, { threshold: 0.4 });
-  observer.observe(statsSection);
-
-  statsSection.addEventListener('mouseenter', showBlobsAnimated);
-    </script>
 
  
 <div class="height-adjust3">
@@ -360,6 +306,7 @@
   </footer>
     <script src="main.js"></script>
     <script src="client-text.js"></script>
-
+    <script src="menu-drop.js"></script>
+    <script src="blob.js"></script>
 </body>
 </html>
