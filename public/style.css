@@ -869,7 +869,7 @@ nav{
     flex-direction: column !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    max-height: 180px;
+    max-height: 280px;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 1rem 0.5rem !important;
