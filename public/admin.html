@@ -7,34 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
 </head>
-<style>
-nav {
-  display: flex; /* ή block, ανάλογα με το layout σου */
-}
-@media (max-width: 1200px) {
-  nav {
-    display: none;
-    flex-direction: column;
-    height: auto;
-    /* ...άλλα mobile styles... */
-  }
-  nav.open {
-    display: flex;
-    flex-direction: column;
-    height: fit-content;
-    gap: 6px;
-    row-gap: 6px;
-    padding: 0;
 
-  }
-
-
-
-
-}
-
-
-</style>
 <body>
   <header>
     <div class="topbar">
@@ -42,33 +15,30 @@ nav {
       <button class="menu-toggle" aria-label="Μενού">&#9776;</button>
       <nav>
         <a href="admin.html" style="color: #960e0e;">Αρχική Σελίδα</a>
-        <a href="admin-kartela.html">Καρτέλα Μαθητή</a>
-        <a href="admin-programms.html">Πρόγραμμα Σπουδών</a>
-        <a href="admin-diaxirisi.html">Διαχείριση</a>
-
-
-
         <div class="dropdown" id="dropdownBtn">
           <a href="#">Πανελλαδικές Εξετάσεις</a>
-
           <div class="dropdown-content" id="dropdownMenu">
            <a href="admin-panelladikes.html">Όλα</a>
             <a href="admin-calculator.html">Υπολογισμός Μορίων</a>
             <a href="admin-pallia-themata.html">Παλιά Θέματα</a>
             <a href="admin-vaseis-scholon.html">Βάσεις Σχολών</a>
             <a href="admin-mixanografiko.html">Μηχανογραφικό</a>
+
           </div>
         </div>
+        <a href="admin-kartela.html">Κάρτα Μαθητή</a>
 
+        <div class="dropdown" id="dropdownBtn2">
+        </div>
          <a href="admin-kodikoi.html">Κωδικοί</a>
         <a href="admin-photos.html">Φωτογραφίες</a>
-        <a href="#">Σχετικά με εμάς</a>
-       
-        <a href="index.html" class="login-btn" >Έξοδος</a>
+
+        <a href="index2.html" class="login-btn" >Είσοδος</a>
       </nav>
         </div>
 
   </header>
+
   
   <main>
    <div class="main-wrapper" style="max-width: 1200px; margin-left: auto; margin-right: auto; box-sizing: border-box;">
@@ -180,17 +150,29 @@ nav {
         <textarea id="editAnnouncementContent" required style="width: 100%; padding: 10px; border: 2px solid #ddd; border-radius: 5px; box-sizing: border-box; min-height: 120px; resize: vertical;"></textarea>
       </div>
 
-      <div style="text-align: center;">
-        <button type="button" onclick="closeEditAnnouncementModal()" style="padding: 12px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-right: 10px;">
+      <div class="edit-announcement-actions" style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <button type="button" onclick="closeEditAnnouncementModal()" style="padding: 12px 20px; background: #6c757d; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-right: 10px; flex: 1 1 200px;">
           Ακύρωση
         </button>
-        <button type="submit" style="padding: 12px 20px; background: #28a745; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
+        <button type="submit" style="padding: 12px 20px; background: #28a745; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; flex: 1 1 200px;">
           Αποθήκευση
         </button>
       </div>
     </form>
   </div>
 </div>
+<style>
+@media (max-width: 700px) {
+  .edit-announcement-actions {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .edit-announcement-actions button {
+    margin-right: 0 !important;
+    width: 100% !important;
+  }
+}
+</style>
 
 
 
@@ -248,10 +230,12 @@ nav {
     </div>
     </div>
   </footer>
+
+  <script src="menu-drop.js"></script>
   <script src="admin.js"></script>
   <script src="main.js"></script>
   <script src="client-text.js"></script>
-  <script src="menu-drop.js"></script>
+
 
 </body>
 </html>

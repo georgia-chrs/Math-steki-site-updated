@@ -1363,11 +1363,6 @@ nav{
   
 }
 
-
-
-
-
-
 /* Αφαίρεση hover εμφάνισης για blobs ώστε να μην εξαφανίζονται */
 .stats-section:hover .blob-bg {
   /* display: block !important; */
@@ -1425,6 +1420,7 @@ nav{
     align-items: center !important;
     justify-content: flex-start !important;
     padding-top: 60px !important;
+    z-index: 9999 !important;
   }
   nav.open a, nav.open .dropdown > a {
     font-size: 1.2em !important;
@@ -2131,7 +2127,7 @@ nav{
     align-items: center !important;
     justify-content: flex-start !important;
     padding-top: 60px !important;
-
+    z-index: 9999 !important;
   }
   nav.open a, nav.open .dropdown > a {
     font-size: 1.2em !important;
@@ -2212,7 +2208,7 @@ nav{
     
   }
 }
-@media (max-width: 1200px) {
+@media (max-width: 900px) {
   html, body {
     width: 100vw;
     max-width: 100vw !important;
