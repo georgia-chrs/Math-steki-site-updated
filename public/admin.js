@@ -89,34 +89,39 @@ function displayAnnouncements() {
       <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 10px;">
         <h4 style="margin: 0; color: #2C5F4F; flex-grow: 1;">${announcement.title}</h4>
         <div style="display: flex; gap: 8px; margin-left: 15px;">
-          <button onclick="editAnnouncement(${announcement.id})" 
-                  onmouseover="this.style.background='#F7C19C'; this.style.color='#BC5E29'; this.style.boxShadow='0 0 0 2px rgba(183, 54, 22, 0.495)'"
-                  onmouseout="this.style.background='#4d2c1e'; this.style.color='#fff'; this.style.boxShadow='none'"
-                  style="background: #4d2c1e;
-                    color: #fff;
-                    border: none;
-                    border-radius: 20px;
-                    padding: 0.5rem 1.5rem;
-                    font-weight: 700;
-                    font-size:small;
-                    cursor: pointer;
-                    transition: all 0.2s;">
-            Επεξεργασία
-          </button>
-          <button onclick="deleteAnnouncement(${announcement.id})" 
-                   onmouseover="this.style.background='#F79C9C'; this.style.color='#D63838'; this.style.boxShadow='0 0 0 2px rgba(200, 0, 0, 0.495)'"
-                  onmouseout="this.style.background='#dc3545'; this.style.color='#fff'; this.style.boxShadow='none'"
-                  style="background: #dc3545;
-                    color: white;
-                    border: none;
-                    border-radius: 20px;
-                    padding: 0.5rem 1.5rem;
-                    font-weight: 700;
-                    font-size:small;
-                    cursor: pointer;
-                    transition: all 0.2s;">
-            Διαγραφή
-          </button>
+          <!-- Τύλιγμα των κουμπιών σε container με responsive flex -->
+          <div class="announcement-actions" style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <button onclick="editAnnouncement(${announcement.id})" 
+                    onmouseover="this.style.background='#F7C19C'; this.style.color='#BC5E29'; this.style.boxShadow='0 0 0 2px rgba(183, 54, 22, 0.495)'"
+                    onmouseout="this.style.background='#4d2c1e'; this.style.color='#fff'; this.style.boxShadow='none'"
+                    style="background: #4d2c1e;
+                      color: #fff;
+                      border: none;
+                      border-radius: 20px;
+                      padding: 0.5rem 1.5rem;
+                      font-weight: 700;
+                      font-size:small;
+                      cursor: pointer;
+                      transition: all 0.2s;
+                      flex: 1 1 200px;">
+              Επεξεργασία
+            </button>
+            <button onclick="deleteAnnouncement(${announcement.id})" 
+                     onmouseover="this.style.background='#F79C9C'; this.style.color='#D63838'; this.style.boxShadow='0 0 0 2px rgba(200, 0, 0, 0.495)'"
+                    onmouseout="this.style.background='#dc3545'; this.style.color='#fff'; this.style.boxShadow='none'"
+                    style="background: #dc3545;
+                      color: white;
+                      border: none;
+                      border-radius: 20px;
+                      padding: 0.5rem 1.5rem;
+                      font-weight: 700;
+                      font-size:small;
+                      cursor: pointer;
+                      transition: all 0.2s;
+                      flex: 1 1 200px;">
+              Διαγραφή
+            </button>
+          </div>
         </div>
       </div>
       <p style="margin: 0 0 10px 0; color: #555; line-height: 1.5;">${announcement.content}</p>
