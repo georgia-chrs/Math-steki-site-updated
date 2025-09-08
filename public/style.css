@@ -868,8 +868,25 @@ nav{
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    justify-content: center !important;
-    
+    justify-content: flex-start !important;
+    max-height: 180px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1rem 0.5rem !important;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    /* Optional: always show scrollbar on mobile for clarity */
+    scrollbar-width: thin;
+    scrollbar-color: #ff874b #ffe5c2;
+  }
+  .announcements::-webkit-scrollbar {
+    width: 10px;
+    background: #ffe5c2;
+    border-radius: 10px;
+  }
+  .announcements::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #ff874b 40%, #A0522D 100%);
+    border-radius: 10px;
   }
  .container-2 {
     max-width: 80vw !important;
