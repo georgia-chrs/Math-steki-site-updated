@@ -252,6 +252,15 @@
             font-weight: bold;
             margin-top: 5px;
         }
+        @media (max-width: 900px) {
+            .pdf-table {
+                overflow-x: auto;
+            }
+            .pdf-table table {
+                min-width: 800px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -385,24 +394,23 @@
                     <option value="ΕΠΑΛ">ΕΠΑΛ</option>
                 </select>
             </div>
-            
-            <table class="pdf-table" id="pdf-table">
-                <thead>
-                    <tr>
-                        <th title="Αύξων αριθμός για εμφάνιση (όχι database ID)"  style="border-top-left-radius: 20px;">#</th>
-                        <th>Τίτλος</th>
-                        <th>Λύκειο</th>
-                        <th>Μάθημα</th>
-                        <th>Έτος</th>
-                        <th>Μέγεθος</th>
-                        <th>Ημερομηνία</th>
-                        <th style="border-top-right-radius: 20px;">Ενέργειες</th>
-                    </tr>
-                </thead>
-                <tbody id="pdf-table-body">
-                    <!-- Τα PDF θα φορτωθούν δυναμικά -->
-                </tbody>
-            </table>
+                <table class="pdf-table" id="pdf-table">
+                    <thead>
+                        <tr>
+                            <th title="Αύξων αριθμός για εμφάνιση (όχι database ID)"  style="border-top-left-radius: 20px;">#</th>
+                            <th>Τίτλος</th>
+                            <th>Λύκειο</th>
+                            <th>Μάθημα</th>
+                            <th>Έτος</th>
+                            <th>Μέγεθος</th>
+                            <th>Ημερομηνία</th>
+                            <th style="border-top-right-radius: 20px;">Ενέργειες</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pdf-table-body">
+                        <!-- Τα PDF θα φορτωθούν δυναμικά -->
+                    </tbody>
+                </table>
         </div>
     </div>
     
