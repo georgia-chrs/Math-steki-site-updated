@@ -359,6 +359,96 @@ nav {
     margin-bottom: 0 !important;
   }
 }
+
+/* Calendar Event Modal Styles */
+.calendar-modal-content {
+  background: #fff8e8;
+  padding: 24px 18px 18px 18px;
+  border-radius: 18px;
+  max-width: 400px;
+  margin: auto;
+  box-shadow: 0 10px 30px rgba(77, 44, 30, 0.18);
+  border: 2px solid #ff7e5f;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: inherit;
+}
+.calendar-modal-content h3 {
+  color: #4d2c1e;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  border-bottom: 2px solid #ff7e5f;
+  padding-bottom: 10px;
+}
+.calendar-modal-content label {
+  color: #4d2c1e;
+  font-weight: 600;
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
+.calendar-modal-content input,
+.calendar-modal-content select,
+.calendar-modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1.5px solid #ff7e5f;
+  margin-bottom: 6px;
+  font-size: 1em;
+  background: #fff;
+  box-sizing: border-box;
+}
+.calendar-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+}
+.calendar-btn-primary {
+  background: linear-gradient(135deg, #ff7e5f, #ffb88c);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.calendar-btn-primary:hover {
+  background: linear-gradient(135deg, #ffb88c, #ff7e5f);
+}
+.calendar-btn-secondary {
+  background: #fff8e8;
+  color: #4d2c1e;
+  border: 1.5px solid #ff7e5f;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.calendar-btn-secondary:hover {
+  background: #ffe0d1;
+}
+@media (max-width: 700px) {
+  .calendar-modal-content {
+    max-width: 98vw;
+    padding: 12px 2vw 12px 2vw;
+    border-radius: 12px;
+    font-size: 1em;
+  }
+  .calendar-modal-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .calendar-modal-content button {
+    width: 100%;
+    padding: 14px 0;
+    font-size: 1.1em;
+  }
+}
 </style>
     
 </head>
@@ -627,30 +717,34 @@ nav {
 
     <!-- Modal για προσθήκη γεγονότος στο ημερολόγιο -->
     <div id="calendarModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:9999; align-items:center; justify-content:center;">
-      <div style="background:white; padding:30px; border-radius:12px; max-width:400px; margin:auto;">
+      <div class="calendar-modal-content">
         <h3>Ανάρτηση Γεγονότος Τμήματος</h3>
-        <label for="eventType">Τύπος γεγονότος *</label>
-        <select id="eventType" required style="width:100%; margin-bottom:10px;">
-          <option value="">Επιλέξτε τύπο</option>
-          <option value="Αναπλήρωση Μαθήματος">Αναπλήρωση Μαθήματος</option>
-          <option value="Διαγώνισμα">Διαγώνισμα</option>
-          <option value="Συνάντηση Γονέων">Συνάντηση Γονέων</option>
-          <option value="Απουσία">Απουσία</option>
-          <option value="Επιπλέον Μάθημα">Επιπλέον Μάθημα</option>
-          <option value="Άλλο">Άλλο</option>
-        </select>
-        <label for="subjectSelect">Μάθημα (Τμήμα) *</label>
-        <select id="subjectSelect" required style="width:100%; margin-bottom:10px;"></select>
-        <label for="eventDate">Ημερομηνία *</label>
-        <input id="eventDate" type="date" required style="width:100%; margin-bottom:10px;">
-        <label for="eventTime">Ώρα</label>
-        <input id="eventTime" type="time" style="width:100%; margin-bottom:10px;">
-        <label for="eventTitle">Τίτλος *</label>
-        <input id="eventTitle" type="text" required style="width:100%; margin-bottom:10px;">
-        <label for="eventText">Περιγραφή</label>
-        <textarea id="eventText" style="width:100%; margin-bottom:10px;"></textarea>
-        <button onclick="postCalendarEvent()" style="background:#040a42; color:white; padding:8px 16px; border:none; border-radius:6px;">Ανάρτηση</button>
-        <button onclick="closeCalendarModal()" style="margin-left:10px;">Άκυρο</button>
+        <form id="calendarEventForm" autocomplete="off">
+          <label for="eventType">Τύπος γεγονότος *</label>
+          <select id="eventType" required>
+            <option value="">Επιλέξτε τύπο</option>
+            <option value="Αναπλήρωση Μαθήματος">Αναπλήρωση Μαθήματος</option>
+            <option value="Διαγώνισμα">Διαγώνισμα</option>
+            <option value="Συνάντηση Γονέων">Συνάντηση Γονέων</option>
+            <option value="Απουσία">Απουσία</option>
+            <option value="Επιπλέον Μάθημα">Επιπλέον Μάθημα</option>
+            <option value="Άλλο">Άλλο</option>
+          </select>
+          <label for="subjectSelect">Μάθημα (Τμήμα) *</label>
+          <select id="subjectSelect" required></select>
+          <label for="eventDate">Ημερομηνία *</label>
+          <input id="eventDate" type="date" required>
+          <label for="eventTime">Ώρα</label>
+          <input id="eventTime" type="time">
+          <label for="eventTitle">Τίτλος *</label>
+          <input id="eventTitle" type="text" required>
+          <label for="eventText">Περιγραφή</label>
+          <textarea id="eventText" rows="2"></textarea>
+          <div class="calendar-modal-actions">
+            <button type="button" onclick="postCalendarEvent()" class="calendar-btn-primary">Ανάρτηση</button>
+            <button type="button" onclick="closeCalendarModal()" class="calendar-btn-secondary">Άκυρο</button>
+          </div>
+        </form>
       </div>
     </div>
 
