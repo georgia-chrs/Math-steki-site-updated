@@ -253,11 +253,14 @@
             margin-top: 5px;
         }
         @media (max-width: 900px) {
-            .pdf-table {
+            .pdf-table-responsive {
+                width: 100%;
                 overflow-x: auto;
-            }
-            .pdf-table table {
-                min-width: 800px;
+                }
+
+            .pdf-table {
+                min-width: 700px; /* ή όσο χρειάζεται */
+                width: max-content;
             }
         }
 
@@ -394,6 +397,8 @@
                     <option value="ΕΠΑΛ">ΕΠΑΛ</option>
                 </select>
             </div>
+            <div class="pdf-table-responsive">
+
                 <table class="pdf-table" id="pdf-table">
                     <thead>
                         <tr>
@@ -411,6 +416,7 @@
                         <!-- Τα PDF θα φορτωθούν δυναμικά -->
                     </tbody>
                 </table>
+            </div>
         </div>
     </div>
     
