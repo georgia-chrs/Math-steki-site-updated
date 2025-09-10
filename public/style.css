@@ -257,12 +257,14 @@ nav{
 .login-btn {
   background: #4d2c1e;
   color: #fff;
-  border: none;
+
   border-radius: 20px;
   padding: 0.5rem 1.5rem;
   font-weight: 700;
   font-size:small;
   cursor: pointer;
+
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
   transition: background 0.2s;
 }
 
@@ -278,6 +280,8 @@ nav{
 
   background: #4d2c1e;
   color: #fff;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+
   border: none;
   border-radius: 20px;
   padding: 0.5rem 1.5rem;
@@ -290,6 +294,8 @@ nav{
 }
 
 #contact-btn1{
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+
     margin-bottom: 100px;
     margin-left: 40%;
     margin-top: 10%;
@@ -517,6 +523,8 @@ nav{
 }
 
 .contact-btn {
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+
   background: #4d2c1e;
   color: #fff;
   border: none;
@@ -650,6 +658,8 @@ nav{
 }
 
 .btn {
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+
   border: none;
   padding: 12px 20px;
   margin: 6px 0;
@@ -662,12 +672,16 @@ nav{
 }
 
 .btn.brown {
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+
   background-color: #fb6c41;
   color: #ffffff;
   /*3c1c08*/
 }
 
 .btn.yellow {
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+
   background-color: #f5b07e;
   color: #ffffff;
 }
@@ -679,6 +693,8 @@ nav{
 
 
 .full-program-btn {
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+
   text-decoration: none;
   background-color: #3c1c08;
   color: white;
@@ -1704,6 +1720,8 @@ nav{
     }
     
     .clear-filters-btn {
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+
       background: #461e00;
       color: white;
       border: none;
@@ -1804,6 +1822,8 @@ nav{
     }
     
     .btn-view {
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+
       flex: 1;
       background: #28a745;
       color: white;
@@ -1821,6 +1841,8 @@ nav{
     }
     
     .btn-download {
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+
       flex: 1;
       background: #007bff;
       color: white;
