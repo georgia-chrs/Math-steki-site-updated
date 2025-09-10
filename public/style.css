@@ -834,7 +834,7 @@ nav{
     box-sizing: border-box;
 }
 
-.animation-for-section , .animation-for-section *{
+.animation-for-section , .animation-for-section , .announcements,.container-2 {
   animation: appear 3s linear;
     animation-timeline: view();
     animation-range: entry 0% cover 30%;
