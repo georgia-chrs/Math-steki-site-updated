@@ -53,7 +53,7 @@ function displayAnnouncementsOnMainPage(announcements) {
   mainContainer.style.setProperty('scrollbar-color', '#333 transparent');
   
   // Add webkit scrollbar styles for better browser support
-  const style = document.createElement('style');
+  /*const style = document.createElement('style');
   style.textContent = `
     .announcements .container-2 .announcements > div::-webkit-scrollbar {
       width: 8px;
@@ -68,7 +68,7 @@ function displayAnnouncementsOnMainPage(announcements) {
     .announcements .container-2 .announcements > div::-webkit-scrollbar-thumb:hover {
       background: #555;
     }
-    /* Scrollbar for announcement content */
+    /* Scrollbar for announcement content *//*
     .announcement-content-scroll::-webkit-scrollbar {
       width: 4px;
     }
@@ -83,7 +83,7 @@ function displayAnnouncementsOnMainPage(announcements) {
       background: rgba(255,255,255,0.5);
     }
   `;
-  document.head.appendChild(style);
+  document.head.appendChild(style);*/
 
   announcements.forEach((announcement, index) => {
     const date = new Date(announcement.created_at);
