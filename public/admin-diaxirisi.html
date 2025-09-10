@@ -497,6 +497,29 @@
   width: 100% !important;
 }
     }
+
+    @media (max-width: 1200px) {
+  #subjectForm {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+  #subjectForm .form-group,
+  #subjectForm button {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 400px !important;
+    margin-bottom: 0 !important;
+    text-align: center !important;
+  }
+  #subjectForm label {
+    text-align: left !important;
+    width: 100% !important;
+    margin-bottom: 2px !important;
+  }
+}
+
+
   </style>
 </head>
 <body>
@@ -527,7 +550,7 @@
          <a href="admin-kodikoi.html">Κωδικοί</a>
         <a href="admin-photos.html">Φωτογραφίες</a>
 
-        <a href="index2.html" class="login-btn" >Είσοδος</a>
+        <a href="index.html" class="login-btn" >Έξοδος</a>
       </nav>
         </div>
 
@@ -836,12 +859,12 @@
 
     <!-- Subjects/Classes Management Modal -->
     <div id="subjectsModal" class="modal">
-      <div class="modal-content" style="max-width: 1000px; min-width: 1000px;">
-        <span class="close" onclick="closeSubjectsModal()">&times;</span>
+      <div class="modal-content" style="max-width: 650px; background: #fff8e8; border: 2px solid #ff7e5f; border-radius: 20px; box-shadow: 0 10px 30px rgba(77, 44, 30, 0.15);">
+        <span class="close" onclick="closeSubjectsModal()" style="color: #4d2c1e; font-size: 28px; font-weight: bold;  ">&times;</span>
         <h2>Διαχείριση Τμημάτων και Μαθημάτων</h2>
         
         <div style="margin-bottom: 30px;">
-          <h3>Προσθήκη Νέου Τμήματος</h3>
+          <h3 style="text-align: center;">Προσθήκη Νέου Τμήματος</h3>
           <form id="subjectForm" style="display: flex; gap: 10px; align-items: end; flex-wrap: wrap;">
             <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 150px;">
               <label for="subjectName">Μάθημα</label>
