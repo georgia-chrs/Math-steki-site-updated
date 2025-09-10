@@ -2454,9 +2454,9 @@ nav{
     position: relative !important;
     text-align: center !important;
     font-size: 2.5rem;
-    background: #fff8e8;
     padding-top: 10px;
     padding-bottom: 10px;
+    color: #562010aa;
     border-radius: 20px;
     padding-left: 10px;
     padding-right: 10px;
@@ -2464,12 +2464,12 @@ nav{
   #hero-logo  {
     justify-self: center !important;
     text-align: center !important;
-    background-color: #fff8e88a;
-    backdrop-filter: blur(5px);
+
     padding: 15px;
     border-radius: 70px;
     margin-bottom: 10px;
   }
+
 .resources-list{
   margin-bottom: 0 !important;
     padding-bottom: 0 !important;
@@ -2504,7 +2504,7 @@ nav{
 
 
 }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .hero{
     justify-content: center;
     align-items: center;
@@ -2513,8 +2513,7 @@ nav{
     justify-self: center !important;
     position: relative !important;
     text-align: center !important;
-    font-size: 1.5rem;
-    background: #fff8e8;
+    font-size: 2.0rem;
     display: flex;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -2522,12 +2521,13 @@ nav{
     padding-left: 10px;
     width: 60%;
     padding-right: 10px;
+    text-shadow: #00000080 1px 1px 1px, #00000080 0 0 0.5em, #00000080 0 0 0.2em;
+    color: #ffffff;
   }
   #hero-logo  {
     justify-self: center !important;
     text-align: center !important;
-    background-color: #fff8e88a;
-    backdrop-filter: blur(5px);
+
     padding: 15px;
     width: 240px;
     border-radius: 70px;
@@ -2539,7 +2539,7 @@ nav{
 
 
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .hero-text p {
     width: 90%;
     margin: 0 auto;
@@ -2551,14 +2551,16 @@ nav{
     width: 70%;
     margin: 0 auto 10px auto;
     display: block;
-    background-color: #fff8e88a;
-    backdrop-filter: blur(5px);
+    
   }
   .hero {
     flex-direction: column;
     align-items: center;
     justify-content: center;
     display: flex;
+  }
+    #hero-logo img{
+    filter:  brightness(0) saturate(100%) invert(1) sepia(1) hue-rotate(200deg) saturate(500%) brightness(1);
   }
 
 }

@@ -173,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
         img.style.verticalAlign = 'top'; // Προσπαθεί να φέρει την εικόνα πιο ψηλά
         img.style.objectPosition = 'top'; // Για καλύτερη στοίχιση αν είναι object-fit
         img.style.objectFit = 'cover'; // Προαιρετικά για να γεμίζει το πλαίσιο
+        img.style.filter = 'brightness(0.6) blur(2px)';// Προσθέτει εφέ θολώματος και μείωσης φωτεινότητας
       } else {
         img.style.opacity = '0';
         img.style.visibility = 'hidden';
