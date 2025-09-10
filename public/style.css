@@ -44,6 +44,10 @@ footer {
   border-radius: 20px;
 
 }
+.logo img{
+  width: 60px; /* ή ό,τι μέγεθος θέλεις */
+  height: auto; /* διατηρεί τις αναλογίες */
+  }
 .target h3{
   margin-top: 10px;
   margin-bottom: 10px;
@@ -2150,6 +2154,7 @@ nav{
 @media (max-width: 1200px) {
 
   .logo {
+    
     max-width: 4rem;
     height: auto;
   }
@@ -2247,6 +2252,7 @@ nav{
   nav {
     display: flex !important;
     position: static;
+    
     flex-direction: row;
     background: none;
     box-shadow: none;
@@ -2414,12 +2420,12 @@ nav{
     z-index: 200;
   }
   .logo{
-    background: #ffffff;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+   /* background: #ffffff;*/
 
     border-radius: 50px;
     padding: 9px 9px;
   }
+
 }
 @media (max-width: 900px) {
    .slideshow-wrapper {
@@ -2488,6 +2494,14 @@ nav{
     z-index: 10 !important;
     position: relative !important;
   }
+
+  .hero-text{
+    height: 30px;      /* ή ό,τι ύψος θέλεις */
+    padding-top: 150px;  /* προσαρμόζεις ανάλογα */
+    padding-bottom:0px;
+    margin-bottom:0px;
+    overflow: hidden;
+  }
   .hero-text p{
     justify-self: center !important;
     position: relative !important;
@@ -2547,6 +2561,7 @@ nav{
   .hero{
     justify-content: center;
     align-items: center;
+    height: 350px;
   }
   .hero-text p{
     justify-self: center !important;
@@ -2601,6 +2616,11 @@ nav{
     #hero-logo img{
     filter:  brightness(0) saturate(100%) invert(1) sepia(1) hue-rotate(200deg) saturate(500%) brightness(1);
   }
+      .logo img{
+        filter:  brightness(0) saturate(100%) invert(1) sepia(1) hue-rotate(200deg) saturate(500%) brightness(1);
+
+  }
+
 
 }
 
@@ -2623,3 +2643,12 @@ nav{
     justify-content: center;
 
   }
+
+
+
+
+
+
+
+
+
