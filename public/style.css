@@ -634,7 +634,7 @@ nav{
     transform: translateX(-50%);
     z-index: 6000;
      margin-top: 150px;
-     
+     width: 250px;
 }
 }
 .program-category {
@@ -1993,6 +1993,7 @@ nav{
     margin-top: 300px;
     z-index: 5000;
     font-size: 1rem;
+    
   }
   .programs-title-center h2 {
     font-size: 1.6rem;
