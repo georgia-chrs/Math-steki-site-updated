@@ -946,6 +946,7 @@ nav{
   .goal-section {
     padding-bottom: 30px !important;
   }
+
 }
 
 @media (max-width: 900px) {
@@ -1936,23 +1937,22 @@ nav{
     margin: auto;
 }
 @media(max-width: 1200px) {
-  .programs-title-center {
-    padding: 0 1rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    justify-content: center;
-    justify-self: center;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    
-  }
+.programs-title-center {
+  padding: 0 0.2rem;
+  margin-bottom: 0rem;
+  text-align: center;
+  justify-content: center;
+  justify-self: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0  ; /* Ελέγχει το κενό ανάμεσα σε σειρά και p */
+}
 
   #program-description {
     position: relative; 
     z-index: 5000;
     width: 90%;
-    top: 22vh;
     justify-self: center;
     text-align: center;
 
@@ -1986,23 +1986,25 @@ nav{
   .height-adjust {
     position: absolute;
     z-index: 5000;
-    margin-top: 200px;
+    margin-top: 0px;
   }
   #full-program{
-    position: absolute;
-    margin-top: 300px;
+    position: flex;
+    margin-top: 280px;
     z-index: 3000;/*5000*/
     font-size: 1rem;
+
     
+  }
+  .programs-title-row{
+    margin-top: 180px;
   }
   .programs-title-center h2 {
     font-size: 1.6rem;
-    position: absolute;
     width: 100%;
     /* left: 50%; */
     justify-self: center;
     text-align: center;
-    margin-top: 150px;  
     
     z-index: 5000;  
 
@@ -2011,9 +2013,18 @@ nav{
     font-size: 1rem;
     padding: 0 1rem;
     text-align: center;
-    margin-top: 50px;
+    margin-top: -50px;
     
   }
+  #h-a-1{
+    padding-top: 0;
+  }
+  #program-description {
+  font-size: 1rem;
+  padding: 0 1rem;
+  text-align: center;
+  margin-top: 0.5rem; /* ή όσο χρειάζεσαι */
+}
   
 }
 .programs-grid {
