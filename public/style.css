@@ -1487,7 +1487,7 @@ nav{
     font-size: 2rem;
     margin-left: auto;
     cursor: pointer;
-    z-index: 200;
+    /*z-index: 200;*/
   }
 
 
@@ -1991,7 +1991,7 @@ nav{
   #full-program{
     position: absolute;
     margin-top: 300px;
-    z-index: 5000;
+    z-index: 3000;/*5000*/
     font-size: 1rem;
     
   }
@@ -2193,7 +2193,7 @@ nav{
     font-size: 2rem;
     margin-left: auto;
     cursor: pointer;
-    z-index: 200;
+    /*z-index: 200;*/
     
   }
   .icons {
@@ -2389,7 +2389,7 @@ nav{
     font-size: 2rem;
     margin-left: auto;
     cursor: pointer;
-    z-index: 200;
+    /*z-index: 200;*/
   }
   .logo{
    /* background: #ffffff;*/
