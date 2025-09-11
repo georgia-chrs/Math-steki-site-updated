@@ -30,7 +30,7 @@ const dropdownBtn = document.getElementById('dropdownBtn');
           overlay.style.width = '100vw';
           overlay.style.height = '100vh';
           overlay.style.background = 'rgba(0,0,0,0.4)';
-          overlay.style.zIndex = '9999';
+          overlay.style.zIndex = '10000';
           overlay.style.transition = 'opacity 0.2s';
           document.body.appendChild(overlay);
           // Κλείσιμο με κλικ στο overlay
