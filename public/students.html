@@ -123,14 +123,19 @@
 
       <section >     
         <div id="line2" class="line" ></div>
-        <div class="programs-title-center" style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 50px;">
-          <h2 >Πρόγραμμα σπουδών</h2>
-          <a href="main-page/programs.html" id="full-program" class="contact-btn" style="text-decoration: none;">Πλήρες πρόγραμμα</a>
-        </div>
+     <div class="programs-title-center" style="width: 100%; margin-top: 50px;">
+      <div class="programs-title-row" style="display: flex; justify-content: center; align-items: center; gap: 24px;">
+        <a href="main-page/programs.html" id="full-program" class="contact-btn" style="text-decoration: none; visibility: hidden;">Πλήρες πρόγραμμα</a>
+        <h2 style="margin: 0; text-align: center; ">Πρόγραμμα σπουδών</h2>
+        <a href="main-page/programs.html" id="full-program" class="contact-btn" style="text-decoration: none;">Πλήρες πρόγραμμα</a>
+      </div>
+      <p id="program-description" style="text-align: center; margin-top: 16px;">
+        Για αναλυτικότερη περιγραφή των προγραμμάτων παρακαλούμε συνδεθείτε στο σύστημα του φροντιστηρίου μας ή επικοινωνήστε μαζί μας.
+      </p>
+    </div>
 
 
 
-        <p  id="program-description" style=" color: rgba(10, 10, 10, 0.500); margin-top: 10px; padding: 10px; margin-bottom: 50px; text-align: center;">Για αναλυτικότερη περιγραφή των προγραμμάτων παρακαλούμε συνδεθείτε στο σύστημα του φροντιστηρίου μας ή επικοινωνήστε μαζί μας.</p>
 
         <div class="height-adjust" id="h-a-1">
         <div class="animation-for-section">
@@ -178,22 +183,39 @@
 <div class="height-adjust-space"></div>
 <div class="height-adjust2">
       <div class="line" ></div>
-
+  <section class="stats-section" id="stats2" style="width: 100vw; position: relative; left: 50%; right: 50%; transform: translateX(-50%); overflow: visible; padding-top: 120px; z-index: 1; min-height: 180px;">
+      <!-- Blob από κάτω -->
+      <svg class="blob-bg blob1" id="blob1" viewBox="0 0 1440 800" preserveAspectRatio="none" style="position: absolute; left: 0; right: 0; width: 100%; height: 180px; z-index: 0;">
+        <path fill="#EB5A4A" fill-opacity="1"
+  d="M0,530L60,479C120,428,240,328,360,326.7C480,328,600,428,720,507C840,586,960,642,1080,584.4C1200,530,1320,384,1380,306L1440,228L1440,800L1380,800C1320,800,1200,800,1080,800C960,800,840,800,720,800C600,800,480,800,360,800C240,800,120,800,60,800L0,800Z" />
+      </svg>
+      <!-- Blob από πάνω -->
+      <svg class="blob-bg blob2" id="blob2" viewBox="0 0 1440 800" preserveAspectRatio="none" style="position: absolute; left: 0; right: 0; width: 100%; height: 180px; z-index: 0;">
+        <path fill="#FF9B69" fill-opacity="0.8" transform="scale(-1, 1) translate(-1440, 0)"
+  d="M0,530L60,479C120,428,240,328,360,326.7C480,328,600,428,720,507C840,586,960,642,1080,584.4C1200,530,1320,384,1380,306L1440,228L1440,800L1380,800C1320,800,1200,800,1080,800C960,800,840,800,720,800C600,800,480,800,360,800C240,800,120,800,60,800L0,800Z" />
+      </svg>
+  <!-- Blob από πάνω 
+      <div class="stats-content" id="statsContent" >
+        <div class="stat">150+ μαθητές</div>
+        <div class="stat">7 καθηγητές</div>
+        <div class="stat">84 επιτυχόντες</div>
+      </div>-->
+  </section>
       
       <section class="experience" id="ex2">
 
           
             <h2>Ανακοινώσεις</h2>
             <p style=" color: rgba(10, 10, 10, 0.500); margin-top: 10px; padding: 10px; margin-bottom: 50px; text-align: center;">Μείνετε διαρκώς ενημερωμένοι για όλα όσα αφορούν το Μαθητικό Στέκι αλλά και την ευρύτερη εκπαιδευτική επικαιρότητα.</p>
-        <div class="animation-for-section">
-          <section class="announcements" >
-            <div class="container-2 ">
-              <div class="announcements"style ="background-color: aqua;">
-                <!-- Εδώ θα μπουν οι ανακοινώσεις από JS -->
-              </div>
+            <div class="animation-for-section">
+              <section class="announcements" >
+                <div class="container-2 ">
+                  <div class="announcements"style ="background-color: aqua;">
+                    <!-- Εδώ θα μπουν οι ανακοινώσεις από JS -->
+                  </div>
+                </div>
+              </section>
             </div>
-          </section>
-        </div>
 
         <script src="main-announcements.js"></script>
 
@@ -248,7 +270,41 @@
 </div>
 
     <div class="height-adjust-space"></div>
+    <script>
+  const blob1 = document.getElementById('blob1');
+  const blob2 = document.getElementById('blob2');
+  const statsSection = document.getElementById('stats');
+  const statsContent = document.getElementById('statsContent');
 
+  let blobsShown = false;
+  blob1.style.display = 'none';
+  blob2.style.display = 'none';
+
+  function showBlobsAnimated() {
+    if (blobsShown) return;
+    blobsShown = true;
+    blob1.style.display = 'block';
+    blob2.style.display = 'block';
+    blob1.classList.add('visible');
+    blob2.classList.add('visible');
+    setTimeout(() => {
+      blob1.classList.add('animate');
+      blob2.classList.add('animate');
+      if (statsContent) statsContent.classList.add('animate');
+    }, 50);
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        showBlobsAnimated();
+      }
+    });
+  }, { threshold: 0.4 });
+  observer.observe(statsSection);
+
+  statsSection.addEventListener('mouseenter', showBlobsAnimated);
+    </script>
 
  
 <div class="height-adjust3">
@@ -267,7 +323,7 @@
                     </div>
                   
                   <div class="target" >
-                  <h3>Άρτια καταρτισμένο Προσωπικό</h3>
+                  <h3 style="text-align: center;">Άρτια καταρτισμένο Προσωπικό</h3>
                     <p style=" width: 350px; word-break: break-word; text-align: center; margin: 0 auto;">Οι καθηγητές μας είναι έμπειροι, καταρτισμένοι μα πάνω από όλα παθιασμένοι με αυτό που κάνουν - μα πάνω απ' όλα, είναι μέντορες. Είναι δίπλα στους μαθητές με χαμόγελο, στήριξη και ουσιαστική παρουσία, δημιουργώντας μια αληθινή παρέα που σε εμπνέει να προσπαθήσεις, να εξελιχθείς και να πετύχεις.</p>
                   </div>
                 </div>
@@ -276,7 +332,7 @@
                     <img src="elements\teach.svg" alt=""  style="width: 30px; height: 30px;">
                   </div>
                   <div  class="target" >
-                    <h3>Πλήρως Εξοπλισμένες Υποδομές</h3>
+                    <h3 style="text-align: center;">Πλήρως Εξοπλισμένες Υποδομές</h3>
                     <p style="width: 350px; word-break: break-word; text-align: center; margin: 0 auto;">Το προσωπικό μας βρίσκεται πάντα δίπλα στους μαθητές, παρέχοντας τους ασφάλεια και σιγουριά κατα την διδασκαλία.</p>
                   </div>
                 </div>
@@ -285,7 +341,7 @@
                     <img src="elements\tube.svg" alt=""  style="width: 30px; height: 30px;">
                   </div>
                   <div class="target">
-                    <h3>Συνεχής Αξιολόγηση Και Ενημέρωση</h3>
+                    <h3 style="text-align: center;">Συνεχής Αξιολόγηση Και Ενημέρωση</h3>
                     <p >Η πρόοδος κάθε μαθητή παρακολουθείται με συστηματική αξιολόγηση και συνεχόμενη ενημέρωση, ώστε να εξασφαλίζουμε την αποτελεσματική καθοδήγηση και την έγκαιρη υποστήριξη σε κάθε βήμα της μαθησιακής πορείας.</p>
                   </div>
                 </div>
