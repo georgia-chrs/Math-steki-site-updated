@@ -241,7 +241,7 @@ nav .login-btn {
   color: #fff !important;
 }
 nav .login-btn:hover {
-      background: #F7C19C;
+  background: #F7C19C;
   color: #BC5E29;
   box-shadow: 0 0 0 2px rgba(183, 54, 22, 0.495)
 }
@@ -520,7 +520,7 @@ nav{
 }
 
 .contact-btn {
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 
   background: #4d2c1e;
   color: #fff;
@@ -655,7 +655,7 @@ nav{
 }
 
 .btn {
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
 
   border: none;
   padding: 12px 20px;
@@ -1490,18 +1490,7 @@ nav{
     z-index: 200;
   }
 
-  .login-btn {
-    bottom: 20px !important;
-    border-radius: 20px;
-    transition: background 0.2s;
-    font-size: 0.8rem !important;
-    
-  }
-  .login-btn:hover {
-      background: #F7C19C;
-    color: #BC5E29;
-    box-shadow: 0 0 0 2px rgba(183, 54, 22, 0.495)
-  }
+
     
 }
 @media (min-width: 1201px) {
@@ -2224,19 +2213,7 @@ nav{
     max-height: 30px !important;
     object-fit: contain !important;
   }
-  .login-btn {
-    position: static !important;
-    display: block !important;
-    margin: 18px auto 0 auto !important;
-    left: auto !important;
-    bottom: auto !important;
-    transform: none !important;
-    font-size: 0.8rem !important;
-    z-index: 300;
-    width: 200px !important;
-    max-width: 320px !important;
-    text-align: center !important;
-  }
+
 }
 @media (min-width: 1201px) {
   .menu-toggle {
@@ -2253,6 +2230,7 @@ nav{
   }
 }
 @media (max-width: 900px) {
+  
   html, body {
     width: 100vw;
     max-width: 100vw !important;
@@ -2635,6 +2613,28 @@ nav{
     align-items: center;
     justify-content: center;
 
+  }
+  /* Ειδικό reset για το login κουμπί στο mobile menu */
+  nav.open .login-btn {
+    display: inline-block !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    padding: 0.5rem 1.2rem !important;
+    margin: 0.5rem 0 !important;
+    text-align: center !important;
+    background: #4d2c1e !important;
+    color: #fff !important;
+    border-radius: 20px !important;
+    font-weight: 500 !important;
+    font-size: medium !important;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2) !important;
+    transition: background 0.2s !important;
+  }
+  nav.open .login-btn:hover {
+    background: #F7C19C !important;
+    color: #BC5E29 !important;
+    box-shadow: 0 0 0 2px rgba(183, 54, 22, 0.495) !important;
   }
 
 
