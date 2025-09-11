@@ -323,7 +323,7 @@
 <!-- Φίλτρα τύπου και τάξης στην αρχή της σελίδας -->
 <div class="filter-container"><!--na to brw exei xroma -->
      <div class="filter-item">
-      <select id="filterClass" style=" padding: 8px 16px; border-radius: 8px; border: 2px solid #e39c50; font-size: 15px;">
+      <select id="filterClass"  class="filterType">
         <option value="">Τάξη</option>
         <option value="Α">Α'</option>
         <option value="Β">Β'</option>
@@ -465,9 +465,10 @@
   
  
   </main>
-   <footer>
-    <div class="footer-content" style="display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start;  width: 100%; max-width: 100vw; box-sizing: border-box;">
-      <div class="hero-logo" style="margin-bottom: 1rem; margin-top: -20px;">
+  <footer>
+    <div class="height-adjust4">
+    <div class="footer-content" style="display: flex; flex-direction: row; justify-content: space-between; justify-self: center; width: 95%; max-width: 95vw; box-sizing: border-box; margin-top: 20px;">
+      <div class="hero-logo" id="footer-logo"  style="margin-bottom: 1rem;">
         <img src="../../logo/b-l.png" alt="Μαθητικό Στέκι" style="max-width: 320px; width: 100%; height: auto; filter: brightness(0) invert(1); ">
       </div>
       <div class="footer-links"  data-id="footer-links" style="display: flex; flex-direction: column; align-items: center; gap: 0.3em; text-align: center; justify-content: center; margin-top: 40px;">
@@ -483,7 +484,7 @@
           src="https://www.google.com/maps?q=Κρόνου+14,+Κορυδαλλός+181+22&output=embed"
           width="290"
           height="140"
-          style="border:10px solid #ffffff; border-radius: 10px;"
+          style="border:10px solid #ffffff; border-radius: 10px; margin-top: 10px;"
           allowfullscreen=""
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
@@ -493,6 +494,7 @@
     </div>
     <div class="footer-bottom" style="margin-top: 30px;  text-align: center; font-size: 0.9em; color: #ccc;">
       &copy; 2025 Μαθητικό Στέκι
+    </div>
     </div>
   </footer>
     <script src="../../main.js"></script>

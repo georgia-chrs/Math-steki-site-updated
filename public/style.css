@@ -2644,5 +2644,25 @@ nav{
 
 
 
+.filterType {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 2px solid #c055319e;
+    font-size: 15px;
+    color: white;
+    background: #f1b774;
+  }
+
+  /* Remove default blue highlight on focus */
+
+
+  /* Option styling (note: option:hover is not supported in most browsers) */
+  .filterType option {
+    background: rgb(246, 246, 246);
+    border: 1px solid #ffb8a1;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #f1b774;
+  }
 
 

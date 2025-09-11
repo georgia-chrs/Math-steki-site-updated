@@ -114,7 +114,7 @@ function displayAnnouncementsOnMainPage(announcements) {
 
     const width = window.innerWidth;
     const height = window.innerHeight;
-    if (window.innerWidth <= 600) { 
+    if (window.innerWidth <= 1200) { //600
           container.innerHTML = '';
           const ul = document.createElement('ul');
           ul.style.listStyle = 'none';
