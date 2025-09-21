@@ -983,3 +983,21 @@ function showProgressViewModal(html, student) {
 function closeProgressViewModal() {
   document.getElementById('progressViewModal').style.display = 'none';
 }
+
+// Προσθήκη modal για εμφάνιση σημειώσεων προόδου αν δεν υπάρχει ήδη
+(function addProgressViewModalToDOM() {
+  if (!document.getElementById('progressViewModal')) {
+    const modal = document.createElement('div');
+    modal.id = 'progressViewModal';
+    modal.className = 'modal';
+    modal.style.display = 'none';
+    modal.innerHTML = `
+      <div class="modal-content" style="max-width: 650px; background: #fff8e8; border: 2px solid #ff7e5f; border-radius: 15px; box-shadow: 0 10px 30px rgba(77, 44, 30, 0.15);">
+        <span class="close" onclick="closeProgressViewModal()" style="color: #4d2c1e; font-size: 28px; font-weight: bold;">&times;</span>
+        <h2 id="progressViewModalTitle" style="color: #4d2c1e; text-align: center; margin-bottom: 25px; font-size: 24px; border-bottom: 3px solid #ff7e5f; padding-bottom: 15px;"></h2>
+        <div id="progressViewModalBody"></div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+})();
