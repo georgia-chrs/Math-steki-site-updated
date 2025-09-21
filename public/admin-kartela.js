@@ -840,6 +840,7 @@ if (progressForm) {
     
     async function viewStudentGrades(studentId) {
       const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
+      console.log('viewStudentProgress called', studentId); 
       if (!student) {
         showPopupCard('Δεν βρέθηκε ο μαθητής.', 'error');
         return;
