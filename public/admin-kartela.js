@@ -1,4 +1,4 @@
-    // Global variables
+// Global variables
     let selectedStudent = null;
     // Global arrays
     window.allSubjects = [];
@@ -259,6 +259,9 @@
             </button>
             <button class="btn btn-mini btn-warning" onclick="viewStudentGrades(${student.id})"style="background : #532a05; color:white;">
                Βαθμοί
+            </button>
+            <button class="btn btn-mini btn-primary" onclick="viewStudentProgress(${student.id})" style="background: #0b3ca4; color:white;">
+               Πρόοδος
             </button>
           </div>
         `;
@@ -875,3 +878,78 @@ async function openCalendarModal() {
           console.error('Error loading subjects:', error);
       }
     }
+async function viewStudentProgress(studentId) {
+  const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
+  if (!student) {
+    showPopupCard('Δεν βρέθηκε ο μαθητής.', 'error');
+    return;
+  }
+  try {
+    const response = await fetch(`/api/progress/${student.id}`);
+    if (response.ok) {
+      const progressList = await response.json();
+      if (!progressList || progressList.length === 0) {
+        showPopupCard(`Δεν υπάρχουν σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}`, 'info');
+        return;
+      }
+      let msg = `<strong>Σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}:</strong><br>`;
+      progressList.forEach(p => {
+        const subj = allSubjects.find(s => s.id === p.subject_id || s.id === p.subjectId);
+        const subjectName = subj ? subj.name : p.subject_id || p.subjectId;
+        let dateOnly = p.date ? (p.date.split('T')[0] || p.date) : '';
+        msg += `<div style='border-bottom:1px solid #eee;margin-bottom:8px;padding-bottom:6px;'>` +
+          `<b>Μάθημα:</b> ${subjectName} | <b>Ημ/νία:</b> ${dateOnly}<br>` +
+          `<b>Σημείωση:</b> <span id='note-${p.id}'>${p.note || ''}</span><br>` +
+          `<b>Αξιολόγηση:</b> ${p.rating || '-'}<br>` +
+          `<button onclick='editProgressNote(${p.id}, ${student.id})' style='margin-right:8px;'>Επεξεργασία</button>` +
+          `<button onclick='deleteProgressNote(${p.id}, ${student.id})' style='color:#b00;'>Διαγραφή</button>` +
+          `</div>`;
+      });
+      showPopupCard(msg, 'info', true);
+    } else {
+      showPopupCard('Σφάλμα κατά την ανάκτηση σημειώσεων προόδου', 'error');
+    }
+  } catch (error) {
+    showPopupCard('Σφάλμα σύνδεσης με το server', 'error');
+  }
+}
+
+// Επεξεργασία σημείωσης προόδου
+window.editProgressNote = async function(progressId, studentId) {
+  const noteSpan = document.getElementById(`note-${progressId}`);
+  if (!noteSpan) return;
+  const oldNote = noteSpan.textContent;
+  const newNote = prompt('Επεξεργασία σημείωσης:', oldNote);
+  if (newNote === null || newNote === oldNote) return;
+  try {
+    const res = await fetch(`/api/progress/${progressId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ note: newNote })
+    });
+    if (res.ok) {
+      noteSpan.textContent = newNote;
+      showNotification('Η σημείωση ενημερώθηκε!', 'success');
+    } else {
+      showNotification('Σφάλμα κατά την ενημέρωση σημείωσης', 'error');
+    }
+  } catch {
+    showNotification('Σφάλμα σύνδεσης με το server', 'error');
+  }
+}
+
+// Διαγραφή σημείωσης προόδου
+window.deleteProgressNote = async function(progressId, studentId) {
+  if (!confirm('Θέλετε σίγουρα να διαγράψετε αυτή τη σημείωση;')) return;
+  try {
+    const res = await fetch(`/api/progress/${progressId}`, { method: 'DELETE' });
+    if (res.ok) {
+      showNotification('Η σημείωση διαγράφηκε!', 'success');
+      viewStudentProgress(studentId);
+    } else {
+      showNotification('Σφάλμα κατά τη διαγραφή σημείωσης', 'error');
+    }
+  } catch {
+    showNotification('Σφάλμα σύνδεσης με το server', 'error');
+  }
+}
