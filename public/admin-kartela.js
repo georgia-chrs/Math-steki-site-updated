@@ -349,6 +349,7 @@ window.editGradesNote = async function(gradeId, studentId) {
             <button class="btn btn-mini btn-success" onclick="selectStudent(${student.id})" style="background : #dc5935; color:white;">
                Επιλογή
             </button>
+            <!-- 
             <button class="btn btn-mini btn-info" onclick="viewStudentDetails(${student.id})"style="background : #a4360b; color:white;">
                Στοιχεία
             </button>
@@ -357,7 +358,7 @@ window.editGradesNote = async function(gradeId, studentId) {
             </button>
             <button class="btn btn-mini btn-primary" onclick="viewStudentProgress(${student.id})" style="background: #0b3ca4; color:white;">
                Πρόοδος
-            </button>
+            </button>-->
           </div>
         `;
         
