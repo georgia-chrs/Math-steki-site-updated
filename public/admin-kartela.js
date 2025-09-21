@@ -739,7 +739,7 @@ async function openCalendarModal() {
       notification.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: flex-start;">
           <div style="flex: 1; margin-right: 10px;">${message}</div>
-          <button onclick="this.parentElement.parentElement.remove()" style="
+          <button onclick="this.parentElement.parentElement.remove()" style=""
             background: none;
             border: none;
             font-size: 18px;
@@ -914,7 +914,7 @@ async function viewStudentProgress(studentId) {
   }
 }
 
-// Επεξεργασία σημείωσης προόδου
+// --- Οι παρακάτω συναρτήσεις πρέπει να είναι global για να δουλεύουν τα κουμπιά στο HTML ---
 window.editProgressNote = async function(progressId, studentId) {
   const noteSpan = document.getElementById(`note-${progressId}`);
   if (!noteSpan) return;
@@ -938,7 +938,6 @@ window.editProgressNote = async function(progressId, studentId) {
   }
 }
 
-// Διαγραφή σημείωσης προόδου
 window.deleteProgressNote = async function(progressId, studentId) {
   if (!confirm('Θέλετε σίγουρα να διαγράψετε αυτή τη σημείωση;')) return;
   try {
