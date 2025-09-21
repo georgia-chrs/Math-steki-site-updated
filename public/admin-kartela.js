@@ -937,12 +937,14 @@ async function viewStudentProgress(studentId) {
 async function viewStudentProgress(studentId) {
   const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
   console.log('viewStudentProgress called', studentId);
+  console.log('Found student:', student.id);
   if (!student) {
     showPopupCard('Δεν βρέθηκε ο μαθητής.', 'error');
     return;
   }
   try {
     const response = await fetch(`/api/progress/${student.id}`);
+    console.log('Fetch response:', response);
     if (response.ok) {
       const progressList = await response.json();
       window._lastProgressList = progressList; // αποθηκεύουμε για edit
