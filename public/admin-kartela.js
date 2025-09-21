@@ -961,19 +961,23 @@ async function viewStudentProgress(studentId) {
       }
       let msg = `<strong>Σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}:</strong><br>`;
       progressList.forEach(p => {
-        // Αντιστοίχιση backend -> frontend
-        const subj = allSubjects.find(s => s.id === p.subject_id);
-        const subjectName = subj ? subj.name : p.subject_name || p.subject_id;
-        let dateOnly = p.note_date ? (p.note_date.split('T')[0] || p.note_date) : '';
-        const note = p.content || p.note || '';
-        const rating = p.performance_level || p.rating || '-';
-        msg += `<div style='border-bottom:1px solid #eee;margin-bottom:8px;padding-bottom:6px;'>` +
-          `<b>Μάθημα:</b> ${subjectName} | <b>Ημ/νία:</b> ${dateOnly}<br>` +
-          `<b>Σημείωση:</b> <span id='note-${p.id}'>${note}</span><br>` +
-          `<b>Αξιολόγηση:</b> ${rating}<br>` +
-          `<button onclick='editProgressNote(${p.id}, ${student.id})' style='margin-right:8px;'>Επεξεργασία</button>` +
-          `<button onclick='deleteProgressNote(${p.id}, ${student.id})' style='color:#b00;'>Διαγραφή</button>` +
-          `</div>`;
+        try {
+          const subj = allSubjects.find(s => s.id === p.subject_id);
+          const subjectName = subj ? subj.name : (p.subject_name || p.subject_id || '[Χωρίς μάθημα]');
+          let dateOnly = p.note_date ? (p.note_date.split('T')[0] || p.note_date) : '';
+          const note = p.content || '-';
+          const rating = p.performance_level || '-';
+          msg += `<div style='border-bottom:1px solid #eee;margin-bottom:8px;padding-bottom:6px;'>` +
+            `<b>Μάθημα:</b> ${subjectName} | <b>Ημ/νία:</b> ${dateOnly}<br>` +
+            `<b>Σημείωση:</b> <span id='note-${p.id}'>${note}</span><br>` +
+            `<b>Αξιολόγηση:</b> ${rating}<br>` +
+            `<button onclick='editProgressNote(${p.id}, ${student.id})' style='margin-right:8px;'>Επεξεργασία</button>` +
+            `<button onclick='deleteProgressNote(${p.id}, ${student.id})' style='color:#b00;'>Διαγραφή</button>` +
+            `</div>`;
+        } catch (err) {
+          console.error('Error rendering progress note:', err, p);
+          msg += `<div style='color:red;'>Σφάλμα στην εμφάνιση σημείωσης (ID: ${p.id})</div>`;
+        }
       });
       showProgressViewModal(msg, student);
     } else {
