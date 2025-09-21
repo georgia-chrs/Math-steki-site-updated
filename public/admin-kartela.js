@@ -946,6 +946,7 @@ async function viewStudentProgress(studentId) {
     const response = await fetch(`/api/progress/${student.id}`);
     console.log('Fetch response:', response);
     if (response.ok) {
+      console.log('Fetch response JSON:', await response.json());
       const progressList = await response.json();
       window._lastProgressList = progressList; // αποθηκεύουμε για edit
       if (!progressList || progressList.length === 0) {
