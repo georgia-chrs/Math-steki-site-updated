@@ -1025,11 +1025,11 @@ async function viewStudentGrades(studentId) {
       grades.forEach(grade => {
         const subj = allSubjects.find(s => s.id === grade.subject_id || s.id === grade.subjectId);
         const subjectName = subj ? subj.name : grade.subject_name || grade.subjectId || grade.subject_id;
-        let dateOnly = grade.grade_date ? (grade.grade_date.split('T')[0] || grade.grade_date) : '';
+        let dateOnly = grade.exam_date ? (String(grade.exam_date).split('T')[0] || grade.exam_date) : '';
         msg += `<div style='border-bottom:1px solid #eee;margin-bottom:8px;padding-bottom:6px;'>` +
           `<b>Μάθημα:</b> ${subjectName} | <b>Ημ/νία:</b> ${dateOnly}<br>` +
           `<b>Βαθμός:</b> ${grade.grade || '-'}<br>` +
-          `<b>Σχόλιο:</b> ${grade.comment || '-'}<br>` +
+          `<b>Σχόλιο:</b> ${grade.notes || '-'}<br>` +
           `</div>`;
       });
       showPopupCard(msg, 'info', true);
