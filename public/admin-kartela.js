@@ -848,31 +848,34 @@ async function viewStudentProgress(studentId) {
       try {
         const response = await fetch(`/api/progress/${student.id}`);
         if (response.ok) {
-          const progressNotes = await response.json();
-          if (!progressNotes || progressNotes.length === 0) {
+          let progressList = await response.json();
+          console.log('Fetch response JSON:', progressList);
+          window._lastProgressList = progressList; // αποθηκεύουμε για edit
+          if (!progressList || progressList.length === 0) {
             showPopupCard(`Δεν υπάρχουν σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}`, 'info');
             return;
           }
           let msg = `<strong>Σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}:</strong><br>`;
-          progressNotes.forEach(note => {
-            // Βρες το όνομα μαθήματος
-            const subj = allSubjects.find(s => s.id === note.subjectId);
-            const subjectName = subj ? subj.name : note.subjectId;
-            // Αφαίρεση ώρας από noteDate (ISO format)
-            let dateOnly = '';
-            if (note.noteDate) {
-              if (note.noteDate.includes('T')) {
-                dateOnly = note.noteDate.split('T')[0];
-              } else if (note.noteDate.includes(' ')) {
-                dateOnly = note.noteDate.split(' ')[0];
-              } else {
-                dateOnly = note.noteDate;
-              }
+          progressList.forEach(p => {
+            try {
+              const subj = allSubjects.find(s => s.id === p.subject_id);
+              const subjectName = subj ? subj.name : (p.subject_name || p.subject_id || '[Χωρίς μάθημα]');
+              let dateOnly = p.note_date ? (p.note_date.split('T')[0] || p.note_date) : '';
+              const note = p.content || '-';
+              const rating = p.performance_level || '-';
+              msg += `<div style='border-bottom:1px solid #eee;margin-bottom:8px;padding-bottom:6px;'>` +
+                `<b>Μάθημα:</b> ${subjectName} | <b>Ημ/νία:</b> ${dateOnly}<br>` +
+                `<b>Σημείωση:</b> <span id='note-${p.id}'>${note}</span><br>` +
+                `<b>Αξιολόγηση:</b> ${rating}<br>` +
+                `<button onclick='editProgressNote(${p.id}, ${student.id})' style='margin-right:8px;'>Επεξεργασία</button>` +
+                `<button onclick='deleteProgressNote(${p.id}, ${student.id})' style='color:#b00;'>Διαγραφή</button>` +
+                `</div>`;
+            } catch (err) {
+              console.error('Error rendering progress note:', err, p);
+              msg += `<div style='color:red;'>Σφάλμα στην εμφάνιση σημείωσης (ID: ${p.id})</div>`;
             }
-            msg += `Μάθημα: <b>${subjectName}</b> | Ημ/νία: ${dateOnly} | Επίπεδο: ${note.performanceLevel || '-'}<br>Σχόλιο: ${note.content || '-'}<br>`;
-            msg += `<button onclick="editProgressNote('${note.id}')">Επεξεργασία</button> <button onclick="deleteProgressNote('${note.id}')">Διαγραφή</button><hr>`;
           });
-          showPopupCard(msg, 'info', true);
+          showProgressViewModal(msg, student);
         } else {
           showPopupCard('Σφάλμα κατά την ανάκτηση σημειώσεων προόδου', 'error');
         }
@@ -946,17 +949,11 @@ async function viewStudentProgress(studentId) {
     const response = await fetch(`/api/progress/${student.id}`);
     console.log('Fetch response:', response);
     if (response.ok) {
-      console.log('Fetch response JSON:', await response.json());
-      const progressList = await response.json();
+      let progressList = await response.json();
+      console.log('Fetch response JSON:', progressList);
       window._lastProgressList = progressList; // αποθηκεύουμε για edit
       if (!progressList || progressList.length === 0) {
-        /*
         showPopupCard(`Δεν υπάρχουν σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}`, 'info');
-        */
-        showPopupCard(`Δεν υπάρχουν σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}`, 'info');
-
-       
-       
         return;
       }
       let msg = `<strong>Σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}:</strong><br>`;
