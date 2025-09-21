@@ -840,7 +840,6 @@ if (progressForm) {
 
 async function viewStudentProgress(studentId) {
       const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
-      console.log('viewStudentProgress called', studentId); 
       if (!student) {
         showPopupCard('Δεν βρέθηκε ο μαθητής.', 'error');
         return;
@@ -939,8 +938,6 @@ async function viewStudentProgress(studentId) {
     }
 async function viewStudentProgress(studentId) {
   const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
-  console.log('viewStudentProgress called', studentId);
-  console.log('Found student:', student.id);
   if (!student) {
     showPopupCard('Δεν βρέθηκε ο μαθητής.', 'error');
     return;
@@ -1062,7 +1059,7 @@ async function viewStudentGrades(studentId) {
 
 
 async function viewStudentGrades(studentId) {
-  const student = allStudents.find(s => s.id === studentId);
+  const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
   if (!student) {
     showPopupCard('Δεν βρέθηκε ο μαθητής.', 'error');
     return;
