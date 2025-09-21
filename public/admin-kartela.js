@@ -863,7 +863,7 @@ async function viewStudentProgress(studentId) {
               let dateOnly = p.note_date ? (p.note_date.split('T')[0] || p.note_date) : '';
               const note = p.content || '-';
               const rating = p.performance_level || '-';
-              msg += `<div style='border-bottom:1px solid #eee;margin-bottom:8px;padding-bottom:6px; background:white; border-radius:15px;'>` +
+              msg += `<div style='border-bottom:1px solid #eee;margin-bottom:8px;padding-bottom:6px;background-color: #fff; border-radius:15px;'>` +
                 `<b>Μάθημα:</b> ${subjectName} | <b>Ημ/νία:</b> ${dateOnly}<br>` +
                 `<b>Σημείωση:</b> <span id='note-${p.id}'>${note}</span><br>` +
                 `<b>Αξιολόγηση:</b> ${rating}<br>` +
