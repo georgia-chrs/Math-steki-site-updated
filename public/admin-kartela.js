@@ -941,7 +941,13 @@ async function viewStudentProgress(studentId) {
       const progressList = await response.json();
       window._lastProgressList = progressList; // αποθηκεύουμε για edit
       if (!progressList || progressList.length === 0) {
+        /*
         showPopupCard(`Δεν υπάρχουν σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}`, 'info');
+        */
+        showPopupCard(`Δεν υπάρχουν σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}`, 'info');
+
+       
+       
         return;
       }
       let msg = `<strong>Σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}:</strong><br>`;
@@ -960,11 +966,20 @@ async function viewStudentProgress(studentId) {
           `<button onclick='deleteProgressNote(${p.id}, ${student.id})' style='color:#b00;'>Διαγραφή</button>` +
           `</div>`;
       });
-      showPopupCard(msg, 'info', true);
+      showProgressViewModal(msg, student);
     } else {
       showPopupCard('Σφάλμα κατά την ανάκτηση σημειώσεων προόδου', 'error');
     }
   } catch (error) {
     showPopupCard('Σφάλμα σύνδεσης με το server', 'error');
   }
+}
+
+function showProgressViewModal(html, student) {
+  document.getElementById('progressViewModalTitle').innerHTML = `Σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}`;
+  document.getElementById('progressViewModalBody').innerHTML = html;
+  document.getElementById('progressViewModal').style.display = 'block';
+}
+function closeProgressViewModal() {
+  document.getElementById('progressViewModal').style.display = 'none';
 }
