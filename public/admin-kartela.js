@@ -838,7 +838,7 @@ if (progressForm) {
       alert(`Όνομα: ${student.firstName} ${student.lastName}\nΤάξη: ${student.studentClass}\nΤηλέφωνο: ${student.phone}\nEmail: ${student.email || 'Δεν υπάρχει'}\nΓονέας: ${student.parentName || 'Δεν έχει καταχωρηθεί'}\nΤηλ. Γονέα: ${student.parentPhone || 'Δεν έχει καταχωρηθεί'}`);
     }
 
-    window.viewStudentProgress = async function viewStudentProgress(studentId) {
+async function viewStudentProgress(studentId) {
       const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
       console.log('viewStudentProgress called', studentId); 
       if (!student) {
@@ -1007,7 +1007,7 @@ function closeProgressViewModal() {
   }
 })();
 
-window.viewStudentGrades = async function viewStudentGrades(studentId) {
+async function viewStudentGrades(studentId) {
   const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
   if (!student) {
     showPopupCard('Δεν βρέθηκε ο μαθητής.', 'error');
