@@ -892,7 +892,7 @@ if (progressForm) {
       card.style.background = type === 'error' ? '#ffdddd' : '#f7faff';
       card.style.color = '#333';
       card.style.padding = '22px 28px';
-      card.style.borderRadius = '12px';
+      card.style.borderRadius = '15px';
       card.style.boxShadow = '0 4px 16px rgba(0,0,0,0.18)';
       card.style.fontSize = '17px';
       card.style.maxWidth = '420px';
@@ -1006,3 +1006,37 @@ function closeProgressViewModal() {
     document.body.appendChild(modal);
   }
 })();
+
+window.viewStudentGrades = async function viewStudentGrades(studentId) {
+  const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
+  if (!student) {
+    showPopupCard('Δεν βρέθηκε ο μαθητής.', 'error');
+    return;
+  }
+  try {
+    const response = await fetch(`/api/grades/${student.id}`);
+    if (response.ok) {
+      const grades = await response.json();
+      if (!grades || grades.length === 0) {
+        showPopupCard(`Δεν υπάρχουν βαθμολογίες για τον/την ${student.firstName} ${student.lastName}`, 'info');
+        return;
+      }
+      let msg = `<strong>Βαθμολογίες για τον/την ${student.firstName} ${student.lastName}:</strong><br>`;
+      grades.forEach(grade => {
+        const subj = allSubjects.find(s => s.id === grade.subject_id || s.id === grade.subjectId);
+        const subjectName = subj ? subj.name : grade.subject_name || grade.subjectId || grade.subject_id;
+        let dateOnly = grade.grade_date ? (grade.grade_date.split('T')[0] || grade.grade_date) : '';
+        msg += `<div style='border-bottom:1px solid #eee;margin-bottom:8px;padding-bottom:6px;'>` +
+          `<b>Μάθημα:</b> ${subjectName} | <b>Ημ/νία:</b> ${dateOnly}<br>` +
+          `<b>Βαθμός:</b> ${grade.grade || '-'}<br>` +
+          `<b>Σχόλιο:</b> ${grade.comment || '-'}<br>` +
+          `</div>`;
+      });
+      showPopupCard(msg, 'info', true);
+    } else {
+      showPopupCard('Σφάλμα κατά την ανάκτηση βαθμολογιών', 'error');
+    }
+  } catch (error) {
+    showPopupCard('Σφάλμα σύνδεσης με το server', 'error');
+  }
+}
