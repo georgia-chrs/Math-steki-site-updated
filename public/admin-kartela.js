@@ -1024,7 +1024,7 @@ function closeProgressViewModal() {
     document.body.appendChild(modal);
   }
 })();
-
+/*
 async function viewStudentGrades(studentId) {
   const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
   if (!student) {
@@ -1057,4 +1057,90 @@ async function viewStudentGrades(studentId) {
   } catch (error) {
     showPopupCard('Σφάλμα σύνδεσης με το server', 'error');
   }
+}*/
+
+
+
+async function viewStudentProgress(studentId) {
+  const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
+
+  if (!student) {
+    showPopupCard('Δεν βρέθηκε ο μαθητής.', 'error');
+    return;
+  }
+  
+    const response = await fetch(`/api/grades/${student.id}`);
+    console.log('Fetch response:', response);
+    if (response.ok) {
+      let grades = await response.json();
+      window._lastGradesList = grades; // αποθηκεύουμε για edit
+      if (!grades || grades.length === 0) {
+        showPopupCard(`Δεν υπάρχουν βαθμολογίες για τον/την ${student.firstName} ${student.lastName}`, 'info');
+        return;
+      }
+      let msg = `<strong>Βαθμολογίες για τον/την ${student.firstName} ${student.lastName}:</strong><br>`;
+      grades.forEach(grade => {
+        try {
+          const subj = allSubjects.find(s => s.id === grade.subject_id);
+          const subjectName = subj ? subj.name : (grade.subject_name || grade.subject_id || '[Χωρίς μάθημα]');
+          let dateOnly = grade.exam_date ? (String(grade.exam_date).split('T')[0] || grade.exam_date) : '';
+          
+          msg += `<div style='border-bottom:1px solid #eee;margin-bottom:8px;padding-bottom:6px;'>` +
+          `<b>Μάθημα:</b> ${subjectName} | <b>Ημ/νία:</b> ${dateOnly}<br>` +
+          `<b>Βαθμός:</b> ${grade.grade || '-'}<br>` +
+          `<b>Σχόλιο:</b> ${grade.notes || '-'}<br>` +
+          `</div>`;
+        } catch (err) {
+          console.error('Error rendering grades', err, grade);
+          msg += `<div style='color:red;'>Σφάλμα στην εμφάνιση βαθμολογίας (ID: ${grade.id})</div>`;
+        }
+      });
+      showGradesViewModal(msg, student);
+    } else {
+      showPopupCard('Σφάλμα κατά την ανάκτηση βαθμολογιών', 'error');
+    }
+
 }
+
+
+function showGradesViewModal(html, student) {
+  // Αν το modal δεν υπάρχει, δημιούργησέ το
+  if (!document.getElementById('gradesViewModal')) {
+    const modal = document.createElement('div');
+    modal.id = 'gradesViewModal';
+    modal.className = 'modal';
+    modal.style.display = 'none';
+    modal.innerHTML = `
+      <div class="modal-content" style=" margin-top:50px; max-width: 650px; background: #fff8e8; border: 2px solid #ff7e5f; border-radius: 15px; box-shadow: 0 10px 30px rgba(77, 44, 30, 0.15);">
+        <span class="close" onclick="closeGradesViewModal()" style="cursor: pointer; color: #4d2c1e; font-size: 28px; font-weight: bold;">&times;</span>
+        <h2 id="gradesViewModalTitle" style="color: #4d2c1e; text-align: center; margin-bottom: 25px; font-size: 24px; border-bottom: 3px solid #ff7e5f; padding-bottom: 15px;"></h2>
+        <div id="gradesViewModalBody"></div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+  document.getElementById('gradesViewModalTitle').innerHTML = `Βαθμολογίες για τον/την ${student.firstName} ${student.lastName}`;
+  document.getElementById('gradesViewModalBody').innerHTML = html;
+  document.getElementById('gradesViewModal').style.display = 'block';
+}
+function closeGradesViewModal() {
+  document.getElementById('gradesViewModal').style.display = 'none';
+}
+
+// Προσθήκη modal για εμφάνιση βαθμολογιών αν δεν υπάρχει ήδη
+(function addGradesViewModalToDOM() {
+  if (!document.getElementById('gradesViewModal')) {
+    const modal = document.createElement('div');
+    modal.id = 'gradesViewModal';
+    modal.className = 'modal';
+    modal.style.display = 'none';
+    modal.innerHTML = `
+      <div class="modal-content" style="max-width: 650px; background: #fff8e8; border: 2px solid #ff7e5f; border-radius: 15px; box-shadow: 0 10px 30px rgba(77, 44, 30, 0.15);">
+        <span class="close" onclick="closeGradesViewModal()" style="color: #4d2c1e; font-size: 28px; font-weight: bold;">&times;</span>
+        <h2 id="gradesViewModalTitle" style="color: #4d2c1e; text-align: center; margin-bottom: 25px; font-size: 24px; border-bottom: 3px solid #ff7e5f; padding-bottom: 15px;"></h2>
+        <div id="gradesViewModalBody"></div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+})();
