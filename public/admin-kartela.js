@@ -942,7 +942,7 @@ async function viewStudentProgress(studentId) {
     showPopupCard('Δεν βρέθηκε ο μαθητής.', 'error');
     return;
   }
-  try {
+  
     const response = await fetch(`/api/progress/${student.id}`);
     console.log('Fetch response:', response);
     if (response.ok) {
@@ -983,9 +983,7 @@ async function viewStudentProgress(studentId) {
     } else {
       showPopupCard('Σφάλμα κατά την ανάκτηση σημειώσεων προόδου', 'error');
     }
-  } catch (error) {
-    showPopupCard('Σφάλμα σύνδεσης με το server', 'error');
-  }
+
 }
 
 function showProgressViewModal(html, student) {
