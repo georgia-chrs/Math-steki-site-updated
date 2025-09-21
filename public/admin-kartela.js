@@ -49,6 +49,50 @@ window.deleteProgressNote = async function(progressId, studentId) {
   }
 }
 
+window.editGradesNote = async function(gradeId, studentId) {
+  const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
+  if (!student || !window._lastGradesList) return;
+  const gradeObj = window._lastGradesList.find(g => g.id === gradeId);
+  if (!gradeObj) return;
+
+  // Prompt για νέο βαθμό και σχόλιο
+  const oldGrade = gradeObj.grade || '';
+  const oldNote = gradeObj.notes || '';
+  const newGrade = prompt('Επεξεργασία βαθμού:', oldGrade);
+  if (newGrade === null) return;
+  const newNote = prompt('Επεξεργασία σχολίου:', oldNote);
+  if (newNote === null) return;
+
+  // Ετοιμάζουμε το body για το backend
+  const body = {
+    grade: newGrade,
+    notes: newNote,
+    subjectId: gradeObj.subject_id || gradeObj.subjectId,
+    examDate: gradeObj.exam_date || gradeObj.date,
+    examType: gradeObj.exam_type || gradeObj.type
+  };
+
+  try {
+    const res = await fetch(`/api/grades/${gradeId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (res.ok) {
+      // Ενημέρωσε το UI
+      gradeObj.grade = newGrade;
+      gradeObj.notes = newNote;
+      // Ενημέρωσε το modal αν είναι ανοιχτό
+      viewStudentGrades(studentId);
+      showNotification('Ο βαθμός ενημερώθηκε!', 'success');
+    } else {
+      showNotification('Σφάλμα κατά την ενημέρωση βαθμού', 'error');
+    }
+  } catch {
+    showNotification('Σφάλμα σύνδεσης με το server', 'error');
+  }
+}
+
 // Global variables
     let selectedStudent = null;
     // Global arrays
@@ -1085,7 +1129,10 @@ async function viewStudentGrades(studentId) {
           `<b>Μάθημα:</b> ${subjectName} | <b>Ημ/νία:</b> ${dateOnly}<br>` +
           `<b>Βαθμός:</b> ${grade.grade || '-'}<br>` +
           `<b>Σχόλιο:</b> ${grade.notes || '-'}<br>` +
+          `<button onclick='editGradesNote(${grade.id}, ${student.id})' style='margin-right:8px;'>Επεξεργασία</button>` +
+          `<button onclick='deleteGradesNote(${grade.id}, ${student.id})' style='color:#b00;'>Διαγραφή</button>` +
           `</div>`;
+          
         } catch (err) {
           console.error('Error rendering grades', err, grade);
           msg += `<div style='color:red;'>Σφάλμα στην εμφάνιση βαθμολογίας (ID: ${grade.id})</div>`;
