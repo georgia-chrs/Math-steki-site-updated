@@ -1061,7 +1061,7 @@ async function viewStudentGrades(studentId) {
 
 
 
-async function viewStudentProgress(studentId) {
+async function viewStudentGrades(studentId) {
   const student = allStudents.find(s => s.id === studentId);
   if (!student) {
     showPopupCard('Δεν βρέθηκε ο μαθητής.', 'error');
