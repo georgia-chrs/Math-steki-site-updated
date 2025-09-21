@@ -928,7 +928,7 @@ window.editProgressNote = async function(progressId, studentId) {
     const res = await fetch(`/api/progress/${progressId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: newNote }) // Σωστό όνομα πεδίου για backend
+      body: JSON.stringify({ content: newNote })
     });
     if (res.ok) {
       noteSpan.textContent = newNote;
