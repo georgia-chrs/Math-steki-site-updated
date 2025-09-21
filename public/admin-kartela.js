@@ -1,15 +1,27 @@
 // --- Οι παρακάτω συναρτήσεις πρέπει να είναι global για να δουλεύουν τα κουμπιά στο HTML ---
 window.editProgressNote = async function(progressId, studentId) {
+  // Βρες το αντικείμενο progress από το τελευταίο fetch
+  const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
+  if (!student || !window._lastProgressList) return;
+  const progressObj = window._lastProgressList.find(p => p.id === progressId);
+  if (!progressObj) return;
   const noteSpan = document.getElementById(`note-${progressId}`);
   if (!noteSpan) return;
   const oldNote = noteSpan.textContent;
   const newNote = prompt('Επεξεργασία σημείωσης:', oldNote);
   if (newNote === null || newNote === oldNote) return;
+  // Ετοιμάζουμε όλα τα πεδία που θέλει το backend
+  const body = {
+    subjectId: progressObj.subject_id || progressObj.subjectId,
+    noteDate: progressObj.note_date || progressObj.date,
+    content: newNote,
+    performanceLevel: progressObj.performance_level || progressObj.rating || null
+  };
   try {
     const res = await fetch(`/api/progress/${progressId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: newNote })
+      body: JSON.stringify(body)
     });
     if (res.ok) {
       noteSpan.textContent = newNote;
@@ -927,6 +939,7 @@ async function viewStudentProgress(studentId) {
     const response = await fetch(`/api/progress/${student.id}`);
     if (response.ok) {
       const progressList = await response.json();
+      window._lastProgressList = progressList; // αποθηκεύουμε για edit
       if (!progressList || progressList.length === 0) {
         showPopupCard(`Δεν υπάρχουν σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}`, 'info');
         return;
