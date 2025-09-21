@@ -837,8 +837,8 @@ if (progressForm) {
       }
       alert(`Όνομα: ${student.firstName} ${student.lastName}\nΤάξη: ${student.studentClass}\nΤηλέφωνο: ${student.phone}\nEmail: ${student.email || 'Δεν υπάρχει'}\nΓονέας: ${student.parentName || 'Δεν έχει καταχωρηθεί'}\nΤηλ. Γονέα: ${student.parentPhone || 'Δεν έχει καταχωρηθεί'}`);
     }
-    
-    async function viewStudentGrades(studentId) {
+
+    window.viewStudentProgress = async function viewStudentProgress(studentId) {
       const student = allStudents.find(s => s.id === studentId || s.id === selectedStudent?.id);
       console.log('viewStudentProgress called', studentId); 
       if (!student) {
