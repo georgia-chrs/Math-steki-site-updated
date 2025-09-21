@@ -1,3 +1,42 @@
+// --- Οι παρακάτω συναρτήσεις πρέπει να είναι global για να δουλεύουν τα κουμπιά στο HTML ---
+window.editProgressNote = async function(progressId, studentId) {
+  const noteSpan = document.getElementById(`note-${progressId}`);
+  if (!noteSpan) return;
+  const oldNote = noteSpan.textContent;
+  const newNote = prompt('Επεξεργασία σημείωσης:', oldNote);
+  if (newNote === null || newNote === oldNote) return;
+  try {
+    const res = await fetch(`/api/progress/${progressId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: newNote })
+    });
+    if (res.ok) {
+      noteSpan.textContent = newNote;
+      showNotification('Η σημείωση ενημερώθηκε!', 'success');
+    } else {
+      showNotification('Σφάλμα κατά την ενημέρωση σημείωσης', 'error');
+    }
+  } catch {
+    showNotification('Σφάλμα σύνδεσης με το server', 'error');
+  }
+}
+
+window.deleteProgressNote = async function(progressId, studentId) {
+  if (!confirm('Θέλετε σίγουρα να διαγράψετε αυτή τη σημείωση;')) return;
+  try {
+    const res = await fetch(`/api/progress/${progressId}`, { method: 'DELETE' });
+    if (res.ok) {
+      showNotification('Η σημείωση διαγράφηκε!', 'success');
+      viewStudentProgress(studentId);
+    } else {
+      showNotification('Σφάλμα κατά τη διαγραφή σημείωσης', 'error');
+    }
+  } catch {
+    showNotification('Σφάλμα σύνδεσης με το server', 'error');
+  }
+}
+
 // Global variables
     let selectedStudent = null;
     // Global arrays
@@ -914,44 +953,5 @@ async function viewStudentProgress(studentId) {
     }
   } catch (error) {
     showPopupCard('Σφάλμα σύνδεσης με το server', 'error');
-  }
-}
-
-// --- Οι παρακάτω συναρτήσεις πρέπει να είναι global για να δουλεύουν τα κουμπιά στο HTML ---
-window.editProgressNote = async function(progressId, studentId) {
-  const noteSpan = document.getElementById(`note-${progressId}`);
-  if (!noteSpan) return;
-  const oldNote = noteSpan.textContent;
-  const newNote = prompt('Επεξεργασία σημείωσης:', oldNote);
-  if (newNote === null || newNote === oldNote) return;
-  try {
-    const res = await fetch(`/api/progress/${progressId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: newNote })
-    });
-    if (res.ok) {
-      noteSpan.textContent = newNote;
-      showNotification('Η σημείωση ενημερώθηκε!', 'success');
-    } else {
-      showNotification('Σφάλμα κατά την ενημέρωση σημείωσης', 'error');
-    }
-  } catch {
-    showNotification('Σφάλμα σύνδεσης με το server', 'error');
-  }
-}
-
-window.deleteProgressNote = async function(progressId, studentId) {
-  if (!confirm('Θέλετε σίγουρα να διαγράψετε αυτή τη σημείωση;')) return;
-  try {
-    const res = await fetch(`/api/progress/${progressId}`, { method: 'DELETE' });
-    if (res.ok) {
-      showNotification('Η σημείωση διαγράφηκε!', 'success');
-      viewStudentProgress(studentId);
-    } else {
-      showNotification('Σφάλμα κατά τη διαγραφή σημείωσης', 'error');
-    }
-  } catch {
-    showNotification('Σφάλμα σύνδεσης με το server', 'error');
   }
 }
