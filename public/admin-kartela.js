@@ -984,6 +984,21 @@ async function viewStudentProgress(studentId) {
 }
 
 function showProgressViewModal(html, student) {
+  // Αν το modal δεν υπάρχει, δημιούργησέ το
+  if (!document.getElementById('progressViewModal')) {
+    const modal = document.createElement('div');
+    modal.id = 'progressViewModal';
+    modal.className = 'modal';
+    modal.style.display = 'none';
+    modal.innerHTML = `
+      <div class="modal-content" style="max-width: 650px; background: #fff8e8; border: 2px solid #ff7e5f; border-radius: 15px; box-shadow: 0 10px 30px rgba(77, 44, 30, 0.15);">
+        <span class="close" onclick="closeProgressViewModal()" style="color: #4d2c1e; font-size: 28px; font-weight: bold;">&times;</span>
+        <h2 id="progressViewModalTitle" style="color: #4d2c1e; text-align: center; margin-bottom: 25px; font-size: 24px; border-bottom: 3px solid #ff7e5f; padding-bottom: 15px;"></h2>
+        <div id="progressViewModalBody"></div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
   document.getElementById('progressViewModalTitle').innerHTML = `Σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}`;
   document.getElementById('progressViewModalBody').innerHTML = html;
   document.getElementById('progressViewModal').style.display = 'block';
