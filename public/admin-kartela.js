@@ -846,34 +846,35 @@ if (progressForm) {
         return;
       }
       try {
-        const response = await fetch(`/api/grades/${student.id}`);
+        const response = await fetch(`/api/progress/${student.id}`);
         if (response.ok) {
-          const grades = await response.json();
-          if (!grades || grades.length === 0) {
-            showPopupCard(`Δεν υπάρχουν βαθμολογίες για τον/την ${student.firstName} ${student.lastName}`, 'info');
+          const progressNotes = await response.json();
+          if (!progressNotes || progressNotes.length === 0) {
+            showPopupCard(`Δεν υπάρχουν σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}`, 'info');
             return;
           }
-          let msg = `<strong>Βαθμολογίες για τον/την ${student.firstName} ${student.lastName}:</strong><br>`;
-          grades.forEach(g => {
+          let msg = `<strong>Σημειώσεις προόδου για τον/την ${student.firstName} ${student.lastName}:</strong><br>`;
+          progressNotes.forEach(note => {
             // Βρες το όνομα μαθήματος
-            const subj = allSubjects.find(s => s.id === g.subject_id);
-            const subjectName = subj ? subj.name : g.subject_id;
-            // Αφαίρεση ώρας από exam_date (ISO format)
+            const subj = allSubjects.find(s => s.id === note.subjectId);
+            const subjectName = subj ? subj.name : note.subjectId;
+            // Αφαίρεση ώρας από noteDate (ISO format)
             let dateOnly = '';
-            if (g.exam_date) {
-              if (g.exam_date.includes('T')) {
-                dateOnly = g.exam_date.split('T')[0];
-              } else if (g.exam_date.includes(' ')) {
-                dateOnly = g.exam_date.split(' ')[0];
+            if (note.noteDate) {
+              if (note.noteDate.includes('T')) {
+                dateOnly = note.noteDate.split('T')[0];
+              } else if (note.noteDate.includes(' ')) {
+                dateOnly = note.noteDate.split(' ')[0];
               } else {
-                dateOnly = g.exam_date;
+                dateOnly = note.noteDate;
               }
             }
-            msg += `Μάθημα: <b>${subjectName}</b> | Τύπος: ${g.exam_type} | Βαθμός: ${g.grade} | Ημ/νία: ${dateOnly}<br>`;
+            msg += `Μάθημα: <b>${subjectName}</b> | Ημ/νία: ${dateOnly} | Επίπεδο: ${note.performanceLevel || '-'}<br>Σχόλιο: ${note.content || '-'}<br>`;
+            msg += `<button onclick="editProgressNote('${note.id}')">Επεξεργασία</button> <button onclick="deleteProgressNote('${note.id}')">Διαγραφή</button><hr>`;
           });
           showPopupCard(msg, 'info', true);
         } else {
-          showPopupCard('Σφάλμα κατά την ανάκτηση βαθμολογιών', 'error');
+          showPopupCard('Σφάλμα κατά την ανάκτηση σημειώσεων προόδου', 'error');
         }
       } catch (error) {
         showPopupCard('Σφάλμα σύνδεσης με το server', 'error');
