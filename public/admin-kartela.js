@@ -659,48 +659,51 @@ async function openCalendarModal() {
       }
     });
     
-    document.getElementById('progressForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
+    const progressForm = document.getElementById('progressForm');
+if (progressForm) {
+  progressForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    if (!selectedStudent) {
+      showNotification('Δεν έχει επιλεγεί μαθητής', 'error');
+      return;
+    }
+    
+    const formData = new FormData(this);
+    const progressData = {
+      studentId: selectedStudent.id,
+      subjectId: document.getElementById('progressSubject').value,
+      date: document.getElementById('progressDate').value,
+      note: document.getElementById('progressNote').value,
+      rating: document.getElementById('progressRating').value
+    };
+    
+    console.log(' Sending progress data:', progressData);
+    
+    try {
+      const response = await fetch('/api/progress', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(progressData)
+      });
       
-      if (!selectedStudent) {
-        showNotification('Δεν έχει επιλεγεί μαθητής', 'error');
-        return;
+      if (response.ok) {
+        showNotification(' Η πρόοδος αποθηκεύτηκε επιτυχώς! Μπορείτε να προσθέσετε άλλη καταχώρηση ή να κλείσετε το παράθυρο.', 'success');
+        const result = await response.json();
+        console.log('Progress saved response:', result);
+      } else {
+        const errorText = await response.text();
+        console.error('Failed to save progress, status:', response.status, 'Response:', errorText);
+        showNotification('Σφάλμα κατά την αποθήκευση της πρόοδου: ' + errorText, 'error');
       }
-      
-      const formData = new FormData(this);
-      const progressData = {
-        studentId: selectedStudent.id,
-        subjectId: document.getElementById('progressSubject').value,
-        date: document.getElementById('progressDate').value,
-        note: document.getElementById('progressNote').value,
-        rating: document.getElementById('progressRating').value
-      };
-      
-      console.log(' Sending progress data:', progressData);
-      
-      try {
-        const response = await fetch('/api/progress', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(progressData)
-        });
-        
-        if (response.ok) {
-          showNotification(' Η πρόοδος αποθηκεύτηκε επιτυχώς! Μπορείτε να προσθέσετε άλλη καταχώρηση ή να κλείσετε το παράθυρο.', 'success');
-          const result = await response.json();
-          console.log('Progress saved response:', result);
-        } else {
-          const errorText = await response.text();
-          console.error('Failed to save progress, status:', response.status, 'Response:', errorText);
-          showNotification('Σφάλμα κατά την αποθήκευση της πρόοδου: ' + errorText, 'error');
-        }
-      } catch (error) {
-        console.error('Error saving progress:', error);
-        showNotification('Σφάλμα κατά την αποθήκευση της πρόοδου', 'error');
-      }
-    });
+    } catch (error) {
+      console.error('Error saving progress:', error);
+      showNotification('Σφάλμα κατά την αποθήκευση της πρόοδου', 'error');
+    }
+  });
+}
     
     document.getElementById('calendarForm').addEventListener('submit', async function(e) {
       e.preventDefault();
