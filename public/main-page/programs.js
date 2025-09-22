@@ -198,7 +198,7 @@ async function loadProgrammsPublic() {
         foundB = true;
         tbodyLykeioB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumB += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.section[0] === 'Γ') {
+      } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && (!row.field || row.field === ''|| row.field === 'Καμία')) {
         foundG = true;
         tbodyLykeioG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumG += Number(row.hour) || 0;
