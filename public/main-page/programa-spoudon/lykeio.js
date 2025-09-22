@@ -241,6 +241,11 @@ async function loadProgrammsPublic() {
     if (foundEpal) tbodyEpal.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEpal}</td></tr>`;
     if (foundA) tbodyLykeioA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumA}</td></tr>`;
     if (foundB) tbodyLykeioB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumB}</td></tr>`;
+     if (sumAnthropB) tbodyLykeioBAnthrop.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumAnthropB}</td></tr>`;
+    if (sumThetikesB) tbodyLykeioBThetikes.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumThetikesB}</td></tr>`;
+    if (sumYgeiasB) tbodyLykeioBYgeias.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumYgeiasB}</td></tr>`;
+    if (sumOikPlirofB) tbodyLykeioBOikPlirof.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumOikPlirofB}</td></tr>`;
+    
     if (foundG) tbodyLykeioG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumG}</td></tr>`;
     if (foundA) tbodyEpalA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEA}</td></tr>`;
   if (foundB) tbodyEpalB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEB}</td></tr>`;
@@ -288,8 +293,7 @@ function showHideSections() {
     'programms-lykeiou-epal-g'
   ];
   // Κρύψε όλα τα divs με !important
-  sections.forEach(id => {
-    console.log("Hiding section:", id); // Debug
+ sections.forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.setProperty('display', 'none', 'important');
     if (el) el.style.opacity = 0;
