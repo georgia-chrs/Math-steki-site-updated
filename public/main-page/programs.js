@@ -442,7 +442,33 @@ function showHideSections() {
         'programms-lykeiou-gel-oikplirof'
       ]);
       return;
+    }else if (filterClass === 'Β' && filterField === 'Ανθρωπιστικές Επιστήμες') {
+      showOnly([
+        'programms-lykeiou-gel-b-anthrop'
+      ]);
+      return;
+    }else if (filterClass === 'Β' && filterField === 'Θετικές Επιστήμες') {
+      showOnly([
+        'programms-lykeiou-gel-b-thetikes'
+      ]);
+      return;
+    }else if (filterClass === 'Β' && filterField === 'Σπουδές Υγείας') {
+      showOnly([
+        'programms-lykeiou-gel-b-ygeias'
+      ]);
+      return;
+    }else if (filterClass === 'Β' && filterField === 'Οικονομία Και Πληροφορική') {
+      showOnly([
+        'programms-lykeiou-gel-b-oikplirof' 
+      ]);
+      return;
+    }else if (filterClass === 'Β' && filterField === '' || filterField === 'Καμία') {
+      showOnly([
+        'programms-lykeiou-gel-b'
+      ]);
+      return;
     }
+
     let ids = ['programms-lykeiou-gel'];
     if (!filterClass) {
       ids.push('programms-lykeiou-gel-a','programms-lykeiou-gel-b','programms-lykeiou-gel-g');
