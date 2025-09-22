@@ -246,7 +246,7 @@ async function loadProgrammsPublic() {
       } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && row.field === 'Οικονομία Και Πληροφορική') {
         foundOikPlirof = true;
         tbodyOikPlirof.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
-        sumOikPlirof += Number(row.hour) || 0;
+        sumOikPlirofB += Number(row.hour) || 0;
       }
       // --- Β' Λυκείου ανά κατεύθυνση ---
       if (row.type === 'lykeio' && row.section[0] === 'Β' && row.field) {
@@ -310,7 +310,7 @@ async function loadProgrammsPublic() {
     if (sumAnthropB) tbodyLykeioBAnthrop.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumAnthropB}</td></tr>`;
     if (sumThetikesB) tbodyLykeioBThetikes.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumThetikesB}</td></tr>`;
     if (sumYgeiasB) tbodyLykeioBYgeias.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumYgeiasB}</td></tr>`;
-    if (sumOikPlirof) tbodyLykeioBOikPlirof.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumOikPlirof}</td></tr>`;
+    if (sumOikPlirofB) tbodyLykeioBOikPlirof.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumOikPlirofB}</td></tr>`;
     if (foundA) tbodyEpalA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEA}</td></tr>`;
     if (foundB) tbodyEpalB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEB}</td></tr>`;
     if (foundG) tbodyEpalG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEG}</td></tr>`;
