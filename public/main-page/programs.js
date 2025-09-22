@@ -472,14 +472,16 @@ function showHideSections() {
     }
     showOnly(ids);
   }else if(!filterType &&!filterField) {
+    // Ειδική περίπτωση: όταν έχει επιλεγεί μόνο τάξη (και όχι τύπος/πεδίο), να εμφανίζονται μόνο οι πίνακες της τάξης
     if(filterClass === 'Α') {
-      ids = ['program-gymnasiou-a','programms-lykeiou-gel-a','programms-lykeiou-epal-a'];
+      ids = ['programms-gymnasiou-a','programms-lykeiou-gel-a','programms-lykeiou-epal-a'];
     }else if( filterClass === 'Β') {
-      ids = ['program-gymnasiou-b','programms-lykeiou-gel-b','programms-lykeiou-epal-b'];
+      ids = ['programms-gymnasiou-b','programms-lykeiou-gel-b','programms-lykeiou-epal-b'];
     }else if( filterClass === 'Γ') {
-      ids = ['program-gymnasiou-g','programms-lykeiou-gel-g','programms-lykeiou-epal-g'];
+      ids = ['programms-gymnasiou-g','programms-lykeiou-gel-g','programms-lykeiou-epal-g'];
     }
     showOnly(ids);
+    return;
   }
 
 }
