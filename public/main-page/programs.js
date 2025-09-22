@@ -458,6 +458,7 @@ function showHideSections() {
       if (filterField === 'Θετικές Επιστήμες') ids.push('programms-lykeiou-gel-thetikes');
       if (filterField === 'Σπουδές Υγείας') ids.push('programms-lykeiou-gel-ygeias');
       if (filterField === 'Οικονομία Και Πληροφορική') ids.push('programms-lykeiou-gel-oikplirof');
+      if (filterField === 'Γενικής Κατεύθυνσης') ids.push('programms-lykeiou-gel-g');
       // Κρύψε τα lykeioA/B/G όταν έχει επιλεγεί πεδίο
       ids = ids.filter(id => !['programms-lykeiou-gel-a','programms-lykeiou-gel-b','programms-lykeiou-gel-g'].includes(id));
     }else if (filterField && filterClass === 'Β') {
