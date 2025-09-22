@@ -105,7 +105,7 @@ async function loadProgrammsPublic() {
       let fieldMatch = true;
       // Ειδική περίπτωση: ΜΟΝΟ ΓΕΛ χωρίς τάξη/πεδίο -> όλα τα μαθήματα λυκείου
       if (filterType === 'lykeio' && !filterClass && !filterField) {
-        return row.type === 'lykeio';
+        fieldMatch = true;
       }
       // Ειδική περίπτωση: Β' Λυκείου χωρίς πεδίο -> να εμφανίζονται όλα (και γενικής και κατευθύνσεων)
       if (filterType === 'lykeio' && filterClass === 'Β' && !filterField) {
