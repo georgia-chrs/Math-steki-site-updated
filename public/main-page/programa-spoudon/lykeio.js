@@ -90,7 +90,7 @@ async function loadProgrammsPublic() {
         return row.type === 'lykeio';
       }
       let typeMatch = !filterType || row.type === filterType;
-      let classMatch = !filterClass || row.section === filterClass;
+      let classMatch = !filterClass || (row.section && row.section[0] === filterClass);
       let fieldMatch = true;
 
       if (filterType === 'lykeio' && filterClass === 'Β' && !filterField) {
