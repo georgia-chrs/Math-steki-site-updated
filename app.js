@@ -847,7 +847,7 @@ app.post('/api/students', async (req, res) => {
       notes: notes || ''
     };
     
-    console.log('📝 Creating student with data:', studentData);
+    console.log(' Creating student with data:', studentData);
     
     const studentId = await createStudentComplete(studentData);
     res.json({ success: true, id: studentId, message: 'Student created successfully' });
@@ -864,22 +864,22 @@ app.post('/api/students', async (req, res) => {
 // Update student
 app.put('/api/students/:id', async (req, res) => {
   try {
-    console.log(`🔧 PUT /api/students/${req.params.id} called`);
-    console.log('📊 Request body:', req.body);
+    console.log(` PUT /api/students/${req.params.id} called`);
+    console.log(' Request body:', req.body);
     
     const success = await updateStudent(req.params.id, req.body);
-    console.log('📊 updateStudent result:', success, 'type:', typeof success);
-    console.log('📊 !success:', !success);
+    console.log(' updateStudent result:', success, 'type:', typeof success);
+    console.log(' !success:', !success);
     
     if (!success) {
-      console.log('❌ Returning 404 - student not found');
+      console.log(' Returning 404 - student not found');
       return res.status(404).json({ error: 'Student not found' });
     }
     
-    console.log('✅ Returning success');
+    console.log(' Returning success');
     res.json({ success: true, message: 'Student updated successfully' });
   } catch (error) {
-    console.error('❌ Error updating student:', error);
+    console.error(' Error updating student:', error);
     res.status(500).json({ error: 'Error updating student' });
   }
 });
