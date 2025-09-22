@@ -105,6 +105,7 @@ async function loadProgrammsPublic() {
     let sumA = 0, sumB = 0, sumG = 0;
     let sumEA = 0, sumEB = 0, sumEG = 0;
     let sumAnthrop = 0, sumThetikes = 0, sumYgeias = 0, sumOikPlirof = 0;
+    let sumAnthropB=0, sumThetikesB=0, sumYgeiasB=0, sumOikPlirofB=0;
     tbodyDimotiko.innerHTML = '';
     tbodyGymnasio.innerHTML = '';
     tbodyLykeio.innerHTML = '';
@@ -203,25 +204,28 @@ async function loadProgrammsPublic() {
         sumG += Number(row.hour) || 0;
       } 
       
-      if (row.type === 'lykeio' && row.field === 'Ανθρωπιστικές Επιστήμες') {
+      if (row.type === 'lykeio' && row.section[0] === 'Γ' && row.field === 'Ανθρωπιστικές Επιστήμες') {
         foundAnthrop = true;
         tbodyAnthrop.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumAnthrop += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.field === 'Θετικές Επιστήμες') {
+      } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && row.field === 'Θετικές Επιστήμες') {
         foundThetikes = true;
         tbodyThetikes.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumThetikes += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.field === 'Σπουδές Υγείας') {
+      } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && row.field === 'Σπουδές Υγείας') {
         foundYgeias = true;
         tbodyYgeias.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumYgeias += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.field === 'Οικονομία Και Πληροφορική') {
+      } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && row.field === 'Οικονομία Και Πληροφορική') {
         foundOikPlirof = true;
         tbodyOikPlirof.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumOikPlirof += Number(row.hour) || 0;
       }
       // --- Β' Λυκείου ανά κατεύθυνση ---
       if (row.type === 'lykeio' && row.section[0] === 'Β' && row.field) {
+       
+
+
         if (row.field === 'Ανθρωπιστικές Επιστήμες') {
           foundAnthrop = true;
           if (typeof sumAnthropB === 'undefined') sumAnthropB = 0;
@@ -271,14 +275,14 @@ async function loadProgrammsPublic() {
     if (foundLykeio) tbodyLykeio.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumLykeio}</td><td></td></tr>`;
     if (foundEpal) tbodyEpal.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEpal}</td></tr>`;
     if (foundA) tbodyA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioA}</td></tr>`;
-if (foundB) tbodyB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioB}</td></tr>`;
-if (foundG) tbodyG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioG}</td></tr>`;
+    if (foundB) tbodyB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioB}</td></tr>`;
+    if (foundG) tbodyG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioG}</td></tr>`;
     if (foundA) tbodyLykeioA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumA}</td></tr>`;
     if (foundB) tbodyLykeioB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumB}</td></tr>`;
     if (foundG) tbodyLykeioG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumG}</td></tr>`;
     if (foundA) tbodyEpalA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEA}</td></tr>`;
-  if (foundB) tbodyEpalB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEB}</td></tr>`;
-  if (foundG) tbodyEpalG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEG}</td></tr>`;
+    if (foundB) tbodyEpalB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEB}</td></tr>`;
+    if (foundG) tbodyEpalG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEG}</td></tr>`;
     if (foundAnthrop) tbodyAnthrop.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumAnthrop}</td></tr>`;
     if (foundThetikes) tbodyThetikes.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumThetikes}</td></tr>`;
     if (foundYgeias) tbodyYgeias.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumYgeias}</td></tr>`;
@@ -389,6 +393,10 @@ function showHideSections() {
       if (filterField === 'Θετικές Επιστήμες') ids.push('programms-lykeiou-gel-thetikes');
       if (filterField === 'Σπουδές Υγείας') ids.push('programms-lykeiou-gel-ygeias');
       if (filterField === 'Οικονομία Και Πληροφορική') ids.push('programms-lykeiou-gel-oikplirof');
+      
+
+
+      
       // Κρύψε τα lykeioA/B/G όταν έχει επιλεγεί πεδίο
       ids = ids.filter(id => !['programms-lykeiou-gel-a','programms-lykeiou-gel-b','programms-lykeiou-gel-g'].includes(id));
     }
