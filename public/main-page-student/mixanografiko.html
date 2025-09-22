@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Μηχανογραφικό - Μαθητικό Στέκι</title>
+  <link rel="stylesheet" href="../style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+  <style>
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .main-content {
+      display: flex;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .clear-btn {
+      background: #6c757d;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      height: fit-content;
+    }
+    
+    .clear-btn:hover {
+      background: #5a6268;
+    }
+    
+    
+    .info-notice {
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      color: #856404;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    
+    .info-notice a {
+      color: #5b3c2a;
+      font-weight: bold;
+    }
+    
+    .description-section {
+      background: #e8f4f8;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      border-left: 4px solid #5a1503;
+    }
+    
+    .description-section h2 {
+      margin-top: 0;
+      color: #5b3c2a;
+    }
+    
+    .specialty-badge {
+      display: inline-block;
+      background: #5a1503;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      margin-left: 5px;
+    }
+
+
+    
+
+
+ 
+    
+
+    
+   
+   
+
+    
+
+
+  </style>
+</head>
+<body>
+ <header>
+    <div class="topbar">
+      <div class="logo"><img src="../logo/b.png" alt="logo"></div>
+      <button class="menu-toggle" aria-label="Μενού">&#9776;</button>
+      <nav>
+        <a href="../index.html">Αρχική Σελίδα</a>
+        <div class="dropdown" id="dropdownBtn">
+          <a href="#">Πρόγραμμα Σπουδών <span class="arrow">⌵</span></a>
+          <div class="dropdown-content" id="dropdownMenu">
+        <a href="programs.html">Πλήρες Πρόγραμμα</a>
+        <a href="programa-spoudon/dimotiko.html">Δημοτικό</a>
+        <a href="programa-spoudon/gymnasio.html">Γυμνάσιο</a>
+        <a href="programa-spoudon/lykeio.html">Λύκειο</a>
+          </div>
+        </div>
+
+        <div class="dropdown" id="dropdownBtn2">
+          <a href="#"  style="color: #960e0e;">Πανελλαδικές Εξετάσεις <span class="arrow">⌵</span></a>
+          <div class="dropdown-content" id="dropdownMenu2">
+            <a href="panelladikes.html">Όλα τα παρακάτω</a>
+            <a href="moria-calculator.html">Υπολογισμός Μορίων</a>
+            <a href="pallia-themata.html">Παλιά Θέματα</a>
+            <a href="https://www.trapeza-thematon.gr/">Τράπεζα Θεμάτων</a>
+            <a href="vasis-sholon.html">Βάσεις Σχολών</a>
+            <a href="mixanografiko.html">Μηχανογραφικό</a>
+          </div>
+        </div>
+        <a href="photos.html">Φωτογραφίες</a>
+        <a href="aboutus.html">Σχετικά με εμάς</a>
+        <div class="icons">
+          <a href="#"><img src="../elements/Group 17.svg" alt="fb" class="facebook-icon"></a>
+          <a href="#"><img src="../elements/mdi_instagram.svg" alt="insta" class="instagram-icon"></a>
+          <a href="#"><img src="../elements/phone.svg" alt="phone"></a>
+          <a href="#"><img src="../elements/mail.svg" class="mail-icon" alt="mail"></a>
+
+        </div>
+        <a href="../index2.html" class="login-btn" >Είσοδος</a>
+      </nav>
+        </div>
+      
+  </header>
+  
+  <main>
+    <div class="container">
+        <!--  
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 18px; justify-content: flex-start;">
+          <a href="panelladikes.html" title="Πίσω στις Πανελλαδικές Εξετάσεις" style="display: flex; align-items: center; text-decoration: none; color: #333; font-weight: 500; font-size: 1.1em;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right: 4px;">
+              <path d="M15 6L9 12L15 18" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Πανελλαδικές Εξετάσεις
+          </a>
+        </div> -->
+      <h1 style="justify-self: center;">Μηχανογραφικό Δελτίο</h1>
+      <div class="main-content">
+        <!-- Sidebar Φίλτρων αριστερά -->
+        <div class="filters-sidebar" >
+          <div class="filter-dropdown">
+            <button class="filter-button" id="lykeio-btn">Τύπος Λυκείου</button>
+            <div class="filter-options" id="lykeio-options">
+              <div class="filter-option" data-value="">Όλα τα Λύκεια</div>
+              <div class="filter-option" data-value="ΓΕΛ">ΓΕΛ (Γενικό Λύκειο)</div>
+              <div class="filter-option" data-value="ΕΠΑΛ">ΕΠΑΛ (Επαγγελματικό Λύκειο)</div>
+            </div>
+          </div>
+          <div class="filter-dropdown">
+            <button class="filter-button" id="field-btn">Πεδίο Σπουδών</button>
+            <div class="filter-options" id="field-options">
+              <div class="filter-option" data-value="">Όλα τα πεδία</div>
+              <div class="filter-option" data-value="Θετικές Επιστήμες">Θετικές Επιστήμες</div>
+              <div class="filter-option" data-value="Ανθρωπιστικές Επιστήμες">Ανθρωπιστικές Επιστήμες</div>
+              <div class="filter-option" data-value="Οικονομικές Επιστήμες">Οικονομικές Επιστήμες</div>
+              <div class="filter-option" data-value="Τεχνολογικές Επιστήμες">Τεχνολογικές Επιστήμες</div>
+              <div class="filter-option" data-value="Επιστήμες Υγείας">Επιστήμες Υγείας</div>
+              <div class="filter-option" data-value="Καλές Τέχνες">Καλές Τέχνες</div>
+              <div class="filter-option" data-value="Αθλητισμός">Αθλητισμός</div>
+            </div>
+          </div>
+          <div class="filter-dropdown">
+            <button class="filter-button" id="specialty-btn">Ειδικά Μαθήματα</button>
+            <div class="filter-options" id="specialty-options">
+              <div class="filter-option" data-value="">Όλα τα ειδικά μαθήματα</div>
+              <div class="filter-option" data-value="Μουσική">Μουσική</div>
+              <div class="filter-option" data-value="Εικαστικά">Εικαστικά</div>
+              <div class="filter-option" data-value="Φυσική Αγωγή">Φυσική Αγωγή</div>
+              <div class="filter-option" data-value="Χορός">Χορός</div>
+              <div class="filter-option" data-value="Θεατρικές Σπουδές">Θεατρικές Σπουδές</div>
+              <div class="filter-option" data-value="Αρχιτεκτονική">Αρχιτεκτονική</div>
+              <div class="filter-option" data-value="Ξένες Γλώσσες">Ξένες Γλώσσες</div>
+              <div class="filter-option" data-value="Τεχνολογικά">Τεχνολογικά</div>
+            </div>
+          </div>
+          <button id="clear-filters-btn" class="clear-filters-btn"
+                   onmouseover="this.style.background='#F7C19C'; this.style.color='#BC5E29'; this.style.boxShadow='0 0 0 2px rgba(183, 54, 22, 0.495)'"
+                  onmouseout="this.style.background='#4d2c1e'; this.style.color='#fff'; this.style.boxShadow='none'"
+                  style="background: #4d2c1e;
+                    color: #fff;
+                    border: none;
+                    border-radius: 20px;
+                    padding: 0.5rem 1.5rem;
+                    font-weight: 700;
+                    font-size:small;
+                    cursor: pointer;
+                    transition: all 0.2s;">Καθαρισμός Φίλτρων</button>
+        </div>
+        <!-- Περιεχόμενο δεξιά -->
+        <div class="content-area" style="flex: 1;">
+          <!-- Ειδοποίηση για backend status -->
+          <div id="backend-status" class="info-notice" style="display: none; background: #fff3cd; border-color: #ffeeba; color: #856404;">
+            <strong> Προσοχή:</strong> 
+            <span id="backend-status-text"></span>
+          </div>
+          <!-- Πληροφορίες αρχείων -->
+          <div id="files-info" class="info-notice" style="display: none;">
+            <strong> Πληροφορίες:</strong> 
+            <span id="files-count-text"></span>
+          </div>
+          <!-- Περιοχή PDF αρχείων -->
+          <div id="pdf-container" class="pdf-grid">
+            <!-- Τα PDF θα φορτωθούν δυναμικά από JavaScript -->
+            <div class="loading">Φόρτωση οδηγών μηχανογραφικού...</div>
+          </div>
+          <!-- Μήνυμα όταν δεν υπάρχουν αρχεία -->
+          <div id="no-files-message" class="no-files" style="display: none;">
+            <h3>Δεν υπάρχουν διαθέσιμα αρχεία</h3>
+            <p>Δεν βρέθηκαν οδηγοί μηχανογραφικού που να ταιριάζουν με τα κριτήρια αναζήτησης.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Μήνυμα όταν δεν υπάρχουν αρχεία -->
+      <div id="no-files-message" class="no-files" style="display: none;">
+        <h3>Δεν υπάρχουν διαθέσιμα αρχεία</h3>
+        <p>Δεν βρέθηκαν οδηγοί μηχανογραφικού που να ταιριάζουν με τα κριτήρια αναζήτησης.</p>
+      </div>
+
+    </div>
+  </main>
+  <footer>
+    <div class="height-adjust4">
+    <div class="footer-content" style="display: flex; flex-direction: row; justify-content: space-between; justify-self: center; width: 95%; max-width: 95vw; box-sizing: border-box; margin-top: 20px;">
+      <div class="hero-logo" id="footer-logo"  style="margin-bottom: 1rem;">
+        <img src="../logo/b-l.png" alt="Μαθητικό Στέκι" style="max-width: 320px; width: 100%; height: auto; filter: brightness(0) invert(1); ">
+      </div>
+      <div class="footer-links"  data-id="footer-links" style="display: flex; flex-direction: column; align-items: center; gap: 0.3em; text-align: center; justify-content: center; margin-top: 40px;">
+        <span>Επικοινωνία</span>
+        <span>τηλέφωνο επικοινωνίας: 2101553200236</span>
+         <span>e-mail: info@mathsteki.gr</span>
+         <span>Facebook: info@mathsteki.gr</span>
+         <span>Instagram: info@mathsteki.gr</span>
+      </div>
+      <div class="footer-map" >
+        <!-- Ενσωματωμένος χάρτης Google Maps με marker στη διεύθυνση Κρόνου 14, Κορυδαλλός 181 22 -->
+        <iframe
+          src="https://www.google.com/maps?q=Κρόνου+14,+Κορυδαλλός+181+22&output=embed"
+          width="290"
+          height="140"
+          style="border:10px solid #ffffff; border-radius: 10px; margin-top: 10px;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Χάρτης διεύθυνσης φροντιστηρίου"
+        ></iframe>
+      </div>
+    </div>
+    <div class="footer-bottom" style="margin-top: 30px;  text-align: center; font-size: 0.9em; color: #ccc;">
+      &copy; 2025 Μαθητικό Στέκι
+    </div>
+    </div>
+  </footer>
+  <script src="../main.js"></script>
+  <script src="../client-text.js"></script>
+
+  <script src="../menu-drop.js"></script>
+  <script src="mixanografiko.js"></script>
+  <script src="../dropdown.js"></script>
+</body>
+</html>

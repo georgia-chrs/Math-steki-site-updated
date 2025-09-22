@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Μαθητικό Στέκι</title>
+  <link rel="stylesheet" href="../../style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;400&display=swap" rel="stylesheet">
+
+ <style>
+    h2 {
+      justify-self: center;
+    }
+
+    .table-section {
+      margin-bottom: 40px;
+      border-radius: 8px;
+      overflow: hidden;
+      /*box-shadow: 0 2px 10px rgba(0,0,0,0.1);*/
+      background: #fff;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1), 0 0 0 2px #0000003f;
+
+    }
+    .table-section h2 {
+        justify-self: center;
+      padding: 10px;
+      margin: 0;
+      font-size: 18px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    td:nth-child(1), th:nth-child(1) {
+      width: calc(100% - 100px);
+      border-right: 3px solid white;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+    }
+    th:last-child, td:last-child {
+      border-right: none;
+    }
+    th {
+      background: #E39C50;
+      color: #000;
+      font-weight: bold;
+    }
+    td:nth-child(2), th:nth-child(2) {
+      text-align: left;
+      width: 700px;
+      font-weight: bold;
+      min-width: 100px;
+      max-width: 700px;
+      padding-left: 20px;
+    }
+    tr:nth-child(even) td {
+      background: #FFE3A0;
+    }
+    tr:nth-child(odd) td {
+      background: #ffffff;
+    }
+    td {
+      border-bottom: 1px solid #ddd;
+    }
+    .total-row td {
+      background: #fcf6f0 !important;
+      color: #f5ab72 !important;
+      font-weight: bold;
+    }
+    .section-header th {
+      background: #54381a !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 15px;
+    }
+
+  #filterBtn {
+    padding: 8px 24px; 
+    border-radius: 20px;
+    background-color: #ac4e26;
+      color: #fff;
+    
+  }
+    #filterBtn:hover {
+      background-color: #e39c50;
+      color: #ac4e26;
+
+    }
+@media (max-width: 900px) {
+  #programms-dimotiko .table-section {
+    margin: 10px;
+    padding: 0;
+    align-items: center;
+    display: flex;
+    position: relative;
+    align-self: center;
+    justify-self: center;
+  }
+  #programms-dimotiko thead {
+    width: 100%;
+  }
+  #programms-dimotiko table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+    font-size: 20px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  #programms-dimotiko th,
+  #programms-dimotiko td {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+
+    #programms-gymnasiou .table-section {
+    margin: 10px;
+    padding: 0;
+    align-items: center;
+    display: flex;
+    position: relative;
+    align-self: center;
+    justify-self: center;
+  }
+  #programms-gymnasiou thead {
+    width: 100%;
+  }
+  #programms-gymnasiou table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+    font-size: 20px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  #programms-gymnasiou th,
+  #programms-gymnasiou td {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+
+
+
+
+
+    #programms-lykeiou-gel .table-section {
+    margin: 10px;
+    padding: 0;
+    align-items: center;
+    display: flex;
+    position: relative;
+    align-self: center;
+    justify-self: center;
+  }
+  #programms-lykeiou-gel thead {
+    width: 100%;
+  }
+  #programms-lykeiou-gel table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+    font-size: 20px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  #programms-lykeiou-gel th,
+  #programms-lykeiou-gel td {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  
+
+
+  
+
+
+
+    #programms-lykeiou-epal .table-section {
+    margin: 10px;
+    padding: 0;
+    align-items: center;
+    display: flex;
+    position: relative;
+    align-self: center;
+    justify-self: center;
+  }
+  #programms-lykeiou-epal thead {
+    width: 100%;
+  }
+  #programms-lykeiou-epal table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+    font-size: 20px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  #programms-lykeiou-epal th,
+  #programms-lykeiou-epal td {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+
+  .progr-tit h1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
+  }
+  .table-section {
+    width: 80%;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.08), 0 0 0 1px #0000002f;
+    padding: 0 4px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  .table-section h2 {
+    font-size: 16px;
+    padding: 8px;
+    word-wrap: none;
+  }
+  table {
+    font-size: 13px;
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+  th, td {
+    padding: 7px 6px;
+    font-size: 13px;
+    min-width: 80px;
+    word-break: break-word;
+  }
+  td:nth-child(2), th:nth-child(2) {
+    width: 100%;
+    min-width: 80px;
+    max-width: 100%;
+    padding-left: 6px;
+  }
+  td:nth-child(1), th:nth-child(1) {
+    width: auto;
+  }
+
+
+  #programms-dimotiko .section-header th,
+  #programms-gymnasiou .section-header th,
+  #programms-lykeiou-gel .section-header th,
+  #programms-lykeiou-epal .section-header th {
+
+    white-space: nowrap;
+    font-size: 10px;
+    word-break: keep-all;
+  }
+  
+}
+
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="logo"><img src="../../logo/b.png" alt="logo"></div>
+      <button class="menu-toggle" aria-label="Μενού">&#9776;</button>
+      <nav>
+        <a href="../../index.html" >Αρχική Σελίδα</a>
+        <div class="dropdown" id="dropdownBtn">
+          <a href="#" style="color: #960e0e;">Πρόγραμμα Σπουδών <span class="arrow">⌵</span></a>
+          <div class="dropdown-content" id="dropdownMenu">
+        <a href="../programs.html">Πλήρες Πρόγραμμα</a>
+        <a href="dimotiko.html">Δημοτικό</a>
+        <a href="gymnasio.html">Γυμνάσιο</a>
+        <a href="lykeio.html">Λύκειο</a>
+          </div>
+        </div>
+
+        <div class="dropdown" id="dropdownBtn2">
+          <a href="#">Πανελλαδικές Εξετάσεις <span class="arrow">⌵</span></a>
+          <div class="dropdown-content" id="dropdownMenu2">
+            <a href="../panelladikes.html">Όλα τα παρακάτω</a>
+            <a href="../moria-calculator.html">Υπολογισμός Μορίων</a>
+            <a href="../pallia-themata.html">Παλιά Θέματα</a>
+            <a href="https://www.trapeza-thematon.gr/">Τράπεζα Θεμάτων</a>
+            <a href="../admin-vaseis-scholon.html">Βάσεις Σχολών</a>
+            <a href="../mixanografiko.html">Μηχανογραφικό</a>
+          </div>
+        </div>
+        <a href="../photos.html">Φωτογραφίες</a>
+        <a href="../aboutus.html">Σχετικά με εμάς</a>
+        <div class="icons">
+          <a href="#"><img src="../../elements/Group 17.svg" alt="fb" class="facebook-icon"></a>
+          <a href="#"><img src="../../elements/mdi_instagram.svg" alt="insta" class="instagram-icon"></a>
+          <a href="#"><img src="../../elements/phone.svg" alt="phone"></a>
+          <a href="#"><img src="../../elements/mail.svg" class="mail-icon" alt="mail"></a>
+
+        </div>
+        <a href="../../index2.html" class="login-btn" >Είσοδος</a>
+      </nav>
+        </div>
+
+  </header>
+  
+  <main>
+    <div >
+
+
+        <div class="progr-tit">
+          <h1 style="justify-self: center;">Προγράμματα</h1>
+        </div>
+
+<!-- Φίλτρα τύπου και τάξης στην αρχή της σελίδας -->
+<div class="filter-container">
+
+      <div style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: flex-start;" >
+        <div class="filter-item">
+        <select id="filterType" class="filterType">
+          <option value="">Τύπος:</option>
+
+          <option value="lykeio">ΓΕΛ</option>
+          <option value="epal">ΕΠΑΛ</option>
+        </select>
+        </div>
+      </div>
+      <div style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: flex-start;" >
+      <div class="filter-item">
+        <select id="filterClass" class="filterType">
+          <option value="">Τάξη:</option>
+          <option value="Α">Α'</option>
+          <option value="Β">Β'</option>
+          <option value="Γ">Γ'</option>
+        </select>
+        </div>
+      </div>
+
+      <div style="margin: 30px 0; display: flex; gap: 18px; align-items: center; justify-content: flex-start;" id="fieldFilterDiv">
+        <div class="filter-item">
+        <select id="filterField" class="filterType">
+          <option value="">Πεδίο:</option>
+          <option value="Ανθρωπιστικές Επιστήμες">Ανθρωπιστικές Επιστήμες</option>
+          <option value="Θετικές Επιστήμες">Θετικές Επιστήμες</option>
+          <option value="Σπουδές Υγείας">Σπουδές Υγείας</option>
+          <option value="Οικονομία Και Πληροφορική">Οικονομία Και Πληροφορική</option>
+        </select>
+      </div>
+  </div>
+  <button id="filterBtn" class="btn btn-success" >Εφαρμογή Φίλτρων</button>
+
+
+</div>
+<style>
+  .filter-container {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    justify-content: center;
+    margin: 30px 0;
+    flex-wrap: wrap;
+  }
+  .filter-container > div {
+    margin: 0;
+  }
+  @media (max-width: 700px) {
+    .filter-container {
+      flex-direction: column;
+      align-items: center;
+      justify-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      display: flex;
+    }
+    .filter-container > div {
+      width: 100%;
+    }
+    .fieldFilterDiv {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+    .filter-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+  }
+</style>
+
+
+<!-- Λύκειο - ΓΕΛ -->
+<div id="programms-lykeiou-gel">
+  <h2 style="margin-top: 50px;">Λύκειο - ΓΕΛ</h2>
+  <div class="table-section" style="margin: 30px; display: none;">
+    <h2>ΓΕΛ</h2>
+    <table>
+      <thead>
+        <tr class="section-header"><th colspan="2">Ανθρωπιστικές Επιστήμες</th></tr>
+        <tr>
+          <th>Μάθημα</th>
+          <th>Ώρες</th>
+          <th>Πεδίο</th>
+        </tr>
+      </thead>
+      <tbody id="programms-tbody-lykeio">
+        <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+      </tbody>
+    </table>
+  </div>
+  <div id="programms-lykeiou-gel-a">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Α' Λυκείου</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-lykeio-a">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-lykeiou-gel-b">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Β' Λυκείου</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-lykeio-b">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-lykeiou-gel-g">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Γ' Λυκείου</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-lykeio-g">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-lykeiou-gel-anthrop">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΓΕΛ - Ανθρωπιστικές Επιστήμες</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-lykeio-anthrop">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-lykeiou-gel-thetikes">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΓΕΛ - Θετικές Επιστήμες</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-lykeio-thetikes">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-lykeiou-gel-ygeias">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΓΕΛ - Σπουδές Υγείας</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-lykeio-ygeias">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-lykeiou-gel-oikplirof">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΓΕΛ - Οικονομία και Πληροφορική</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-lykeio-oikplirof">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ΕΠΑΛ -->
+<div id="programms-lykeiou-epal">
+  <h2 style="margin-top: 50px;">Λύκειο - ΕΠΑΛ</h2>
+  <div class="table-section" style="margin: 30px; display: none;">
+    <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΕΠΑΛ</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Μάθημα</th>
+          <th>Ώρες</th>
+        </tr>
+      </thead>
+      <tbody id="programms-tbody-epal">
+        <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+      </tbody>
+    </table>
+  </div>
+  <div id="programms-lykeiou-epal-a">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΕΠΑΛ - Α' Λυκείου</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-epal-a">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-lykeiou-epal-b">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΕΠΑΛ - Β' Λυκείου</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-epal-b">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-lykeiou-epal-g">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΕΠΑΛ - Γ' Λυκείου</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-epal-g">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+ 
+  </main>
+  <footer>
+    <div class="height-adjust4">
+    <div class="footer-content" style="display: flex; flex-direction: row; justify-content: space-between; justify-self: center; width: 95%; max-width: 95vw; box-sizing: border-box; margin-top: 20px;">
+      <div class="hero-logo" id="footer-logo"  style="margin-bottom: 1rem;">
+        <img src="../../logo/b-l.png" alt="Μαθητικό Στέκι" style="max-width: 320px; width: 100%; height: auto; filter: brightness(0) invert(1); ">
+      </div>
+      <div class="footer-links"  data-id="footer-links" style="display: flex; flex-direction: column; align-items: center; gap: 0.3em; text-align: center; justify-content: center; margin-top: 40px;">
+        <span>Επικοινωνία</span>
+        <span>τηλέφωνο επικοινωνίας: 2101553200236</span>
+         <span>e-mail: info@mathsteki.gr</span>
+         <span>Facebook: info@mathsteki.gr</span>
+         <span>Instagram: info@mathsteki.gr</span>
+      </div>
+      <div class="footer-map" >
+        <!-- Ενσωματωμένος χάρτης Google Maps με marker στη διεύθυνση Κρόνου 14, Κορυδαλλός 181 22 -->
+        <iframe
+          src="https://www.google.com/maps?q=Κρόνου+14,+Κορυδαλλός+181+22&output=embed"
+          width="290"
+          height="140"
+          style="border:10px solid #ffffff; border-radius: 10px; margin-top: 10px;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Χάρτης διεύθυνσης φροντιστηρίου"
+        ></iframe>
+      </div>
+    </div>
+    <div class="footer-bottom" style="margin-top: 30px;  text-align: center; font-size: 0.9em; color: #ccc;">
+      &copy; 2025 Μαθητικό Στέκι
+    </div>
+    </div>
+  </footer> 
+    <script src="../../main.js"></script>
+    <script src="../../client-text.js"></script>
+
+
+
+
+
+<script src="../../menu-drop.js"></script>
+<script src="lykeio.js"></script>
+<script src="../../dropdown.js"></script>
+</body>
+</html>
