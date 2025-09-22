@@ -100,6 +100,12 @@ async function loadProgrammsPublic() {
     tbodyOikPlirof.innerHTML = '';
     // Φιλτράρισμα δεδομένων πριν την εμφάνιση
     let filteredData = data.filter(row => {
+      // Αν έχει επιλεγεί μόνο τάξη (και όχι τύπος/πεδίο), μην εφαρμόζεις φίλτρα
+      if (!filterType && !filterField && filterClass) {
+        return true;
+      }
+
+
       // Ειδική περίπτωση: ΜΟΝΟ ΓΕΛ χωρίς τάξη/πεδίο -> όλα τα μαθήματα λυκείου
       if (filterType === 'lykeio' && !filterClass && !filterField) {
         return row.type === 'lykeio';
