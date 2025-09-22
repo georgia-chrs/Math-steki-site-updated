@@ -103,9 +103,15 @@ async function loadProgrammsPublic() {
       let typeMatch = !filterType || row.type === filterType;
       let classMatch = !filterClass || (row.section && row.section[0] === filterClass);
       let fieldMatch = true;
+      // Ειδική περίπτωση: ΜΟΝΟ ΓΕΛ χωρίς τάξη/πεδίο -> όλα τα μαθήματα λυκείου
+      if (filterType === 'lykeio' && !filterClass && !filterField) {
+        return row.type === 'lykeio';
+      }
       // Ειδική περίπτωση: Β' Λυκείου χωρίς πεδίο -> να εμφανίζονται όλα (και γενικής και κατευθύνσεων)
       if (filterType === 'lykeio' && filterClass === 'Β' && !filterField) {
-        fieldMatch = true; // Αγνόησε το πεδίο, εμφάνισε όλα
+        fieldMatch = true;
+      } else if (filterType === 'lykeio' && filterClass === 'Γ' && !filterField) {
+        fieldMatch = true;
       } else if (filterType === 'lykeio' && filterField) {
         fieldMatch = row.field === filterField;
       }
