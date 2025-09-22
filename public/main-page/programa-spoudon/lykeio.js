@@ -1,4 +1,3 @@
-
 let filterType = '';
 let filterClass = '';
 let filterField = '';
@@ -113,6 +112,7 @@ async function loadProgrammsPublic() {
     let sumEA = 0, sumEB = 0, sumEG = 0;
     let sumAnthrop = 0, sumThetikes = 0, sumYgeias = 0, sumOikPlirof = 0;
     let sumAnthropB=0, sumThetikesB=0, sumYgeiasB=0, sumOikPlirofB=0;
+    // Καθάρισμα όλων των tbodys πριν το render
     tbodyLykeio.innerHTML = '';
     tbodyEpal.innerHTML = '';
     tbodyEpalA.innerHTML = '';
@@ -125,6 +125,12 @@ async function loadProgrammsPublic() {
     tbodyThetikes.innerHTML = '';
     tbodyYgeias.innerHTML = '';
     tbodyOikPlirof.innerHTML = '';
+    
+    tbodyLykeioBAnthrop.innerHTML = '';
+    tbodyLykeioBThetikes.innerHTML = '';
+    tbodyLykeioBYgeias.innerHTML = '';
+    tbodyLykeioBOikPlirof.innerHTML = '';
+
     filteredData.forEach(row => {
       if (row.type === 'lykeio') {
         foundLykeio = true;
@@ -227,11 +233,16 @@ async function loadProgrammsPublic() {
 
 
     });
+    // Στο τέλος, αν δεν βρέθηκαν δεδομένα για κάθε πίνακα, εμφάνισε μήνυμα
     if (!foundLykeio) tbodyLykeio.innerHTML = '<tr><td colspan="3">Δεν υπάρχουν μαθήματα Λυκείου!</td></tr>';
     if (!foundEpal) tbodyEpal.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα ΕΠΑΛ!</td></tr>';
     if (!foundA) tbodyLykeioA.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Α Λυκείου!</td></tr>';
     if (!foundB) tbodyLykeioB.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Β Λυκείου!</td></tr>';
     if (!foundG) tbodyLykeioG.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Γ Λυκείου!</td></tr>';
+    if (window.tbodyLykeioBAnthrop && tbodyLykeioBAnthrop.innerHTML === '') tbodyLykeioBAnthrop.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Ανθρωπιστικών Β!</td></tr>';
+    if (window.tbodyLykeioBThetikes && tbodyLykeioBThetikes.innerHTML === '') tbodyLykeioBThetikes.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Θετικών Β!</td></tr>';
+    if (window.tbodyLykeioBYgeias && tbodyLykeioBYgeias.innerHTML === '') tbodyLykeioBYgeias.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Υγείας Β!</td></tr>';
+    if (window.tbodyLykeioBOikPlirof && tbodyLykeioBOikPlirof.innerHTML === '') tbodyLykeioBOikPlirof.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Οικονομίας/Πληροφορικής Β!</td></tr>';
     if (!foundAnthrop) tbodyAnthrop.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Ανθρωπιστικών!</td></tr>';
     if (!foundThetikes) tbodyThetikes.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Θετικών!</td></tr>';
     if (!foundYgeias) tbodyYgeias.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Υγείας!</td></tr>';
