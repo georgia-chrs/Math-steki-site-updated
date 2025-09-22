@@ -101,7 +101,7 @@ async function loadProgrammsPublic() {
     // Φιλτράρισμα δεδομένων πριν την εμφάνιση
     let filteredData = data.filter(row => {
       let typeMatch = !filterType || row.type === filterType;
-      let classMatch = !filterClass || row.section === filterClass;
+      let classMatch = !filterClass || (row.section && row.section[0] === filterClass);
       let fieldMatch = true;
       if (filterType === 'lykeio' && filterField) {
         fieldMatch = row.field === filterField;
