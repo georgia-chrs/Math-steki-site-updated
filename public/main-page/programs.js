@@ -50,7 +50,6 @@ async function loadProgrammsPublic() {
       return;
     }
     const data = await res.json();
-    console.log('Fetched programms:', data); // Debug
     const tbodyDimotiko = document.getElementById('programms-tbody-dimotiko');
     const tbodyGymnasio = document.getElementById('programms-tbody-gymnasio');
     const tbodyLykeio = document.getElementById('programms-tbody-lykeio');

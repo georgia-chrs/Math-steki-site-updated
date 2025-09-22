@@ -5,10 +5,7 @@ let filterField = '';
 document.getElementById('filterBtn').addEventListener('click', () => {
   filterType = document.getElementById('filterType').value;
   filterClass = document.getElementById('filterClass').value;
-  console.log("filter type:", filterType,"filter class:", filterClass)// Debug
   loadProgrammsPublic();
-
-
 });
 
 // Απόκρυψη φίλτρου πεδίου αρχικά
@@ -165,15 +162,15 @@ async function loadProgrammsPublic() {
       }
      
       // --- Λύκειο ανά τάξη ---
-      if (row.type === 'lykeio' && row.section[0] === 'Α') {
+     if (row.type === 'lykeio' && row.section[0] === 'Α') {
         foundA = true;
         tbodyLykeioA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumA += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.section[0] === 'Β') {
+      } else if (row.type === 'lykeio' && row.section[0] === 'Β' && (!row.field ||  row.field === 'Γενικής Παιδίας')) {
         foundB = true;
         tbodyLykeioB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
-        sumB += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.section[0] === 'Γ') {
+        sumB += Number(row.hour) || 0;                                  //row.field === '' --- IGNORE ---
+      } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && (!row.field || row.field === 'Γενικής Παιδίας')) {
         foundG = true;
         tbodyLykeioG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumG += Number(row.hour) || 0;
@@ -196,7 +193,7 @@ async function loadProgrammsPublic() {
         tbodyOikPlirof.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumOikPlirof += Number(row.hour) || 0;
       }
-// --- Β' Λυκείου ανά κατεύθυνση ---
+      // --- Β' Λυκείου ανά κατεύθυνση ---
       if (row.type === 'lykeio' && row.section[0] === 'Β' && row.field) {
        
 
