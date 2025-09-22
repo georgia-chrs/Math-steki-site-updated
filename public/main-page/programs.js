@@ -462,7 +462,7 @@ function showHideSections() {
         'programms-lykeiou-gel-b-oikplirof' 
       ]);
       return;
-    }else if (filterClass === 'Β' && filterField === '' || filterField === 'Καμία') {
+    }else if (filterClass === 'Β' && filterField === 'Γενικής Κατεύθυνσης' ) {
       showOnly([
         'programms-lykeiou-gel-b'
       ]);
