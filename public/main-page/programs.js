@@ -473,11 +473,11 @@ function showHideSections() {
     showOnly(ids);
   }else if(!filterType &&!filterField) {
     if(filterClass === 'Α') {
-      ids = ids.filter(id => !['programms-lykeiou-gel-b','programms-lykeiou-gel-g','programms-lykeiou-gel-b-anthrop','programms-lykeiou-gel-b-thetikes','programms-lykeiou-gel-b-ygeias','programms-lykeiou-gel-b-oikplirof','programms-lykeiou-gel-anthrop','programms-lykeiou-gel-thetikes','programms-lykeiou-gel-ygeias','programms-lykeiou-gel-oikplirof'].includes(id));
+      ids = ['program-gymnasiou-a','programms-lykeiou-gel-a','programms-lykeiou-epal-a'];
     }else if( filterClass === 'Β') {
-      ids = ids.filter(id => !['programms-lykeiou-gel-a','programms-lykeiou-gel-g','programms-lykeiou-gel-anthrop','programms-lykeiou-gel-thetikes','programms-lykeiou-gel-ygeias','programms-lykeiou-gel-oikplirof'].includes(id));
+      ids = ['program-gymnasiou-b','programms-lykeiou-gel-b','programms-lykeiou-epal-b'];
     }else if( filterClass === 'Γ') {
-      ids = ids.filter(id => !['programms-lykeiou-gel-a','programms-lykeiou-gel-b','programms-lykeiou-gel-b-anthrop','programms-lykeiou-gel-b-thetikes','programms-lykeiou-gel-b-ygeias','programms-lykeiou-gel-b-oikplirof'].includes(id));
+      ids = ['program-gymnasiou-g','programms-lykeiou-gel-g','programms-lykeiou-epal-g'];
     }
     showOnly(ids);
   }
