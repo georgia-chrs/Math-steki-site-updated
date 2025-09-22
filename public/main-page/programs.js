@@ -422,6 +422,26 @@ function showHideSections() {
         'programms-lykeiou-gel-oikplirof'
       ]);
       return;
+    }else if (filterClass === 'Β' && !filterField) {
+      showOnly([
+        'programms-lykeiou-gel',
+        'programms-lykeiou-gel-b',
+        'programms-lykeiou-gel-b-anthrop',
+        'programms-lykeiou-gel-b-thetikes',
+        'programms-lykeiou-gel-b-ygeias',
+        'programms-lykeiou-gel-b-oikplirof'
+      ]);
+      return;
+    }else if (filterClass === 'Γ' && !filterField) {
+      showOnly([
+        'programms-lykeiou-gel',
+        'programms-lykeiou-gel-g',
+        'programms-lykeiou-gel-anthrop',
+        'programms-lykeiou-gel-thetikes',
+        'programms-lykeiou-gel-ygeias',
+        'programms-lykeiou-gel-oikplirof'
+      ]);
+      return;
     }
     let ids = ['programms-lykeiou-gel'];
     if (!filterClass) {
