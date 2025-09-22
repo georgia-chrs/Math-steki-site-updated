@@ -277,14 +277,16 @@
   </style>
 </head>
 <body>
-  <header>
+ <header>
     <div class="topbar">
       <div class="logo"><img src="../logo/b.png" alt="logo"></div>
       <button class="menu-toggle" aria-label="Μενού">&#9776;</button>
       <nav>
-        <a href="../index.html" >Αρχική Σελίδα</a>
+        <a href="../students.html" >Αρχική Σελίδα</a>
+        <a href="../student-tablet.html" style="color: #960e0e;">Καρτέλα Μαθητή</a>
+
         <div class="dropdown" id="dropdownBtn">
-          <a href="#" style="color: #960e0e;">Πρόγραμμα Σπουδών <span class="arrow">⌵</span></a>
+          <a href="#">Πρόγραμμα Σπουδών <span class="arrow">⌵</span></a>
           <div class="dropdown-content" id="dropdownMenu">
         <a href="programs.html">Πλήρες Πρόγραμμα</a>
         <a href="programa-spoudon/dimotiko.html">Δημοτικό</a>
@@ -297,7 +299,7 @@
           <a href="#">Πανελλαδικές Εξετάσεις <span class="arrow">⌵</span></a>
           <div class="dropdown-content" id="dropdownMenu2">
             <a href="panelladikes.html">Όλα τα παρακάτω</a>
-            <a href="moria-calculator.html">Υπολογισμός Μορίων</a>
+            <!-- <a href="moria-calculator.html">Υπολογισμός Μορίων</a> -->
             <a href="pallia-themata.html">Παλιά Θέματα</a>
             <a href="https://www.trapeza-thematon.gr/">Τράπεζα Θεμάτων</a>
             <a href="vasis-sholon.html">Βάσεις Σχολών</a>
@@ -313,11 +315,12 @@
           <a href="#"><img src="../elements/mail.svg" class="mail-icon" alt="mail"></a>
 
         </div>
-        <a href="../index2.html" class="login-btn" >Είσοδος</a>
+        <a href="../index.html" class="login-btn" >Έξοδος</a>
       </nav>
         </div>
 
   </header>
+  
   
   <main>
     <div class="progr-tit">
@@ -347,6 +350,7 @@
   <div id="fieldFilterDiv">
     <select id="filterField" style="padding: 8px 16px; border-radius: 20px; border: 2px solid #e39c50; font-size: 15px;">
       <option value="">Πεδίο:</option>
+      <option value="Γενικής Παιδίας">Γενικής Παιδίας</option>
       <option value="Ανθρωπιστικές Επιστήμες">Ανθρωπιστικές Επιστήμες</option>
       <option value="Θετικές Επιστήμες">Θετικές Επιστήμες</option>
       <option value="Σπουδές Υγείας">Σπουδές Υγείας</option>
@@ -531,7 +535,7 @@
   </div>
   <div id="programms-lykeiou-gel-b">
     <div class="table-section" style="margin: 30px;">
-      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Β' Λυκείου</h2>
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Β' Λυκείου Γενικής Παιδίας</h2>
       <table>
         <thead>
           <tr>
@@ -545,9 +549,74 @@
       </table>
     </div>
   </div>
+  <div id="programms-lykeiou-gel-b-anthrop">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Β' Λυκείου - Ανθρωπιστικές Επιστήμες</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-lykeio-b-anthrop">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-lykeiou-gel-b-thetikes">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Β' Λυκείου - Θετικές Επιστήμες</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-lykeio-b-thetikes">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-lykeiou-gel-b-ygeias">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Β' Λυκείου - Σπουδές Υγείας</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-lykeio-b-ygeias">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="programms-lykeiou-gel-b-oikplirof">
+    <div class="table-section" style="margin: 30px;">
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Β' Λυκείου - Οικονομία και Πληροφορική</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Μάθημα</th>
+            <th>Ώρες</th>
+          </tr>
+        </thead>
+        <tbody id="programms-tbody-lykeio-b-oikplirof">
+          <!-- Τα δεδομένα θα φορτωθούν δυναμικά -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <div id="programms-lykeiou-gel-g">
     <div class="table-section" style="margin: 30px;">
-      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Γ' Λυκείου</h2>
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Γ' Λυκείου Γενικής Παιδίας</h2>
       <table>
         <thead>
           <tr>
@@ -563,7 +632,7 @@
   </div>
   <div id="programms-lykeiou-gel-anthrop">
     <div class="table-section" style="margin: 30px;">
-      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΓΕΛ - Ανθρωπιστικές Επιστήμες</h2>
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Γ' Λυκείου - Ανθρωπιστικές Επιστήμες</h2>
       <table>
         <thead>
           <tr>
@@ -579,7 +648,7 @@
   </div>
   <div id="programms-lykeiou-gel-thetikes">
     <div class="table-section" style="margin: 30px;">
-      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΓΕΛ - Θετικές Επιστήμες</h2>
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Γ' Λυκείου - Θετικές Επιστήμες</h2>
       <table>
         <thead>
           <tr>
@@ -595,7 +664,7 @@
   </div>
   <div id="programms-lykeiou-gel-ygeias">
     <div class="table-section" style="margin: 30px;">
-      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΓΕΛ - Σπουδές Υγείας</h2>
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Γ' Λυκείου - Σπουδές Υγείας</h2>
       <table>
         <thead>
           <tr>
@@ -611,7 +680,7 @@
   </div>
   <div id="programms-lykeiou-gel-oikplirof">
     <div class="table-section" style="margin: 30px;">
-      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">ΓΕΛ - Οικονομία και Πληροφορική</h2>
+      <h2 style="color:white; background-color: #9b6a36;width: 100%; text-align: center;">Γ' Λυκείου - Οικονομία και Πληροφορική</h2>
       <table>
         <thead>
           <tr>

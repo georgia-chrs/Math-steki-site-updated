@@ -50,7 +50,6 @@ async function loadProgrammsPublic() {
       return;
     }
     const data = await res.json();
-    console.log('Fetched programms:', data); // Debug
     const tbodyDimotiko = document.getElementById('programms-tbody-dimotiko');
     const tbodyGymnasio = document.getElementById('programms-tbody-gymnasio');
     const tbodyLykeio = document.getElementById('programms-tbody-lykeio');
@@ -61,13 +60,22 @@ async function loadProgrammsPublic() {
     const tbodyA = document.getElementById('programms-tbody-gymnasio-a');
     const tbodyB = document.getElementById('programms-tbody-gymnasio-b');
     const tbodyG = document.getElementById('programms-tbody-gymnasio-g');
+
     const tbodyLykeioA = document.getElementById('programms-tbody-lykeio-a');
     const tbodyLykeioB = document.getElementById('programms-tbody-lykeio-b');
+
+    const tbodyLykeioBAnthrop = document.getElementById('programms-tbody-lykeio-b-anthrop');
+    const tbodyLykeioBThetikes = document.getElementById('programms-tbody-lykeio-b-thetikes');
+    const tbodyLykeioBYgeias = document.getElementById('programms-tbody-lykeio-b-ygeias');
+    const tbodyLykeioBOikPlirof = document.getElementById('programms-tbody-lykeio-b-oikplirof');
+
     const tbodyLykeioG = document.getElementById('programms-tbody-lykeio-g');
     const tbodyAnthrop = document.getElementById('programms-tbody-lykeio-anthrop');
     const tbodyThetikes = document.getElementById('programms-tbody-lykeio-thetikes');
     const tbodyYgeias = document.getElementById('programms-tbody-lykeio-ygeias');
     const tbodyOikPlirof = document.getElementById('programms-tbody-lykeio-oikplirof');
+
+
     tbodyDimotiko.innerHTML = '';
     tbodyGymnasio.innerHTML = '';
     tbodyLykeio.innerHTML = '';
@@ -80,6 +88,10 @@ async function loadProgrammsPublic() {
     tbodyG.innerHTML = '';
     tbodyLykeioA.innerHTML = '';
     tbodyLykeioB.innerHTML = '';
+    tbodyLykeioBOikPlirof.innerHTML = '';
+    tbodyLykeioBAnthrop.innerHTML = '';
+    tbodyLykeioBThetikes.innerHTML = '';
+    tbodyLykeioBYgeias.innerHTML = '';
     tbodyLykeioG.innerHTML = '';
     tbodyAnthrop.innerHTML = '';
     tbodyThetikes.innerHTML = '';
@@ -87,10 +99,25 @@ async function loadProgrammsPublic() {
     tbodyOikPlirof.innerHTML = '';
     // Φιλτράρισμα δεδομένων πριν την εμφάνιση
     let filteredData = data.filter(row => {
+      // Αν έχει επιλεγεί μόνο τάξη (και όχι τύπος/πεδίο), μην εφαρμόζεις φίλτρα
+      if (!filterType && !filterField && filterClass) {
+        return true;
+      }
+
+
+      // Ειδική περίπτωση: ΜΟΝΟ ΓΕΛ χωρίς τάξη/πεδίο -> όλα τα μαθήματα λυκείου
+      if (filterType === 'lykeio' && !filterClass && !filterField) {
+        return row.type === 'lykeio';
+      }
       let typeMatch = !filterType || row.type === filterType;
-      let classMatch = !filterClass || row.section === filterClass;
+      let classMatch = !filterClass || (row.section && row.section[0] === filterClass);
       let fieldMatch = true;
-      if (filterType === 'lykeio' && filterField) {
+      // Ειδική περίπτωση: Β' Λυκείου χωρίς πεδίο -> να εμφανίζονται όλα (και γενικής και κατευθύνσεων)
+      if (filterType === 'lykeio' && filterClass === 'Β' && !filterField) {
+        fieldMatch = true;
+      } else if (filterType === 'lykeio' && filterClass === 'Γ' && !filterField) {
+        fieldMatch = true;
+      } else if (filterType === 'lykeio' && filterField) {
         fieldMatch = row.field === filterField;
       }
       return typeMatch && classMatch && fieldMatch;
@@ -105,6 +132,7 @@ async function loadProgrammsPublic() {
     let sumA = 0, sumB = 0, sumG = 0;
     let sumEA = 0, sumEB = 0, sumEG = 0;
     let sumAnthrop = 0, sumThetikes = 0, sumYgeias = 0, sumOikPlirof = 0;
+    let sumAnthropB=0, sumThetikesB=0, sumYgeiasB=0, sumOikPlirofB=0;
     tbodyDimotiko.innerHTML = '';
     tbodyGymnasio.innerHTML = '';
     tbodyLykeio.innerHTML = '';
@@ -193,32 +221,63 @@ async function loadProgrammsPublic() {
         foundA = true;
         tbodyLykeioA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumA += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.section[0] === 'Β') {
+      } else if (row.type === 'lykeio' && row.section[0] === 'Β' && (!row.field ||  row.field === 'Γενικής Παιδίας')) {
         foundB = true;
         tbodyLykeioB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
-        sumB += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.section[0] === 'Γ') {
+        sumB += Number(row.hour) || 0;                                  //row.field === '' --- IGNORE ---
+      } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && (!row.field || row.field === 'Γενικής Παιδίας')) {
         foundG = true;
         tbodyLykeioG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumG += Number(row.hour) || 0;
       } 
       
-      if (row.type === 'lykeio' && row.field === 'Ανθρωπιστικές Επιστήμες') {
+      if (row.type === 'lykeio' && row.section[0] === 'Γ' && row.field === 'Ανθρωπιστικές Επιστήμες') {
         foundAnthrop = true;
         tbodyAnthrop.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumAnthrop += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.field === 'Θετικές Επιστήμες') {
+      } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && row.field === 'Θετικές Επιστήμες') {
         foundThetikes = true;
         tbodyThetikes.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumThetikes += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.field === 'Σπουδές Υγείας') {
+      } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && row.field === 'Σπουδές Υγείας') {
         foundYgeias = true;
         tbodyYgeias.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumYgeias += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.field === 'Οικονομία Και Πληροφορική') {
+      } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && row.field === 'Οικονομία Και Πληροφορική') {
         foundOikPlirof = true;
         tbodyOikPlirof.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
-        sumOikPlirof += Number(row.hour) || 0;
+        sumOikPlirofB += Number(row.hour) || 0;
+      }
+      // --- Β' Λυκείου ανά κατεύθυνση ---
+      if (row.type === 'lykeio' && row.section[0] === 'Β' && row.field) {
+       
+
+
+        if (row.field === 'Ανθρωπιστικές Επιστήμες') {
+          foundAnthrop = true;
+          if (typeof sumAnthropB === 'undefined') sumAnthropB = 0;
+          if (!window.tbodyLykeioBAnthrop) window.tbodyLykeioBAnthrop = document.getElementById('programms-tbody-lykeio-b-anthrop');
+          window.tbodyLykeioBAnthrop.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+          sumAnthropB += Number(row.hour) || 0;
+        } else if (row.field === 'Θετικές Επιστήμες') {
+          foundThetikes = true;
+          if (typeof sumThetikesB === 'undefined') sumThetikesB = 0;
+          if (!window.tbodyLykeioBThetikes) window.tbodyLykeioBThetikes = document.getElementById('programms-tbody-lykeio-b-thetikes');
+          window.tbodyLykeioBThetikes.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+          sumThetikesB += Number(row.hour) || 0;
+        } else if (row.field === 'Σπουδές Υγείας') {
+          foundYgeias = true;
+          if (typeof sumYgeiasB === 'undefined') sumYgeiasB = 0;
+          if (!window.tbodyLykeioBYgeias) window.tbodyLykeioBYgeias = document.getElementById('programms-tbody-lykeio-b-ygeias');
+          window.tbodyLykeioBYgeias.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+          sumYgeiasB += Number(row.hour) || 0;
+        } else if (row.field === 'Οικονομία Και Πληροφορική') {
+          foundOikPlirof = true;
+          if (typeof sumOikPlirofB === 'undefined') sumOikPlirofB = 0;
+          if (!window.tbodyLykeioBOikPlirof) window.tbodyLykeioBOikPlirof = document.getElementById('programms-tbody-lykeio-b-oikplirof');
+          window.tbodyLykeioBOikPlirof.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+          sumOikPlirofB += Number(row.hour) || 0;
+        }
       }
     });
     if (!foundDimotiko) tbodyDimotiko.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Δημοτικού!</td></tr>';
@@ -243,14 +302,18 @@ async function loadProgrammsPublic() {
     if (foundLykeio) tbodyLykeio.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumLykeio}</td><td></td></tr>`;
     if (foundEpal) tbodyEpal.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEpal}</td></tr>`;
     if (foundA) tbodyA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioA}</td></tr>`;
-if (foundB) tbodyB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioB}</td></tr>`;
-if (foundG) tbodyG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioG}</td></tr>`;
+    if (foundB) tbodyB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioB}</td></tr>`;
+    if (foundG) tbodyG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumGymnasioG}</td></tr>`;
     if (foundA) tbodyLykeioA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumA}</td></tr>`;
     if (foundB) tbodyLykeioB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumB}</td></tr>`;
     if (foundG) tbodyLykeioG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumG}</td></tr>`;
+    if (sumAnthropB) tbodyLykeioBAnthrop.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumAnthropB}</td></tr>`;
+    if (sumThetikesB) tbodyLykeioBThetikes.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumThetikesB}</td></tr>`;
+    if (sumYgeiasB) tbodyLykeioBYgeias.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumYgeiasB}</td></tr>`;
+    if (sumOikPlirofB) tbodyLykeioBOikPlirof.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumOikPlirofB}</td></tr>`;
     if (foundA) tbodyEpalA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEA}</td></tr>`;
-  if (foundB) tbodyEpalB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEB}</td></tr>`;
-  if (foundG) tbodyEpalG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEG}</td></tr>`;
+    if (foundB) tbodyEpalB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEB}</td></tr>`;
+    if (foundG) tbodyEpalG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEG}</td></tr>`;
     if (foundAnthrop) tbodyAnthrop.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumAnthrop}</td></tr>`;
     if (foundThetikes) tbodyThetikes.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumThetikes}</td></tr>`;
     if (foundYgeias) tbodyYgeias.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumYgeias}</td></tr>`;
@@ -286,6 +349,10 @@ function showHideSections() {
     'programms-lykeiou-gel',
     'programms-lykeiou-gel-a',
     'programms-lykeiou-gel-b',
+    'programms-lykeiou-gel-b-anthrop',
+    'programms-lykeiou-gel-b-thetikes',
+    'programms-lykeiou-gel-b-ygeias',
+    'programms-lykeiou-gel-b-oikplirof',
     'programms-lykeiou-gel-g',
     'programms-lykeiou-gel-anthrop',
     'programms-lykeiou-gel-thetikes',
@@ -313,6 +380,7 @@ function showHideSections() {
       }
     });
   }
+
   if (!filterType) {
     showOnly(sections);
     return;
@@ -343,6 +411,45 @@ function showHideSections() {
     showOnly(ids);
   }
   if (filterType === 'lykeio') {
+    // Ειδική περίπτωση: μόνο ΓΕΛ χωρίς τάξη/πεδίο -> όλα τα sections του λυκείου
+    if (!filterClass && !filterField) {
+      showOnly([
+        'programms-lykeiou-gel',
+        'programms-lykeiou-gel-a',
+        'programms-lykeiou-gel-b',
+        'programms-lykeiou-gel-b-anthrop',
+        'programms-lykeiou-gel-b-thetikes',
+        'programms-lykeiou-gel-b-ygeias',
+        'programms-lykeiou-gel-b-oikplirof',
+        'programms-lykeiou-gel-g',
+        'programms-lykeiou-gel-anthrop',
+        'programms-lykeiou-gel-thetikes',
+        'programms-lykeiou-gel-ygeias',
+        'programms-lykeiou-gel-oikplirof'
+      ]);
+      return;
+    }else if (filterClass === 'Β' && !filterField) {
+      showOnly([
+        'programms-lykeiou-gel',
+        'programms-lykeiou-gel-b',
+        'programms-lykeiou-gel-b-anthrop',
+        'programms-lykeiou-gel-b-thetikes',
+        'programms-lykeiou-gel-b-ygeias',
+        'programms-lykeiou-gel-b-oikplirof'
+      ]);
+      return;
+    }else if (filterClass === 'Γ' && !filterField) {
+      showOnly([
+        'programms-lykeiou-gel',
+        'programms-lykeiou-gel-g',
+        'programms-lykeiou-gel-anthrop',
+        'programms-lykeiou-gel-thetikes',
+        'programms-lykeiou-gel-ygeias',
+        'programms-lykeiou-gel-oikplirof'
+      ]);
+      return;
+    }
+
     let ids = ['programms-lykeiou-gel'];
     if (!filterClass) {
       ids.push('programms-lykeiou-gel-a','programms-lykeiou-gel-b','programms-lykeiou-gel-g');
@@ -352,16 +459,37 @@ function showHideSections() {
       if (filterClass === 'Γ') ids.push('programms-lykeiou-gel-g');
     }
     // Πεδίο ΓΕΛ
-    if (filterField) {
-      if (filterField === 'Ανθρωπιστικές Επιστήμες') ids.push('programms-lykeiou-gel-anthrop');
-      if (filterField === 'Θετικές Επιστήμες') ids.push('programms-lykeiou-gel-thetikes');
-      if (filterField === 'Σπουδές Υγείας') ids.push('programms-lykeiou-gel-ygeias');
-      if (filterField === 'Οικονομία Και Πληροφορική') ids.push('programms-lykeiou-gel-oikplirof');
+    if (filterField && filterClass === 'Γ') {
+      if (filterField === 'Ανθρωπιστικές Επιστήμες') ids.push('programms-lykeiou-gel-anthrop');ids = ids.filter(id => !['programms-lykeiou-gel-g'].includes(id));
+      if (filterField === 'Θετικές Επιστήμες') ids.push('programms-lykeiou-gel-thetikes');ids = ids.filter(id => !['programms-lykeiou-gel-g'].includes(id));
+      if (filterField === 'Σπουδές Υγείας') ids.push('programms-lykeiou-gel-ygeias');ids = ids.filter(id => !['programms-lykeiou-gel-g'].includes(id));
+      if (filterField === 'Οικονομία Και Πληροφορική') ids.push('programms-lykeiou-gel-oikplirof');ids = ids.filter(id => !['programms-lykeiou-gel-g'].includes(id));
+      if (filterField === 'Γενικής Παιδίας') ids.push('programms-lykeiou-gel-g');
       // Κρύψε τα lykeioA/B/G όταν έχει επιλεγεί πεδίο
-      ids = ids.filter(id => !['programms-lykeiou-gel-a','programms-lykeiou-gel-b','programms-lykeiou-gel-g'].includes(id));
+      ids = ids.filter(id => !['programms-lykeiou-gel-a','programms-lykeiou-gel-b'].includes(id));
+    }else if (filterField && filterClass === 'Β') {
+      if (filterField === 'Ανθρωπιστικές Επιστήμες') ids.push('programms-lykeiou-gel-b-anthrop');ids = ids.filter(id => !['programms-lykeiou-gel-b'].includes(id));
+      if (filterField === 'Θετικές Επιστήμες') ids.push('programms-lykeiou-gel-b-thetikes');ids = ids.filter(id => !['programms-lykeiou-gel-b'].includes(id));
+      if (filterField === 'Σπουδές Υγείας') ids.push('programms-lykeiou-gel-b-ygeias');ids = ids.filter(id => !['programms-lykeiou-gel-b'].includes(id));
+      if (filterField === 'Οικονομία Και Πληροφορική') ids.push('programms-lykeiou-gel-b-oikplirof');ids = ids.filter(id => !['programms-lykeiou-gel-b'].includes(id));
+      if (filterField === 'Γενικής Παιδίας') ids.push('programms-lykeiou-gel-b');
+      // Κρύψε τα lykeioA/B/G όταν έχει επιλεγεί πεδίο
+      ids = ids.filter(id => !['programms-lykeiou-gel-a','programms-lykeiou-gel-g'].includes(id));
     }
     showOnly(ids);
+  }else if(!filterType &&!filterField) {
+    // Ειδική περίπτωση: όταν έχει επιλεγεί μόνο τάξη (και όχι τύπος/πεδίο), να εμφανίζονται μόνο οι πίνακες της τάξης
+    if(filterClass === 'Α') {
+      ids = ['programms-gymnasiou-a','programms-lykeiou-gel-a','programms-lykeiou-epal-a'];
+    }else if( filterClass === 'Β') {
+      ids = ['programms-gymnasiou-b','programms-lykeiou-gel-b','programms-lykeiou-epal-b'];
+    }else if( filterClass === 'Γ') {
+      ids = ['programms-gymnasiou-g','programms-lykeiou-gel-g','programms-lykeiou-epal-g'];
+    }
+    showOnly(ids);
+    return;
   }
+
 }
     showHideSections();
 window.addEventListener('DOMContentLoaded', loadProgrammsPublic);
