@@ -103,7 +103,16 @@ async function loadProgrammsPublic() {
       let typeMatch = !filterType || row.type === filterType;
       let classMatch = !filterClass || (row.section && row.section[0] === filterClass);
       let fieldMatch = true;
-      if (filterType === 'lykeio' && filterField) {
+      // Ειδική περίπτωση: Β' Λυκείου χωρίς πεδίο -> να εμφανίζονται όλα (και γενικής και κατευθύνσεων)
+      if (filterType === 'lykeio' && filterClass === 'Β' && !filterField) {
+        fieldMatch = true; // Αγνόησε το πεδίο, εμφάνισε όλα
+      } else if (filterType === 'lykeio' && filterField) {
+        fieldMatch = row.field === filterField;
+      }
+
+      if (filterType === 'lykeio' && filterClass === 'Γ' && !filterField) {
+        fieldMatch = true; // Αγνόησε το πεδίο, εμφάνισε όλα
+      } else if (filterType === 'lykeio' && filterField) {
         fieldMatch = row.field === filterField;
       }
       return typeMatch && classMatch && fieldMatch;
@@ -207,11 +216,11 @@ async function loadProgrammsPublic() {
         foundA = true;
         tbodyLykeioA.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumA += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.section[0] === 'Β' && (!row.field || row.field === ''|| row.field === 'Καμία')) {
+      } else if (row.type === 'lykeio' && row.section[0] === 'Β' && (!row.field ||  row.field === 'Καμία')) {
         foundB = true;
         tbodyLykeioB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
-        sumB += Number(row.hour) || 0;
-      } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && (!row.field || row.field === ''|| row.field === 'Καμία')) {
+        sumB += Number(row.hour) || 0;                                  //row.field === '' --- IGNORE ---
+      } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && (!row.field || row.field === 'Καμία')) {
         foundG = true;
         tbodyLykeioG.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumG += Number(row.hour) || 0;
