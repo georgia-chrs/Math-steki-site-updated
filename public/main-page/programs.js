@@ -361,16 +361,8 @@ function showHideSections() {
   // Κρύψε όλα τα divs με !important
   sections.forEach(id => {
     const el = document.getElementById(id);
-    if (el) {
-      el.style.setProperty('display', 'none', 'important');
-      el.style.opacity = 0;
-      // Εξαναγκασμένο hide για κάθε child table-section
-      const tables = el.querySelectorAll('.table-section');
-      tables.forEach(tbl => {
-        tbl.style.setProperty('display', 'none', 'important');
-        tbl.style.opacity = 0;
-      });
-    }
+    if (el) el.style.setProperty('display', 'none', 'important');
+    if (el) el.style.opacity = 0;
   });
   // Εμφάνισε μόνο το section που πρέπει με fade-in
   function showOnly(ids) {
