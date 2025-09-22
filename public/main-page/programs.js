@@ -61,13 +61,22 @@ async function loadProgrammsPublic() {
     const tbodyA = document.getElementById('programms-tbody-gymnasio-a');
     const tbodyB = document.getElementById('programms-tbody-gymnasio-b');
     const tbodyG = document.getElementById('programms-tbody-gymnasio-g');
+
     const tbodyLykeioA = document.getElementById('programms-tbody-lykeio-a');
     const tbodyLykeioB = document.getElementById('programms-tbody-lykeio-b');
+
+    const tbodyLykeioBAnthrop = document.getElementById('programms-tbody-lykeio-b-anthrop');
+    const tbodyLykeioBThetikes = document.getElementById('programms-tbody-lykeio-b-thetikes');
+    const tbodyLykeioBYgeias = document.getElementById('programms-tbody-lykeio-b-ygeias');
+    const tbodyLykeioBOikPlirof = document.getElementById('programms-tbody-lykeio-b-oikplirof');
+
     const tbodyLykeioG = document.getElementById('programms-tbody-lykeio-g');
     const tbodyAnthrop = document.getElementById('programms-tbody-lykeio-anthrop');
     const tbodyThetikes = document.getElementById('programms-tbody-lykeio-thetikes');
     const tbodyYgeias = document.getElementById('programms-tbody-lykeio-ygeias');
     const tbodyOikPlirof = document.getElementById('programms-tbody-lykeio-oikplirof');
+
+
     tbodyDimotiko.innerHTML = '';
     tbodyGymnasio.innerHTML = '';
     tbodyLykeio.innerHTML = '';
@@ -80,6 +89,10 @@ async function loadProgrammsPublic() {
     tbodyG.innerHTML = '';
     tbodyLykeioA.innerHTML = '';
     tbodyLykeioB.innerHTML = '';
+    tbodyLykeioBOikPlirof.innerHTML = '';
+    tbodyLykeioBAnthrop.innerHTML = '';
+    tbodyLykeioBThetikes.innerHTML = '';
+    tbodyLykeioBYgeias.innerHTML = '';
     tbodyLykeioG.innerHTML = '';
     tbodyAnthrop.innerHTML = '';
     tbodyThetikes.innerHTML = '';
@@ -280,6 +293,10 @@ async function loadProgrammsPublic() {
     if (foundA) tbodyLykeioA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumA}</td></tr>`;
     if (foundB) tbodyLykeioB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumB}</td></tr>`;
     if (foundG) tbodyLykeioG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumG}</td></tr>`;
+    if (sumAnthropB) tbodyLykeioBAnthrop.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumAnthropB}</td></tr>`;
+    if (sumThetikesB) tbodyLykeioBThetikes.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumThetikesB}</td></tr>`;
+    if (sumYgeiasB) tbodyLykeioBYgeias.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumYgeiasB}</td></tr>`;
+    if (sumOikPlirof) tbodyLykeioBOikPlirof.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumOikPlirof}</td></tr>`;
     if (foundA) tbodyEpalA.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEA}</td></tr>`;
     if (foundB) tbodyEpalB.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEB}</td></tr>`;
     if (foundG) tbodyEpalG.innerHTML += `<tr class='total-row'><td>Σύνολο</td><td>${sumEG}</td></tr>`;
