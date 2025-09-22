@@ -220,6 +220,34 @@ async function loadProgrammsPublic() {
         tbodyOikPlirof.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumOikPlirof += Number(row.hour) || 0;
       }
+      // --- Β' Λυκείου ανά κατεύθυνση ---
+      if (row.type === 'lykeio' && row.section[0] === 'Β' && row.field) {
+        if (row.field === 'Ανθρωπιστικές Επιστήμες') {
+          foundAnthrop = true;
+          if (typeof sumAnthropB === 'undefined') sumAnthropB = 0;
+          if (!window.tbodyLykeioBAnthrop) window.tbodyLykeioBAnthrop = document.getElementById('programms-tbody-lykeio-b-anthrop');
+          window.tbodyLykeioBAnthrop.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+          sumAnthropB += Number(row.hour) || 0;
+        } else if (row.field === 'Θετικές Επιστήμες') {
+          foundThetikes = true;
+          if (typeof sumThetikesB === 'undefined') sumThetikesB = 0;
+          if (!window.tbodyLykeioBThetikes) window.tbodyLykeioBThetikes = document.getElementById('programms-tbody-lykeio-b-thetikes');
+          window.tbodyLykeioBThetikes.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+          sumThetikesB += Number(row.hour) || 0;
+        } else if (row.field === 'Σπουδές Υγείας') {
+          foundYgeias = true;
+          if (typeof sumYgeiasB === 'undefined') sumYgeiasB = 0;
+          if (!window.tbodyLykeioBYgeias) window.tbodyLykeioBYgeias = document.getElementById('programms-tbody-lykeio-b-ygeias');
+          window.tbodyLykeioBYgeias.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+          sumYgeiasB += Number(row.hour) || 0;
+        } else if (row.field === 'Οικονομία Και Πληροφορική') {
+          foundOikPlirof = true;
+          if (typeof sumOikPlirofB === 'undefined') sumOikPlirofB = 0;
+          if (!window.tbodyLykeioBOikPlirof) window.tbodyLykeioBOikPlirof = document.getElementById('programms-tbody-lykeio-b-oikplirof');
+          window.tbodyLykeioBOikPlirof.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+          sumOikPlirofB += Number(row.hour) || 0;
+        }
+      }
     });
     if (!foundDimotiko) tbodyDimotiko.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Δημοτικού!</td></tr>';
     if (!foundGymnasio) tbodyGymnasio.innerHTML = '<tr><td colspan="2">Δεν υπάρχουν μαθήματα Γυμνασίου!</td></tr>';
@@ -286,6 +314,10 @@ function showHideSections() {
     'programms-lykeiou-gel',
     'programms-lykeiou-gel-a',
     'programms-lykeiou-gel-b',
+    'programms-lykeiou-gel-b-anthrop',
+    'programms-lykeiou-gel-b-thetikes',
+    'programms-lykeiou-gel-b-ygeias',
+    'programms-lykeiou-gel-b-oikplirof',
     'programms-lykeiou-gel-g',
     'programms-lykeiou-gel-anthrop',
     'programms-lykeiou-gel-thetikes',
