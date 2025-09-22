@@ -372,7 +372,6 @@ function showHideSections() {
   });
   // Εμφάνισε μόνο το section που πρέπει με fade-in
   function showOnly(ids) {
-    HideAllSections();
     ids.forEach(id => {
       const el = document.getElementById(id);
       if (el) {
@@ -382,15 +381,7 @@ function showHideSections() {
       }
     });
   }
-  function HideAllSections() {
-    sections.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.style.setProperty('display', 'none', 'important');
-        el.style.opacity = 0;
-      }
-    });
-  }
+
   if (!filterType) {
     showOnly(sections);
     return;
