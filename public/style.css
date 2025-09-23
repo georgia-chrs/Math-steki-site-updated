@@ -1071,8 +1071,9 @@ nav{
 @media (max-width: 900px) {
      .stats-section {
       position: relative;
-      overflow: visible !important;
+      /*overflow: visible !important;*/
       padding: 0px 0px;
+      visibility: hidden;
       margin-bottom: 0px;
       margin-top: -200px;
     }
@@ -1081,7 +1082,9 @@ nav{
 
      .stats-section {
       position: relative;
-      overflow: visible !important;
+      /*overflow: visible !important;*/
+            visibility: hidden;
+
       padding: 0px 70px;
       margin-bottom: 50px;
     }
