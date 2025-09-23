@@ -1068,7 +1068,16 @@ nav{
 
 
 
-
+@media (max-width: 900px) {
+     .stats-section {
+      position: relative;
+      overflow: visible !important;
+      padding: 0px 0px;
+      margin-bottom: 0px;
+      margin-top: -200px;
+    }
+  
+}
 
      .stats-section {
       position: relative;
