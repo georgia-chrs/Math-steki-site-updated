@@ -596,7 +596,7 @@ async function deleteStudent(id) {
       filteredSubjects.forEach(subject => {
         // Αφαιρέθηκε ο έλεγχος για το πεδίο subject
         const enrolledCount = enrollments.filter (e => e.class_id === subject.id).length;
-        const teacher = teachers.find(t => t.id === (subject.teacherId || subject.teacherid));
+        const teacher = teachers.find(t => t.id === subject.teacherId);
         const teacherName = teacher ? teacher.name : 'Δεν έχει ανατεθεί';
         const row = document.createElement('tr');
         row.innerHTML = `
