@@ -155,7 +155,10 @@
           parentPhone: student.parentPhone,
           address: student.address,
           birthDate: student.birthDate ? new Date(student.birthDate).toISOString().split('T')[0] : '',
-          enrollmentDate: student.enrollmentDate ? new Date(student.enrollmentDate).toISOString().split('T')[0] : '',
+          enrollmentDate: student.enrollmentDate  ? new Date(student.enrollmentDate).toISOString().split('T')[0]
+            : (student.enrollmentdate
+                ? new Date(student.enrollmentdate).toISOString().split('T')[0]
+                : ''),
           status: student.status,
           notes: student.notes || ''
         }));
