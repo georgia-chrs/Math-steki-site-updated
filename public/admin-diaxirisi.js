@@ -85,7 +85,7 @@
             name: subj.name,
             code: subj.code,
             class: subj.class,
-            teacherId: subj.teacherId,
+            teacherId: subj.teacherid || subj.teacherId,
             teacherName: subj.teacherName
           };
           console.log('Mapped subject:', mappedSubject);
