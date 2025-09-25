@@ -565,7 +565,7 @@ async function deleteStudent(id) {
       const classFilter = document.getElementById('subjectClassFilter').value;
 
       filteredSubjects = subjects.filter(subject => {
-        const teacher = teachers.find(t => t.id === subject.teacherId);
+        const teacher = teachers.find(t => t.id === subject.teacherid);
         const teacherName = teacher ? teacher.name.toLowerCase() : '';
         const teacherSubject = teacher ? teacher.subject.toLowerCase() : '';
         
@@ -596,7 +596,7 @@ async function deleteStudent(id) {
       filteredSubjects.forEach(subject => {
         // Αφαιρέθηκε ο έλεγχος για το πεδίο subject
         const enrolledCount = enrollments.filter (e => e.class_id === subject.id).length;
-        const teacher = teachers.find(t => t.id === subject.teacherId);
+        const teacher = teachers.find(t => t.id === subject.teacherid);
         const teacherName = teacher ? teacher.name : 'Δεν έχει ανατεθεί';
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -682,7 +682,7 @@ async function deleteStudent(id) {
       const subject = subjects.find(s => s.id === subjectId);
       if (!subject) return;
 
-      const teacher = teachers.find(t => t.id === subject.teacherId);
+      const teacher = teachers.find(t => t.id === subject.teacherid);
       const enrolledStudents = enrollments.filter(e => e.class_id === subjectId);
       
       let studentsList = '';
@@ -763,7 +763,7 @@ async function deleteStudent(id) {
       select.innerHTML = '<option value="">Επιλέξτε τμήμα</option>';
       availableSubjects.forEach(subject => {
         console.log('Creating option for subject:', subject);
-        const teacher = teachers.find(t => t.id === subject.teacherId);
+        const teacher = teachers.find(t => t.id === subject.teacherid);
         const teacherInfo = teacher ? ` - ${teacher.name}` : ' - Δεν έχει καθηγητή';
         
         const option = document.createElement('option');
