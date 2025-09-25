@@ -332,7 +332,7 @@ function editStudent(id) {
   document.getElementById('parentPhone').value = student.parentPhone || '';
   document.getElementById('address').value = student.address || '';
   document.getElementById('birthDate').value = student.birthDate || '';
-  document.getElementById('enrollmentDate').value = student.enrollmentDate || '';
+  document.getElementById('enrollmentDate').value = student.enrollmentDate || student.enrollmentdate || '';
   document.getElementById('status').value = student.status || 'active';
   document.getElementById('notes').value = student.notes || '';
   
