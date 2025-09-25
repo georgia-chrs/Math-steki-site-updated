@@ -392,7 +392,7 @@ function closeModal() {
 function closeViewModal() {
   document.getElementById('viewStudentModal').style.display = 'none';
 }
-
+/*
  function deleteStudent(id) {
   const student = students.find(s => s.id === id);
   if (!student) return;
@@ -404,7 +404,30 @@ function closeViewModal() {
     showAlert('Ο μαθητής διαγράφηκε επιτυχώς!', 'success');
   }
 }
-    
+    */
+
+async function deleteStudent(id) {
+  const student = students.find(s => s.id === id);
+  if (!student) return;
+
+  if (confirm(`Είστε βέβαιοι ότι θέλετε να διαγράψετε τον μαθητή ${student.firstName} ${student.lastName};`)) {
+    try {
+      const response = await fetch(`/api/students/${id}`, { method: 'DELETE' });
+      if (response.ok) {
+        students = students.filter(s => s.id !== id);
+        filteredStudents = filteredStudents.filter(s => s.id !== id);
+        loadStudents();
+        showAlert('Ο μαθητής διαγράφηκε επιτυχώς!', 'success');
+      } else {
+        showAlert('Σφάλμα κατά τη διαγραφή του μαθητή.', 'danger');
+      }
+    } catch (error) {
+      showAlert('Σφάλμα σύνδεσης με τον διακομιστή.', 'danger');
+    }
+  }
+}
+
+
 // Function to view student profile in student-tablet.html
     function viewStudentProfile(studentId) {
       const student = students.find(s => s.id === studentId);
