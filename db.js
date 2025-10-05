@@ -15,9 +15,9 @@ export const pool = new Pool({
 export default pool;
 
 if (process.env.DB_HOST) {
-  console.log("✅ PostgreSQL pool created");
+  console.log(" PostgreSQL pool created");
 } else {
-  console.log("⚠️ No DB config, running in NO-DB mode");
+  console.log(" No DB config, running in NO-DB mode");
 }
 if (!pool) {
   throw new Error("Database not connected");
@@ -25,7 +25,7 @@ if (!pool) {
 // ---------- ΜΑΘΗΤΕΣ ----------
 export async function getStudents() {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [{ id: 1, name: "Test Students" }];
   }
   const res = await pool.query('SELECT * FROM students');
@@ -33,7 +33,7 @@ export async function getStudents() {
 }
 export async function getStudent(id) {
    if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [{ id: 1, name: "Test Students" }];
   }
   const res = await pool.query('SELECT * FROM students WHERE id = $1', [id]);
@@ -42,7 +42,7 @@ export async function getStudent(id) {
 
 export async function createStudent(first_name, last_name, father_name, username, password_hash) {
    if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [{ id: 1, name: "Test Students" }];
   }
   const res = await pool.query(
@@ -54,7 +54,7 @@ export async function createStudent(first_name, last_name, father_name, username
 
 export async function deleteStudent(id) {
    if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [{ id: 1, name: "Test Students" }];
   }
   const res = await pool.query(
@@ -69,7 +69,7 @@ export async function deleteStudent(id) {
 // ---------- ΚΑΘΗΓΗΤΕΣ (αν χρειαστεί) ----------
 export async function getTeachers() {
    if (!pool) {
-     console.log("⚠️ No DB connection, returning dummy data");
+     console.log(" No DB connection, returning dummy data");
      return [{ id: 1, name: "Test Teacher" }];
    }
   const res = await pool.query("SELECT * FROM teachers");
@@ -77,34 +77,34 @@ export async function getTeachers() {
 }
 
 export async function getUserByUsername(username) {
-  console.log(`🔍 Ψάχνω για χρήστη: "${username}"`);
+  console.log(` Ψάχνω για χρήστη: "${username}"`);
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [{ id: 1, name: "Test Students" }];
   }
   // Ψάχνει πρώτα στους Admins
   const resAdmin = await pool.query("SELECT *, 'admin' as role FROM admins WHERE username = $1", [username]);
   const adminRows = resAdmin.rows;
-  console.log(`📋 Admins rows found: ${adminRows.length}`);
+  console.log(` Admins rows found: ${adminRows.length}`);
   if (adminRows.length > 0) {
-    console.log(`✅ Βρέθηκε admin: ${adminRows[0].username}`);
+    console.log(` Βρέθηκε admin: ${adminRows[0].username}`);
     return adminRows[0];
   }
   // Μετά στους Students
   const resStudent = await pool.query("SELECT *, 'student' as role FROM students WHERE username = $1", [username]);
   const studentRows = resStudent.rows;
-  console.log(`📋 Students rows found: ${studentRows.length}`);
+  console.log(` Students rows found: ${studentRows.length}`);
   if (studentRows.length > 0) {
-    console.log(`✅ Βρέθηκε student: ${studentRows[0].username}`);
+    console.log(`Βρέθηκε student: ${studentRows[0].username}`);
     return studentRows[0];
   }
-  console.log(`❌ Δεν βρέθηκε χρήστης: "${username}"`);
+  console.log(` Δεν βρέθηκε χρήστης: "${username}"`);
   return null;
 }
 
 export async function getProgressNotes(student_id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [{ id: 1, student_id, subject_id: 1, note_date: new Date(), content: "Test Note", performance_level: "good", created_at: new Date() }];
   }
   const res = await pool.query(
@@ -123,7 +123,7 @@ export async function getProgressNotes(student_id) {
 export async function getGradesByStudent(student_id) {
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [{ id: 1, student_id, subject_id: 1, exam_type: "midterm", grade: 85, exam_date: new Date(), notes: "Good job", created_at: new Date() }];
   }
   const res = await pool.query(
@@ -144,7 +144,7 @@ export async function getGradesByStudent(student_id) {
 // Επιστροφή όλων των ανακοινώσεων (για admin)
 export async function getAnnouncements() {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [{ id: 1, title: "Test Announcement", content: "This is a test announcement." }];
   }
   const res = await pool.query(
@@ -165,7 +165,7 @@ export async function getAnnouncementsForStudent(studentId) {
     // Επιστρέφουμε όλες τις ενεργές ανακοινώσεις (απλό σύστημα)
 
    if (!pool) {
-     console.log("⚠️ No DB connection, returning dummy data");
+     console.log(" No DB connection, returning dummy data");
      return [{ id: 1, title: "Test Announcement", content: "This is a test announcement." }];
    }
     const res = await pool.query(
@@ -186,7 +186,7 @@ export async function getAnnouncementsForStudent(studentId) {
 // Δημιουργία νέας ανακοίνωσης με φιλτράρισμα
 export async function createAnnouncement(title, content, admin_id = 1) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id: 1, title, content, created_by: admin_id, is_active: true };
   }
   const res = await pool.query(
@@ -201,7 +201,7 @@ export async function createAnnouncement(title, content, admin_id = 1) {
 export async function updateAnnouncement(id, title, content, type = 'general', targetClass = null, targetSubjectId = null, startDate = null, endDate = null, priority = 'normal', pdfAttachment = null, externalLink = null) {
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id, title, content, notification_type: type, target_class: targetClass, target_subject_id: targetSubjectId, start_date: startDate, end_date: endDate, priority, pdf_attachment: pdfAttachment, external_link: externalLink };
   }
 
@@ -219,7 +219,7 @@ export async function updateAnnouncement(id, title, content, type = 'general', t
 export async function deleteAnnouncement(id) {
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id, title: "Test Announcement", content: "This is a test announcement." };
   }
 
@@ -233,7 +233,7 @@ export async function deleteAnnouncement(id) {
 export async function deactivateAnnouncement(id) {
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id, title: "Test Announcement", content: "This is a test announcement." };
   }
 
@@ -247,7 +247,7 @@ export async function deactivateAnnouncement(id) {
 export async function getAllClasses() {
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [{ class_name: "Test Class" }];
   }
   const res = await pool.query(
@@ -260,7 +260,7 @@ export async function getAllClasses() {
 export async function getAllPDFs() {
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [{ id: 1, title: "Test PDF", description: "This is a test PDF." }];
   }
   const res = await pool.query('SELECT * FROM palliathemata ORDER BY upload_date DESC, created_at DESC');
@@ -268,7 +268,7 @@ export async function getAllPDFs() {
 }
 export async function getPDFById(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id, title: "Test PDF", description: "This is a test PDF." };
   }
   const res = await pool.query('SELECT * FROM palliathemata WHERE id = $1', [id]);
@@ -276,7 +276,7 @@ export async function getPDFById(id) {
 }
 export async function getPDFByFilename(filename) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id: 1, title: "Test PDF", description: "This is a test PDF." };
   }
   const res = await pool.query('SELECT * FROM palliathemata WHERE filename = $1', [filename]);
@@ -287,7 +287,7 @@ export async function createPDF(pdfData) {
   const { title, lykeio, subject, year, type, filename, description, file_data, file_size, upload_date } = pdfData;
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log("No DB connection, returning dummy data");
     return { id: 1, title, lykeio, subject, year, type, filename, description, file_data, file_size, upload_date };
   }
 
@@ -304,7 +304,7 @@ export async function updatePDF(id, pdfData) {
   const { title, lykeio, subject, year, description, filename } = pdfData;
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id, title, lykeio, subject, year, description, filename };
   }
 
@@ -320,7 +320,7 @@ export async function updatePDF(id, pdfData) {
 
 export async function deletePDF(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return false;
   }
 
@@ -350,7 +350,7 @@ export async function filterPDFs(filters = {}) {
   query += ' ORDER BY upload_date DESC, created_at DESC';
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [];
   }
 
@@ -362,7 +362,7 @@ export async function filterPDFs(filters = {}) {
 
 export async function getAllVaseisScholon() {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [];
   }
 
@@ -382,7 +382,7 @@ export async function getAllVaseisScholon() {
 export async function getVaseisScholonById(id) {
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log("No DB connection, returning dummy data");
     return { id, title: "Test Announcement", content: "This is a test announcement." };
   }
 
@@ -401,7 +401,7 @@ export async function createVaseisScholon(vaseisData) {
   const { title, year, lykeio, field, description, filename, file_data, file_size } = vaseisData;
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id: 1, title, year, lykeio, field, description, filename, file_data, file_size };
   }
 
@@ -430,7 +430,7 @@ export async function updateVaseisScholon(id, updateData) {
   values.push(id);
 
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping update");
+    console.log(" No DB connection, skipping update");
     return false;
   }
 
@@ -445,7 +445,7 @@ export async function updateVaseisScholon(id, updateData) {
 
 export async function deleteVaseisScholon(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping delete");
+    console.log(" No DB connection, skipping delete");
     return false;
   }
 
@@ -457,7 +457,7 @@ export async function deleteVaseisScholon(id) {
 
 export async function getAllMixanografiko() {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [];
   }
 
@@ -476,7 +476,7 @@ export async function getAllMixanografiko() {
 
 export async function getMixanografikoById(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id, title: "Test Mixanografiko", description: "This is a test Mixanografiko." };
   }
 
@@ -495,7 +495,7 @@ export async function createMixanografiko(mixanografikoData) {
   const { title, lykeio, field, specialty, description, filename, file_data, file_size } = mixanografikoData;
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id: 1, title, lykeio, field, specialty, description, filename, file_data, file_size };
   }
 
@@ -524,7 +524,7 @@ export async function updateMixanografiko(id, updateData) {
   values.push(id);
 
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping update");
+    console.log(" No DB connection, skipping update");
     return false;
   }
 
@@ -539,7 +539,7 @@ export async function updateMixanografiko(id, updateData) {
 
 export async function deleteMixanografiko(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping delete");
+    console.log(" No DB connection, skipping delete");
     return false;
   }
 
@@ -572,7 +572,7 @@ export async function filterMixanografiko(filters = {}) {
   query += ' ORDER BY upload_date DESC, updated_at DESC';
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [];
   }
 
@@ -589,7 +589,7 @@ export async function filterMixanografiko(filters = {}) {
 
 export async function getAllStudents() {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [];
   }
   const res = await pool.query(`
@@ -606,7 +606,7 @@ export async function getAllStudents() {
 
 export async function getStudentById(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id, firstName: "Test", lastName: "Student" };
   }
   const res = await pool.query('SELECT * FROM students WHERE id = $1', [id]);
@@ -615,7 +615,7 @@ export async function getStudentById(id) {
 
 export async function createNewStudent(studentData) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return false;
   }
   const [result] = await pool.query(`
@@ -703,29 +703,29 @@ export async function updateStudent(id, studentData) {
       values.push(studentData.notes); 
     }
     
-    console.log('📝 Fields to update:', fields.length, fields);
-    console.log('📊 Values:', values);
+    console.log(' Fields to update:', fields.length, fields);
+    console.log(' Values:', values);
     
     if (fields.length === 0) {
-      console.log('❌ No fields to update');
+      console.log(' No fields to update');
       return false;
     }
     
     values.push(id);
     
     const query = `UPDATE students SET ${fields.join(', ')}, updated_at = CURRENT_TIMESTAMP WHERE id = $15`;
-    console.log('🔍 Query:', query);
-    console.log('🔍 Values:', values);
+    console.log(' Query:', query);
+    console.log(' Values:', values);
 
     if (!pool) {
-      console.log("⚠️ No DB connection, skipping update");
+      console.log(" No DB connection, skipping update");
       return false;
     }
 
     const res = await pool.query(query, values);
-    console.log('📊 Update result:', res);
-    console.log('✅ Affected rows:', res.rowCount);
-    
+    console.log(' Update result:', res);
+    console.log(' Affected rows:', res.rowCount);
+
     return res.rowCount > 0;
   } catch (error) {
     console.error('Error updating student:', error);
@@ -735,7 +735,7 @@ export async function updateStudent(id, studentData) {
 
 export async function deleteStudentById(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping delete");
+    console.log(" No DB connection, skipping delete");
     return false;
   }
   const res = await pool.query('DELETE FROM students WHERE id = $1', [id]);
@@ -767,7 +767,7 @@ export async function searchStudents(searchTerm, classFilter) {
   query += ` GROUP BY s.id ORDER BY s.last_name, s.first_name`;
 
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [];
   }
 
@@ -778,7 +778,7 @@ export async function searchStudents(searchTerm, classFilter) {
 export async function getStudentsByClass(className) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
     const res = await pool.query(
@@ -796,7 +796,7 @@ export async function getStudentsByClass(className) {
 
 export async function getAllTeachers() {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [];
   }
   const res = await pool.query(`
@@ -812,7 +812,7 @@ export async function getAllTeachers() {
 
 export async function getTeacherById(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id, name: "Test Teacher", subject: "Math", phone: "1234567890", email: "test@example.com" };
   }
   const res = await pool.query('SELECT * FROM teachers WHERE id = $1', [id]);
@@ -821,7 +821,7 @@ export async function getTeacherById(id) {
 
 export async function createTeacher(teacherData) {
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping create");
+    console.log(" No DB connection, skipping create");
     return false;
   }
   const res = await pool.query(
@@ -846,7 +846,7 @@ export async function updateTeacher(id, teacherData) {
   values.push(id);
 
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping update");
+    console.log(" No DB connection, skipping update");
     return false;
   }
 
@@ -861,7 +861,7 @@ export async function updateTeacher(id, teacherData) {
 
 export async function deleteTeacher(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping delete");
+    console.log(" No DB connection, skipping delete");
     return false;
   }
   const res = await pool.query('DELETE FROM teachers WHERE id = $1', [id]);
@@ -873,7 +873,7 @@ export async function searchTeachers(searchTerm) {
     const searchPattern = `%${searchTerm}%`;
     
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
 
@@ -898,7 +898,7 @@ export async function searchTeachers(searchTerm) {
 
 export async function getAllSubjects() {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [];
   }
   const res = await pool.query(`
@@ -910,7 +910,7 @@ export async function getAllSubjects() {
 
 export async function getSubjectById(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return { id, name: "Test Subject", code: "MATH101", class: "Math", teacherId: 1 };
   }
   const res = await pool.query('SELECT * FROM subjects WHERE id = $1', [id]);
@@ -919,7 +919,7 @@ export async function getSubjectById(id) {
 
 export async function createSubject(subjectData) {
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping create");
+    console.log(" No DB connection, skipping create");
     return false;
   }
   const res = await pool.query(`
@@ -940,7 +940,7 @@ export async function updateSubject(id, subjectData) {
   fields.push('updated_at = CURRENT_TIMESTAMP');
   values.push(id);
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping update");
+    console.log(" No DB connection, skipping update");
     return false;
   }
   const res = await pool.query(
@@ -952,7 +952,7 @@ export async function updateSubject(id, subjectData) {
 
 export async function deleteSubject(id) {
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping delete");
+    console.log(" No DB connection, skipping delete");
     return false;
   }
   const res = await pool.query(
@@ -967,7 +967,7 @@ export async function searchSubjects(searchTerm) {
     const searchPattern = `%${searchTerm}%`;
 
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
 
@@ -993,7 +993,7 @@ export async function searchSubjects(searchTerm) {
 
 export async function getStudentEnrollments(studentId) {
   if (!pool) {
-    console.log("⚠️ No DB connection, returning dummy data");
+    console.log(" No DB connection, returning dummy data");
     return [];
   }
 
@@ -1010,7 +1010,7 @@ export async function getStudentEnrollments(studentId) {
 export async function createEnrollment(studentId, classId) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, skipping create");
+      console.log(" No DB connection, skipping create");
       return false;
     }
     const res = await pool.query(`
@@ -1028,7 +1028,7 @@ export async function deleteEnrollment(id) {
   try {
 
     if (!pool) {
-      console.log("⚠️ No DB connection, skipping delete");
+      console.log(" No DB connection, skipping delete");
       return false;
     }
     const res = await pool.query('DELETE FROM Enrollments WHERE enrollment_id = $1', [id]);
@@ -1043,7 +1043,7 @@ export async function getSubjectsNotEnrolledByStudent(studentId) {
   try {
 
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
 
@@ -1066,7 +1066,7 @@ export async function getSubjectsNotEnrolledByStudent(studentId) {
 export async function getAllEnrollments() {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
     const res = await pool.query(
@@ -1094,7 +1094,7 @@ export async function getAllEnrollments() {
 export async function getEnrollmentsByStudent(studentId) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
     const res = await pool.query(
@@ -1114,7 +1114,7 @@ export async function getEnrollmentsByStudent(studentId) {
       [studentId]
     );
     
-    console.log(`📊 Raw query result for student ${studentId}:`, res.rows);
+    console.log(` Raw query result for student ${studentId}:`, res.rows);
     
     // Μετατρέπουμε τα δεδομένα για συμβατότητα με το frontend
     return res.rows.map(row => ({
@@ -1143,7 +1143,7 @@ export async function getEnrollmentsByStudent(studentId) {
 export async function getEnrollmentsBySubject(subjectId) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
     const res = await pool.query(
@@ -1170,7 +1170,7 @@ export async function updateEnrollment(id, enrollmentData) {
   try {
     const { studentId, classId, status, notes } = enrollmentData;
     if (!pool) {
-      console.log("⚠️ No DB connection, skipping update");
+      console.log(" No DB connection, skipping update");
       return false;
     }
     const res = await pool.query(
@@ -1232,7 +1232,7 @@ export async function searchEnrollments(searchTerm, statusFilter) {
     query += ' ORDER BY st.last_name, st.first_name, s.name';
 
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
     const res = await pool.query(query, params);
@@ -1248,7 +1248,7 @@ export async function searchEnrollments(searchTerm, statusFilter) {
 export async function getAllStudentCodes() {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
     const res= await pool.query(
@@ -1269,7 +1269,7 @@ export async function getAllStudentCodes() {
 export async function getStudentCodeById(id) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning null");
+      console.log(" No DB connection, returning null");
       return { id, code: "TESTCODE", student_id: 1, status: "active" };
     }
     const res = await pool.query(
@@ -1291,7 +1291,7 @@ export async function getStudentCodeById(id) {
 export async function getStudentCodeByStudentId(studentId) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning null");
+      console.log(" No DB connection, returning null");
       return { id: 1, code: "TESTCODE", student_id: studentId, status: "active" };
     }
     const res = await pool.query(
@@ -1314,7 +1314,7 @@ export async function createStudentCode(studentCodeData) {
   try {
     const { student_id, code, password_hash, status } = studentCodeData;
     if (!pool) {
-      console.log("⚠️ No DB connection, skipping create");
+      console.log(" No DB connection, skipping create");
       return false;
     }
     const res = await pool.query(
@@ -1333,7 +1333,7 @@ export async function updateStudentCode(id, studentCodeData) {
   try {
     const { student_id, code, password_hash, status } = studentCodeData;
     if (!pool) {
-      console.log("⚠️ No DB connection, skipping update");
+      console.log(" No DB connection, skipping update");
       return false;
     }
     const res = await pool.query(
@@ -1355,7 +1355,7 @@ export async function updateStudentCode(id, studentCodeData) {
 export async function deleteStudentCode(id) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, skipping delete");
+      console.log(" No DB connection, skipping delete");
       return false;
     }
     const res = await pool.query('DELETE FROM StudentCodes WHERE id = $1', [id]);
@@ -1404,7 +1404,7 @@ export async function searchStudentCodes(searchTerm, statusFilter) {
     query += ' ORDER BY sc.created_at DESC';
 
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
 
@@ -1431,7 +1431,7 @@ export async function createBulkStudentCodes(studentIds, codePrefix = 'STU') {
       const password_hash = await bcrypt.hash(password, 10);
 
       if (!pool) {
-        console.log("⚠️ No DB connection, skipping create");
+        console.log(" No DB connection, skipping create");
         return false;
       }
       const res = await pool.query(
@@ -1477,7 +1477,7 @@ function initializeDefaultPasswords() {
   lastGeneratedPasswords.set('mariaio', '123');
   lastGeneratedPasswords.set('giannisp', '123');
   lastGeneratedPasswords.set('kostasd', '123');
-  console.log('🔑 Αρχικοποιήθηκαν default κωδικοί');
+  console.log(' Αρχικοποιήθηκαν default κωδικοί');
 }
 
 // Καλούμε την αρχικοποίηση
@@ -1491,7 +1491,7 @@ export async function getAllUsersWithPasswords() {
     // Προσπαθούμε να πάρουμε τους admins - αν υπάρχει ο πίνακας
     try {
       if (!pool) {
-        console.log("⚠️ No DB connection, returning dummy data");
+        console.log(" No DB connection, returning dummy data");
         return [];
       }
       const adminRes = await pool.query(
@@ -1501,9 +1501,9 @@ export async function getAllUsersWithPasswords() {
          LEFT JOIN UserPasswordsView p ON a.username = p.username AND p.user_type = 'admin'`
       );
       adminRows = adminRes.rows;
-      console.log('✅ Φορτώθηκαν Admins:', adminRows.length);
+      console.log(' Φορτώθηκαν Admins:', adminRows.length);
     } catch (error) {
-      console.log('❌ Πίνακας Admins δεν βρέθηκε ή έχει διαφορετική δομή:', error.message);
+      console.log(' Πίνακας Admins δεν βρέθηκε ή έχει διαφορετική δομή:', error.message);
       // Fallback
       adminRows = [
         { id: 1, username: 'admin', name: 'Διαχειριστής Συστήματος', email: 'admin@mathsteki.gr', role: 'admin', password: '123' }
@@ -1513,7 +1513,7 @@ export async function getAllUsersWithPasswords() {
     // Παίρνουμε όλους τους students
     try {
       if (!pool) {
-        console.log("⚠️ No DB connection, returning dummy data");
+        console.log(" No DB connection, returning dummy data");
         return [];
       }
       const studentRes = await pool.query(
@@ -1523,9 +1523,9 @@ export async function getAllUsersWithPasswords() {
          LEFT JOIN UserPasswordsView p ON s.username = p.username AND p.user_type = 'student'`
       );
       studentRows = studentRes.rows;
-      console.log('✅ Φορτώθηκαν Students:', studentRows.length);
+      console.log(' Φορτώθηκαν Students:', studentRows.length);
     } catch (error) {
-      console.error('❌ Σφάλμα φόρτωσης Students:', error);
+      console.error(' Σφάλμα φόρτωσης Students:', error);
       studentRows = [];
     }
 
@@ -1541,7 +1541,7 @@ export async function getAllUsersWithPasswords() {
       }))
     ];
 
-    console.log('📊 Σύνολο χρηστών:', allUsers.length, '(Admins:', adminRows.length, ', Students:', studentRows.length, ')');
+    console.log(' Σύνολο χρηστών:', allUsers.length, '(Admins:', adminRows.length, ', Students:', studentRows.length, ')');
     return allUsers;
   } catch (error) {
     console.error('Error fetching users with passwords:', error);
@@ -1575,7 +1575,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
     let result;
     if (userType === 'admin') {
       if (!pool) {
-        console.log("⚠️ No DB connection, skipping update");
+        console.log(" No DB connection, skipping update");
         return false;
       }
       result = await pool.query(
@@ -1584,7 +1584,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
       );
     } else {
       if (!pool) {
-        console.log("⚠️ No DB connection, skipping update");
+        console.log(" No DB connection, skipping update");
         return false;
       }
       result = await pool.query(
@@ -1599,7 +1599,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
     
     // Ενημερώνουμε τον πίνακα με τους plain text κωδικούς για admin view
    if (!pool) {
-     console.log("⚠️ No DB connection, skipping update");
+     console.log(" No DB connection, skipping update");
      return false;
    }
    await pool.query(
@@ -1612,7 +1612,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
       [username, newPassword, userType]
     );
     
-    console.log(`🔐 Ενημερώθηκε κωδικός για χρήστη: ${username} -> ${newPassword}`);
+    console.log(` Ενημερώθηκε κωδικός για χρήστη: ${username} -> ${newPassword}`);
     
     return { success: true, message: 'Κωδικός ενημερώθηκε επιτυχώς' };
   } catch (error) {
@@ -1625,7 +1625,7 @@ export async function updateUserPassword(username, newPassword, userType = 'stud
 export async function getStudentByUsername(username) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning null");
+      console.log(" No DB connection, returning null");
       return null;
     }
     const res = await pool.query(
@@ -1644,7 +1644,7 @@ export async function getStudentByUsername(username) {
 // Enhanced function to create student with all fields
 export async function createStudentComplete(studentData) {
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping create");
+    console.log(" No DB connection, skipping create");
     return false;
   }
   const client = await pool.connect();
@@ -1695,11 +1695,11 @@ export async function createStudentComplete(studentData) {
       [studentData.username, studentData.plain_password || '123']
     );
     await client.query('COMMIT');
-    console.log(`✅ Student created with ID: ${studentId}`);
+    console.log(` Student created with ID: ${studentId}`);
     return studentId;
   } catch (error) {
     await client.query('ROLLBACK');
-    console.error('❌ Error creating student:', error);
+    console.error(' Error creating student:', error);
     throw error;
   } finally {
     client.release();
@@ -1712,7 +1712,7 @@ export async function createStudentComplete(studentData) {
 export async function getAllAnnouncements() {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
     const res = await pool.query(
@@ -1735,7 +1735,7 @@ export async function getAllAnnouncements() {
 export async function createAnnouncementSimple(title, content, admin_id) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, skipping create");
+      console.log(" No DB connection, skipping create");
       return false;
     }
     const [result] = await pool.query(
@@ -1756,7 +1756,7 @@ export async function createAnnouncementSimple(title, content, admin_id) {
 export async function getAllSchoolsData() {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
     const res = await pool.query(`
@@ -1778,7 +1778,7 @@ export async function getAllSchoolsData() {
 export async function getSchoolsDataByType(schoolType) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
     const res = await pool.query(`
@@ -1800,7 +1800,7 @@ export async function getSchoolsDataByType(schoolType) {
 // Clear all existing schools data and insert new batch
 export async function replaceAllSchoolsData(schoolsArray, uploadedBy = 'admin', fileType = 'unknown') {
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping replace");
+    console.log(" No DB connection, skipping replace");
     return false;
   }
   const client = await pool.connect();
@@ -1860,7 +1860,7 @@ export async function replaceAllSchoolsData(schoolsArray, uploadedBy = 'admin', 
 export async function getSchoolsDataForCalculator() {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
     const res = await pool.query(`
@@ -1889,7 +1889,7 @@ export async function getSchoolsDataForCalculator() {
 export async function clearAllSchoolsData() {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, skipping delete");
+      console.log(" No DB connection, skipping delete");
       return false;
     }
     const [result] = await pool.query('DELETE FROM SchoolsData');
@@ -1905,7 +1905,7 @@ export async function clearAllSchoolsData() {
 export async function getSchoolsDataStats() {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return {
         total: 0,
         gelCount: 0,
@@ -1936,7 +1936,7 @@ export async function getSchoolsDataStats() {
 export async function saveCalculatorTemplate(templateData) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, skipping create");
+      console.log(" No DB connection, skipping create");
       return false;
     }
     const [result] = await pool.query(
@@ -1954,7 +1954,7 @@ export async function saveCalculatorTemplate(templateData) {
       ]
     );
     
-    console.log(`✅ Αποθηκεύτηκε calculator template: ${templateData.filename}`);
+    console.log(` Αποθηκεύτηκε calculator template: ${templateData.filename}`);
     return result.insertId;
   } catch (error) {
     console.error('Error saving calculator template:', error);
@@ -1966,7 +1966,7 @@ export async function saveCalculatorTemplate(templateData) {
 export async function getAllCalculatorTemplates() {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return [];
     }
     const res = await pool.query(
@@ -1986,7 +1986,7 @@ export async function getAllCalculatorTemplates() {
 export async function getCalculatorTemplate(filename) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning null");
+      console.log(" No DB connection, returning null");
       return null;
     }
     const res = await pool.query(
@@ -2004,7 +2004,7 @@ export async function getCalculatorTemplate(filename) {
 export async function getCalculatorTemplateMetadata(filename) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning null");
+      console.log(" No DB connection, returning null");
       return null;
     }
     const res = await pool.query(
@@ -2025,7 +2025,7 @@ export async function getCalculatorTemplateMetadata(filename) {
 export async function deleteCalculatorTemplate(filename) {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, skipping delete");
+      console.log(" No DB connection, skipping delete");
       return false;
     }
     const [result] = await pool.query(
@@ -2034,7 +2034,7 @@ export async function deleteCalculatorTemplate(filename) {
     );
     
     if (result.affectedRows > 0) {
-      console.log(`🗑️ Διαγράφηκε calculator template: ${filename}`);
+      console.log(` Διαγράφηκε calculator template: ${filename}`);
       return true;
     }
     return false;
@@ -2048,7 +2048,7 @@ export async function deleteCalculatorTemplate(filename) {
 export async function getCalculatorTemplatesStats() {
   try {
     if (!pool) {
-      console.log("⚠️ No DB connection, returning dummy data");
+      console.log(" No DB connection, returning dummy data");
       return {
         totalCount: 0,
         typeStats: [],
@@ -2093,7 +2093,7 @@ export async function getCalculatorTemplatesStats() {
 // Προσθήκη γεγονότος στο ημερολόγιο μαθητή
 export async function addCalendarEventForStudent(student_id, subject_id, event_title, event_type, event_date, event_time, event_text) {
   if (!pool) {
-    console.log("⚠️ No DB connection, skipping create");
+    console.log(" No DB connection, skipping create");
     return false;
   }
   await pool.query(

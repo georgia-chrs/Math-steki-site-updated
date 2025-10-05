@@ -916,10 +916,10 @@ app.post('/api/grades', async (req, res) => {
   try {
     const { studentId, subjectId, examType, grade, examDate, notes } = req.body;
     
-    console.log('📊 Grade submission data:', { studentId, subjectId, examType, grade, examDate, notes });
+    console.log(' Grade submission data:', { studentId, subjectId, examType, grade, examDate, notes });
     
     if (!studentId || !subjectId || !grade || !examDate) {
-      console.log('❌ Missing required fields:', { studentId: !!studentId, subjectId: !!subjectId, grade: !!grade, examDate: !!examDate });
+      console.log(' Missing required fields:', { studentId: !!studentId, subjectId: !!subjectId, grade: !!grade, examDate: !!examDate });
       return res.status(400).json({ error: 'Required fields missing' });
     }
 
@@ -928,7 +928,7 @@ app.post('/api/grades', async (req, res) => {
       [studentId, subjectId, examType || 'Διαγώνισμα', grade, examDate, notes || '']
     );
 
-    console.log('✅ Grade added successfully, ID:', result.rows[0].id);
+    console.log(' Grade added successfully, ID:', result.rows[0].id);
     res.json({ success: true, id: result.rows[0].id, message: 'Grade added successfully' });
   } catch (error) {
     console.error('Error adding grade:', error);
@@ -1008,7 +1008,7 @@ app.post('/api/progress', async (req, res) => {
     const finalContent = note || content;
     const finalRating = rating || performanceLevel;
     
-    console.log('📈 Progress submission data:', { 
+    console.log(' Progress submission data:', { 
       finalStudentId, 
       finalSubjectId, 
       finalDate, 
@@ -1017,7 +1017,7 @@ app.post('/api/progress', async (req, res) => {
     });
     
     if (!finalStudentId || !finalContent || !finalDate) {
-      console.log('❌ Missing required fields:', { 
+      console.log(' Missing required fields:', { 
         studentId: !!finalStudentId, 
         content: !!finalContent, 
         date: !!finalDate 
@@ -1027,7 +1027,7 @@ app.post('/api/progress', async (req, res) => {
 
     // Validation για το subject_id
     if (!finalSubjectId) {
-      console.log('❌ Invalid subject_id:', finalSubjectId);
+      console.log(' Invalid subject_id:', finalSubjectId);
       return res.status(400).json({ error: 'Πρέπει να επιλέξετε ένα συγκεκριμένο μάθημα' });
     }
 
@@ -1036,7 +1036,7 @@ app.post('/api/progress', async (req, res) => {
       [finalStudentId, finalSubjectId, finalDate, finalContent, finalRating || 'average']
     );
     
-    console.log('✅ Progress note added successfully, ID:', result.rows[0].id);
+    console.log(' Progress note added successfully, ID:', result.rows[0].id);
     res.json({ success: true, id: result.rows[0].id, message: 'Progress note added successfully' });
   } catch (error) {
     console.error('Error adding progress note:', error);
@@ -1481,21 +1481,21 @@ app.post('/api/student-codes/:id/reset', async (req, res) => {
 app.get('/api/student/profile/:username', async (req, res) => {
   try {
     const { username } = req.params;
-    console.log(`🔍 Αναζήτηση προφίλ για χρήστη: ${username}`);
+    console.log(` Αναζήτηση προφίλ για χρήστη: ${username}`);
     
     // Παίρνουμε τα βασικά στοιχεία του μαθητή
     const student = await getStudentByUsername(username);
-    console.log(`📋 Στοιχεία μαθητή:`, student);
+    console.log(` Στοιχεία μαθητή:`, student);
     
     if (!student) {
-      console.log(`❌ Μαθητής ${username} δεν βρέθηκε`);
+      console.log(` Μαθητής ${username} δεν βρέθηκε`);
       return res.status(404).json({ error: 'Ο μαθητής δεν βρέθηκε' });
     }
     
-    console.log(`🔍 Αναζήτηση μαθημάτων για μαθητή ID: ${student.id}`);
+    console.log(` Αναζήτηση μαθημάτων για μαθητή ID: ${student.id}`);
     // Παίρνουμε τις εγγραφές του μαθητή σε μαθήματα
     const enrollments = await getEnrollmentsByStudent(student.id);
-    console.log(`📚 Μαθήματα:`, enrollments);
+    console.log(` Μαθήματα:`, enrollments);
     
     // Συνδυάζουμε τα δεδομένα
     const studentProfile = {
@@ -1503,10 +1503,10 @@ app.get('/api/student/profile/:username', async (req, res) => {
       enrollments: enrollments
     };
     
-    console.log(`✅ Επιστροφή προφίλ μαθητή: ${username}`);
+    console.log(` Επιστροφή προφίλ μαθητή: ${username}`);
     res.json(studentProfile);
   } catch (error) {
-    console.error('❌ Error fetching student profile:', error);
+    console.error(' Error fetching student profile:', error);
     res.status(500).json({ error: 'Σφάλμα κατά τη λήψη στοιχείων μαθητή' });
   }
 });
@@ -1615,9 +1615,9 @@ app.get('/api/test', (req, res) => {
 // Get all announcements
 app.get('/announcements', async (req, res) => {
   try {
-    console.log('📡 GET /announcements called');
+    console.log(' GET /announcements called');
     const announcements = await getAnnouncements();
-    console.log('📦 Found announcements:', announcements.length);
+    console.log(' Found announcements:', announcements.length);
     res.json(announcements);
   } catch (err) {
     console.error('Error fetching announcements:', err);
@@ -1628,17 +1628,17 @@ app.get('/announcements', async (req, res) => {
 // Create new announcement
 app.post('/api/announcements', async (req, res) => {
   try {
-    console.log('📡 POST /api/announcements called with body:', req.body);
+    console.log(' POST /api/announcements called with body:', req.body);
     const { title, content } = req.body;
     
     if (!title || !content) {
-      console.log('❌ Missing title or content');
+      console.log(' Missing title or content');
       return res.status(400).json({ error: 'Title and content are required' });
     }
 
-    console.log('🚀 Creating announcement:', { title, content });
+    console.log(' Creating announcement:', { title, content });
     const announcementId = await createAnnouncement(title, content, 1); // admin_id = 1
-    console.log('✅ Created announcement with ID:', announcementId);
+    console.log(' Created announcement with ID:', announcementId);
     
     res.status(201).json({ 
       id: announcementId, 
@@ -1680,9 +1680,9 @@ app.delete('/api/announcements/:id', async (req, res) => {
       'SELECT notification_id FROM Notifications WHERE notification_id = $1',
       [id]
     );
-    console.log('📋 Existing announcement check:', existing.rows);
+    console.log(' Existing announcement check:', existing.rows);
     if (existing.rows.length === 0) {
-      console.log('❌ Announcement not found in database');
+      console.log(' Announcement not found in database');
       return res.status(404).json({ error: 'Announcement not found' });
     }
     
@@ -1692,7 +1692,7 @@ app.delete('/api/announcements/:id', async (req, res) => {
       [id]
     );
     
-    console.log(`✅ Deleted announcement ${id}, affected rows:`, result[0].affectedRows);
+    console.log(` Deleted announcement ${id}, affected rows:`, result[0].affectedRows);
     
     if (result.rowCount === 0) {
       return res.status(404).json({ error: 'Announcement not found or already deleted' });
@@ -2052,7 +2052,7 @@ app.post('/api/photos/upload', photoUpload.array('photos', 10), async (req, res)
       size: file.size
     }));
 
-    console.log(`📷 Uploaded ${uploadedFiles.length} photos:`, uploadedFiles);
+    console.log(` Uploaded ${uploadedFiles.length} photos:`, uploadedFiles);
 
     res.json({ 
       success: true, 
@@ -2082,7 +2082,7 @@ app.delete('/api/photos/:filename', async (req, res) => {
     // Delete the file
     await fsPromises.unlink(filePath);
     
-    console.log(`🗑️ Deleted photo: ${filename}`);
+    console.log(` Deleted photo: ${filename}`);
     res.json({ success: true, message: 'Η φωτογραφία διαγράφηκε επιτυχώς' });
   } catch (error) {
     console.error('Σφάλμα διαγραφής φωτογραφίας:', error);
@@ -2128,7 +2128,7 @@ app.post('/api/upload-calculator-template', templateUpload.single('template'), a
       console.warn('Warning: Could not delete temporary file:', unlinkError.message);
     }
     
-    console.log(`📊 Uploaded calculator template: ${req.file.filename} (${templateType}) with ID: ${templateId}`);
+    console.log(` Uploaded calculator template: ${req.file.filename} (${templateType}) with ID: ${templateId}`);
     
     res.json({
       success: true,
@@ -2222,7 +2222,7 @@ app.delete('/api/calculator-templates/:fileName', async (req, res) => {
       return res.status(404).json({ error: 'Template δεν βρέθηκε' });
     }
     
-    console.log(`🗑️ Deleted calculator template: ${fileName}`);
+    console.log(` Deleted calculator template: ${fileName}`);
     
     res.json({
       success: true,
