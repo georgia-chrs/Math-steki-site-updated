@@ -1,4 +1,4 @@
-    // Data variables - will be loaded from API
+// Data variables - will be loaded from API
     let students = [];
     let filteredStudents = [];
     let subjects = []; // Will be loaded from Classes table
@@ -1380,36 +1380,50 @@ async function deleteStudent(id) {
     });
 
 
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
 
-    const studentsPerPage = 5;
+    // Περιμένουμε να φορτωθεί το DOM πριν εκτελέσουμε τον κώδικα
+// Αυτό διασφαλίζει ότι όλα τα στοιχεία είναι διαθέσιμα
+
+  // Πόσοι μαθητές θα εμφανίζονται ανά σελίδα
+  const studentsPerPage = 5;
+  // Τρέχουσα σελίδα στην προβολή
   let currentPage = 1;
+  // Πίνακας με τα δεδομένα των μαθητών
   let studentsData = [];
 
+  // Συνάρτηση για να φέρει τους μαθητές από το API
   async function fetchStudents() {
     try {
+      // Κάνουμε αίτημα GET στο endpoint /api/students
       const response = await fetch('/api/students');
       if (!response.ok) throw new Error('Σφάλμα φόρτωσης μαθητών');
       const data = await response.json();
-      // Προσαρμόζουμε τα πεδία αν χρειάζεται
+      // Προσαρμόζουμε τα πεδία των μαθητών αν χρειάζεται
       studentsData = data.map(student => ({
         name: `${student.first_name} ${student.last_name}`,
         class: student.class || '',
         phone: student.phone || ''
       }));
+      // Εμφανίζουμε τους μαθητές στο grid
       renderStudentsGrid();
     } catch (error) {
+      // Αν υπάρξει σφάλμα, το εμφανίζουμε στο console
       console.error(error);
     }
   }
 
+  // Συνάρτηση για να εμφανίσει τους μαθητές στη σελίδα
   function renderStudentsGrid() {
+    // Παίρνουμε το στοιχείο του grid από το DOM
     const grid = document.getElementById('studentsGrid');
     grid.innerHTML = '';
+    // Υπολογίζουμε το εύρος των μαθητών που θα εμφανιστούν
     const start = (currentPage - 1) * studentsPerPage;
     const end = start + studentsPerPage;
     const studentsToShow = studentsData.slice(start, end);
 
+    // Για κάθε μαθητή, δημιουργούμε ένα div και το προσθέτουμε στο grid
     studentsToShow.forEach(student => {
       const studentDiv = document.createElement('div');
       studentDiv.className = 'student-card';
@@ -1421,7 +1435,7 @@ async function deleteStudent(id) {
       grid.appendChild(studentDiv);
     });
 
-    // Update pagination info
+    // Ενημερώνουμε τις πληροφορίες σελιδοποίησης
     const pageInfo = document.getElementById('pageInfo');
     const totalPages = Math.ceil(studentsData.length / studentsPerPage);
     pageInfo.textContent = `Σελίδα ${currentPage} από ${totalPages}`;
@@ -1430,12 +1444,14 @@ async function deleteStudent(id) {
     document.getElementById('nextPageBtn').disabled = currentPage === totalPages;
   }
 
+  // Συνάρτηση για το κουμπί προηγούμενης σελίδας
   document.getElementById('prevPageBtn').onclick = function() {
     if (currentPage > 1) {
       currentPage--;
       renderStudentsGrid();
     }
   };
+  // Συνάρτηση για το κουμπί επόμενης σελίδας
   document.getElementById('nextPageBtn').onclick = function() {
     const totalPages = Math.ceil(studentsData.length / studentsPerPage);
     if (currentPage < totalPages) {
@@ -1444,6 +1460,6 @@ async function deleteStudent(id) {
     }
   };
 
-  // Αρχική φόρτωση
+  // Αρχική φόρτωση των μαθητών όταν ανοίγει η σελίδα
   fetchStudents();
 });
