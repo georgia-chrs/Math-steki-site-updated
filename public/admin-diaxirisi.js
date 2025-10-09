@@ -276,7 +276,6 @@
 
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${student.id}</td>
           <td>${student.firstName}</td>
           <td>${student.lastName}</td>
           <td>${student.studentClass}</td>
@@ -286,11 +285,11 @@
           <td>${formatDate(student.enrollmentDate)}</td>
           <td>
             <div class="action-buttons">
-              <button class="btn btn-primary btn-small" onclick="viewStudent(${student.id})">Προβολή</button>
-              <button class="btn btn-info btn-small" onclick="viewStudentProfile(${student.id})" title="Δες την καρτέλα μαθητή">Καρτέλα</button>
-              <button class="btn btn-primary btn-small" onclick="editStudent(${student.id})">Επεξεργασία</button>
-              <button class="btn btn-success btn-small" onclick="manageEnrollments(${student.id})">Τμήματα</button>
-              <button class="btn btn-danger btn-small" onclick="deleteStudent(${student.id})">Διαγραφή</button>
+              <button class="btn btn-primary btn-small" onclick="viewStudent(${student.id})" style="width: 100px;">Προβολή</button>
+              <button class="btn btn-info btn-small" onclick="viewStudentProfile(${student.id})" title="Δες την καρτέλα μαθητή" style="width: 100px;">Καρτέλα</button>
+              <button class="btn btn-primary btn-small" onclick="editStudent(${student.id})" style="width: 100px;">Επεξεργασία</button>
+              <button class="btn btn-success btn-small" onclick="manageEnrollments(${student.id})" style="width: 100px;">Τμήματα</button>
+              <button class="btn btn-danger btn-small" onclick="deleteStudent(${student.id})" style="width: 100px;">Διαγραφή</button>
             </div>
           </td>
         `;
@@ -603,7 +602,6 @@ async function deleteStudent(id) {
         const teacherName = teacher ? teacher.name : 'Δεν έχει ανατεθεί';
         const row = document.createElement('tr');
         row.innerHTML = `
-        <td>${subject.id}</td>
           <td>${subject.name}</td>
           <td>${subject.code}</td>
           <td>${subject.class}</td>
@@ -612,9 +610,9 @@ async function deleteStudent(id) {
           <td>${enrolledCount}</td>
           <td>
             <div class="action-buttons">
-              <button class="btn btn-primary btn-small" onclick="editSubject(${subject.id})">Επεξεργασία</button>
-              <button class="btn btn-danger btn-small" onclick="deleteSubject(${subject.id})">Διαγραφή</button>
-              <button class="btn btn-info btn-small" onclick="viewSubjectDetails(${subject.id})">Λεπτομέρειες</button>
+              <button class="btn btn-primary btn-small" onclick="editSubject(${subject.id})" style="width: 100px;">Επεξεργασία</button>
+              <button class="btn btn-danger btn-small" onclick="deleteSubject(${subject.id})" style="width: 100px;">Διαγραφή</button>
+              <button class="btn btn-info btn-small" onclick="viewSubjectDetails(${subject.id})" style="width: 100px;">Λεπτομέρειες</button>
             </div>
           </td>
         `;
@@ -1166,7 +1164,6 @@ async function deleteStudent(id) {
         
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${teacher.id}</td>
           <td>${teacher.name}</td>
           <td>${teacher.subject}</td>
           <td>${teacher.phone || '-'}</td>
@@ -1174,9 +1171,9 @@ async function deleteStudent(id) {
           <td>${subjectsText}</td>
           <td>
             <div class="action-buttons">
-              <button class="btn btn-primary btn-small" onclick="editTeacher(${teacher.id})">Επεξεργασία</button>
-              <button class="btn btn-danger btn-small" onclick="deleteTeacher(${teacher.id})">Διαγραφή</button>
-              <button class="btn btn-info btn-small" onclick="viewTeacherDetails(${teacher.id})">Λεπτομέρειες</button>
+              <button class="btn btn-primary btn-small" onclick="editTeacher(${teacher.id})" style="width: 100px;">Επεξεργασία</button>
+              <button class="btn btn-danger btn-small" onclick="deleteTeacher(${teacher.id})" style="width: 100px;">Διαγραφή</button>
+              <button class="btn btn-info btn-small" onclick="viewTeacherDetails(${teacher.id})" style="width: 100px;">Λεπτομέρειες</button>
             </div>
           </td>
         `;
