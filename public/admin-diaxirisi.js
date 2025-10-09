@@ -1379,11 +1379,11 @@ async function deleteStudent(id) {
       });
     });
 
-
+/*
 document.addEventListener('DOMContentLoaded', function() {
 
     // Περιμένουμε να φορτωθεί το DOM πριν εκτελέσουμε τον κώδικα
-// Αυτό διασφαλίζει ότι όλα τα στοιχεία είναι διαθέσιμα
+  // Αυτό διασφαλίζει ότι όλα τα στοιχεία είναι διαθέσιμα
 
   // Πόσοι μαθητές θα εμφανίζονται ανά σελίδα
   const studentsPerPage = 5;
@@ -1462,4 +1462,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Αρχική φόρτωση των μαθητών όταν ανοίγει η σελίδα
   fetchStudents();
-});
+});*/
