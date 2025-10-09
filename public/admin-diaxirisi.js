@@ -1380,67 +1380,70 @@ async function deleteStudent(id) {
     });
 
 
-   const studentsPerPage = 5;
-let currentPage = 1;
-let studentsData = [];
+    document.addEventListener('DOMContentLoaded', function() {
 
-async function fetchStudents() {
-  try {
-    const response = await fetch('/api/students');
-    if (!response.ok) throw new Error('Σφάλμα φόρτωσης μαθητών');
-    const data = await response.json();
-    // Προσαρμόζουμε τα πεδία αν χρειάζεται
-    studentsData = data.map(student => ({
-      name: `${student.first_name} ${student.last_name}`,
-      class: student.class || '',
-      phone: student.phone || ''
-    }));
-    renderStudentsGrid();
-  } catch (error) {
-    console.error(error);
+    const studentsPerPage = 5;
+  let currentPage = 1;
+  let studentsData = [];
+
+  async function fetchStudents() {
+    try {
+      const response = await fetch('/api/students');
+      if (!response.ok) throw new Error('Σφάλμα φόρτωσης μαθητών');
+      const data = await response.json();
+      // Προσαρμόζουμε τα πεδία αν χρειάζεται
+      studentsData = data.map(student => ({
+        name: `${student.first_name} ${student.last_name}`,
+        class: student.class || '',
+        phone: student.phone || ''
+      }));
+      renderStudentsGrid();
+    } catch (error) {
+      console.error(error);
+    }
   }
-}
 
-function renderStudentsGrid() {
-  const grid = document.getElementById('studentsGrid');
-  grid.innerHTML = '';
-  const start = (currentPage - 1) * studentsPerPage;
-  const end = start + studentsPerPage;
-  const studentsToShow = studentsData.slice(start, end);
+  function renderStudentsGrid() {
+    const grid = document.getElementById('studentsGrid');
+    grid.innerHTML = '';
+    const start = (currentPage - 1) * studentsPerPage;
+    const end = start + studentsPerPage;
+    const studentsToShow = studentsData.slice(start, end);
 
-  studentsToShow.forEach(student => {
-    const studentDiv = document.createElement('div');
-    studentDiv.className = 'student-card';
-    studentDiv.innerHTML = `
-      <div><strong>${student.name}</strong></div>
-      <div>${student.class}</div>
-      <div>${student.phone}</div>
-    `;
-    grid.appendChild(studentDiv);
-  });
+    studentsToShow.forEach(student => {
+      const studentDiv = document.createElement('div');
+      studentDiv.className = 'student-card';
+      studentDiv.innerHTML = `
+        <div><strong>${student.name}</strong></div>
+        <div>${student.class}</div>
+        <div>${student.phone}</div>
+      `;
+      grid.appendChild(studentDiv);
+    });
 
-  // Update pagination info
-  const pageInfo = document.getElementById('pageInfo');
-  const totalPages = Math.ceil(studentsData.length / studentsPerPage);
-  pageInfo.textContent = `Σελίδα ${currentPage} από ${totalPages}`;
+    // Update pagination info
+    const pageInfo = document.getElementById('pageInfo');
+    const totalPages = Math.ceil(studentsData.length / studentsPerPage);
+    pageInfo.textContent = `Σελίδα ${currentPage} από ${totalPages}`;
 
-  document.getElementById('prevPageBtn').disabled = currentPage === 1;
-  document.getElementById('nextPageBtn').disabled = currentPage === totalPages;
-}
-
-document.getElementById('prevPageBtn').onclick = function() {
-  if (currentPage > 1) {
-    currentPage--;
-    renderStudentsGrid();
+    document.getElementById('prevPageBtn').disabled = currentPage === 1;
+    document.getElementById('nextPageBtn').disabled = currentPage === totalPages;
   }
-};
-document.getElementById('nextPageBtn').onclick = function() {
-  const totalPages = Math.ceil(studentsData.length / studentsPerPage);
-  if (currentPage < totalPages) {
-    currentPage++;
-    renderStudentsGrid();
-  }
-};
 
-// Αρχική φόρτωση
-fetchStudents();
+  document.getElementById('prevPageBtn').onclick = function() {
+    if (currentPage > 1) {
+      currentPage--;
+      renderStudentsGrid();
+    }
+  };
+  document.getElementById('nextPageBtn').onclick = function() {
+    const totalPages = Math.ceil(studentsData.length / studentsPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderStudentsGrid();
+    }
+  };
+
+  // Αρχική φόρτωση
+  fetchStudents();
+});
