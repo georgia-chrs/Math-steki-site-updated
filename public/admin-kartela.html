@@ -683,56 +683,7 @@ nav {
     <button id="nextPageBtn" class="btn">Επόμενη</button>
   </div>
 </div>
-<script>
-const studentsPerPage = 5; // 5 κουτιά ανά σελίδα
-let currentPage = 1;
-let studentsData = []; // Fill this with your students
 
-function renderStudentsGrid() {
-  const grid = document.getElementById('studentsGrid');
-  grid.innerHTML = '';
-  const start = (currentPage - 1) * studentsPerPage;
-  const end = start + studentsPerPage;
-  const studentsToShow = studentsData.slice(start, end);
-
-  studentsToShow.forEach(student => {
-    const studentDiv = document.createElement('div');
-    studentDiv.className = 'student-card';
-    studentDiv.innerHTML = `
-      <div><strong>${student.name}</strong></div>
-      <div>${student.class}</div>
-      <div>${student.phone}</div>
-    `;
-    grid.appendChild(studentDiv);
-  });
-
-  // Update pagination info
-  const pageInfo = document.getElementById('pageInfo');
-  const totalPages = Math.ceil(studentsData.length / studentsPerPage);
-  pageInfo.textContent = `Σελίδα ${currentPage} από ${totalPages}`;
-
-  document.getElementById('prevPageBtn').disabled = currentPage === 1;
-  document.getElementById('nextPageBtn').disabled = currentPage === totalPages;
-}
-
-document.getElementById('prevPageBtn').onclick = function() {
-  if (currentPage > 1) {
-    currentPage--;
-    renderStudentsGrid();
-  }
-};
-document.getElementById('nextPageBtn').onclick = function() {
-  const totalPages = Math.ceil(studentsData.length / studentsPerPage);
-  if (currentPage < totalPages) {
-    currentPage++;
-    renderStudentsGrid();
-  }
-};
-
-// Αρχική φόρτωση (π.χ. μετά το fetch των μαθητών)
-studentsData = [/* ...array με μαθητές... */];
-renderStudentsGrid();
-</script>
     <!-- Modals -->
     <!-- Grades Modal -->
     <div id="gradesModal" class="modal">
