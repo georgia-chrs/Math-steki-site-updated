@@ -210,22 +210,25 @@
 
 <script>
   // Φόρτωση του περιεχομένου από το backend
-  fetch('/faq')
-    .then(res => res.text())
-    .then(html => document.getElementById('faq').innerHTML = html);
+fetch('/faq')
+  .then(res => res.text())
+  .then(html => document.getElementById('faq').innerHTML = html);
 
-  // Αποθήκευση στη βάση
-  document.getElementById('saveBtn').addEventListener('click', () => {
-    const newContent = document.getElementById('faq').innerHTML;
-    fetch('/faq', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: newContent })
-    })
-    .then(res => res.json())
-    .then(() => alert('✅ Αποθηκεύτηκε με επιτυχία!'))
-    .catch(err => alert('❌ Σφάλμα: ' + err.message));
-  });
+// Αποθήκευση στη βάση
+document.getElementById('saveBtn').addEventListener('click', () => {
+  const newContent = document.getElementById('faq').innerHTML;
+  fetch('/faq', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: newContent })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Σφάλμα αποθήκευσης');
+    return res.json();
+  })
+  .then(() => alert('✅ Αποθηκεύτηκε με επιτυχία!'))
+  .catch(err => alert('❌ Σφάλμα: ' + err.message));
+});
 </script>
 
 
