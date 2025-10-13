@@ -378,12 +378,14 @@ fetch('/faq')
     const faqDiv = document.getElementById('faq');
     faqDiv.innerHTML = `
       <h2>FAQ</h2>
-      ${faqArr.map(item => `
-        <details>
-          <summary>${item.question}</summary>
-          <p>${item.answer}</p>
-        </details>
-      `).join('')}
+      ${faqArr
+        .filter(item => item.question && item.answer)
+        .map(item => `
+          <details>
+            <summary>${item.question}</summary>
+            <p>${item.answer}</p>
+          </details>
+        `).join('')}
     `;
   });
 </script>

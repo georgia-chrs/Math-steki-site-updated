@@ -217,26 +217,30 @@
 
 <script>
   // Φόρτωση FAQ
-  fetch('/faq')
-    .then(res => res.json())
-    .then(faqArr => {
-      const faqSection = document.getElementById('faqSection');
-      faqArr.forEach((item, idx) => {
+ fetch('/faq')
+  .then(res => res.json())
+  .then(faqArr => {
+    const faqSection = document.getElementById('faqSection');
+    faqSection.innerHTML = ''; // Καθαρίζει τα παλιά
+    faqArr.forEach(item => {
+      if (item.question && item.answer) {
         const details = document.createElement('details');
-        const summary = document.createElement('input');
-        summary.value = item.question;
+        const summary = document.createElement('summary');
+        summary.contentEditable = true;
         summary.className = 'faq-question';
-        const answer = document.createElement('textarea');
-        answer.value = item.answer;
+        summary.textContent = item.question;
+        const answer = document.createElement('p');
+        answer.contentEditable = true;
         answer.className = 'faq-answer';
+        answer.textContent = item.answer;
         details.appendChild(summary);
         details.appendChild(answer);
         faqSection.appendChild(details);
-      });
+      }
     });
+  });
 
-  // Αποθήκευση FAQ
- document.getElementById('saveBtn').addEventListener('click', () => {
+document.getElementById('saveBtn').addEventListener('click', () => {
   const faqArr = [];
   document.querySelectorAll('#faqSection details').forEach(details => {
     const question = details.querySelector('.faq-question')?.textContent?.trim();
