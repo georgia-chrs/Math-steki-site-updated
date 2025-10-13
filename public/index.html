@@ -372,9 +372,20 @@
 
 <div class="faq" id="faq"></div>
 <script>
-  fetch('/faq')
-    .then(res => res.text())
-    .then(html => document.getElementById('faq').innerHTML = html);
+fetch('/faq')
+  .then(res => res.json())
+  .then(faqArr => {
+    const faqDiv = document.getElementById('faq');
+    faqDiv.innerHTML = `
+      <h2>FAQ</h2>
+      ${faqArr.map(item => `
+        <details>
+          <summary>${item.question}</summary>
+          <p>${item.answer}</p>
+        </details>
+      `).join('')}
+    `;
+  });
 </script>
 
 
