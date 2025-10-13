@@ -2509,3 +2509,36 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
+// FAQ ENDPOINTS
+
+//  Επιστρέφει το FAQ
+app.get('/faq', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT content FROM faq LIMIT 1');
+    if (result.rows.length > 0) {
+      res.send(result.rows[0].content);
+    } else {
+      res.send('<p>Δεν υπάρχει περιεχόμενο ακόμα.</p>');
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Σφάλμα σύνδεσης με βάση');
+  }
+});
+
+// 2Αποθηκεύει το FAQ
+app.post('/faq', async (req, res) => {
+  const { content } = req.body;
+  try {
+    const existing = await pool.query('SELECT * FROM faq');
+    if (existing.rows.length > 0) {
+      await pool.query('UPDATE faq SET content=$1', [content]);
+    } else {
+      await pool.query('INSERT INTO faq (content) VALUES ($1)', [content]);
+    }
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Σφάλμα αποθήκευσης' });
+  }
+});
