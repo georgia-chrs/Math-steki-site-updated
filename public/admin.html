@@ -236,25 +236,27 @@
     });
 
   // Αποθήκευση FAQ
-  document.getElementById('saveBtn').addEventListener('click', () => {
-    const faqArr = [];
-    document.querySelectorAll('#faqSection details').forEach(details => {
-      const question = details.querySelector('.faq-question').value;
-      const answer = details.querySelector('.faq-answer').value;
+ document.getElementById('saveBtn').addEventListener('click', () => {
+  const faqArr = [];
+  document.querySelectorAll('#faqSection details').forEach(details => {
+    const question = details.querySelector('.faq-question')?.textContent?.trim();
+    const answer = details.querySelector('.faq-answer')?.textContent?.trim();
+    if (question && answer) {
       faqArr.push({ question, answer });
-    });
-    fetch('/faq', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: JSON.stringify(faqArr) })
-    })
-    .then(res => {
-      if (!res.ok) throw new Error('Σφάλμα αποθήκευσης');
-      return res.json();
-    })
-    .then(() => alert('✅ Αποθηκεύτηκε με επιτυχία!'))
-    .catch(err => alert('❌ Σφάλμα: ' + err.message));
+    }
   });
+  fetch('/faq', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: JSON.stringify(faqArr) })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error('Σφάλμα αποθήκευσης');
+    return res.json();
+  })
+  .then(() => alert('✅ Αποθηκεύτηκε με επιτυχία!'))
+  .catch(err => alert('❌ Σφάλμα: ' + err.message));
+});
 </script>
 
 
