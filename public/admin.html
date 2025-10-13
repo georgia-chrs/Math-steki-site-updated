@@ -196,6 +196,45 @@
 
 
 
+
+
+
+<div id="faq" contenteditable="true">
+  <details>
+    <summary>Τι μπορώ να κάνω για να επικοινωνήσω μαζί σας;</summary>
+    <p>Μπορείτε να επικοινωνήσετε μαζί μας μέσω email ή τηλεφώνου.</p>
+  </details>
+</div>
+
+<button id="saveBtn">Αποθήκευση</button>
+
+<script>
+  // Φόρτωση του περιεχομένου από το backend
+  fetch('/faq')
+    .then(res => res.text())
+    .then(html => document.getElementById('faq').innerHTML = html);
+
+  // Αποθήκευση στη βάση
+  document.getElementById('saveBtn').addEventListener('click', () => {
+    const newContent = document.getElementById('faq').innerHTML;
+    fetch('/faq', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: newContent })
+    })
+    .then(res => res.json())
+    .then(() => alert('✅ Αποθηκεύτηκε με επιτυχία!'))
+    .catch(err => alert('❌ Σφάλμα: ' + err.message));
+  });
+</script>
+
+
+
+
+
+
+
+
     <!-- Teachers Management Section -->
   
 
