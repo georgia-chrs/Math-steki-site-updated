@@ -230,6 +230,7 @@
                     font-weight: 700;
                     font-size:small;
                     cursor: pointer;
+                    width: auto;
                     transition: all 0.2s;">Προβολή
               </a>
               <a href="/api/mixanografiko/download/${pdf.id}" download class="btn-download"                   onmouseover="this.style.background='#F7C19C'; this.style.color='#BC5E29'; this.style.boxShadow='0 0 0 2px rgba(183, 54, 22, 0.495)'"
@@ -242,6 +243,7 @@
                     font-weight: 700;
                     font-size:small;
                     cursor: pointer;
+                    width: auto;
                     transition: all 0.2s;">Λήψη
               </a>
             ` : `
