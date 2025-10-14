@@ -223,7 +223,7 @@ async function loadProgrammsPublic() {
         sumA += Number(row.hour) || 0;
       } else if (row.type === 'lykeio' && row.section[0] === 'Β' && (!row.field ||  row.field === 'Γενικής Παιδίας')) {
         foundB = true;
-        tbodyLykeioB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
+       // tbodyLykeioB.innerHTML += `<tr><td>${row.subject}</td><td>${row.hour}</td></tr>`;
         sumB += Number(row.hour) || 0;                                  //row.field === '' --- IGNORE ---
       } else if (row.type === 'lykeio' && row.section[0] === 'Γ' && (!row.field || row.field === 'Γενικής Παιδίας')) {
         foundG = true;
