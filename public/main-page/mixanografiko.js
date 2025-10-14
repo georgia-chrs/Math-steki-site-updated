@@ -1,4 +1,4 @@
-    // Δυναμική φόρτωση PDF αρχείων μηχανογραφικού
+// Δυναμική φόρτωση PDF αρχείων μηχανογραφικού
     let allPDFs = [];
     let isBackendAvailable = false;
     
@@ -99,9 +99,9 @@
     ];
     
     document.addEventListener('DOMContentLoaded', function() {
-      displayPDFs(allPDFs);
-      updateFilesInfo(allPDFs.length);
-      filterPDFs();
+      // Προσπαθούμε πρώτα να φορτώσουμε τα πραγματικά δεδομένα από το backend.
+      // Αν το backend δεν είναι διαθέσιμο, θα γίνει fallback στα sample δεδομένα μέσα στη loadPDFs().
+      loadPDFs();
     });
     
     // Fallback function με sample data
@@ -366,5 +366,5 @@ document.addEventListener('click', function(e) {
 document.getElementById('clear-filters-btn').addEventListener('click', clearAllFilters);
 
 document.addEventListener('DOMContentLoaded', function() {
-  filterPDFs();
+  // Το φίλτρο θα καλείται αφού φορτωθούν τα δεδομένα (μέσα στη loadPDFs).
 });
