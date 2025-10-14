@@ -232,8 +232,17 @@
                     cursor: pointer;
                     transition: all 0.2s;">Προβολή
               </a>
-              <a href="/api/mixanografiko/download/${pdf.id}" download class="btn-download">
-                 Λήψη
+              <a href="/api/mixanografiko/download/${pdf.id}" download class="btn-download"                   onmouseover="this.style.background='#F7C19C'; this.style.color='#BC5E29'; this.style.boxShadow='0 0 0 2px rgba(183, 54, 22, 0.495)'"
+                  onmouseout="this.style.background='rgb(219, 118, 75)'; this.style.color='#fff'; this.style.boxShadow='none'"
+                  style="background:rgb(184, 89, 48);
+                    color: #fff;
+                    border: none;
+                    border-radius: 20px;
+                    padding: 0.5rem 1.5rem;
+                    font-weight: 700;
+                    font-size:small;
+                    cursor: pointer;
+                    transition: all 0.2s;">Λήψη
               </a>
             ` : `
               <button class="btn-view" onclick="showSampleAlert()"
