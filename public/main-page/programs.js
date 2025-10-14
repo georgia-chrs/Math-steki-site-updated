@@ -348,7 +348,7 @@ function showHideSections() {
     'programms-gymnasiou-g',
     'programms-lykeiou-gel',
     'programms-lykeiou-gel-a',
-    'programms-lykeiou-gel-b',
+    //'programms-lykeiou-gel-b',
     'programms-lykeiou-gel-b-anthrop',
     'programms-lykeiou-gel-b-thetikes',
     'programms-lykeiou-gel-b-ygeias',
