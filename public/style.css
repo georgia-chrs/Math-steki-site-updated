@@ -2023,7 +2023,7 @@ nav{
   #full-program{
     position: flex;
     margin-top: 280px;
-    z-index: 300;/*5000*/
+    z-index: 30 !important;/*5000*/
     font-size: 1rem;
 
     
