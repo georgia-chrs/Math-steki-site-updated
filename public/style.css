@@ -2835,6 +2835,7 @@ word-break: break-word; text-align: center; margin: 0 auto; max-width: 800px; wi
 .logo img{
   width: 250px !important; /* ή ό,τι μέγεθος θέλεις */
   height: auto !important; /* διατηρεί τις αναλογίες */
+  
   }
 
 }
