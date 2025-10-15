@@ -2538,6 +2538,7 @@ nav{
     margin-bottom: 10px;
   }
 
+
 .resources-list{
   margin-bottom: 0 !important;
     padding-bottom: 0 !important;
@@ -2823,4 +2824,17 @@ word-break: break-word; text-align: center; margin: 0 auto; max-width: 800px; wi
 
 
   
+}
+.logo img{
+  max-width: 520px; 
+  width: 100%; 
+  height: auto;
+  }
+
+@media(max-width: 1200px) {
+.logo img{
+  width: 250px !important; /* ή ό,τι μέγεθος θέλεις */
+  height: auto !important; /* διατηρεί τις αναλογίες */
+  }
+
 }
