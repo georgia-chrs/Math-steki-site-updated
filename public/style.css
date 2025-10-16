@@ -1758,6 +1758,7 @@ nav{
     
     main{
       max-width: 1200px;
+      min-height: 1000px;
       justify-self: center;
     }
 
