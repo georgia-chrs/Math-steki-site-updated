@@ -224,6 +224,20 @@ header {
    transform: none;
  }
 
+#dropdownMenu3 {
+
+  transform: none;
+  display: none;
+}
+#dropdownMenu3.open {
+  display: block;
+  
+}
+
+ #dropdownMenu3.open a::after{
+
+   transform: none;
+ }
 
 
 .arrow {
