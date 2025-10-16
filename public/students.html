@@ -352,21 +352,30 @@
               </div>
             </div>
       </section>
-      <section class="faq">
-        <h2>FAQ</h2>
-        <details>
-          <summary>Τι μπορώ να κάνω για να επικοινωνήσω μαζί σας;</summary>
-          <p>...</p>
-        </details>
-        <details>
-          <summary>Υπάρχει έκπτωση για τρίτεκνους / πολύτεκνους;</summary>
-          <p>...</p>
-        </details>
-        <details>
-          <summary>Μπορούν οι μαθητές να επιλέξουν το γραφείο που θα είναι ?</summary>
-          <p>...</p>
-        </details> 
-      </section>
+<div class="faq" id="faq"></div>
+<script>
+fetch('/faq')
+  .then(res => res.json())
+  .then(faqArr => {
+    const faqDiv = document.getElementById('faq');
+    faqDiv.innerHTML = `
+      <h2>FAQ</h2>
+      ${faqArr
+        .filter(item => item.question && item.answer)
+        .map(item => `
+          <details>
+            <summary>${item.question}</summary>
+            <p>${item.answer}</p>
+          </details>
+        `).join('')}
+    `;
+  });
+</script>
+
+
+
+
+
          
 
     </div>
