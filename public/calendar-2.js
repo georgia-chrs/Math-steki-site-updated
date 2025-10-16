@@ -100,18 +100,29 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Εμφάνιση κουμπιού μόνο αν υπάρχουν παλαιότερα γεγονότα
       const showPastBtn = document.getElementById('showPastBtn');
       if (past.length > 0) {
+        // Εμφάνιση του κουμπιού
         showPastBtn.style.display = 'inline-block';
-        // ξεκινάμε collapsed (κρυφό) για να μην διαταράσσεται το layout
-        pastListEl.classList.add('collapsed');
+        // Αρχικά κρυφό - θέτουμε inline maxHeight για αξιόπιστο έλεγχο
         pastListEl.classList.remove('expanded');
-        // στο κλικ κάνουμε toggle την εμφάνιση της λίστας με κλάσεις
+        pastListEl.classList.add('collapsed');
+        pastListEl.style.transition = 'max-height 0.25s ease, visibility 0s linear 0.25s';
+        pastListEl.style.maxHeight = '0px';
+        pastListEl.style.overflow = 'hidden';
+        pastListEl.style.visibility = 'hidden';
+        // Στο κλικ κάνουμε toggle την εμφάνιση της λίστας με inline styles
         showPastBtn.onclick = () => {
-          const isCollapsed = pastListEl.classList.contains('collapsed');
+          const isCollapsed = pastListEl.style.maxHeight === '0px' || !pastListEl.style.maxHeight;
           if (isCollapsed) {
+            pastListEl.style.maxHeight = '360px';
+            pastListEl.style.visibility = 'visible';
+            pastListEl.style.overflow = 'auto';
             pastListEl.classList.remove('collapsed');
             pastListEl.classList.add('expanded');
             showPastBtn.textContent = 'Απόκρυψη παλαιότερων γεγονότων';
           } else {
+            pastListEl.style.maxHeight = '0px';
+            pastListEl.style.visibility = 'hidden';
+            pastListEl.style.overflow = 'hidden';
             pastListEl.classList.remove('expanded');
             pastListEl.classList.add('collapsed');
             showPastBtn.textContent = 'Δες τα παλαιότερα γεγονότα';
@@ -121,6 +132,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         showPastBtn.style.display = 'none';
         pastListEl.classList.remove('expanded');
         pastListEl.classList.add('collapsed');
+        pastListEl.style.maxHeight = '0px';
+        pastListEl.style.visibility = 'hidden';
+        pastListEl.style.overflow = 'hidden';
       }
       // Populate filters
       function populateFilters(calendarEntries, subjectMap) {

@@ -119,7 +119,7 @@
     }
   
   #upcomingEventsList, #pastEventsList {
-    max-height: 320px;
+    /* Δεν ορίζουμε εδώ σταθερό max-height για να μην συγκρούεται με τις κλάσεις .collapsed/.expanded */
     overflow-y: auto;
     scrollbar-width: thick;
     scrollbar-color: #A0522D #ff874b00;
@@ -171,12 +171,20 @@
     }
     /* collapsed/expanded για το παλαιότερα events */
     .events-list.collapsed {
-      max-height: 0;
-      overflow: hidden;
+      max-height: 0 !important;
+      overflow: hidden !important;
+      visibility: hidden !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      pointer-events: none !important;
     }
     .events-list.expanded {
       /* αφήνουμε το μέγιστο ύψος εσωτερικά λίγο μικρότερο από 420 για header/button */
-      max-height: 360px;
+      max-height: 360px !important;
+      overflow-y: auto !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+      padding: initial !important;
     }
     /* Σταθερό gutter για scrollbar ώστε να μην αλλάζει layout όταν εμφανίζεται */
     .events-list { scrollbar-gutter: stable; }
