@@ -2650,13 +2650,7 @@ nav{
     justify-content: center;
     display: flex;
   }
-    #hero-logo img{
-    filter:  brightness(0) saturate(100%) invert(1) sepia(1) hue-rotate(200deg) saturate(500%) brightness(1);
-  }
-      .logo img{
-        filter:  brightness(0) saturate(100%) invert(1) sepia(1) hue-rotate(200deg) saturate(500%) brightness(1);
 
-  }
 
 
 }
