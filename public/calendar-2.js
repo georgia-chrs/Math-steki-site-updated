@@ -95,7 +95,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         `</div>`;
       }
       document.getElementById('upcomingEventsList').innerHTML = upcoming.length > 0 ? upcoming.map(renderEvent).join('') : '<div>Δεν υπάρχουν προσεχή γεγονότα.</div>';
-      document.getElementById('pastEventsList').innerHTML = past.length > 0 ? past.map(renderEvent).join('') : '<div>Δεν υπάρχουν παλαιότερα γεγονότα.</div>';
+      const pastListEl = document.getElementById('pastEventsList');
+      pastListEl.innerHTML = past.length > 0 ? past.map(renderEvent).join('') : '<div>Δεν υπάρχουν παλαιότερα γεγονότα.</div>';
+      // Εμφάνιση κουμπιού μόνο αν υπάρχουν παλαιότερα γεγονότα
+      const showPastBtn = document.getElementById('showPastBtn');
+      if (past.length > 0) {
+        showPastBtn.style.display = 'inline-block';
+        // στο κλικ κάνουμε toggle την εμφάνιση της λίστας
+        showPastBtn.onclick = () => {
+          if (pastListEl.style.display === 'none' || !pastListEl.style.display) {
+            pastListEl.style.display = 'block';
+            showPastBtn.textContent = 'Απόκρυψη παλαιότερων γεγονότων';
+          } else {
+            pastListEl.style.display = 'none';
+            showPastBtn.textContent = 'Δες τα παλαιότερα γεγονότα';
+          }
+        };
+      } else {
+        showPastBtn.style.display = 'none';
+      }
       // Populate filters
       function populateFilters(calendarEntries, subjectMap) {
         const eventTypeFilter = document.getElementById('eventTypeFilter');
@@ -164,7 +182,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         const upcoming = filteredEntries.filter(ev => dateOnly(ev.event_date) >= today);
         const past = filteredEntries.filter(ev => dateOnly(ev.event_date) < today);
         document.getElementById('upcomingEventsList').innerHTML = upcoming.length > 0 ? upcoming.map(renderEvent).join('') : '<div>Δεν υπάρχουν προσεχή γεγονότα.</div>';
-        document.getElementById('pastEventsList').innerHTML = past.length > 0 ? past.map(renderEvent).join('') : '<div>Δεν υπάρχουν παλαιότερα γεγονότα.</div>';
+        const pastListEl = document.getElementById('pastEventsList');
+        pastListEl.innerHTML = past.length > 0 ? past.map(renderEvent).join('') : '<div>Δεν υπάρχουν παλαιότερα γεγονότα.</div>';
+        // Εμφάνιση κουμπιού μόνο αν υπάρχουν παλαιότερα γεγονότα
+        const showPastBtn = document.getElementById('showPastBtn');
+        if (past.length > 0) {
+          showPastBtn.style.display = 'inline-block';
+          // στο κλικ κάνουμε toggle την εμφάνιση της λίστας
+          showPastBtn.onclick = () => {
+            if (pastListEl.style.display === 'none' || !pastListEl.style.display) {
+              pastListEl.style.display = 'block';
+              showPastBtn.textContent = 'Απόκρυψη παλαιότερων γεγονότων';
+            } else {
+              pastListEl.style.display = 'none';
+              showPastBtn.textContent = 'Δες τα παλαιότερα γεγονότα';
+            }
+          };
+        } else {
+          showPastBtn.style.display = 'none';
+        }
       }
       eventTypeFilter.addEventListener('change', () => filterEntries(events, subjectMap));
       subjectFilter.addEventListener('change', () => filterEntries(events, subjectMap));
