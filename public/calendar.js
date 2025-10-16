@@ -259,7 +259,7 @@ function createEventCard(entry, isUpcoming) {
       padding: 15px; 
       border-radius: 20px; 
       background: white; 
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(9, 122, 252, 0.93);
       ${isToday ? 'border: 2px solid rgba(252, 151, 62, 0.76);' : ''}
       ${isAnnouncement ? 'background-color: #f8f9fa;' : ''}
     ">
@@ -320,7 +320,7 @@ function createEventCard(entry, isUpcoming) {
         
         ${entry.pdf_attachment ? `
           <div class="event-pdf" style="margin-top: 10px;">
-            <span style="color: #dc3545;">📄 PDF: ${entry.pdf_attachment}</span>
+            <span style="color: #dc3545;"> PDF: ${entry.pdf_attachment}</span>
           </div>
         ` : ''}
       </div>
@@ -406,7 +406,7 @@ const style = document.createElement('style');
 style.textContent = `
   .event-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 8px rgba(21, 255, 52, 0.88);
     transition: all 0.2s ease;
   }
   
@@ -432,7 +432,7 @@ function showNotification(message, type = 'info') {
     font-weight: bold;
     z-index: 10000;
     max-width: 400px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.99);
   `;
   
   // Set background color based on type
