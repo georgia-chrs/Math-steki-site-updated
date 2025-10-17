@@ -2816,6 +2816,9 @@ nav{
     .height-adjust3{
       margin-top: -100px;
     }
+        #hero-logo img{
+    filter:  brightness(0) saturate(100%) invert(1) sepia(1) hue-rotate(200deg) saturate(500%) brightness(1);
+  }
   }
 
 
