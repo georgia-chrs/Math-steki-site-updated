@@ -564,10 +564,24 @@ nav{
   width: 28px !important;
   height: 28px !important;
 }
+
+.instagram-icon:hover {
+  /* Instagram gradient colors approximation */
+  filter: invert(39%) sepia(72%) saturate(7491%) hue-rotate(320deg) brightness(95%) contrast(101%);
+}
+.mail-icon:hover {
+  /* Gmail red: #D44638 */
+  filter: invert(21%) sepia(91%) saturate(7473%) hue-rotate(357deg) brightness(95%) contrast(101%);
+}
+
 .mail-icon
 {
   width: 26px !important;
   height: 26px !important;
+}
+.phone-icon:hover {
+  /* Phone green: #34A853 */
+  filter: invert(42%) sepia(72%) saturate(7493%) hue-rotate(100deg) brightness(95%) contrast(101%);
 }
 .icons {
   display: flex;
