@@ -117,7 +117,8 @@
         min-width: 250px !important;
       }
     }
-  
+      
+
   #upcomingEventsList, #pastEventsList {
     /* Δεν ορίζουμε εδώ σταθερό max-height για να μην συγκρούεται με τις κλάσεις .collapsed/.expanded */
     overflow-y: auto;
@@ -152,6 +153,7 @@
           }
   main{
     min-width: 600px;
+
   }        
     /* Events panels: min height = content height, max height = 420px */
     .events-panel {
@@ -195,7 +197,11 @@
       .student-container{
         min-width: auto;
       }
-      
+        main{
+          min-width: auto;
+          max-width: 100%;
+        }
+
     }
      .logo img{ 
       filter: none !important; 
