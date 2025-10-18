@@ -172,6 +172,8 @@
         const response = await fetch('/api/students');
         const studentsData = await response.json();
         
+        console.log('Raw students data from API:', studentsData);
+        
         // Convert API data to match the expected format
         students = studentsData.map(student => ({
           id: student.id,
@@ -193,6 +195,11 @@
         }));
         
         filteredStudents = [...students];
+        
+        // Debug: Log all students with their usernames
+        console.log('Loaded students from API:', students);
+        console.log('Student usernames:', students.map(s => `${s.firstName} ${s.lastName}: ${s.username}`));
+        
         loadStudents(); // Refresh the table
         
         console.log('Loaded students from API:', students);
@@ -515,6 +522,9 @@ async function deleteStudent(id) {
         return;
       }
       
+      console.log('Student found:', student);
+      console.log('Student username:', student.username);
+      
       // Check if student has username
       if (!student.username) {
         alert('Ο μαθητής δεν έχει username. Παρακαλώ ορίστε username πρώτα.');
@@ -523,6 +533,7 @@ async function deleteStudent(id) {
       
       // Open student profile in new tab/window
       const studentProfileUrl = `student-tablet.html?username=${encodeURIComponent(student.username)}`;
+      console.log('Opening URL:', studentProfileUrl);
       window.open(studentProfileUrl, '_blank');
     }
 
