@@ -4,9 +4,21 @@
   // Check if student is already logged in (check localStorage)
   document.addEventListener('DOMContentLoaded', function() {
     console.log('Student tablet loading...');
+    
+    // Πρώτα ελέγχουμε αν υπάρχει username στο URL (από admin καρτέλα)
+    const urlParams = new URLSearchParams(window.location.search);
+    const usernameFromUrl = urlParams.get('username');
+    
+    if (usernameFromUrl) {
+      console.log('Found username in URL:', usernameFromUrl);
+      // Φορτώνουμε το προφίλ του μαθητή από το URL
+      loadStudentProfile(usernameFromUrl);
+      return;
+    }
+    
     console.log('Checking localStorage for logged in student...');
     
-    // Ελέγχουμε αν υπάρχει συνδεδεμένος μαθητής
+    // Αν δεν υπάρχει username στο URL, ελέγχουμε αν υπάρχει συνδεδεμένος μαθητής
     const loggedInStudent = getLoggedInStudent();
     
     if (loggedInStudent && loggedInStudent.username) {
