@@ -1779,6 +1779,7 @@ nav{
     @media (max-width: 900px) {
        main{
             justify-self: center;
+            min-height: auto;
     
           }
       
