@@ -70,7 +70,12 @@
           { id: 2, name: "Κώστας Γεωργίου", subject: "Φυσική", phone: "6902345678", email: "kostas.georgiou@mathsteki.gr" },
           { id: 3, name: "Ελένη Παπαδάκη", subject: "Χημεία", phone: "6903456789", email: "eleni.papadaki@mathsteki.gr" },
           { id: 4, name: "Γιάννης Νικολάου", subject: "Αρχαία", phone: "6904567890", email: "giannis.nikolaou@mathsteki.gr" },
-          { id: 5, name: "Άννα Κωνσταντίνου", subject: "Νέα Ελληνικά", phone: "6905678901", email: "anna.konstantinou@mathsteki.gr" }
+          { id: 5, name: "Άννα Κωνσταντίνου", subject: "Νέα Ελληνικά", phone: "6905678901", email: "anna.konstantinou@mathsteki.gr" },
+          { id: 6, name: "Δημήτρης Παπαδόπουλος", subject: "Βιολογία", phone: "6906789012", email: "dimitris.papadopoulos@mathsteki.gr" },
+          { id: 7, name: "Σοφία Μιχαηλίδου", subject: "Ιστορία", phone: "6907890123", email: "sofia.michailidou@mathsteki.gr" },
+          { id: 8, name: "Νίκος Αλεξάνδρου", subject: "Γεωγραφία", phone: "6908901234", email: "nikos.alexandrou@mathsteki.gr" },
+          { id: 9, name: "Κατερίνα Δημητρίου", subject: "Αγγλικά", phone: "6909012345", email: "katerina.dimitriou@mathsteki.gr" },
+          { id: 10, name: "Παναγιώτης Βασιλείου", subject: "Πληροφορική", phone: "6900123456", email: "panagiotis.vasileiou@mathsteki.gr" }
         ];
       }
     }
@@ -112,7 +117,17 @@
         // Fallback to hardcoded data
         subjects = [
           { id: 1, name: "Μαθηματικά", code: "Μγ4", class: "Γ' Λυκείου", teacherId: 1, teacherName: "Δρ. Μαρία Αντωνίου" },
-          { id: 2, name: "Χημεία", code: "Χγ2", class: "Γ' Λυκείου", teacherId: 3, teacherName: "Ελένη Παπαδάκη" }
+          { id: 2, name: "Χημεία", code: "Χγ2", class: "Γ' Λυκείου", teacherId: 3, teacherName: "Ελένη Παπαδάκη" },
+          { id: 3, name: "Φυσική", code: "Φγ3", class: "Γ' Λυκείου", teacherId: 2, teacherName: "Γιάννης Παπαδόπουλος" },
+          { id: 4, name: "Νεοελληνική Γλώσσα", code: "Νγ1", class: "Γ' Λυκείου", teacherId: 4, teacherName: "Κωνσταντίνος Δημητρίου" },
+          { id: 5, name: "Ιστορία", code: "Ιγ2", class: "Γ' Λυκείου", teacherId: 5, teacherName: "Σοφία Νικολάου" },
+          { id: 6, name: "Βιολογία", code: "Βγ1", class: "Γ' Λυκείου", teacherId: 6, teacherName: "Αναστασία Μαρίνου" },
+          { id: 7, name: "Μαθηματικά", code: "Μβ3", class: "Β' Λυκείου", teacherId: 1, teacherName: "Δρ. Μαρία Αντωνίου" },
+          { id: 8, name: "Χημεία", code: "Χβ1", class: "Β' Λυκείου", teacherId: 3, teacherName: "Ελένη Παπαδάκη" },
+          { id: 9, name: "Φυσική", code: "Φβ2", class: "Β' Λυκείου", teacherId: 2, teacherName: "Γιάννης Παπαδόπουλος" },
+          { id: 10, name: "Νεοελληνική Γλώσσα", code: "Νβ1", class: "Β' Λυκείου", teacherId: 4, teacherName: "Κωνσταντίνος Δημητρίου" },
+          { id: 11, name: "Ιστορία", code: "Ιβ1", class: "Β' Λυκείου", teacherId: 5, teacherName: "Σοφία Νικολάου" },
+          { id: 12, name: "Μαθηματικά", code: "Μα2", class: "Α' Λυκείου", teacherId: 7, teacherName: "Δημήτρης Κωνσταντίνου" }
         ];
         console.log('Using fallback subjects:', subjects);
       }
@@ -188,7 +203,7 @@
           {
             id: 1,
             firstName: "Γιάννης",
-            lastName: "Παπαδόπουλος",
+            lastName: "Παπαδόπουλος", 
             username: "giannisp",
             studentClass: "Β' Λυκείου",
             phone: "6901234567",
@@ -1256,15 +1271,17 @@ async function deleteStudent(id) {
           display: flex;
           justify-content: center;
           align-items: center;
-          gap: 10px;
+          gap: 8px;
           margin: 20px 0;
-          padding: 15px;
+          padding: 15px 10px;
           background: #f8f9fa;
           border-radius: 8px;
           box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          flex-wrap: wrap;
         `;
         
-        const table = document.getElementById('teachersTable');
+        const tbody = document.getElementById('teachersTableBody');
+        const table = tbody ? tbody.closest('table') : null;
         if (table && table.parentElement) {
           table.parentElement.appendChild(paginationContainer);
         }
@@ -1364,7 +1381,8 @@ async function deleteStudent(id) {
       displayTeachersWithPagination();
       
       // Scroll to top of teachers table
-      const table = document.getElementById('teachersTable');
+      const tbody = document.getElementById('teachersTableBody');
+      const table = tbody ? tbody.closest('table') : null;
       if (table) {
         table.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
@@ -1578,15 +1596,17 @@ async function deleteStudent(id) {
           display: flex;
           justify-content: center;
           align-items: center;
-          gap: 10px;
+          gap: 8px;
           margin: 20px 0;
-          padding: 15px;
+          padding: 15px 10px;
           background: #f8f9fa;
           border-radius: 8px;
           box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          flex-wrap: wrap;
         `;
         
-        const table = document.getElementById('studentsTable');
+        const tbody = document.getElementById('studentsTableBody');
+        const table = tbody ? tbody.closest('table') : null;
         if (table && table.parentElement) {
           table.parentElement.appendChild(paginationContainer);
         }
@@ -1594,11 +1614,7 @@ async function deleteStudent(id) {
       
       paginationContainer.innerHTML = '';
       
-      if (totalPages <= 1) {
-        paginationContainer.style.display = 'none';
-        return;
-      }
-      
+      // Show controls always for testing - comment this for production
       paginationContainer.style.display = 'flex';
       
       // Previous button
@@ -1686,7 +1702,8 @@ async function deleteStudent(id) {
       displayStudentsWithPagination();
       
       // Scroll to top of students table
-      const table = document.getElementById('studentsTable');
+      const tbody = document.getElementById('studentsTableBody');
+      const table = tbody ? tbody.closest('table') : null;
       if (table) {
         table.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
@@ -1713,7 +1730,8 @@ async function deleteStudent(id) {
           box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         `;
         
-        const table = document.getElementById('subjectsTable');
+        const tbody = document.getElementById('subjectsTableBody');
+        const table = tbody ? tbody.closest('table') : null;
         if (table && table.parentElement) {
           table.parentElement.appendChild(paginationContainer);
         }
@@ -1813,7 +1831,8 @@ async function deleteStudent(id) {
       displaySubjectsWithPagination();
       
       // Scroll to top of subjects table
-      const table = document.getElementById('subjectsTable');
+      const tbody = document.getElementById('subjectsTableBody');
+      const table = tbody ? tbody.closest('table') : null;
       if (table) {
         table.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
