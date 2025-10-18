@@ -2,9 +2,23 @@
     let students = [];
     let filteredStudents = [];
     let subjects = []; // Will be loaded from Classes table
+    let filteredSubjects = [];
     let enrollments = []; // Will be loaded from Enrollments table
     let teachers = []; // Will be loaded from Teachers API
+    let filteredTeachers = [];
     let enrollmentFormSubmitting = false; // Flag to prevent double submission
+
+    // Pagination variables for Students
+    let currentStudentsPage = 1;
+    const studentsPerPage = 8;
+
+    // Pagination variables for Teachers
+    let currentTeachersPage = 1;
+    const teachersPerPage = 8;
+
+    // Pagination variables for Subjects
+    let currentSubjectsPage = 1;
+    const subjectsPerPage = 8;
 
     // Load all data from API
     async function loadAllData() {
@@ -232,6 +246,7 @@
         return matchesSearch && matchesClass;
       });
 
+      currentStudentsPage = 1; // Reset to first page on new search
       loadStudents();
     }
 
@@ -558,8 +573,6 @@ async function deleteStudent(id) {
     document.getElementById('classFilter').addEventListener('change', searchStudents);
 
     // ===== SUBJECTS SEARCH AND DISPLAY =====
-    
-    let filteredSubjects = [];
 
     // Search functionality for subjects
     function searchSubjects() {
@@ -582,20 +595,36 @@ async function deleteStudent(id) {
         return matchesSearch && matchesClass;
       });
 
+      currentSubjectsPage = 1; // Reset to first page on new search
       loadFilteredSubjects();
     }
 
-    // Load filtered subjects into table
+    // Load subjects with pagination
     function loadFilteredSubjects() {
+      displaySubjectsWithPagination();
+    }
+
+    // Display subjects with pagination
+    function displaySubjectsWithPagination() {
+      const startIndex = (currentSubjectsPage - 1) * subjectsPerPage;
+      const endIndex = startIndex + subjectsPerPage;
+      const subjectsToShow = filteredSubjects.slice(startIndex, endIndex);
+      
+      displaySubjectsTable(subjectsToShow);
+      createSubjectsPaginationControls(filteredSubjects.length);
+    }
+
+    // Display subjects table (original functionality)
+    function displaySubjectsTable(subjectsToShow) {
       const tbody = document.getElementById('subjectsTableBody');
       tbody.innerHTML = '';
 
-      if (filteredSubjects.length === 0) {
+      if (subjectsToShow.length === 0) {
         tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 30px;">Δεν βρέθηκαν τμήματα</td></tr>';
         return;
       }
 
-      filteredSubjects.forEach(subject => {
+      subjectsToShow.forEach(subject => {
         // Αφαιρέθηκε ο έλεγχος για το πεδίο subject
         const enrolledCount = enrollments.filter (e => e.class_id === subject.id).length;
         const teacher = teachers.find(t => t.id === subject.teacherId);
@@ -1125,8 +1154,7 @@ async function deleteStudent(id) {
     });
 
     // ===== TEACHERS MANAGEMENT =====
-    
-    let filteredTeachers = [];
+
 
     // Search functionality for teachers
     function searchTeachers() {
@@ -1145,20 +1173,36 @@ async function deleteStudent(id) {
         return matchesSearch && matchesSubject;
       });
 
+      currentTeachersPage = 1; // Reset to first page on new search
       loadFilteredTeachers();
     }
 
-    // Load filtered teachers into table
+    // Load teachers with pagination
     function loadFilteredTeachers() {
+      displayTeachersWithPagination();
+    }
+
+    // Display teachers with pagination
+    function displayTeachersWithPagination() {
+      const startIndex = (currentTeachersPage - 1) * teachersPerPage;
+      const endIndex = startIndex + teachersPerPage;
+      const teachersToShow = filteredTeachers.slice(startIndex, endIndex);
+      
+      displayTeachersTable(teachersToShow);
+      createTeachersPaginationControls(filteredTeachers.length);
+    }
+
+    // Display teachers table (original functionality)
+    function displayTeachersTable(teachersToShow) {
       const tbody = document.getElementById('teachersTableBody');
       tbody.innerHTML = '';
 
-      if (filteredTeachers.length === 0) {
+      if (teachersToShow.length === 0) {
         tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 30px;">Δεν βρέθηκαν καθηγητές</td></tr>';
         return;
       }
 
-      filteredTeachers.forEach(teacher => {
+      teachersToShow.forEach(teacher => {
         // Find subjects taught by this teacher
         const teacherSubjects = subjects.filter(s => s.teacherId === teacher.id);
         const subjectsText = teacherSubjects.length > 0 ? 
@@ -1182,6 +1226,133 @@ async function deleteStudent(id) {
         `;
         tbody.appendChild(row);
       });
+    }
+
+    // Create pagination controls for teachers
+    function createTeachersPaginationControls(totalTeachers) {
+      const totalPages = Math.ceil(totalTeachers / teachersPerPage);
+      
+      // Find or create pagination container
+      let paginationContainer = document.getElementById('teachersPaginationContainer');
+      if (!paginationContainer) {
+        paginationContainer = document.createElement('div');
+        paginationContainer.id = 'teachersPaginationContainer';
+        paginationContainer.style.cssText = `
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          margin: 20px 0;
+          padding: 15px;
+          background: #f8f9fa;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        `;
+        
+        const table = document.getElementById('teachersTable');
+        if (table && table.parentElement) {
+          table.parentElement.appendChild(paginationContainer);
+        }
+      }
+      
+      paginationContainer.innerHTML = '';
+      
+      if (totalPages <= 1) {
+        paginationContainer.style.display = 'none';
+        return;
+      }
+      
+      paginationContainer.style.display = 'flex';
+      
+      // Previous button
+      const prevBtn = document.createElement('button');
+      prevBtn.innerHTML = '← Προηγούμενη';
+      prevBtn.className = 'pagination-btn';
+      prevBtn.style.cssText = `
+        padding: 8px 16px;
+        background: ${currentTeachersPage === 1 ? '#ccc' : '#dc5935'};
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: ${currentTeachersPage === 1 ? 'not-allowed' : 'pointer'};
+        transition: background 0.3s;
+      `;
+      prevBtn.disabled = currentTeachersPage === 1;
+      prevBtn.onclick = () => goToTeachersPage(currentTeachersPage - 1);
+      paginationContainer.appendChild(prevBtn);
+      
+      // Page info
+      const pageInfo = document.createElement('span');
+      pageInfo.innerHTML = `Σελίδα ${currentTeachersPage} από ${totalPages} (Σύνολο: ${totalTeachers} καθηγητές)`;
+      pageInfo.style.cssText = `
+        padding: 8px 16px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-weight: 500;
+        color: #333;
+      `;
+      paginationContainer.appendChild(pageInfo);
+      
+      // Next button
+      const nextBtn = document.createElement('button');
+      nextBtn.innerHTML = 'Επόμενη →';
+      nextBtn.className = 'pagination-btn';
+      nextBtn.style.cssText = `
+        padding: 8px 16px;
+        background: ${currentTeachersPage === totalPages ? '#ccc' : '#dc5935'};
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: ${currentTeachersPage === totalPages ? 'not-allowed' : 'pointer'};
+        transition: background 0.3s;
+      `;
+      nextBtn.disabled = currentTeachersPage === totalPages;
+      nextBtn.onclick = () => goToTeachersPage(currentTeachersPage + 1);
+      paginationContainer.appendChild(nextBtn);
+      
+      // Add page number buttons for small number of pages
+      if (totalPages <= 10) {
+        const separator = document.createElement('span');
+        separator.innerHTML = '|';
+        separator.style.margin = '0 10px';
+        paginationContainer.appendChild(separator);
+        
+        for (let i = 1; i <= totalPages; i++) {
+          const pageBtn = document.createElement('button');
+          pageBtn.innerHTML = i;
+          pageBtn.style.cssText = `
+            padding: 6px 10px;
+            background: ${i === currentTeachersPage ? '#dc5935' : 'white'};
+            color: ${i === currentTeachersPage ? 'white' : '#333'};
+            border: 1px solid ${i === currentTeachersPage ? '#dc5935' : '#ddd'};
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 35px;
+          `;
+          pageBtn.onclick = () => goToTeachersPage(i);
+          paginationContainer.appendChild(pageBtn);
+        }
+      }
+    }
+    
+    // Navigate to specific teachers page
+    function goToTeachersPage(pageNumber) {
+      const totalPages = Math.ceil(filteredTeachers.length / teachersPerPage);
+      
+      if (pageNumber < 1 || pageNumber > totalPages) {
+        return;
+      }
+      
+      currentTeachersPage = pageNumber;
+      displayTeachersWithPagination();
+      
+      // Scroll to top of teachers table
+      const table = document.getElementById('teachersTable');
+      if (table) {
+        table.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     // Initialize teachers display when data is loaded
@@ -1379,87 +1550,137 @@ async function deleteStudent(id) {
       });
     });
 
-/*
-document.addEventListener('DOMContentLoaded', function() {
-
-    // Περιμένουμε να φορτωθεί το DOM πριν εκτελέσουμε τον κώδικα
-  // Αυτό διασφαλίζει ότι όλα τα στοιχεία είναι διαθέσιμα
-
-  // Πόσοι μαθητές θα εμφανίζονται ανά σελίδα
-  const studentsPerPage = 5;
-  // Τρέχουσα σελίδα στην προβολή
-  let currentPage = 1;
-  // Πίνακας με τα δεδομένα των μαθητών
-  let studentsData = [];
-
-  // Συνάρτηση για να φέρει τους μαθητές από το API
-  async function fetchStudents() {
-    try {
-      // Κάνουμε αίτημα GET στο endpoint /api/students
-      const response = await fetch('/api/students');
-      if (!response.ok) throw new Error('Σφάλμα φόρτωσης μαθητών');
-      const data = await response.json();
-      // Προσαρμόζουμε τα πεδία των μαθητών αν χρειάζεται
-      studentsData = data.map(student => ({
-        name: `${student.first_name} ${student.last_name}`,
-        class: student.class || '',
-        phone: student.phone || ''
-      }));
-      // Εμφανίζουμε τους μαθητές στο grid
-      renderStudentsGrid();
-    } catch (error) {
-      // Αν υπάρξει σφάλμα, το εμφανίζουμε στο console
-      console.error(error);
-    }
-  }
-
-  // Συνάρτηση για να εμφανίσει τους μαθητές στη σελίδα
-  function renderStudentsGrid() {
-    // Παίρνουμε το στοιχείο του grid από το DOM
-    const grid = document.getElementById('studentsGrid');
-    grid.innerHTML = '';
-    // Υπολογίζουμε το εύρος των μαθητών που θα εμφανιστούν
-    const start = (currentPage - 1) * studentsPerPage;
-    const end = start + studentsPerPage;
-    const studentsToShow = studentsData.slice(start, end);
-
-    // Για κάθε μαθητή, δημιουργούμε ένα div και το προσθέτουμε στο grid
-    studentsToShow.forEach(student => {
-      const studentDiv = document.createElement('div');
-      studentDiv.className = 'student-card';
-      studentDiv.innerHTML = `
-        <div><strong>${student.name}</strong></div>
-        <div>${student.class}</div>
-        <div>${student.phone}</div>
+// Create pagination controls for subjects
+    function createSubjectsPaginationControls(totalSubjects) {
+      const totalPages = Math.ceil(totalSubjects / subjectsPerPage);
+      
+      // Find or create pagination container
+      let paginationContainer = document.getElementById('subjectsPaginationContainer');
+      if (!paginationContainer) {
+        paginationContainer = document.createElement('div');
+        paginationContainer.id = 'subjectsPaginationContainer';
+        paginationContainer.style.cssText = `
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          margin: 20px 0;
+          padding: 15px;
+          background: #f8f9fa;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        `;
+        
+        const table = document.getElementById('subjectsTable');
+        if (table && table.parentElement) {
+          table.parentElement.appendChild(paginationContainer);
+        }
+      }
+      
+      paginationContainer.innerHTML = '';
+      
+      if (totalPages <= 1) {
+        paginationContainer.style.display = 'none';
+        return;
+      }
+      
+      paginationContainer.style.display = 'flex';
+      
+      // Previous button
+      const prevBtn = document.createElement('button');
+      prevBtn.innerHTML = '← Προηγούμενη';
+      prevBtn.className = 'pagination-btn';
+      prevBtn.style.cssText = `
+        padding: 8px 16px;
+        background: ${currentSubjectsPage === 1 ? '#ccc' : '#dc5935'};
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: ${currentSubjectsPage === 1 ? 'not-allowed' : 'pointer'};
+        transition: background 0.3s;
       `;
-      grid.appendChild(studentDiv);
-    });
-
-    // Ενημερώνουμε τις πληροφορίες σελιδοποίησης
-    const pageInfo = document.getElementById('pageInfo');
-    const totalPages = Math.ceil(studentsData.length / studentsPerPage);
-    pageInfo.textContent = `Σελίδα ${currentPage} από ${totalPages}`;
-
-    document.getElementById('prevPageBtn').disabled = currentPage === 1;
-    document.getElementById('nextPageBtn').disabled = currentPage === totalPages;
-  }
-
-  // Συνάρτηση για το κουμπί προηγούμενης σελίδας
-  document.getElementById('prevPageBtn').onclick = function() {
-    if (currentPage > 1) {
-      currentPage--;
-      renderStudentsGrid();
+      prevBtn.disabled = currentSubjectsPage === 1;
+      prevBtn.onclick = () => goToSubjectsPage(currentSubjectsPage - 1);
+      paginationContainer.appendChild(prevBtn);
+      
+      // Page info
+      const pageInfo = document.createElement('span');
+      pageInfo.innerHTML = `Σελίδα ${currentSubjectsPage} από ${totalPages} (Σύνολο: ${totalSubjects} τμήματα)`;
+      pageInfo.style.cssText = `
+        padding: 8px 16px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-weight: 500;
+        color: #333;
+      `;
+      paginationContainer.appendChild(pageInfo);
+      
+      // Next button
+      const nextBtn = document.createElement('button');
+      nextBtn.innerHTML = 'Επόμενη →';
+      nextBtn.className = 'pagination-btn';
+      nextBtn.style.cssText = `
+        padding: 8px 16px;
+        background: ${currentSubjectsPage === totalPages ? '#ccc' : '#dc5935'};
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: ${currentSubjectsPage === totalPages ? 'not-allowed' : 'pointer'};
+        transition: background 0.3s;
+      `;
+      nextBtn.disabled = currentSubjectsPage === totalPages;
+      nextBtn.onclick = () => goToSubjectsPage(currentSubjectsPage + 1);
+      paginationContainer.appendChild(nextBtn);
+      
+      // Add page number buttons for small number of pages
+      if (totalPages <= 10) {
+        const separator = document.createElement('span');
+        separator.innerHTML = '|';
+        separator.style.margin = '0 10px';
+        paginationContainer.appendChild(separator);
+        
+        for (let i = 1; i <= totalPages; i++) {
+          const pageBtn = document.createElement('button');
+          pageBtn.innerHTML = i;
+          pageBtn.style.cssText = `
+            padding: 6px 10px;
+            background: ${i === currentSubjectsPage ? '#dc5935' : 'white'};
+            color: ${i === currentSubjectsPage ? 'white' : '#333'};
+            border: 1px solid ${i === currentSubjectsPage ? '#dc5935' : '#ddd'};
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 35px;
+          `;
+          pageBtn.onclick = () => goToSubjectsPage(i);
+          paginationContainer.appendChild(pageBtn);
+        }
+      }
     }
-  };
-  // Συνάρτηση για το κουμπί επόμενης σελίδας
-  document.getElementById('nextPageBtn').onclick = function() {
-    const totalPages = Math.ceil(studentsData.length / studentsPerPage);
-    if (currentPage < totalPages) {
-      currentPage++;
-      renderStudentsGrid();
+    
+    // Navigate to specific subjects page
+    function goToSubjectsPage(pageNumber) {
+      const totalPages = Math.ceil(filteredSubjects.length / subjectsPerPage);
+      
+      if (pageNumber < 1 || pageNumber > totalPages) {
+        return;
+      }
+      
+      currentSubjectsPage = pageNumber;
+      displaySubjectsWithPagination();
+      
+      // Scroll to top of subjects table
+      const table = document.getElementById('subjectsTable');
+      if (table) {
+        table.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
-  };
 
-  // Αρχική φόρτωση των μαθητών όταν ανοίγει η σελίδα
-  fetchStudents();
-});*/
+    // Make pagination functions globally accessible
+    window.goToStudentsPage = goToStudentsPage;
+    window.displayStudentsWithPagination = displayStudentsWithPagination;
+    window.goToTeachersPage = goToTeachersPage;
+    window.displayTeachersWithPagination = displayTeachersWithPagination;
+    window.goToSubjectsPage = goToSubjectsPage;
+    window.displaySubjectsWithPagination = displaySubjectsWithPagination;
