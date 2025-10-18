@@ -527,6 +527,36 @@ nav {
   margin-top: 20px;
 }
 
+/* Pagination Styles */
+.pagination-btn:hover:not(:disabled) {
+  background: #b8472c !important;
+  transform: translateY(-1px);
+}
+
+.pagination-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  #paginationContainer {
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+    padding: 10px !important;
+  }
+  
+  #paginationContainer button {
+    font-size: 12px !important;
+    padding: 6px 8px !important;
+    min-width: 30px !important;
+  }
+  
+  #paginationContainer span {
+    font-size: 12px !important;
+    padding: 6px 8px !important;
+    text-align: center;
+  }
+}
+
 </style>
 
 
@@ -650,14 +680,7 @@ nav {
         <div id="selectedStudentInfo" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
           <!-- Student info will be populated here -->
         </div>
-      <div id="searchResultsCount" style="margin: 10px 0; color: #666; font-size: 14px;"></div>
-
-      <!-- Selected Student Display --> <!-- display none-->
-      <div id="selectedStudentDisplay" style=" background-color: #ffffff; padding: 15px; border-radius: 15px; margin-top: 20px; align-content: center;">
-        <div id="selectedStudentInfo" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-          <!-- Student info will be populated here -->
-        </div>
-         <!-- Student info will be populated here -->
+      <!-- Student info will be populated here -->
         <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap;">
           <button onclick="viewStudentDetails()" class="btn btn-info" style="width: auto;">
              Προβολή Στοιχείων

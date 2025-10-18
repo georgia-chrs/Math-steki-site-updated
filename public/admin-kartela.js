@@ -164,7 +164,9 @@ window.editGradesNote = async function(gradeId, studentId) {
           
           console.log('Students loaded from server:', allStudents.length);
           console.log('Mapped first student:', allStudents[0]);
-          displayStudents(allStudents);
+          currentFilteredStudents = allStudents;
+          currentPage = 1;
+          displayStudentsWithPagination();
           updateSearchResults(allStudents.length);
         } else {
           console.error('Failed to load students, status:', response.status);
@@ -251,7 +253,9 @@ window.editGradesNote = async function(gradeId, studentId) {
         { id: 5, name: 'Νέα Ελληνικά', code: 'Νεγ1', class: 'Γ\' Γυμνασίου' }
       ];
       
-      displayStudents(allStudents);
+      currentFilteredStudents = allStudents;
+      currentPage = 1;
+      displayStudentsWithPagination();
       populateSubjectFilters();
       updateSearchResults(allStudents.length);
       console.log('Demo data loaded, students count:', allStudents.length);
@@ -297,6 +301,11 @@ window.editGradesNote = async function(gradeId, studentId) {
       });
     }
     
+    // Pagination variables
+    let currentPage = 1;
+    const studentsPerPage = 8;
+    let currentFilteredStudents = [];
+
     // Search students functionality
     // Βελτιωμένο mapping: filtering μαθητών με βάση enrollments και subject_class
     function searchStudents() {
@@ -318,13 +327,29 @@ window.editGradesNote = async function(gradeId, studentId) {
         }
         return matchesSearch && matchesClass && matchesSubject;
       });
-      displayStudents(filteredStudents);
+      
+      currentFilteredStudents = filteredStudents;
+      currentPage = 1; // Reset to first page on new search
+      displayStudentsWithPagination();
       updateSearchResults(filteredStudents.length);
     }
     
-    // Display students in grid
-    function displayStudents(students) {
-      console.log('displayStudents called with:', students.length, 'students');
+    // Display students with pagination
+    function displayStudentsWithPagination() {
+      const students = currentFilteredStudents;
+      console.log('displayStudentsWithPagination called with:', students.length, 'students');
+      
+      const startIndex = (currentPage - 1) * studentsPerPage;
+      const endIndex = startIndex + studentsPerPage;
+      const studentsToShow = students.slice(startIndex, endIndex);
+      
+      displayStudentsGrid(studentsToShow);
+      createPaginationControls(students.length);
+    }
+
+    // Display students grid (original functionality)
+    function displayStudentsGrid(students) {
+      console.log('displayStudentsGrid called with:', students.length, 'students');
       const grid = document.getElementById('studentsGrid');
       grid.innerHTML = '';
       
@@ -365,6 +390,13 @@ window.editGradesNote = async function(gradeId, studentId) {
         grid.appendChild(studentCard);
       });
     }
+
+    // Legacy displayStudents function for backward compatibility
+    function displayStudents(students) {
+      currentFilteredStudents = students;
+      currentPage = 1;
+      displayStudentsWithPagination();
+    }
     
     // Get status text
     function getStatusText(status) {
@@ -379,7 +411,17 @@ window.editGradesNote = async function(gradeId, studentId) {
     // Update search results count
     function updateSearchResults(count) {
       const countElement = document.getElementById('searchResultsCount');
-      countElement.textContent = `Βρέθηκαν ${count} μαθητές`;
+      const totalPages = Math.ceil(count / studentsPerPage);
+      const startIndex = (currentPage - 1) * studentsPerPage + 1;
+      const endIndex = Math.min(currentPage * studentsPerPage, count);
+      
+      if (count === 0) {
+        countElement.textContent = 'Δεν βρέθηκαν μαθητές';
+      } else if (totalPages <= 1) {
+        countElement.textContent = `Βρέθηκαν ${count} μαθητές`;
+      } else {
+        countElement.textContent = `Εμφάνιση ${startIndex}-${endIndex} από ${count} μαθητές`;
+      }
     }
     
     // Select a student
@@ -1188,3 +1230,132 @@ function closeGradesViewModal() {
     document.body.appendChild(modal);
   }
 })();
+
+// Create pagination controls
+    function createPaginationControls(totalStudents) {
+      const totalPages = Math.ceil(totalStudents / studentsPerPage);
+      
+      // Find or create pagination container
+      let paginationContainer = document.getElementById('paginationContainer');
+      if (!paginationContainer) {
+        paginationContainer = document.createElement('div');
+        paginationContainer.id = 'paginationContainer';
+        paginationContainer.style.cssText = `
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          margin: 20px 0;
+          padding: 15px;
+          background: #f8f9fa;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        `;
+        
+        const grid = document.getElementById('studentsGrid');
+        grid.parentElement.appendChild(paginationContainer);
+      }
+      
+      paginationContainer.innerHTML = '';
+      
+      if (totalPages <= 1) {
+        paginationContainer.style.display = 'none';
+        return;
+      }
+      
+      paginationContainer.style.display = 'flex';
+      
+      // Previous button
+      const prevBtn = document.createElement('button');
+      prevBtn.innerHTML = '← Προηγούμενη';
+      prevBtn.className = 'pagination-btn';
+      prevBtn.style.cssText = `
+        padding: 8px 16px;
+        background: ${currentPage === 1 ? '#ccc' : '#dc5935'};
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: ${currentPage === 1 ? 'not-allowed' : 'pointer'};
+        transition: background 0.3s;
+      `;
+      prevBtn.disabled = currentPage === 1;
+      prevBtn.onclick = () => goToPage(currentPage - 1);
+      paginationContainer.appendChild(prevBtn);
+      
+      // Page info
+      const pageInfo = document.createElement('span');
+      pageInfo.innerHTML = `Σελίδα ${currentPage} από ${totalPages} (Σύνολο: ${totalStudents} μαθητές)`;
+      pageInfo.style.cssText = `
+        padding: 8px 16px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-weight: 500;
+        color: #333;
+      `;
+      paginationContainer.appendChild(pageInfo);
+      
+      // Next button
+      const nextBtn = document.createElement('button');
+      nextBtn.innerHTML = 'Επόμενη →';
+      nextBtn.className = 'pagination-btn';
+      nextBtn.style.cssText = `
+        padding: 8px 16px;
+        background: ${currentPage === totalPages ? '#ccc' : '#dc5935'};
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: ${currentPage === totalPages ? 'not-allowed' : 'pointer'};
+        transition: background 0.3s;
+      `;
+      nextBtn.disabled = currentPage === totalPages;
+      nextBtn.onclick = () => goToPage(currentPage + 1);
+      paginationContainer.appendChild(nextBtn);
+      
+      // Add page number buttons for small number of pages
+      if (totalPages <= 10) {
+        const separator = document.createElement('span');
+        separator.innerHTML = '|';
+        separator.style.margin = '0 10px';
+        paginationContainer.appendChild(separator);
+        
+        for (let i = 1; i <= totalPages; i++) {
+          const pageBtn = document.createElement('button');
+          pageBtn.innerHTML = i;
+          pageBtn.style.cssText = `
+            padding: 6px 10px;
+            background: ${i === currentPage ? '#dc5935' : 'white'};
+            color: ${i === currentPage ? 'white' : '#333'};
+            border: 1px solid ${i === currentPage ? '#dc5935' : '#ddd'};
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 35px;
+          `;
+          pageBtn.onclick = () => goToPage(i);
+          paginationContainer.appendChild(pageBtn);
+        }
+      }
+    }
+    
+    // Navigate to specific page
+    function goToPage(pageNumber) {
+      const totalPages = Math.ceil(currentFilteredStudents.length / studentsPerPage);
+      
+      if (pageNumber < 1 || pageNumber > totalPages) {
+        return;
+      }
+      
+      currentPage = pageNumber;
+      displayStudentsWithPagination();
+      
+      // Scroll to top of students grid
+      const grid = document.getElementById('studentsGrid');
+      if (grid) {
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Make pagination functions globally accessible
+    window.goToPage = goToPage;
+    window.displayStudentsWithPagination = displayStudentsWithPagination;
