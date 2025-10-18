@@ -215,6 +215,38 @@
             enrollmentDate: "2023-09-01",
             status: "active",
             notes: "Πολύ καλός μαθητής, ενδιαφέρεται για τα μαθηματικά"
+          },
+          {
+            id: 2,
+            firstName: "Μαρία",
+            lastName: "Κωνσταντίνου",
+            username: "mariakons",
+            studentClass: "Γ' Λυκείου",
+            phone: "6902345678",
+            email: "maria@example.com",
+            parentName: "Νίκος Κωνσταντίνου",
+            parentPhone: "6908765432",
+            address: "Οδός Πατησίων 45, Αθήνα",
+            birthDate: "2006-05-20",
+            enrollmentDate: "2023-09-01",
+            status: "active",
+            notes: "Εξαιρετική επίδοση στη χημεία"
+          },
+          {
+            id: 3,
+            firstName: "Αντώνης",
+            lastName: "Δημητρίου",
+            username: "antonisd",
+            studentClass: "Α' Λυκείου",
+            phone: "6903456789",
+            email: "antonis@example.com",
+            parentName: "Μαρία Δημητρίου",
+            parentPhone: "6909876543",
+            address: "Λεωφ. Αλεξάνδρας 78, Αθήνα",
+            birthDate: "2008-11-10",
+            enrollmentDate: "2023-09-01",
+            status: "active",
+            notes: "Νέος μαθητής, καλή προσαρμογή"
           }
         ];
         filteredStudents = [...students];
