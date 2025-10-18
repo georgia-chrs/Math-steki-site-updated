@@ -1,6 +1,10 @@
-    // Data variables
+// Data variables
     let studentCodes = [];
     let filteredStudentCodes = [];
+
+    // Pagination variables
+    let currentCodesPage = 1;
+    const codesPerPage = 8;
 
     // Load all user passwords from API
     async function loadAllUserPasswords() {
@@ -26,7 +30,7 @@
         }));
         
         filteredStudentCodes = [...studentCodes];
-        loadStudentCodes();
+        loadFilteredCodes();
         
         console.log('Φορτώθηκαν κωδικοί χρηστών:', studentCodes);
       } catch (error) {
@@ -35,15 +39,29 @@
         studentCodes = [
           {
             id: 1,
-            studentName: "Test User",
-            username: "test",
-            password: "123",
+            studentName: "Γιάννης Παπαδόπουλος",
+            username: "jpapado",
+            password: "St2025!A1",
             status: "active",
-            type: "Μαθητής"
+            type: "Μαθητής",
+            lastLogin: "2024-10-15",
+            createdDate: "2024-09-01",
+            expiryDate: "2025-06-30"
+          },
+          {
+            id: 2,
+            studentName: "Μαρία Κωνσταντίνου",
+            username: "mkonstant",
+            password: "St2025!B2",
+            status: "active",
+            type: "Μαθητής",
+            lastLogin: "2024-10-16",
+            createdDate: "2024-09-01",
+            expiryDate: "2025-06-30"
           }
         ];
         filteredStudentCodes = [...studentCodes];
-        loadStudentCodes();
+        loadFilteredCodes();
       }
     }
 
@@ -73,7 +91,8 @@
         return matchesSearch && matchesStatus;
       });
 
-      loadStudentCodes();
+      currentCodesPage = 1; // Reset to first page on new search
+      loadFilteredCodes();
     }
 
     // Load student codes into table
@@ -115,6 +134,192 @@
         `;
         tbody.appendChild(row);
       });
+    }
+
+    // Load codes with pagination
+    function loadFilteredCodes() {
+      displayCodesWithPagination();
+    }
+
+    // Display codes with pagination
+    function displayCodesWithPagination() {
+      const startIndex = (currentCodesPage - 1) * codesPerPage;
+      const endIndex = startIndex + codesPerPage;
+      const codesToShow = filteredStudentCodes.slice(startIndex, endIndex);
+      
+      loadStudentCodesTable(codesToShow);
+      createCodesPaginationControls(filteredStudentCodes.length);
+    }
+
+    // Load student codes into table (updated to work with pagination)
+    function loadStudentCodesTable(codesToShow) {
+      const tbody = document.getElementById('studentCodesTableBody');
+      tbody.innerHTML = '';
+
+      if (codesToShow.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 30px;">Δεν βρέθηκαν κωδικοί</td></tr>';
+        return;
+      }
+
+      codesToShow.forEach(code => {
+        const row = document.createElement('tr');
+        const statusClass = `status-${code.status}`;
+        
+        row.innerHTML = `
+          <td>${code.id}</td>
+          <td>
+            ${code.studentName}
+            <br><small style="color: #666;">${code.type || 'Μαθητής'}</small>
+          </td>
+          <td><span class="code-display">${code.username}</span></td>
+          <td>
+            <span class="code-display" style="font-weight: bold; color: #2C5F4F; font-family: monospace;">${code.password}</span>
+            <br><small style="color: #888;">Προσοχή: Ευαίσθητη πληροφορία</small>
+          </td>
+          <td><span class="status-badge ${statusClass}">${getStatusText(code.status)}</span></td>
+          <td>${formatDate(code.lastLogin)}</td>
+          <td>${formatDate(code.createdDate)}</td>
+          <td>${formatDate(code.expiryDate)}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-primary btn-small" onclick="editUserPassword('${code.username}', '${code.role}')">Αλλαγή Κωδικού</button>
+              <button class="btn btn-success btn-small" onclick="resetPassword(${code.id})">Reset Password</button>
+              <button class="btn btn-danger btn-small" onclick="deactivateCode(${code.id})">Απενεργοποίηση</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Create pagination controls for codes
+    function createCodesPaginationControls(totalCodes) {
+      const totalPages = Math.ceil(totalCodes / codesPerPage);
+      
+      // Find or create pagination container
+      let paginationContainer = document.getElementById('codesPaginationContainer');
+      if (!paginationContainer) {
+        paginationContainer = document.createElement('div');
+        paginationContainer.id = 'codesPaginationContainer';
+        paginationContainer.style.cssText = `
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          margin: 20px 0;
+          padding: 15px 10px;
+          background: #f8f9fa;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          flex-wrap: wrap;
+        `;
+        
+        const tbody = document.getElementById('studentCodesTableBody');
+        const table = tbody ? tbody.closest('table') : null;
+        if (table && table.parentElement) {
+          table.parentElement.appendChild(paginationContainer);
+        }
+      }
+      
+      paginationContainer.innerHTML = '';
+      
+      if (totalPages <= 1) {
+        paginationContainer.style.display = 'none';
+        return;
+      }
+      
+      paginationContainer.style.display = 'flex';
+      
+      // Previous button
+      const prevBtn = document.createElement('button');
+      prevBtn.innerHTML = '← Προηγούμενη';
+      prevBtn.className = 'pagination-btn';
+      prevBtn.style.cssText = `
+        padding: 8px 16px;
+        background: ${currentCodesPage === 1 ? '#ccc' : '#dc5935'};
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: ${currentCodesPage === 1 ? 'not-allowed' : 'pointer'};
+        transition: background 0.3s;
+      `;
+      prevBtn.disabled = currentCodesPage === 1;
+      prevBtn.onclick = () => goToCodesPage(currentCodesPage - 1);
+      paginationContainer.appendChild(prevBtn);
+      
+      // Page info
+      const pageInfo = document.createElement('span');
+      pageInfo.innerHTML = `Σελίδα ${currentCodesPage} από ${totalPages} (Σύνολο: ${totalCodes} κωδικοί)`;
+      pageInfo.style.cssText = `
+        padding: 8px 16px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-weight: 500;
+        color: #333;
+      `;
+      paginationContainer.appendChild(pageInfo);
+      
+      // Next button
+      const nextBtn = document.createElement('button');
+      nextBtn.innerHTML = 'Επόμενη →';
+      nextBtn.className = 'pagination-btn';
+      nextBtn.style.cssText = `
+        padding: 8px 16px;
+        background: ${currentCodesPage === totalPages ? '#ccc' : '#dc5935'};
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: ${currentCodesPage === totalPages ? 'not-allowed' : 'pointer'};
+        transition: background 0.3s;
+      `;
+      nextBtn.disabled = currentCodesPage === totalPages;
+      nextBtn.onclick = () => goToCodesPage(currentCodesPage + 1);
+      paginationContainer.appendChild(nextBtn);
+      
+      // Add page number buttons for small number of pages
+      if (totalPages <= 10) {
+        const separator = document.createElement('span');
+        separator.innerHTML = '|';
+        separator.style.margin = '0 10px';
+        paginationContainer.appendChild(separator);
+        
+        for (let i = 1; i <= totalPages; i++) {
+          const pageBtn = document.createElement('button');
+          pageBtn.innerHTML = i;
+          pageBtn.style.cssText = `
+            padding: 6px 10px;
+            background: ${i === currentCodesPage ? '#dc5935' : 'white'};
+            color: ${i === currentCodesPage ? 'white' : '#333'};
+            border: 1px solid ${i === currentCodesPage ? '#dc5935' : '#ddd'};
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 35px;
+          `;
+          pageBtn.onclick = () => goToCodesPage(i);
+          paginationContainer.appendChild(pageBtn);
+        }
+      }
+    }
+    
+    // Navigate to specific codes page
+    function goToCodesPage(pageNumber) {
+      const totalPages = Math.ceil(filteredStudentCodes.length / codesPerPage);
+      
+      if (pageNumber < 1 || pageNumber > totalPages) {
+        return;
+      }
+      
+      currentCodesPage = pageNumber;
+      displayCodesWithPagination();
+      
+      // Scroll to top of codes table
+      const tbody = document.getElementById('studentCodesTableBody');
+      const table = tbody ? tbody.closest('table') : null;
+      if (table) {
+        table.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     function getStatusText(status) {
@@ -161,7 +366,7 @@
         code.password = newPassword;
         code.status = 'active';
         
-        loadStudentCodes();
+        loadFilteredCodes();
         showAlert(`Νέος κωδικός για ${code.studentName}: ${newPassword}`, 'success');
       }
     }
@@ -172,7 +377,7 @@
 
       if (confirm(`Είστε βέβαιοι ότι θέλετε να απενεργοποιήσετε τον κωδικό για τον μαθητή ${code.studentName};`)) {
         code.status = 'inactive';
-        loadStudentCodes();
+        loadFilteredCodes();
         showAlert(`Ο κωδικός για τον ${code.studentName} απενεργοποιήθηκε!`, 'success');
       }
     }
@@ -275,7 +480,7 @@
       });
 
       filteredStudentCodes = [...studentCodes];
-      loadStudentCodes();
+      loadFilteredCodes();
       closeBulkModal();
 
       const codesList = newCodes.map(c => `${c.studentName}: ${c.username} / ${c.password}`).join('<br>');
@@ -303,7 +508,7 @@
       }
 
       closeEditModal();
-      loadStudentCodes();
+      loadFilteredCodes();
       showAlert('Οι αλλαγές αποθηκεύτηκαν επιτυχώς!', 'success');
     });
 
@@ -377,3 +582,7 @@
         closeBulkModal();
       }
     }
+
+    // Make pagination functions globally accessible
+    window.goToCodesPage = goToCodesPage;
+    window.displayCodesWithPagination = displayCodesWithPagination;
