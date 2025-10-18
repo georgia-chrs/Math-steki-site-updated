@@ -250,17 +250,32 @@
       loadStudents();
     }
 
-    // Load students into table
+    // Load students with pagination
     function loadStudents() {
+      displayStudentsWithPagination();
+    }
+
+    // Display students with pagination
+    function displayStudentsWithPagination() {
+      const startIndex = (currentStudentsPage - 1) * studentsPerPage;
+      const endIndex = startIndex + studentsPerPage;
+      const studentsToShow = filteredStudents.slice(startIndex, endIndex);
+      
+      displayStudentsTable(studentsToShow);
+      createStudentsPaginationControls(filteredStudents.length);
+    }
+
+    // Display students table (original functionality)
+    function displayStudentsTable(studentsToShow) {
       const tbody = document.getElementById('studentsTableBody');
       tbody.innerHTML = '';
 
-      if (filteredStudents.length === 0) {
+      if (studentsToShow.length === 0) {
         tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 30px;">Δεν βρέθηκαν μαθητές</td></tr>';
         return;
       }
 
-      filteredStudents.forEach(student => {
+      studentsToShow.forEach(student => {
         // Get student's enrollments (string/number safe)
         const studentEnrollments = enrollments.filter(e => e.student_id == student.id);        // Debug: Print enrollments for each student
         console.log('Student:', student.id, student.firstName, student.lastName, 'Enrollments:', studentEnrollments);
@@ -1550,134 +1565,7 @@ async function deleteStudent(id) {
       });
     });
 
-// Create pagination controls for subjects
-    function createSubjectsPaginationControls(totalSubjects) {
-      const totalPages = Math.ceil(totalSubjects / subjectsPerPage);
-      
-      // Find or create pagination container
-      let paginationContainer = document.getElementById('subjectsPaginationContainer');
-      if (!paginationContainer) {
-        paginationContainer = document.createElement('div');
-        paginationContainer.id = 'subjectsPaginationContainer';
-        paginationContainer.style.cssText = `
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 10px;
-          margin: 20px 0;
-          padding: 15px;
-          background: #f8f9fa;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        `;
-        
-        const table = document.getElementById('subjectsTable');
-        if (table && table.parentElement) {
-          table.parentElement.appendChild(paginationContainer);
-        }
-      }
-      
-      paginationContainer.innerHTML = '';
-      
-      if (totalPages <= 1) {
-        paginationContainer.style.display = 'none';
-        return;
-      }
-      
-      paginationContainer.style.display = 'flex';
-      
-      // Previous button
-      const prevBtn = document.createElement('button');
-      prevBtn.innerHTML = '← Προηγούμενη';
-      prevBtn.className = 'pagination-btn';
-      prevBtn.style.cssText = `
-        padding: 8px 16px;
-        background: ${currentSubjectsPage === 1 ? '#ccc' : '#dc5935'};
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: ${currentSubjectsPage === 1 ? 'not-allowed' : 'pointer'};
-        transition: background 0.3s;
-      `;
-      prevBtn.disabled = currentSubjectsPage === 1;
-      prevBtn.onclick = () => goToSubjectsPage(currentSubjectsPage - 1);
-      paginationContainer.appendChild(prevBtn);
-      
-      // Page info
-      const pageInfo = document.createElement('span');
-      pageInfo.innerHTML = `Σελίδα ${currentSubjectsPage} από ${totalPages} (Σύνολο: ${totalSubjects} τμήματα)`;
-      pageInfo.style.cssText = `
-        padding: 8px 16px;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-weight: 500;
-        color: #333;
-      `;
-      paginationContainer.appendChild(pageInfo);
-      
-      // Next button
-      const nextBtn = document.createElement('button');
-      nextBtn.innerHTML = 'Επόμενη →';
-      nextBtn.className = 'pagination-btn';
-      nextBtn.style.cssText = `
-        padding: 8px 16px;
-        background: ${currentSubjectsPage === totalPages ? '#ccc' : '#dc5935'};
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: ${currentSubjectsPage === totalPages ? 'not-allowed' : 'pointer'};
-        transition: background 0.3s;
-      `;
-      nextBtn.disabled = currentSubjectsPage === totalPages;
-      nextBtn.onclick = () => goToSubjectsPage(currentSubjectsPage + 1);
-      paginationContainer.appendChild(nextBtn);
-      
-      // Add page number buttons for small number of pages
-      if (totalPages <= 10) {
-        const separator = document.createElement('span');
-        separator.innerHTML = '|';
-        separator.style.margin = '0 10px';
-        paginationContainer.appendChild(separator);
-        
-        for (let i = 1; i <= totalPages; i++) {
-          const pageBtn = document.createElement('button');
-          pageBtn.innerHTML = i;
-          pageBtn.style.cssText = `
-            padding: 6px 10px;
-            background: ${i === currentSubjectsPage ? '#dc5935' : 'white'};
-            color: ${i === currentSubjectsPage ? 'white' : '#333'};
-            border: 1px solid ${i === currentSubjectsPage ? '#dc5935' : '#ddd'};
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            min-width: 35px;
-          `;
-          pageBtn.onclick = () => goToSubjectsPage(i);
-          paginationContainer.appendChild(pageBtn);
-        }
-      }
-    }
-    
-    // Navigate to specific subjects page
-    function goToSubjectsPage(pageNumber) {
-      const totalPages = Math.ceil(filteredSubjects.length / subjectsPerPage);
-      
-      if (pageNumber < 1 || pageNumber > totalPages) {
-        return;
-      }
-      
-      currentSubjectsPage = pageNumber;
-      displaySubjectsWithPagination();
-      
-      // Scroll to top of subjects table
-      const table = document.getElementById('subjectsTable');
-      if (table) {
-        table.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
-
-    // Make pagination functions globally accessible
+// Make pagination functions globally accessible
     window.goToStudentsPage = goToStudentsPage;
     window.displayStudentsWithPagination = displayStudentsWithPagination;
     window.goToTeachersPage = goToTeachersPage;
