@@ -449,9 +449,9 @@ window.editGradesNote = async function(gradeId, studentId) {
         <div><strong>Όνομα:</strong> ${student.firstName} ${student.lastName}</div>
         <div><strong>Τάξη:</strong> ${student.studentClass}</div>
         <div><strong>Τηλέφωνο:</strong> ${student.phone}</div>
-        <div><strong>Email:</strong> ${student.email || 'Δεν υπάρχει'}</div>
         <div><strong>Γονέας:</strong> ${student.parentName || 'Δεν έχει καταχωρηθεί'}</div>
         <div><strong>Τηλ. Γονέα:</strong> ${student.parentPhone || 'Δεν έχει καταχωρηθεί'}</div>
+        <div><strong>Email:</strong> ${student.email || 'Δεν υπάρχει'}</div>
       `;
       
       display.style.display = 'block';
